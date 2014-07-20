@@ -1,0 +1,9 @@
+{
+    // Roda a Cloud9IDE como um processo daemon
+    "uid": "c9ide",
+    "append": true,
+    "watch": true,
+    "script": "server.js",
+    "sourceDir": "/home/debian/c9sdk",
+    "args": ["-l","192.168.1.155","-p","8588","-a","debian:brewing","-w","/var/www"]
+  }

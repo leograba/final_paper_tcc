@@ -1,0 +1,26 @@
+input[type=button]
+{
+vertical-align:middle;
+font-family: Arial, Helvetica, Sans-Serif;
+font-style: normal;
+font-weight: bold;
+font-size: 13px;
+text-transform: uppercase;
+width:150px;
+position:relative;
+margin:5px;
+bottom:46px;
+float:right;
+background:#33282C;
+color:#f5cc7a;
+font-family: Tahoma, Geneva, sans-serif;
+height:30px;
+-webkit-border-radius: 15px;
+-moz-border-radius: 15px;
+border-radius: 15px;
+border: 1p solid #999;
+}
+input[type=button]:hover {
+background:#fff;
+color:#33282C;
+}

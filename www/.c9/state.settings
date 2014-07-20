@@ -1,0 +1,780 @@
+{
+    "ace": {
+        "search": {
+            "@backwards": "false",
+            "@highlightmatches": "true",
+            "@matchcase": "false",
+            "@preservecase": "false",
+            "@regex": "false",
+            "@wholeword": "false",
+            "@wraparound": "true"
+        }
+    },
+    "breakpoints": {
+        "json()": []
+    },
+    "console": {
+        "@expanded": true,
+        "@height": 161,
+        "@maximized": false,
+        "json()": {
+            "meta": {
+                "accessList": [
+                    "tab8",
+                    "tab1"
+                ]
+            },
+            "name": "pane1",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab8",
+                    "path": "",
+                    "className": [
+                        "tab0",
+                        "tab8"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {},
+                        "filter": true,
+                        "title": "sudo - \"beaglebone\"",
+                        "tooltip": "sudo - \"beaglebone\"",
+                        "terminal": {
+                            "id": "devel_768",
+                            "cwd": "",
+                            "width": 1569,
+                            "height": 135
+                        }
+                    },
+                    "editorType": "terminal",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab1",
+                    "path": "",
+                    "className": [
+                        "tab1"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1441713256777
+                        },
+                        "filter": true,
+                        "title": "Immediate (Javascript (browser))",
+                        "tooltip": "Immediate (Javascript (browser))",
+                        "immediate": {
+                            "type": "jsbrowser",
+                            "history": [],
+                            "pos": 0
+                        }
+                    },
+                    "editorType": "immediate",
+                    "active": false
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "ext": {
+        "counters": {
+            "@ace": 1,
+            "@acestatus": 1,
+            "@divider": 4,
+            "@document": 13,
+            "@form": 4,
+            "@immediate": 1,
+            "@menu": 5,
+            "@menuitem": 13,
+            "@pane": 2,
+            "@preferences": 1,
+            "@session": 12,
+            "@tab": 14,
+            "@undoManager": 13
+        }
+    },
+    "findinfiles": {
+        "@console": "true",
+        "@matchcase": "false",
+        "@regex": "false",
+        "@wholeword": "false"
+    },
+    "menus": {
+        "@minimized": false
+    },
+    "nak": {
+        "@installed": true
+    },
+    "openfiles": {
+        "@hidetree": false
+    },
+    "panecycle": {
+        "json()": [
+            "tab3",
+            "tab8"
+        ]
+    },
+    "panels": {
+        "@active-left": "tree",
+        "@width-left": 232,
+        "commands.panel": {
+            "@enabled": "true",
+            "@name": "commands.panel"
+        },
+        "debugger": {
+            "@enabled": "true",
+            "@name": "debugger"
+        },
+        "git.status": {
+            "@enabled": "true",
+            "@name": "git.status"
+        },
+        "navigate": {
+            "@enabled": "true",
+            "@name": "navigate"
+        },
+        "outline": {
+            "@enabled": "true",
+            "@name": "outline"
+        },
+        "tree": {
+            "@enabled": "true",
+            "@name": "tree"
+        }
+    },
+    "projecttree": {
+        "@scrollpos": 1386,
+        "@showfs": true,
+        "expanded": {
+            "json()": [
+                "/",
+                "/controle/views",
+                "/pru_sdk",
+                "/node_modules",
+                "/pru_sdk/example",
+                "/pru_sdk/pru_2.0.0B2/bin",
+                "/pru_sdk/pru_2.0.0B2",
+                "/pru_sdk/example/pruss_c"
+            ]
+        }
+    },
+    "recentfiles": {
+        "json()": []
+    },
+    "search-history": {
+        "replace": {
+            "json()": [
+                "\"&times\"",
+                "debug",
+                "ioTest",
+                "digitalWriteSync",
+                "recipename"
+            ]
+        },
+        "search": {
+            "json()": [
+                ".post(",
+                "refresh",
+                "execute",
+                "getStatus",
+                "all_io",
+                "change",
+                "stat",
+                "forceExit",
+                "loadDatafile",
+                "#mlt",
+                "line",
+                "showNextAll",
+                "showNextTime",
+                "showNextHop",
+                "showNextMalt",
+                "show",
+                "execute",
+                "fuck",
+                "execute",
+                "prussdrv_exec_program_at",
+                "loadDatafile",
+                "execute",
+                "init",
+                "open",
+                "9.11",
+                "bb_w1_pins",
+                "bb",
+                "analog",
+                "enable(",
+                "enable",
+                "Using",
+                "load_dt_sync",
+                "is_cape_universal",
+                "is_ocp",
+                "create_dt",
+                "doCreateDT",
+                "setPinMode",
+                "pinMode",
+                "Compiling dts file",
+                "bone",
+                "winston",
+                "onDTBOExists(",
+                "onDTBOExists",
+                "onDTBOExistsTest",
+                "createDTS",
+                "Creating",
+                "createDTS",
+                "_dt",
+                "onDTBOexists(",
+                "onDTBOexists",
+                "create_dt",
+                "exports",
+                "is_ocp",
+                "is_cape_universal",
+                "is_ocp",
+                "is_",
+                "is_ocp",
+                "create_dt",
+                "Compiling",
+                "nDTBOExistsTest",
+                "template",
+                "writeFileSync",
+                "exports.load_dt",
+                "onDTBOExists",
+                "is_cape",
+                "analog",
+                "is_cape_universal",
+                "is_cape",
+                "requireSalva",
+                "ioStatus.cfgok",
+                "label",
+                "moz",
+                "#47383d",
+                "#33282c",
+                "width",
+                "all_io",
+                "show",
+                "formh",
+                "Err",
+                "requireSalva",
+                "ao salvar",
+                "loadFormData",
+                "a:",
+                "requireCarrega",
+                "requireSalva",
+                "desfazer",
+                "<?php",
+                "deleterecipe",
+                "require ",
+                "require",
+                "sal",
+                "$reload",
+                "$all_variables",
+                "requireCarrega",
+                "width",
+                "border-",
+                "border",
+                "width",
+                "uppercase",
+                "beerStyle",
+                "estilo",
+                "class",
+                "nome",
+                "nome_da",
+                "requireCarrega",
+                "del",
+                "excluir",
+                "deletaReceita",
+                "requireCarrega",
+                "$_GET[\"name\"]",
+                "\"X\"",
+                "btn",
+                "$fileId",
+                "app",
+                "btn",
+                "console.log",
+                "acti",
+                "bt1status",
+                "ioState",
+                "digitalWrite",
+                "last_on",
+                "create_dt_sync",
+                "load_dt",
+                "debug",
+                "create_dt_sync",
+                "find_sysfsFile",
+                "is_capemgr",
+                "onfindcapemgr",
+                "readslots",
+                "onWriteSlots",
+                "recipe",
+                "rec",
+                "nome",
+                "oncli",
+                "nome_da_receita",
+                "del",
+                "filepath",
+                "pointer",
+                "excluir"
+            ]
+        }
+    },
+    "tabs": {
+        "json()": {
+            "focus": "/controle.js",
+            "meta": {
+                "accessList": [
+                    "tab3",
+                    "tab5",
+                    "tab11",
+                    "tab12",
+                    "tab2",
+                    "tab7",
+                    "tab57",
+                    "tab6",
+                    "tab10",
+                    "tab4",
+                    "tab13"
+                ]
+            },
+            "name": "pane0",
+            "nodes": [
+                {
+                    "type": "tab",
+                    "name": "tab3",
+                    "path": "/controle.js",
+                    "className": [
+                        "tab3",
+                        "changed",
+                        "focus"
+                    ],
+                    "document": {
+                        "changed": true,
+                        "meta": {
+                            "timestamp": 1447361017000
+                        },
+                        "filter": true,
+                        "title": "controle.js",
+                        "tooltip": "/controle.js",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": true
+                },
+                {
+                    "type": "tab",
+                    "name": "tab5",
+                    "path": "/controle.html",
+                    "className": [
+                        "tab5"
+                    ],
+                    "document": {
+                        "changed": false,
+                        "meta": {
+                            "timestamp": 1447357885000
+                        },
+                        "filter": true,
+                        "title": "controle.html",
+                        "tooltip": "/controle.html",
+                        "ace": {}
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab11",
+                    "path": "/startrecipe.html",
+                    "className": [
+                        "tab11"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "startrecipe.html",
+                        "tooltip": "/startrecipe.html",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 210,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 36,
+                                    "column": 71
+                                },
+                                "end": {
+                                    "row": 36,
+                                    "column": 71
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": {
+                                "row": 15,
+                                "state": "js-start",
+                                "mode": "ace/mode/html"
+                            }
+                        },
+                        "hash": "fd30940d62c210162cfb603b9d1e18f5e5551470",
+                        "meta": {
+                            "timestamp": 1447630483000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab12",
+                    "path": "/config.css",
+                    "className": [
+                        "tab12"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "config.css",
+                        "tooltip": "/config.css",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 10,
+                                    "column": 23
+                                },
+                                "end": {
+                                    "row": 10,
+                                    "column": 23
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "12345faea5c2b63e91b205e08d27b0a48ca41dfa",
+                        "meta": {
+                            "timestamp": 1447357828000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab2",
+                    "path": "/restricted/listareceita.php",
+                    "className": [
+                        "tab2"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "listareceita.php",
+                        "tooltip": "/restricted/listareceita.php",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 3,
+                                    "column": 2
+                                },
+                                "end": {
+                                    "row": 3,
+                                    "column": 24
+                                },
+                                "isBackwards": true
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "c64cb5103393ab87732fd0f29aa1b234c46842e1",
+                        "meta": {
+                            "timestamp": 1444473936000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab7",
+                    "path": "/restricted/listrecipe.js",
+                    "className": [
+                        "tab7"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "listrecipe.js",
+                        "tooltip": "/restricted/listrecipe.js",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 22,
+                                    "column": 70
+                                },
+                                "end": {
+                                    "row": 22,
+                                    "column": 70
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "17fc3a16c81b857db7844b422bdbbdfb506bdded",
+                        "meta": {
+                            "timestamp": 1447350435000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab57",
+                    "path": "/node_modules/node-pru-extended/src/prussdrv.cpp",
+                    "className": [
+                        "tab57"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "prussdrv.cpp",
+                        "tooltip": "/node_modules/node-pru-extended/src/prussdrv.cpp",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 1564.5,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 135,
+                                    "column": 61
+                                },
+                                "end": {
+                                    "row": 135,
+                                    "column": 68
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "239d918d1a1bf29f8ef9a0153b322c008d9421af",
+                        "meta": {
+                            "timestamp": 1445124741000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab6",
+                    "path": "/pru_sdk/example/pruss_c/pru_main.c",
+                    "className": [
+                        "tab6"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "pru_main.c",
+                        "tooltip": "/pru_sdk/example/pruss_c/pru_main.c",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 10,
+                                    "column": 13
+                                },
+                                "end": {
+                                    "row": 10,
+                                    "column": 13
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "5278ee2d097bf5676d43fa0144f63daf734de673",
+                        "meta": {
+                            "timestamp": 1445630809000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab10",
+                    "path": "/pru_sdk/example/pruss_c/pru_hal.c",
+                    "className": [
+                        "tab10"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "pru_hal.c",
+                        "tooltip": "/pru_sdk/example/pruss_c/pru_hal.c",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 616,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 46,
+                                    "column": 26
+                                },
+                                "end": {
+                                    "row": 46,
+                                    "column": 26
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "570ba156197c834b3bf9bd2b605b63c47d3844bf",
+                        "meta": {
+                            "timestamp": 1445606136000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab4",
+                    "path": "/pru_sdk/example/pruss_c/build.sh",
+                    "className": [
+                        "tab4"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "build.sh",
+                        "tooltip": "/pru_sdk/example/pruss_c/build.sh",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 560,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 44,
+                                    "column": 0
+                                },
+                                "end": {
+                                    "row": 44,
+                                    "column": 0
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": 0
+                        },
+                        "hash": "85264681cb25a3561ba2a77cf66733af69a717c0",
+                        "meta": {
+                            "timestamp": 1445611827000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                },
+                {
+                    "type": "tab",
+                    "name": "tab13",
+                    "path": "/restricted/menu_receitas.html",
+                    "className": [
+                        "tab13"
+                    ],
+                    "document": {
+                        "filter": true,
+                        "title": "menu_receitas.html",
+                        "tooltip": "/restricted/menu_receitas.html",
+                        "ace": {
+                            "folds": [],
+                            "scrolltop": 0,
+                            "scrollleft": 0,
+                            "selection": {
+                                "start": {
+                                    "row": 14,
+                                    "column": 60
+                                },
+                                "end": {
+                                    "row": 14,
+                                    "column": 60
+                                },
+                                "isBackwards": false
+                            },
+                            "options": {
+                                "guessTabSize": true,
+                                "useWrapMode": false,
+                                "wrapToView": true
+                            },
+                            "firstLineState": {
+                                "row": 40,
+                                "mode": "ace/mode/html"
+                            }
+                        },
+                        "hash": "4b36b77d19191ad53bf4cee8092617ab37d14fcf",
+                        "meta": {
+                            "timestamp": 1447359054000
+                        },
+                        "changed": false
+                    },
+                    "editorType": "ace",
+                    "active": false
+                }
+            ],
+            "skin": "editor_tab",
+            "skinset": "default",
+            "type": "pane"
+        }
+    },
+    "tree_selection": {
+        "json()": [
+            "/"
+        ]
+    }
+}

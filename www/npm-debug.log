@@ -1,0 +1,180 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'pru' ]
+2 info using npm@2.13.4
+3 info using node@v0.10.40
+4 verbose install initial load of /var/www/package.json
+5 verbose installManyTop reading scoped package data from /var/www/node_modules/body-parser/package.json
+6 verbose installManyTop reading scoped package data from /var/www/node_modules/bonescript/package.json
+7 verbose installManyTop reading scoped package data from /var/www/node_modules/debug/package.json
+8 verbose installManyTop reading scoped package data from /var/www/node_modules/ds18b20/package.json
+9 verbose installManyTop reading scoped package data from /var/www/node_modules/express/package.json
+10 verbose installManyTop reading scoped package data from /var/www/node_modules/express-generator/package.json
+11 verbose installManyTop reading scoped package data from /var/www/node_modules/octalbonescript/package.json
+12 verbose installManyTop reading scoped package data from /var/www/node_modules/socket.io/package.json
+13 verbose installManyTop reading scoped package data from /var/www/node_modules/socket.io-client/package.json
+14 verbose installManyTop reading scoped package data from /var/www/node_modules/update/package.json
+15 info package.json bonescript@0.2.5 No license field.
+16 info package.json ds18b20@0.0.2 No license field.
+17 info package.json octalbonescript@1.0.6 No license field.
+18 info package.json socket.io@1.3.4 No license field.
+19 verbose readDependencies loading dependencies from /var/www/package.json
+20 silly cache add args [ 'pru', null ]
+21 verbose cache add spec pru
+22 silly cache add parsed spec { raw: 'pru',
+22 silly cache add   scope: null,
+22 silly cache add   name: 'pru',
+22 silly cache add   rawSpec: '',
+22 silly cache add   spec: '*',
+22 silly cache add   type: 'range' }
+23 silly addNamed pru@*
+24 verbose addNamed "*" is a valid semver range for pru
+25 silly addNameRange { name: 'pru', range: '*', hasData: false }
+26 silly mapToRegistry name pru
+27 silly mapToRegistry using default registry
+28 silly mapToRegistry registry https://registry.npmjs.org/
+29 silly mapToRegistry uri https://registry.npmjs.org/pru
+30 verbose addNameRange registry:https://registry.npmjs.org/pru not in flight; fetching
+31 verbose request uri https://registry.npmjs.org/pru
+32 verbose request no auth needed
+33 info attempt registry request try #1 at 17:28:25
+34 verbose request id e122d0c56ab93430
+35 http request GET https://registry.npmjs.org/pru
+36 http 200 https://registry.npmjs.org/pru
+37 silly get cb [ 200,
+37 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+37 silly get     etag: '"EUMTQFH66GB1B43ZG8WA7C1YX"',
+37 silly get     'content-type': 'application/json',
+37 silly get     'cache-control': 'max-age=60',
+37 silly get     'content-length': '41881',
+37 silly get     'accept-ranges': 'bytes',
+37 silly get     date: 'Fri, 16 Oct 2015 20:28:10 GMT',
+37 silly get     via: '1.1 varnish',
+37 silly get     age: '0',
+37 silly get     connection: 'keep-alive',
+37 silly get     'x-served-by': 'cache-jfk1024-JFK',
+37 silly get     'x-cache': 'MISS',
+37 silly get     'x-cache-hits': '0',
+37 silly get     'x-timer': 'S1445027290.348614,VS0,VE37',
+37 silly get     vary: 'Accept' } ]
+38 verbose get saving pru to /root/.npm/registry.npmjs.org/pru/.cache.json
+39 silly addNameRange number 2 { name: 'pru', range: '*', hasData: true }
+40 silly addNameRange versions [ 'pru', [ '0.1.0', '0.1.1', '0.1.2', '0.1.3' ] ]
+41 silly addNamed pru@0.1.3
+42 verbose addNamed "0.1.3" is a plain semver version for pru
+43 silly mapToRegistry name pru
+44 silly mapToRegistry using default registry
+45 silly mapToRegistry registry https://registry.npmjs.org/
+46 silly mapToRegistry uri https://registry.npmjs.org/pru
+47 verbose addRemoteTarball https://registry.npmjs.org/pru/-/pru-0.1.3.tgz not in flight; adding
+48 verbose addRemoteTarball [ 'https://registry.npmjs.org/pru/-/pru-0.1.3.tgz',
+48 verbose addRemoteTarball   '1abc30fbecaf1c7ebe7f8f93ec4324c01881306f' ]
+49 info retry fetch attempt 1 at 17:28:27
+50 info attempt registry request try #1 at 17:28:27
+51 http fetch GET https://registry.npmjs.org/pru/-/pru-0.1.3.tgz
+52 http fetch 200 https://registry.npmjs.org/pru/-/pru-0.1.3.tgz
+53 silly fetchAndShaCheck shasum 1abc30fbecaf1c7ebe7f8f93ec4324c01881306f
+54 verbose addTmpTarball /tmp/npm-1530-d0e85ba8/registry.npmjs.org/pru/-/pru-0.1.3.tgz not in flight; adding
+55 verbose addTmpTarball already have metadata; skipping unpack for pru@0.1.3
+56 silly cache afterAdd pru@0.1.3
+57 verbose afterAdd /root/.npm/pru/0.1.3/package/package.json not in flight; writing
+58 verbose afterAdd /root/.npm/pru/0.1.3/package/package.json written
+59 silly install resolved [ { name: 'pru',
+59 silly install resolved     version: '0.1.3',
+59 silly install resolved     description: 'Access the Programmable Reatime Units (PRUs) of the BeagleBone',
+59 silly install resolved     main: 'build/Release/pru',
+59 silly install resolved     directories: { example: 'examples' },
+59 silly install resolved     scripts:
+59 silly install resolved      { test: 'echo "Error: no test specified" && exit 1',
+59 silly install resolved        install: 'node-gyp rebuild' },
+59 silly install resolved     repository: { type: 'git', url: 'https://github.com/omcaree/node-pru.git' },
+59 silly install resolved     keywords: [ 'beaglebone', 'pru' ],
+59 silly install resolved     author: { name: 'Owen McAree' },
+59 silly install resolved     license: 'BSD',
+59 silly install resolved     gypfile: true,
+59 silly install resolved     readmeFilename: 'README.md',
+59 silly install resolved     bugs: { url: 'https://github.com/omcaree/node-pru/issues' },
+59 silly install resolved     readme: 'Access the Programmable Realtime Units (PRUs) of the BeagleBone from Node.js\r\n----------------------------------------------------------------------------\r\n\r\nThis module allows you to interface your Node.js code with programs executing on the BeagleBones Programmable Realtime Units (PRUs). The BeagleBone has 2 PRUs which are separate to the main CPU and run at 200MHz with access to 16 GPIOs each. The benefits of executing code on the PRU are guaranteed realtime execution (outside of the OS) with no load on the primary CPU. The PRUs are coded in [TIs own assembly instruction set](http://processors.wiki.ti.com/index.php/PRU_Assembly_Instructions) and can communicate with code running within the OS via interrupts and shared memory space. \r\n\r\nThis README aims to be a complete guide to setting up the PRUs and using them from Node.js, however this code is mostly built on the [AM335x_PRU Drivers](https://github.com/beagleboard/am335x_pru_package), the [Python PRU bindings](https://bitbucket.org/intelligentagent/pypruss) and the [BBB PRU setup guide](http://www.element14.com/community/community/knode/single-board_computers/next-gen_beaglebone/blog/2013/05/22/bbb--working-with-the-pru-icssprussv2). Refer to these sources for more information about the PRUs.\r\n\r\nPrerequisites\r\n-------------\r\nThe PRU system is supported on both the BeagleBone and BeagleBone Black. This README is written for the BeagleBone Black (BBB) running Ubuntu. Instructions for the BealgeBone (white) and Angstrom may differ slightly.\r\n\r\n### Kernel Module ###\r\nThe *uio_pruss* kernel module must be loaded before any work can commence. This module is present in the default Ubuntu build (and probably many more), but is not loaded by default. Load the module with\r\n\r\n\tmodprobe uio_pruss\r\n\t\r\nAnd to avoid the need to do this in the future (the drivers tend to seg fault if you forget!), add the module to the end of */etc/modules*.\r\n\r\n### Device Tree ###\r\nThe most difficult part of setting up the PRUs on the BBB involves setting up the device tree. The instructions [here](http://www.element14.com/community/community/knode/single-board_computers/next-gen_beaglebone/blog/2013/05/22/bbb--working-with-the-pru-icssprussv2) are pretty easy to follow. What follows is what I did to enable PRU0 and set pins 25, 27, 28, 29, 30 and 31 of the P9 expansion header to outputs. I did not use the device tree overlay approach as I am simply building a custom image, the approach I used is quicker but less portable.\r\n\r\nFirstly, get hold of the sourcecode for the BBB device tree (details [here](http://blog.pignology.net/2013/05/getting-uart2-devttyo1-working-on.html))\r\n\r\n\twget http://pignology.net/blackdts.tgz\r\n\ttar xvzf blackdts.tgz\r\n\tcd blackdts\r\n\t\r\nNow install the device-tree-compiler. On Ubuntu, do this with\r\n\r\n\tsudo apt-get install device-tree-compiler\r\n\t\r\nNext, open up *am335x-bone-common.dtsi*. In the section named *am33xx_pinmux: pinmux@44e10800* add the following to set the pinmuxing\r\n\r\n\tpruicss_pins: pinmux_pruicss_pins {\r\n\t\tpinctrl-single,pins = <\r\n\t\t\t0x190 0x05\t/* P9_31 to PRU output */\r\n\t\t\t0x194 0x05\t/* P9_29 to PRU output */\r\n\t\t\t0x198 0x05\t/* P9_30 to PRU output */\r\n\t\t\t0x19C 0x05\t/* P9_28 to PRU output */\r\n\t\t\t0x1A4 0x05\t/* P9_27 to PRU output */\r\n\t\t\t0x1AC 0x05\t/* P9_25 to PRU output */\r\n\t\t\t>;\r\n\t};\r\n\t\r\nThen to enable PRU0, add the following to the *ocp: ocp* section\r\n\r\n\tpruss: pruss@4a300000 {\r\n\t\tstatus = "okay";\r\n\t\tpinctrl-names = "default";\r\n\t\tpinctrl-0 = <&pruicss_pins>;\r\n\t};\r\n\t\r\nSave and close the file, compile it with\r\n\r\n\tdtc -O dtb -o am335x-boneblack.dtb -b 0 am335x-boneblack.dts\r\n\r\nFinally, backup your old binary and replace it with the one you just compiled\r\n\r\n\tsudo mv /boot/uboot/dtbs/am335x-boneblack.dtb /boot/uboot/dtbs/am335x-boneblack.orig.dtb\r\n\tsudo mv am335x-boneblack.dtb /boot/uboot/dtbs/\r\n\r\nAfter a reboot, PRU0 will be enabled and the pinmuxing set.\r\n\r\n### Driver library and assembler ###\r\nGet the driver and assembler code\r\n\r\n\tgit clone https://github.com/beagleboard/am335x_pru_package.git\r\n\tcd am335x_pru_package\r\n\t\r\nApply the following patch to prevent interrupts being fired twice by the driver\r\n\r\n\twget http://e2e.ti.com/cfs-file.ashx/__key/telligent-evolution-components-attachments/00-791-00-00-00-23-97-35/attachments.tar.gz\r\n\ttar -xzf attachments.tar.gz\r\n\tpatch -p1 <  0001-Fix-for-duplicated-interrupts-when-interrupts-are-se.patch \r\n\r\nCompile the driver as a shared library (don\'t use *make*, this builds a static library which node-gyp does not like!)\r\n\r\n\tcd pru_sw/app_loader/interface/\r\n\tgcc -I. -Wall -I../include   -c -fPIC -O3 -mtune=cortex-a8 -march=armv7-a -shared -o prussdrv.o prussdrv.c\r\n\tgcc -shared -o libprussdrv.so prussdrv.o\r\n\r\nCopy the driver and headers to system folders\r\n\r\n\tsudo cp libprussdrv.so /usr/lib/\r\n\tsudo cp ../include/*.h /usr/include/\r\n\t\r\nNow build the assember\r\n\r\n\tcd ../../utils/pasm_source\r\n\t./linuxbuild\r\n\t\r\nCopy the assembler to system\r\n\r\n\tsudo cp ../pasm /usr/bin/\r\n\r\nFinally, test the PRU system with one of the examples.\r\n\r\n\tcd ../../example_apps/PRU_memAccess_DDR_PRUsharedRAM\r\n\r\nAssemble the PRU code\r\n\r\n\tpasm -b PRU_memAccess_DDR_PRUsharedRAM.p\r\n\r\nThis will generate the PRU binary *PRU_memAccess_DDR_PRUsharedRAM.bin*. Now compile the C code\r\n\r\n\tgcc PRU_memAccess_DDR_PRUsharedRAM.c -lprussdrv -lpthread -otest\r\n\r\nRun the example (must run as root to access the PRU)\r\n\r\n\tsudo ./test\r\n\t\r\nIf all goes well you should see the following\r\n\r\n\tINFO: Starting PRU_memAccess_DDR_PRUsharedRAM example.\r\n\tAM33XX\r\n\t\t\tINFO: Initializing example.\r\n\t\t\tINFO: Executing example.\r\n\tFile ./PRU_memAccess_DDR_PRUsharedRAM.bin open passed\r\n\t\t\tINFO: Waiting for HALT command.\r\n\t\t\tINFO: PRU completed transfer.\r\n\tExample executed succesfully.\r\n\r\nYour system is now set up to use the PRU, now we can start using Node.JS\r\n\r\nInstallation\r\n------------\r\nTo install the module simply type\r\n\r\n\tnpm install pru\r\n\t\r\nUsage\r\n-------\r\n### Example ###\r\nA simple example is given in the examples folder, *timing_test.js* and *timing_test.p*. The example simply loops the PRU very quickly and prints the status of the countdown every second.\r\n\r\nFirst assemble the PRU code\r\n\r\n\tpasm -b timing_test.p\r\n\t\r\nThen run the example\r\n\r\n\tcd node_modules/pru/examples\r\n\tsudo node timing_test.js\r\n\t\r\nRemeber to run as root or you\'ll get a seg fault!\r\n\r\n### Module description ###\r\nTo include the module in your own code, simply use \r\n\r\n\tvar pru = require(\'pru\');\r\n\t\r\nBefore you can do anything with the PRU you must initialise it with\r\n\r\n\tpru.init();\r\n\t\r\nExecute a binary named "mycode.bin"\r\n\r\n\tpru.execute("mycode.bin");\r\n\t\r\nSet the shared memory space to an array of integers ([0x1 0x2 0x3])\r\n\r\n\tpru.setSharedRAM([0x1 0x2 0x3]);\r\n\t\r\nAnd to set the 6th integer in the RAM to 0x10\r\n\r\n\tpru.setSharedRAMInt(5, 0x10);\r\n\t\r\nGet an array from the RAM, or the 4rd value\r\n\r\n\tvar ramArray = pru.getSharedRAM();\r\n\tvar ramElement = pru.getSharedRAMInt(3);\r\n\t\r\nSet a callback to fire when the PRU generates an interupt\r\n\r\n\tpru.waitForInterrupt(function() {\r\n\t\tconsole.log("Interrupted by PRU");\r\n\t\t});\r\n\t\t\r\nInterrupt PRU\r\n\r\n\tpru.interrupt();\r\n\t\t\r\nTerminate the PRU execution\r\n\r\n\tpru.exit();\r\n\t\r\nLimitations\r\n-----------\r\n* Currently only PRU0 is supported\r\n* Only the Shared Memory space can be used for communication\r\n* The Shared Memory getters/setters are limited to integers\r\n',
+59 silly install resolved     _id: 'pru@0.1.3',
+59 silly install resolved     dist:
+59 silly install resolved      { shasum: '1abc30fbecaf1c7ebe7f8f93ec4324c01881306f',
+59 silly install resolved        tarball: 'http://registry.npmjs.org/pru/-/pru-0.1.3.tgz' },
+59 silly install resolved     _from: 'pru@*',
+59 silly install resolved     _npmVersion: '1.2.24',
+59 silly install resolved     _npmUser: { name: 'omcaree', email: 'o.mcaree@lboro.ac.uk' },
+59 silly install resolved     maintainers: [ [Object] ],
+59 silly install resolved     _shasum: '1abc30fbecaf1c7ebe7f8f93ec4324c01881306f',
+59 silly install resolved     _resolved: 'https://registry.npmjs.org/pru/-/pru-0.1.3.tgz' } ]
+60 info install pru@0.1.3 into /var/www
+61 info installOne pru@0.1.3
+62 verbose installOne of pru to /var/www not in flight; installing
+63 verbose lock using /root/.npm/_locks/pru-3c248a2adf895e88.lock for /var/www/node_modules/pru
+64 silly install write writing pru 0.1.3 to /var/www/node_modules/pru
+65 verbose unbuild node_modules/pru
+66 silly gentlyRm /var/www/node_modules/pru is being purged from base /var/www
+67 verbose gentlyRm don't care about contents; nuking /var/www/node_modules/pru
+68 verbose tar unpack /root/.npm/pru/0.1.3/package.tgz
+69 verbose tar unpacking to /var/www/node_modules/pru
+70 silly gentlyRm /var/www/node_modules/pru is being purged
+71 verbose gentlyRm don't care about contents; nuking /var/www/node_modules/pru
+72 silly gunzTarPerm modes [ '755', '644' ]
+73 silly gunzTarPerm extractEntry package.json
+74 silly gunzTarPerm extractEntry .npmignore
+75 silly gunzTarPerm extractEntry README.md
+76 silly gunzTarPerm extractEntry binding.gyp
+77 silly gunzTarPerm extractEntry examples/interrupt_PRU.js
+78 silly gunzTarPerm extractEntry examples/timing_test.js
+79 silly gunzTarPerm extractEntry examples/interrupt_PRU.p
+80 silly gunzTarPerm extractEntry examples/prucode.hp
+81 silly gunzTarPerm extractEntry examples/timing_test.p
+82 silly gunzTarPerm extractEntry src/pru.cpp
+83 verbose write writing to /var/www/node_modules/pru/package.json
+84 info preinstall pru@0.1.3
+85 verbose readDependencies loading dependencies from /var/www/node_modules/pru/package.json
+86 verbose readDependencies loading dependencies from /var/www/node_modules/pru/package.json
+87 silly install resolved []
+88 verbose about to build /var/www/node_modules/pru
+89 info build /var/www/node_modules/pru
+90 info linkStuff pru@0.1.3
+91 silly linkStuff pru@0.1.3 has /var/www/node_modules as its parent node_modules
+92 verbose linkBins pru@0.1.3
+93 verbose linkMans pru@0.1.3
+94 verbose rebuildBundles pru@0.1.3
+95 info install pru@0.1.3
+96 verbose unsafe-perm in lifecycle false
+97 info pru@0.1.3 Failed to exec install script
+98 verbose unlock done using /root/.npm/_locks/pru-3c248a2adf895e88.lock for /var/www/node_modules/pru
+99 verbose stack Error: pru@0.1.3 install: `node-gyp rebuild`
+99 verbose stack Exit status 1
+99 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:214:16)
+99 verbose stack     at EventEmitter.emit (events.js:98:17)
+99 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
+99 verbose stack     at ChildProcess.emit (events.js:98:17)
+99 verbose stack     at maybeClose (child_process.js:766:16)
+99 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:833:5)
+100 verbose pkgid pru@0.1.3
+101 verbose cwd /var/www
+102 error Linux 3.8.13-bone59
+103 error argv "node" "/usr/local/bin/npm" "install" "pru"
+104 error node v0.10.40
+105 error npm  v2.13.4
+106 error code ELIFECYCLE
+107 error pru@0.1.3 install: `node-gyp rebuild`
+107 error Exit status 1
+108 error Failed at the pru@0.1.3 install script 'node-gyp rebuild'.
+108 error This is most likely a problem with the pru package,
+108 error not with npm itself.
+108 error Tell the author that this fails on your system:
+108 error     node-gyp rebuild
+108 error You can get their info via:
+108 error     npm owner ls pru
+108 error There is likely additional logging output above.
+109 verbose exit [ 1, true ]
+110 verbose unbuild node_modules/pru
+111 info preuninstall pru@0.1.3
+112 info uninstall pru@0.1.3
+113 verbose unbuild rmStuff pru@0.1.3 from /var/www/node_modules
+114 info postuninstall pru@0.1.3
+115 silly gentlyRm /var/www/node_modules/pru is being purged from base /var/www
+116 verbose gentlyRm don't care about contents; nuking /var/www/node_modules/pru
+117 silly vacuum-fs purging /var/www/node_modules/pru
+118 silly vacuum-fs quitting because other entries in /var/www/node_modules

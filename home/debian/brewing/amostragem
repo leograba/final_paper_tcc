@@ -1,0 +1,6 @@
+#!/bin/bash
+
+python log.py
+mv /var/www/default.csv /var/www/sem_prioridade2.csv
+nice -n -20 python log.py
+mv /var/www/default.csv /var/www/com_prioridade2.csv
