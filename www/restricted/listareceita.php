@@ -62,6 +62,7 @@
 	</head>
 
 	<body>
+		<?php include '../header.php'; generateHeader();?>
 		<h1>Gerenciador de Receitas</h1>
 		<div>
 			<input id="new_add" class="add" type="button" value="Criar nova receita"/>
