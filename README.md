@@ -1,26 +1,92 @@
 # final_paper_tcc
 This repo contains some codes used in my final work for the undergraduation
 
-# About the node modules installed
+## About the node modules installed
 /var/www/node_modules
-	module			#	status/info
-	body-parser 		#	in use
-	bonescript		#	deprecated -> use octalbonescript
-	debug			#	no need as Express has it
-	ds18b20			#	not currently in use
-	express			#	in use
-	express-generator	#	not sure
-	node-pru-extended	#	in use
-	octalbonescript		#	in use
-	socket.io		#	not currently in use
-	socket.io-client	#	not currently in use
-	update			#	not sure
 
+<table>
+    <tr>
+        <td><b>Module</b></td>
+        <td><b>Status/Info</b></td>
+    </tr>
+    <tr>
+    	<td>body-parser</td>
+    	<td>in use</td>
+    </tr>
+    <tr>
+    	<td>bonescript</td>
+    	<td>deprecated -> use octalbonescript</td>
+    </tr>
+    <tr>
+    	<td>debug</td>
+    	<td>no need as Express has it</td>
+    </tr>
+    <tr>
+    	<td>ds18b20</td>
+    	<td>currently not in use</td>
+    </tr>
+    <tr>
+    	<td>express</td>
+    	<td>in use</td>
+    </tr>
+    <tr>
+    	<td>express-generator</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>node-pru-extended</td>
+    	<td>in use</td>
+    </tr>
+    <tr>
+    	<td>octalbonescript</td>
+    	<td>in use</td>
+    </tr>
+    <tr>
+    	<td>socket.io</td>
+    	<td>currently not in use</td>
+    </tr>
+    <tr>
+    	<td>socket.io-client</td>
+    	<td>currently not in use</td>
+    </tr>
+    <tr>
+    	<td>update</td>
+    	<td>not sure</td>
+    </tr>
+</table>
 /var/www/controle/node_modules
-	body-parser		#	not sure
-	cookie-parser		#	not sure
-	debug			#	not sure
-	express			#	not sure
-	jade			#	not sure
-	morgan			#	not sure
-	serve-favicon		#	not sure
+
+<table>
+    <tr>
+        <td><b>Module</b></td>
+        <td><b>Status/Info</b></td>
+    </tr>
+    <tr>
+    	<td>body-parser</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>cookie-parser</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>debug</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>express</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>jade</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>morgan</td>
+    	<td>not sure</td>
+    </tr>
+    <tr>
+    	<td>serve-favicon</td>
+    	<td>not sure</td>
+    </tr>
+</table>
