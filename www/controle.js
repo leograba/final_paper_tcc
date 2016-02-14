@@ -7,7 +7,12 @@ var app = express();
 var debug = require('debug')('controle');
 var pru = require("node-pru-extended");
 var fs = require("fs");
+var phpExpress = require('php-express')({  // assumes php is in your PATH
+// must specify options hash even if no options provided!
+  binPath: 'php'
+});
 
+/*
 //Trying to access and/or use the PRU
 console.log(pru);
 pru.init();//initialize the communications
@@ -15,11 +20,20 @@ pru.init();//initialize the communications
 pru.execute(0,"/var/www/myPRUcodes/pisca_text.bin",0);
 //console.log(pru.getSharedRAM());
 pru.exit(0);//force the PRU code to terminate
+*/
 
 //Using Express to create a server
 app.use(bodyParser.urlencoded({//to support URL-encoded bodies, MUST come before routing
   extended: true
 }));
+ 
+// set view engine to php-express
+app.set('views', './');
+app.engine('php', phpExpress.engine);
+app.set('view engine', 'php');
+ 
+// routing all .php file to php-express
+app.all(/.+\.php$/, phpExpress.router);
 
 app.use(express.static(__dirname));//add the directory where HTML and CSS files are
 app.route('/controle')//used to unite all the requst types for the same route
@@ -67,6 +81,20 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	else{
 		console.log("fez");
 		res.send(req);
+	}
+});
+
+app.route('/config')//used to unite all the requst types for the same route
+.post(function (req, res) {
+	var request = req.body.request;
+	/*var date = new Date();
+	var serverResponse = {datetime:date.getDate() + '/' +
+		(date.getMonth()+1) + '/' + date.getFullYear() + ' ' +
+		date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+	};*/
+	var serverResponse = {datetime:Date()};
+	if(request == "datetime"){
+		res.send(serverResponse);
 	}
 });
 

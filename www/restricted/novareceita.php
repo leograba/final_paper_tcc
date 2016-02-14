@@ -6,20 +6,23 @@
   <link rel="stylesheet" type="text/css" href="../config.css">
   <link rel="icon" type="image/png" href="../figuras/beer2.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script type="text/javascript" src="newrecipe.js"></script>
+  <script type="text/javascript" src="./newrecipe.js"></script>
+  <script type="text/javascript" src="../header.js"></script>
   <script>
     $(function(){//wait for the page to load
       rearrangeAll();//show all filled fields
       $("#name").val(getNameFromURL().replace("_", " "));//set the recipe name got from GET
-      $("#form").focusout(function(){//everytime the form focus change
+      $(".myform").focusout(function(){//everytime the form focus change
         rearrange(fieldsToRearrange(event.target.id));//rearrange the part of the form that was changed
         saveOnDemand($(this));//save the form
       });
+      
+      gambiarraHeaderPHP("../header.php");//add the header
     });
   </script>
 </head>
 
-<body>
+<body style="display:none">
 <h1>Crie ou edite sua receita!</h1>
 <p id="statusMsg" style="text-align:right;">receita salva</p>
 

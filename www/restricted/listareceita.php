@@ -30,6 +30,7 @@
 			
 		?>
 		<script type="text/javascript" src="listrecipe.js"></script>
+		<script type="text/javascript" src="../header.js"></script>
 		<script type="text/javascript">
 		// POST request using AJAX
 		$(function(){ //wait for the page to load
@@ -57,12 +58,13 @@
 			$(".fileList").mouseout(function(){//when mouse leaves recipe name
 				$("#preview").hide();
 			});
+			
+			gambiarraHeaderPHP("../header.php");//add header
 		});
 		</script>
 	</head>
 
-	<body>
-		<?php include '../header.php'; generateHeader();?>
+	<body style="display:none;">
 		<h1>Gerenciador de Receitas</h1>
 		<div>
 			<input id="new_add" class="add" type="button" value="Criar nova receita"/>
@@ -89,7 +91,6 @@
 				<p class="prevhead">Lúpulos</p><p class="prev" id="lupulos"></p>
 			</div>
 		</section>
-		<a class="full" href="./menu_receitas.html">Voltar</a>
 	</body>
 	
 </html>
