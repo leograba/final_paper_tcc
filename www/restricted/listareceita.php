@@ -44,8 +44,8 @@
 				$(this).siblings().show(200).css("display","inline-block");//show the text input and add button
 			});
 			$("#new_done").click(function addRecipe(){//if name was put and want to create recipe
-				if($("#new_name").val().trim()){//if name is not empty
-					window.location.href = "novareceita.php?name="+$("#new_name").val();
+				if($("#new_name").val().trim()){//if name is not empty, replace spaces with plus signs
+					window.location.href = "novareceita.php?name="+$("#new_name").val().replace(/ /g,"_");
 				}
 				else{//if name is empty or whitespaces
 					

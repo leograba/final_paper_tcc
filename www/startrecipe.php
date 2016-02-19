@@ -11,6 +11,8 @@
 	    <script type="text/javascript" src="./header.js"></script>
 		<script>
             $(function(){//when document is fully loaded
+                gambiarraHeaderPHP("./header.php");
+                
                 $.post("/startrecipe", {command:"getRecipes"}, function(data, status){//ask the server for the recipe names
     				if(status == "success"){//if server responds ok
     					if(data.resp == "success"){//if the recipes are successfully recieved
@@ -25,8 +27,6 @@
     					console.log(data);
     				}
     			},"json");
-    			
-                gambiarraHeaderPHP("./header.php");
             });
 		</script>
 	</head>
@@ -43,7 +43,7 @@
         
         <h2>Controle do sistema</h2>
         <p>Em breve a tela de controle será ajustada para acompanhamento e ajustes da brassagem:</p>
-        <input class="leftselect" type="button" value="controle" onClick="window.location='http://143.107.235.59:8587/controle.php'" />
+        <input class="leftselect" type="button" value="controle" onClick="window.location='./controle.php'" />
         
 	</body>
 	

@@ -10,25 +10,36 @@
 	<script type="text/javascript" src="../header.js"></script>
 	<script>
 	    $(function(){
-	        setInterval(function refreshDate(){//get server-side date/time
+	    	gambiarraHeaderPHP("../header.php");//first thing is to add the header
+	    	
+	        setInterval(refreshDate,1000);//get the server date/time every 1s
+	        
+	        $(".okbtn").click(requestSetDate);//update the server date/time on click
+	        
+	        function refreshDate(){//get server-side date/time
 	            $.post("/config", {request:"datetime",}, function(data, status){
 	                if(status == "success"){//if server responds ok
 	                    $("#datahora").html("data/hora: " + data.datetime);
 	                }
 	            },"json");
-	        },1000);
+	        }
 	        
-	        $(".okbtn").click(function requestSetDate(){
-	            var newdate = $("#get_time_date").val();
-	            if(newdate){
-	                console.log($("#get_time_date").val());
+	        function requestSetDate(){
+	            var newdateval = $("#get_time_date").val();//get user input for new time/date
+	            console.log(newdateval);
+	            if(newdateval){//if the user set correctly the input
+	                $.post("/config", {request:"setdatetime", newdate:newdateval}, function(data, status){
+	                	if(status == "success" && data.datetime == "ok"){//if server responds ok
+	                		console.log($("#get_time_date").val());
+	                	}
+	                },"json");
 	            }
-	            else{
-	                console.log("empty value");
+	            else{//if some input field is missing
+	                $("#get_label").fadeOut(10,function(){//tell the user to fill all the fields
+	                	$(this).html("Preencha data e hora completa: ").fadeIn(100);
+	                });
 	            }
-	        });
-	        
-	        gambiarraHeaderPHP("../header.php");//add header
+	        }
 	    }); 
     </script>
 	</head>
@@ -38,7 +49,7 @@
     <form class="myform" id="form" name="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <h3 id="datahora"></h3>
         <div>
-            <label class="myform" for="get_time_date">Ajuste:</label>
+            <label class="myform" id="get_label" for="get_time_date">Ajuste:</label>
             <input class="myform long" type="datetime-local" id="get_time_date" name="bdaytime">
             <input class="okbtn" type="button" value="ok">
         </div>

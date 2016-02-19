@@ -11,7 +11,7 @@
   <script>
     $(function(){//wait for the page to load
       rearrangeAll();//show all filled fields
-      $("#name").val(getNameFromURL().replace("_", " "));//set the recipe name got from GET
+      $("#name").val(getNameFromURL().replace(/_/g, " "));//set the recipe name got from GET
       $(".myform").focusout(function(){//everytime the form focus change
         rearrange(fieldsToRearrange(event.target.id));//rearrange the part of the form that was changed
         saveOnDemand($(this));//save the form

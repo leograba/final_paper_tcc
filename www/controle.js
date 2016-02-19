@@ -7,6 +7,7 @@ var app = express();
 var debug = require('debug')('controle');
 var pru = require("node-pru-extended");
 var fs = require("fs");
+var exec = require("child_process").exec;
 var phpExpress = require('php-express')({  // assumes php is in your PATH
 // must specify options hash even if no options provided!
   binPath: 'php'
@@ -61,7 +62,34 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	var command = req.body.command; 
 	var recipesPath = "./restricted/recipes";//path to the recipes directory
 	
-	if(command == "getRecipes"){//if command passed by client is to get the recipe names
+	switch (command){
+		case "getRecipes"://if command passed by client is to get the recipe names
+			fs.readdir(recipesPath, function sendRecipeNames(err, files){//try to read files in directory
+				if(err){//if something is wrong
+					debug(err);//print the error
+					serverResponse.resp = "error";
+					serverResponse.recipes = err;
+				}
+				else{
+					for(var i = 0; i < files.length; i++){//iterate the array of names
+						files[i] = files[i].replace(".recipe", "");//remove the file extension
+						files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
+					}
+					serverResponse.recipes = files;
+				}
+				res.send(serverResponse);//send the recipes if successful, otherwise sends the error
+			});
+			break;
+		case "startRecipe":
+			//here the process of brewing starts
+			break;
+		default://if not expected result
+			debug("unexpected request: " + command);//log the error
+			res.send("error");//return error to the server
+			break;
+	}
+	
+	/*if(command == "getRecipes"){//if command passed by client is to get the recipe names
 		fs.readdir(recipesPath, function sendRecipeNames(err, files){//try to read files in directory
 			if(err){//if something is wrong
 				debug(err);//print the error
@@ -81,20 +109,51 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	else{
 		console.log("fez");
 		res.send(req);
-	}
+	}*/
 });
+
+
+function sendRecipeNames(err, files){//try to read files in directory
+	if(err){//if something is wrong
+		debug(err);//print the error
+		serverResponse.resp = "error";
+		serverResponse.recipes = err;
+	}
+	else{
+		for(var i = 0; i < files.length; i++){//iterate the array of names
+			files[i] = files[i].replace(".recipe", "");//remove the file extension
+			files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
+		}
+		serverResponse.recipes = files;
+	}
+	res.send(serverResponse);//send the recipes if successful, otherwise sends the error
+}
 
 app.route('/config')//used to unite all the requst types for the same route
 .post(function (req, res) {
 	var request = req.body.request;
-	/*var date = new Date();
-	var serverResponse = {datetime:date.getDate() + '/' +
-		(date.getMonth()+1) + '/' + date.getFullYear() + ' ' +
-		date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-	};*/
-	var serverResponse = {datetime:Date()};
-	if(request == "datetime"){
+	var nd = req.body.newdate;
+	var serverResponse = {datetime:""};
+	if(request == "datetime"){//send the system time/date to the client
+		serverResponse.datetime = Date();
 		res.send(serverResponse);
+	}
+	else if(request == "setdatetime"){//change the system time/date
+		exec('sudo date -s ' + nd + ' | hwclock -w',//execute shell command
+		function(error, stdout, stderr) {
+			debug('stdout: ' + stdout);
+			debug('stderr: ' + stderr);
+			if (error !== null) {//if new date wasn't correctly set
+				debug('exec error: ' + error);//print error
+				serverResponse.datetime = "error";//send fail to client
+				res.send(serverResponse);
+			}
+			else{//if date was correctly set, send ok to client
+				debug("date changed to: " + Date(nd));//print
+				serverResponse.datetime = "ok";
+				res.send(serverResponse);
+			}
+		});
 	}
 });
 
