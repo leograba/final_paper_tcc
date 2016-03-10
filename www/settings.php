@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<title>Configurações</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="./config.css">
-	<link rel="stylesheet" type="text/css" href="./buttons.css">
-	<link rel="icon" type="image/png" href="./figuras/beer2.png">
-	<script type="text/javascript" src="../header.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/config.css">
+	<link rel="stylesheet" type="text/css" href="./css/buttons.css">
+	<link rel="icon" type="image/png" href="./img/beer2.png">
+	<script type="text/javascript" src="./lib/header.js"></script>
 	<script>
 	    $(function(){
-	    	gambiarraHeaderPHP("../header.php");//first thing is to add the header
+	    	gambiarraHeaderPHP("./lib/header.php");//first thing is to add the header
 	    	
 	        setInterval(refreshDate,1000);//get the server date/time every 1s
 	        

@@ -2,7 +2,7 @@
 This repo contains some codes used in my final work for the undergraduation
 
 The *Develop* branch is the default branch for development purposes, so it holds the most up-to-date files, but there is
-no certainty wether there is something not working or unfinished.
+no certainty whether there is something not working or unfinished.
 
 ## About the node modules installed
 

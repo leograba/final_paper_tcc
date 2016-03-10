@@ -60,36 +60,10 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 .post(function (req, res) {
 	var serverResponse = {resp:"success"};
 	var command = req.body.command; 
-	var recipesPath = "./restricted/recipes";//path to the recipes directory
+	var recipesPath = "./recipes";//path to the recipes directory
+	var deletedIndexes = new Array();
 	
-	switch (command){
-		case "getRecipes"://if command passed by client is to get the recipe names
-			fs.readdir(recipesPath, function sendRecipeNames(err, files){//try to read files in directory
-				if(err){//if something is wrong
-					debug(err);//print the error
-					serverResponse.resp = "error";
-					serverResponse.recipes = err;
-				}
-				else{
-					for(var i = 0; i < files.length; i++){//iterate the array of names
-						files[i] = files[i].replace(".recipe", "");//remove the file extension
-						files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
-					}
-					serverResponse.recipes = files;
-				}
-				res.send(serverResponse);//send the recipes if successful, otherwise sends the error
-			});
-			break;
-		case "startRecipe":
-			//here the process of brewing starts
-			break;
-		default://if not expected result
-			debug("unexpected request: " + command);//log the error
-			res.send("error");//return error to the server
-			break;
-	}
-	
-	/*if(command == "getRecipes"){//if command passed by client is to get the recipe names
+	if(command == "getRecipes"){//if command passed by client is to get the recipe names
 		fs.readdir(recipesPath, function sendRecipeNames(err, files){//try to read files in directory
 			if(err){//if something is wrong
 				debug(err);//print the error
@@ -98,9 +72,17 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 			}
 			else{
 				for(var i = 0; i < files.length; i++){//iterate the array of names
+					if(files[i].indexOf(".del") > 0){//if the server reads a deleted file
+						deletedIndexes.push(i);
+					}
 					files[i] = files[i].replace(".recipe", "");//remove the file extension
 					files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
 				}
+				for(var i = (deletedIndexes.length)-1; i >= 0;  i--){//iterate the array of deleted recipes
+					debug("index: " + deletedIndexes[i]);
+					files.splice(deletedIndexes[i],1);//deletes the file name from the array
+				}
+				debug("deleted indexes: " + deletedIndexes);
 				serverResponse.recipes = files;
 			}
 			res.send(serverResponse);//send the recipes if successful, otherwise sends the error
@@ -109,25 +91,8 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	else{
 		console.log("fez");
 		res.send(req);
-	}*/
+	}
 });
-
-
-function sendRecipeNames(err, files){//try to read files in directory
-	if(err){//if something is wrong
-		debug(err);//print the error
-		serverResponse.resp = "error";
-		serverResponse.recipes = err;
-	}
-	else{
-		for(var i = 0; i < files.length; i++){//iterate the array of names
-			files[i] = files[i].replace(".recipe", "");//remove the file extension
-			files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
-		}
-		serverResponse.recipes = files;
-	}
-	res.send(serverResponse);//send the recipes if successful, otherwise sends the error
-}
 
 app.route('/config')//used to unite all the requst types for the same route
 .post(function (req, res) {
