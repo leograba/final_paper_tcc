@@ -12,7 +12,17 @@ var phpExpress = require('php-express')({  // assumes php is in your PATH
 // must specify options hash even if no options provided!
   binPath: 'php'
 });
+//var unserialize=require("php-serialization").unserialize; //to unserialize the recipes
 
+//Global variables that should also be saved to a backup file periodically
+var environmentVariables = {
+	msg: "",//holds some explanatory message
+	logTimestamp: "", //holds the epoch time of the current variables state
+	recipe: "", //recipe name
+	okToStart: false, //true if a recipe is ok enough to start a production
+	auto: true, //whether the process is running automatically or there is human intervention
+	code: "",//tells the same as msg, but as an index, easier to check programatically
+};
 /*
 //Trying to access and/or use the PRU
 console.log(pru);
@@ -37,11 +47,14 @@ app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
 
 app.use(express.static(__dirname));//add the directory where HTML and CSS files are
+var server = app.listen(8587, "192.168.1.155", function () {//listen at the port and address
+	var host = server.address().address;
+	var port = server.address().port;
+	var family = server.address().family;
+	debug('Express server listening at http://%s:%s %s', host, port, family);
+});
+
 app.route('/controle')//used to unite all the requst types for the same route
-/*.get(function (req, res) {
-  //res.send('Hello World!');
-  //res.sendFile(__dirname + "/controle.html");//load HTML page
-})*/
 .post(function (req, res) {
 	var serverResponse = {command:req.body.command, btn:req.body.btn, val:req.body.val};
 	var command = req.body.command, pin = req.body.btn, val = req.body.val;
@@ -51,7 +64,7 @@ app.route('/controle')//used to unite all the requst types for the same route
 		res.send(serverResponse);//echo the recieved data to the server
 	}
 	else if(command == "getStatus"){
-		//console.log(getStatusIO());
+		//debug(getStatusIO());
 		res.send(getStatusIO());
 	}
 });
@@ -59,38 +72,80 @@ app.route('/controle')//used to unite all the requst types for the same route
 app.route('/startrecipe')//used to unite all the requst types for the same route
 .post(function (req, res) {
 	var serverResponse = {resp:"success"};
-	var command = req.body.command; 
+	var command = req.body.command;
+	debug("Command: " + command);
 	var recipesPath = "./recipes";//path to the recipes directory
-	var deletedIndexes = new Array();
-	
+	var bkpFile = "./datalog/backup.log";//path to the backup logs file 
+	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
+	var recipeContents ;
+	var dataToSave ;
+	var recipeName ;
+	var d = new Date();
 	if(command == "getRecipes"){//if command passed by client is to get the recipe names
-		fs.readdir(recipesPath, function sendRecipeNames(err, files){//try to read files in directory
-			if(err){//if something is wrong
-				debug(err);//print the error
-				serverResponse.resp = "error";
-				serverResponse.recipes = err;
+		sendRecipeNames(recipesPath, res);//get it and return to the client
+	}
+	else if(command == "startRequest"){//if the client wants to start a recipe
+		recipeName = req.body.recipe + ".recipe";//get the recipe name
+		checkRecipeIntegrity(recipeName, recipesPath, res);
+	}
+	else if(command == "startRecipe"){//start the recipe; should only be requested after the "startRequest" command
+		recipeName = req.body.recipe + ".recipe";//recipe name sent from the client
+		if(environmentVariables.okToStart){//first check is if the recipe is ok to start
+			if(recipeName == environmentVariables.recipe){//recipe name should match also
+				logToFile("production starting", 1);//log to file
+			// - after really starting, periodically logs to the backup file
+			// - here the control code should be written, concurrently to the log
+				serverResponse.resp = "success";
+				res.send(serverResponse);
+			}
+			else{//if recipe name doesn't match the one from "startRequest"
+				serverResponse.resp = "failed";
+				res.send(serverResponse);
+			}
+		}
+		else{//if recipe isn't ok to start
+			serverResponse.resp = "failed";
+			res.send(serverResponse);
+		}
+	}
+	else if(command == "inProgress"){//checks if there is a recipe running
+		fs.readFile(lockFile, function(err, data){
+			if(err){
+				serverResponse.resp = "false";//assumes the error means no recipe is in progress
+				res.send(serverResponse);
 			}
 			else{
-				for(var i = 0; i < files.length; i++){//iterate the array of names
-					if(files[i].indexOf(".del") > 0){//if the server reads a deleted file
-						deletedIndexes.push(i);
-					}
-					files[i] = files[i].replace(".recipe", "");//remove the file extension
-					files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
+				if(+data == 1){//if there is a recipe in progress
+					serverResponse.resp = "true";
+					fs.readFile(bkpFile, "utf-8", function(err, data){
+						if(err){//if contents of log could not be retrieved
+							serverResponse.recipe = "unknown";//not the best thing to do
+							res.send(serverResponse);
+						}
+						else{
+							var lines = data.trim().split('\n');//separate line by line
+							debug(lines.slice(-1)[0]);
+							var lastLine = lines.slice(-1)[0];//get the last log line
+							var properties = JSON.parse(lastLine);//JSON to object
+							properties.recipe = properties.recipe.replace(".recipe", "");//remove the file extension
+							properties.recipe = properties.recipe.replace(/_/g, " ");//replace underlines with spaces
+							serverResponse.recipe = properties.recipe;//send recipe name to the client
+							debug(serverResponse);
+							res.send(serverResponse);
+						}
+					});
 				}
-				for(var i = (deletedIndexes.length)-1; i >= 0;  i--){//iterate the array of deleted recipes
-					debug("index: " + deletedIndexes[i]);
-					files.splice(deletedIndexes[i],1);//deletes the file name from the array
+				else{
+					serverResponse.resp = "false";
+					res.send(serverResponse);
 				}
-				debug("deleted indexes: " + deletedIndexes);
-				serverResponse.recipes = files;
 			}
-			res.send(serverResponse);//send the recipes if successful, otherwise sends the error
 		});
 	}
 	else{
-		console.log("fez");
-		res.send(req);
+		debug("command not found, doing nothing");
+		serverResponse.resp = "fail";
+		res.send(serverResponse);
 	}
 });
 
@@ -121,6 +176,159 @@ app.route('/config')//used to unite all the requst types for the same route
 		});
 	}
 });
+
+function checkRecipeIntegrity(recipe, path, res){
+	var serverResponse = {resp: "success", warn: "", err: ""};//tells the client if everything is ok
+	var recipeContents ;
+	environmentVariables.recipe = recipe;//save the recipe name
+	fs.readFile(path + "/" + recipe, function(err, data){
+		var okToStartFlag = 1;
+		if(err){//if file contents could not be retrieved
+			serverResponse.resp = "couldntReadFile";//tells the client
+			res.send(serverResponse);
+		}
+		else{///if file was successfully read
+			recipeContents = data.toString("UTF8").split("\n");//split contents to array
+			for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
+				recipeContents[i] = recipeContents[i].split('"')[1];
+				if(!recipeContents[i]){//if some recipe line is blank
+					switch(i){//and this line is important, then:
+						case 0://recipe name not set (warning)
+							serverResponse.warn += "nome da receita; ";
+							break;
+						case 1://beer style not set (warning)
+							serverResponse.warn += "estilo; ";
+							break;
+						case 2://beer yeast not set (warning)
+							serverResponse.warn += "levedura; ";
+							break;
+						case 3://mash water not set (error)
+							serverResponse.err += "água de brassagem; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 4://sparging water not set (warning)
+							serverResponse.warn += "água de sparging; ";
+							break;
+						case 5://sparging water temperature not set (warning)
+							serverResponse.warn += "temperatura de sparging; ";
+							break;
+						case 6://boiling time not set (error)
+							serverResponse.err += "tempo da fervura; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 7://mash initial temperature not set (error)
+							serverResponse.err += "temperatura inicial de brassagem; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 8://mash first step not set (error)
+							serverResponse.err += "primeiro degrau de temperatura; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 9://mash first step time not set (error)
+							serverResponse.err += "tempo do primeiro degrau; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 24://malt 1 not set (error)
+							serverResponse.err += "malte 1; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 25://malt 1 quantity not set (error)
+							serverResponse.err += "quantidade do malte 1; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 40://hop 1 not set (error)
+							serverResponse.err += "lúpulo 1; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 41://hop 1 quantity not set (error)
+							serverResponse.err += "quantidade do lúpulo 1; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+						case 42://hop 1 adding time not set (error)
+							serverResponse.err += "tempo de adição do lúpulo 1; ";
+							environmentVariables.okToStart = false;
+							okToStartFlag = 0;
+							break;
+					}
+				}
+			}
+			if(okToStartFlag){//if recipe can be started
+				environmentVariables.okToStart = true;//add this info to the global variables
+			}
+			logToFile("request to start production", 0);
+			res.send(serverResponse);//answer to the client
+			//debug(serverResponse);
+		}
+	});
+}
+
+function logToFile(message, code){
+	var d = new Date();
+	var dataToSave ;
+	var logFile = "./datalog/backup.log";//path to the backup logs file
+	environmentVariables.msg = message;//explanatory message to be logged
+	environmentVariables.code = code;//code referring to the message
+	environmentVariables.logTimestamp = d.getTime();//logs the request to start recipe timestamp
+	dataToSave = JSON.stringify(environmentVariables) + "\n";
+	debug(dataToSave);
+	if(code == 0){//if it is the first line to be logged, overwrite log file
+		fs.writeFile(logFile, dataToSave, function(err){//overrwite previous backup
+			if(err){//if was unable to log to the file
+				debug("could not write to the backup file!");//well my friend, you're on your own!
+			}
+			else{
+				debug("backup log started!");
+			}
+		});
+	}
+	else{//otherwise, just append the data
+		fs.appendFile(logFile, dataToSave, function(err){//overrwite previous backup
+			if(err){//if was unable to log to the file
+				debug("could not write to the backup file!");//well my friend, you're on your own!
+			}
+			else{
+				debug("backup log updated!");
+			}
+		});
+	}
+}
+
+function sendRecipeNames(path, res){//try to read files in directory
+	fs.readdir(path, function(err,files){
+		var deletedIndexes = new Array();// variable that holds the indexes of the deleted recipes
+		var serverResponse = {resp:"success"};
+		if(err){//if something is wrong
+			debug(err);//print the error
+			serverResponse.resp = "error";
+			serverResponse.recipes = err;
+		}
+		else{
+			for(var i = 0; i < files.length; i++){//iterate the array of names
+				if(files[i].indexOf(".del") > 0){//if the server reads a deleted file
+					deletedIndexes.push(i);
+				}
+				files[i] = files[i].replace(".recipe", "");//remove the file extension
+				files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
+			}
+			for(var i = (deletedIndexes.length)-1; i >= 0;  i--){//iterate the array of deleted recipes
+				//debug("index: " + deletedIndexes[i]);
+				files.splice(deletedIndexes[i],1);//deletes the file name from the array
+			}
+			debug("deleted recipes indexes: " + deletedIndexes);
+			serverResponse.recipes = files;
+		}
+		res.send(serverResponse);//send the recipes if successful, otherwise sends the error
+	});//get it and return to the client
+}
 
 function changeStatusIO(pin, val){
 	if(val == "true"){//if button is checked
@@ -156,13 +364,6 @@ function getStatusIO(){
 	return(all_io_status);
 }
 
-var server = app.listen(8587, "192.168.1.155", function () {//listen at the port and address
-	var host = server.address().address;
-	var port = server.address().port;
-	var family = server.address().family;
-	debug('Express server listening at http://%s:%s %s', host, port, family);
-});
-
 // I/O pins
 function PinObjectIO(pinId){//function to create pin object, should recieve pin ID
 	if(pinId){//if the variable is passed to function or not empty
@@ -173,6 +374,7 @@ function PinObjectIO(pinId){//function to create pin object, should recieve pin 
 		process.exit(1);//exit process with error code
 	}
 }
+
 var led = new PinObjectIO("USR1");
 
 var mash_pump = new PinObjectIO("P8_07");

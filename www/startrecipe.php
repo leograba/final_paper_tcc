@@ -11,30 +11,102 @@
 	    <script type="text/javascript" src="./lib/header.js"></script>
 	    <script type="text/javascript" src="./lib/listrecipe.js"></script>
 		<script>
-            $(function(){//when document is fully loaded
+			checkRecipeInProgress(recipeInProgress);//it may be done before page is loaded, no worries
+            $(function main(){//when document is fully loaded
                 gambiarraHeaderPHP("./lib/header.php");
+            	getAvailableRecipes("#recipeSel");
+    			
+    			$("input[type='button'][value='iniciar']").click(startRecipeRequest);
+            });
             
-                $.post("/startrecipe", {command:"getRecipes"}, function(data, status){//ask the server for the recipe names
+            function checkRecipeInProgress(callback){
+            	$.post("/startrecipe", {command:"inProgress"}, recipeInProgress,"json");
+            }
+            
+            function recipeInProgress(data, status){
+            	if(status == "success"){//if server responds ok
+					if(data.resp == "true"){//if the recipes are successfully recieved
+						window.location.replace("http://beaglebrewing.servebeer.com:8587/control.php");
+					}
+				}
+            	
+            }
+            
+            function startRecipeRequest(){
+            	var recipeName = $("#recipeSel").val().replace(/ /g, "_");
+				$("#previewData").attr("href","?=" + recipeName);//replace spaces with underlines
+			    recipePreview($("#previewData"));//pass its name (through the current element)
+			    
+			    $.post("/startrecipe", {command:"startRequest", recipe:recipeName}, function(data, status){//ask the server for the recipe names
+					if(status == "success"){//if server responds ok
+						if(data.resp == "success"){//if the recipes are successfully recieved
+							console.log(data);
+							if(errorWarningHandler(data, "#errors", "#warnings", "#messages")){//if recipe can be started
+								startRecipe(recipeName);
+								//window.location.replace("http://beaglebrewing.servebeer.com:8587/control.php?start=true");
+							}
+						}
+					}
+				},"json");
+            }
+            
+            function startRecipe(recipeName){
+            	console.log("Recipe name from startRecipe: " + recipeName);
+            	$.post("/startrecipe", {command:"startRecipe", recipe:recipeName}, function(data, status){
+            		if(status == "success"){//if server responds ok
+            			console.log(data);
+            			if(data.resp == "success"){//if the recipes are successfully recieved
+            				
+            			}
+            		}
+            	},"json");
+            }
+            
+            function getAvailableRecipes(recipeSelDivId){
+            	$.post("/startrecipe", {command:"getRecipes"}, function(data, status){//ask the server for the recipe names
     				if(status == "success"){//if server responds ok
     					if(data.resp == "success"){//if the recipes are successfully recieved
     					    for (var i = 0; i < data.recipes.length; i++){//create one option for each recipe in the dropdown list
-    					        $("#recipeSel").append("<option value='" + data.recipes[i] + "'>" + data.recipes[i] + "</option>"); 
+    					    	//console.log(data.recipes[i]);
+    					        $(recipeSelDivId).append("<option value='" + data.recipes[i] + "'>" + data.recipes[i] + "</option>"); 
     					    }
-    					    //$("#recipeSel").append("<option value='opt5'>Bla</option>");
     					}
     					else if(data.resp == "error"){
     					    
     					}
-    					console.log(data);
+    					//console.log(data);
     				}
     			},"json");
-    			
-    			$("input[type='button'][value='iniciar']").click(function(){//loads the recipe preview
-    				$("#recipeSel").attr("href","?=Exemplo_Pilsen");
-    				console.log($("#recipeSel").attr("href"));
-    			    recipePreview($("#recipeSel"));//pass its name (through the current element)
-    			});
-            });
+            }
+            
+            function errorWarningHandler(data, errDivId, warnDivId, msgDivId){
+            	if(data.err && data.warn){//if there are errors and warnings to give
+            		$(errDivId).text("Esenciais: " + data.err).show();
+            		$(warnDivId).text("Facultativos: " + data.warn).show();
+            		$(msgDivId).show();
+            		return 0;//don't start the recipe
+            	}
+            	else if(data.err){//if there are only erros
+            		$(errDivId).text("Esenciais: " + data.err).show();
+            		$(msgDivId).show();
+            		return 0;//don't start the recipe
+            	}
+				else if(data.warn){//if there are only warnings
+					$(warnDivId).text("Facultativos: " + data.warn).show();
+					$(msgDivId).text("Alguns itens da receita não foram preenchidos."
+							+"Deseja continuar mesmo assim?").show();
+					if (confirm("Alguns itens da receita não foram preenchidos."
+						+" Deseja realmente iniciar?") == true) {
+						return 1;//start the recipe
+				    }
+				    else{
+				        return 0;//don't start the recipe
+					}
+				}
+				else{//if everything is right, start the recipe
+					return 1;//recipe ready to start
+				}
+            }
 		</script>
 	</head>
 
@@ -49,16 +121,25 @@
         <select id="recipeSel"></select><br><br>
         <input class="leftselect" type="button" value="iniciar"/>
         
-        <div id="preview" style="display:none; width:50%; float:left; background:#595450; border-radius:10px;">
-			<p class="prevhead">Nome da Receita:</p><p class="prev" id="nome_da_receita"></p><br>
-			<p class="prevhead">Estilo:</p><p class="prev" id="estilo"></p><br>
-			<p class="prevhead">Levedura:</p><p class="prev" id="levedura"></p><br>
-			<p class="prevhead">Água de mosturação (ℓ):</p><p class="prev" id="mosto"></p><br>
-			<p class="prevhead">Água de lavagem (ℓ):</p><p class="prev" id="lavagem"></p><br>
-			<p class="prevhead">Tempo de fervura (min):</p><p class="prev" id="fervura"></p><br>
-			<p class="prevhead">Maltes:</p><p class="prev" id="maltes"></p><br>
-			<p class="prevhead">Lúpulos</p><p class="prev" id="lupulos"></p>
+        <div id="preStart">
+	        <p id="messages" style="display:none;">Alguns itens da receita não foram preenchidos. Preencha os
+	        	obrigatórios antes de continuar.</p>
+	        <p id="warnings" style="display:none;"></p>
+	        <p id="errors" style="display:none;"></p>
+	        
+	        <div id="preview" style="display:none; width:50%; float:left; background:#595450; border-radius:10px;">
+				<p class="prevhead">Nome da Receita:</p><p class="prev" id="nome_da_receita"></p><br>
+				<p class="prevhead">Estilo:</p><p class="prev" id="estilo"></p><br>
+				<p class="prevhead">Levedura:</p><p class="prev" id="levedura"></p><br>
+				<p class="prevhead">Água de mosturação (ℓ):</p><p class="prev" id="mosto"></p><br>
+				<p class="prevhead">Água de lavagem (ℓ):</p><p class="prev" id="lavagem"></p><br>
+				<p class="prevhead">Tempo de fervura (min):</p><p class="prev" id="fervura"></p><br>
+				<p class="prevhead">Maltes:</p><p class="prev" id="maltes"></p><br>
+				<p class="prevhead">Lúpulos</p><p class="prev" id="lupulos"></p>
+			</div>
 		</div>
+        
+        <a id="previewData" style="display:none;"></a>
         
         <h2>Controle do sistema</h2>
         <p>Em breve a tela de controle será ajustada para acompanhamento e ajustes da brassagem:</p>
