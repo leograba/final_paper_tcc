@@ -8,6 +8,7 @@ var debug = require('debug')('controle');
 var pru = require("node-pru-extended");
 var fs = require("fs");
 var exec = require("child_process").exec;
+var spawn = require("child_process").spawn;
 var phpExpress = require('php-express')({  // assumes php is in your PATH
 // must specify options hash even if no options provided!
   binPath: 'php'
@@ -22,7 +23,13 @@ var environmentVariables = {
 	okToStart: false, //true if a recipe is ok enough to start a production
 	auto: true, //whether the process is running automatically or there is human intervention
 	code: "",//tells the same as msg, but as an index, easier to check programatically
+	tmpMT: "",//mash tun temperature
+	tmpMTsetp: "",//mash tun current setpoint
+	tmpBK: "",//brewing kettle temperature, also the "hot liquor tank" for sparging
+	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
+	ioStatus: all_io,//also records the IO status
 };
+var temperatureLogHandler ;//variable to handle the python "log.py" script
 /*
 //Trying to access and/or use the PRU
 console.log(pru);
@@ -92,11 +99,31 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 		recipeName = req.body.recipe + ".recipe";//recipe name sent from the client
 		if(environmentVariables.okToStart){//first check is if the recipe is ok to start
 			if(recipeName == environmentVariables.recipe){//recipe name should match also
-				logToFile("production starting", 1);//log to file
-			// - after really starting, periodically logs to the backup file
-			// - here the control code should be written, concurrently to the log
-				serverResponse.resp = "success";
-				res.send(serverResponse);
+				fs.writeFile(lockFile, 1, function(err){//write to lockfile telling there is a recipe in progress
+					if(err){
+						serverResponse.resp = "could not write to lockfile";
+						res.send(serverResponse);
+					}
+					else{
+						logToFile("production starting", 1);//log to file
+						fs.readFile(recipesPath + "/" + environmentVariables.recipe, function(err, data){
+							if(err){//if file contents could not be retrieved
+								serverResponse.resp = "couldn't read recipe file";//tells the client
+								res.send(serverResponse);
+							}
+							else{///if file was successfully read
+								startTemperatureLogging();
+								recipeContents = data.toString("UTF8").split("\n");//split contents to array
+								for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
+									recipeContents[i] = recipeContents[i].split('"')[1];
+								}
+								serverResponse.resp = "success";//tells the client everything went alright
+								res.send(serverResponse);
+								heatMashWater(recipeContents[7], recipeContents[5]);//start to heat the mash water
+							}
+						});
+					}
+				});
 			}
 			else{//if recipe name doesn't match the one from "startRequest"
 				serverResponse.resp = "failed";
@@ -176,6 +203,96 @@ app.route('/config')//used to unite all the requst types for the same route
 		});
 	}
 });
+
+function startTemperatureLogging(){
+	//starts the python script that logs temperature to file
+	//sudo kill $(ps aux | grep log.py | grep -v grep | awk '{print $2}') //to stop the process from terminal
+	temperatureLogHandler = spawn("python", ["/home/debian/brewing/log.py"]);//starts to log
+	debug("Temperature logging started!");
+	temperatureLogHandler.on('close', function(code, signal){
+		debug("Temperature logging stopped!");
+	});
+	//temperatureLogHandler.kill('SIGHUP');//kill the process and stop logging
+}
+
+function heatMashWater(mashSetpoint, spargeSetpoint){
+	//heats the mashing water to the starting setpoint
+	var heatingPower = 2;
+	var instantPath = "./datalog/instant.csv";
+	var errorCount = 0;//counts the file reading errors
+	var lastReadingsTimestamp = [0, 0, 0, 0, 0];//last 5 timestamps, to check if readings are going ok
+	var reachedSetpoint = false;//var set to true the first time the checkpoint is reached
+	environmentVariables.tmpMTsetp = mashSetpoint;//stores the setpoints
+	environmentVariables.tmpBKsetp = spargeSetpoint;
+	changeStatusIO("mash_pump", "true");//turn the recirculation pump on
+	
+	var logTimer = setInterval(function(){//logs the heating process every ~5s
+		logToFile("heating mash water", 2);//log to file
+	}, 5000);
+	var readTmpTimer = setInterval(function(){//read temperature every second
+		fs.readFile(instantPath, "utf-8" ,function(err, data){//gets the most recent temperature reading
+			var parsedData = data.trim().split('\n').slice(-1)[0].split(',');
+			if(err){//could not read temperature
+				errorCount++;//increment the errorCount variable
+				if(errorCount >= 180){//180 arbitrarily chosen - it is 5% of 1 hour logging readings
+					//oh my god thigs are bad here! User, you must take over from here
+				}
+			}
+			else{//if temperature reading from file was successful
+				lastReadingsTimestamp[4] = parsedData[1];//updates last temperature reading timestamp
+				for(var i = 0; i < 4; i++){//updates the older timestamps also
+					lastReadingsTimestamp[i] = lastReadingsTimestamp[i+1];
+				}
+				if(lastReadingsTimestamp[0] >= lastReadingsTimestamp[4]){//if the reading is the same within 4s
+					//hey user check this, because something may be going awry!
+				}
+				else{//then we can act in order to get to the temperature setpoint
+					environmentVariables.tmpMT = parsedData[0];//update the mash tun temperature
+					if(parsedData[0] < 0.7*mashSetpoint){//if temperature is less then 0.7 of the setpoint
+						changeStatusIO("mash_heat", "true");//give 100% power to the heating resistor
+					}
+					else if(parsedData[0] < 0.9*mashSetpoint){//if temperature between 0.7 and 0.9 of the setpoint 
+						if(heatingPower == 0){//give 66% power to the heating resistor
+							changeStatusIO("mash_heat", "false");// 1/3 of the time off
+							heatingPower = 2;// heatingPower goes from 0 to 2
+						}
+						else{
+							changeStatusIO("mash_heat", "true");// 2/3 of the time on
+							heatingPower--;
+							
+						}
+					}
+					else if(parsedData[0] < mashSetpoint){//if temperature between 0.9 and 1.0 of the setpoint 
+						if(heatingPower == 0){//give 33% power to the heating resistor
+							changeStatusIO("mash_heat", "true");// 1/3 of the time on
+							heatingPower = 2;// heatingPower goes from 0 to 2
+						}
+						else{
+							changeStatusIO("mash_heat", "false");// 2/3 of the time off
+							heatingPower--;
+							
+						}
+					}
+					else{//in this case, the temperature got to the setpoint
+						//should everything be turned off or should it try to keep the temperature?
+						if(!reachedSetpoint){//if it is the first time the setpoint is reached
+							reachedSetpoint = true;
+							//send message to the user and wait for him to add the grains
+						}
+						//just do the next things after the user added the grains
+						changeStatusIO("mash_pump", "false");//turn the recirculation pump off
+						changeStatusIO("mash_heat", "false");//turn the heating element off
+						clearInterval(logTimer);//stop the logging
+						clearInterval(readTmpTimer);//stop the temperature adjusting loop
+						debug("    Heating of the mash water finished");
+						//return happily ever after
+						//tell the user he must add the grains to the water
+					}
+				}
+			}
+		});
+	},1000);
+}
 
 function checkRecipeIntegrity(recipe, path, res){
 	var serverResponse = {resp: "success", warn: "", err: ""};//tells the client if everything is ok
@@ -278,6 +395,7 @@ function logToFile(message, code){
 	environmentVariables.msg = message;//explanatory message to be logged
 	environmentVariables.code = code;//code referring to the message
 	environmentVariables.logTimestamp = d.getTime();//logs the request to start recipe timestamp
+	environmentVariables.ioStatus = all_io;//all of the pins status
 	dataToSave = JSON.stringify(environmentVariables) + "\n";
 	debug(dataToSave);
 	if(code == 0){//if it is the first line to be logged, overwrite log file

@@ -34,7 +34,7 @@ def tprint_all_terminal(tcelsius):
         print "%.2f K" % (tcelsius+273.15)#kelvin
         print "%.2f" % (tcelsius*1.8+32+459.67), u"\u00B0R"#rankine
 
-def tlog(file = "/var/www/default.csv"):
+def tlog(file = "/var/www/datalog/default.csv"):
 	"""salva temperatura e Unix Time em .csv """
 	#arquivo padrão CSV com cabecalho
 
@@ -45,7 +45,8 @@ def tlog(file = "/var/www/default.csv"):
 
 
 	#os comandos acima foram ignorados para poder usar o nohup (que nao recebe input)
-	tsample = 1#amostra a cada x segundos
+	#tsample = 0.2202 #amostra a cada x segundos
+	tsample = 1 #valor de amostragem para teste
 	#amostras = 5000#numero de amostras a serem coletadas
 	buff_temp = tread()#guarda o último valor lido
 	exist = os.path.isfile(file)
@@ -55,10 +56,12 @@ def tlog(file = "/var/www/default.csv"):
 	#o arg. 1 indica que o buffer antes de escrever no arquivo eh 1 linha
 		if exist is False:#se vai criar o arquivo agora
 			log.write("temperatura,data\n")
+		temp_celsius = 20.00
 		while True: #loop infinito
 		#while amostras > 0:#coleta o numero de amostras
 			#amostras = amostras - 1#decrementa variavel de controle
-			temp_celsius = tread()
+			#temp_celsius = tread()
+			temp_celsius += 0.2 #usando valores incrementais para teste
 			epoch = time.time()#lê a data/hora do sistema
 			#nowis = time.ctime(epoch)#converte para string
 			if temp_celsius >= 0:#evita leitura errada
@@ -71,7 +74,7 @@ def tlog(file = "/var/www/default.csv"):
 				print "registrando temperatura!",temp_celsius
 
 
-def tlog_instant(temperature, epoch, file = "/var/www/instant.csv"):
+def tlog_instant(temperature, epoch, file = "/var/www/datalog/instant.csv"):
 	"""salva última temperatura e Unix Time em arquivo .csv"""
 	with open(file, 'w', 1) as log:#sobrescreve o arquivo toda vez
 		#temperature = tread()#lê a temperatura
