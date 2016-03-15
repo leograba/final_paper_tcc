@@ -11,6 +11,7 @@
 			$(function(){//when document is fully loaded
 				gambiarraHeaderPHP("./lib/header.php");//add the header
 				refreshSystemStatus();//get the status fo the GPIO, PWM, etc
+				var refreshHandler = setInterval(refreshSystemStatus, 2500);//and then do it periodically
 				
 				$(".btn").click(function valveToggle(){//whenever button is clicked
 					//Post the button ID and VALUE
@@ -38,27 +39,58 @@
 				$.post("/controle", {command:"getStatus"}, function(data, status){//ask for the server status
 					var degreeAngle;//var to temporarily store the servo_motor angle in degree
 					if(status == "success"){//if server responds ok
-						console.log(data);
-						for(var obj in data){//iterate though all object keys
-							if(data[obj] == 1 && obj != "servo_pwm"){//if it is set and isn't the pwm
+						for(var obj in data.ioStatus){//iterate though all object keys
+							if(data.ioStatus[obj].state == 1 && obj != "servo_pwm"){//if it is set and isn't the pwm
 								$("#" + obj).prop("checked", true);//check the corresponding checkbox
 							}
+							else if(data.ioStatus[obj].state == 0 && obj != "servo_pwm"){//if it is clear and isn't the pwm)
+								$("#" + obj).prop("checked", false);//check the corresponding checkbox
+							}
 							else if(obj == "servo_pwm"){//if it is the pwm
-								degreeAngle = Math.round((data[obj].duty - 0.0325)*180/0.0775);//calculate the pwm angle from duty to degree
+								degreeAngle = Math.round((data.ioStatus[obj].state.duty - 0.0325)*180/0.0775);//calculate the pwm angle from duty to degree
 								$("#" + obj).val(degreeAngle);//set the slider position by setting its value
 								$(".slider-value").html(degreeAngle + "°");//refresh the indicator value
 								$("#pwm_slider").show();//then show the div correctly set
 							}
 						}
 					}
+					updateStatusMessage(data);
 				},"json");
+			}
+			
+			function updateStatusMessage(data){
+				if(data.code){//if something is going on
+					switch(data.code){
+						case 2://mash water being heated
+							$("#current_status").text("Esquentando água da brassagem: ");
+							$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + data.tmpMTsetp + "°C");
+							break;
+						case 3://waiting for the user to add the grains
+							$("#current_status").text("Adicione os maltes antes de prosseguir!");
+							$("#current_status_helper").text("");
+							break;
+					}
+					$("h2").show();//show some information/status message
+				}
+				else{//if nothing is going on
+					$("#current_status").text("Sistema parado.");//display idle message
+					$("#current_status_helper").text("");//display idle message
+				}
 			}
 		</script>
 	</head>
 
 	<body style="display:none;">
-		<h1>Controle do Sistema</h1>
+		<!--<h1>Controle do Sistema</h1>-->
+		<h2 style="display:inline-block;" id="current_status"></h2>
+		<h2 style="display:inline-block;" id="current_status_helper"></h2>
 		<form>
+			<div class="slideThree">	
+				<input type="checkbox" value="None" id="auto" name="check" />
+				<label for="auto"></label>
+				<span>AUTO</span>
+			</div>
+			<hr>
     	    <div class="slideThree">	
 				<input type="checkbox" class="btn" value="None" id="led" name="check" />
 				<label for="led"></label>

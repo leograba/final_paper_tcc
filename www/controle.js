@@ -71,8 +71,10 @@ app.route('/controle')//used to unite all the requst types for the same route
 		res.send(serverResponse);//echo the recieved data to the server
 	}
 	else if(command == "getStatus"){
-		//debug(getStatusIO());
-		res.send(getStatusIO());
+		//debug(getSystemStatus());
+		//res.send(getSystemStatus());
+		environmentVariables.ioStatus = all_io;//all of the pins status
+		res.send(environmentVariables);
 	}
 });
 
@@ -207,20 +209,28 @@ app.route('/config')//used to unite all the requst types for the same route
 function startTemperatureLogging(){
 	//starts the python script that logs temperature to file
 	//sudo kill $(ps aux | grep log.py | grep -v grep | awk '{print $2}') //to stop the process from terminal
-	temperatureLogHandler = spawn("python", ["/home/debian/brewing/log.py"]);//starts to log
-	debug("Temperature logging started!");
-	temperatureLogHandler.on('close', function(code, signal){
-		debug("Temperature logging stopped!");
+	fs.unlink("./datalog/instant.csv", function(err){//try to delete the old last saved value
+		if(err){//this may happen if the old log was already deleted
+			debug("file could not be deleted!");//probably nothing to worry about
+		}
+		//start the logging process anyway
+		temperatureLogHandler = spawn("python", ["/home/debian/brewing/log.py"]);//starts to log
+		debug("Temperature logging started!");
+		temperatureLogHandler.on('close', function(code, signal){
+			debug("Temperature logging stopped!");
+		});
+		//temperatureLogHandler.kill('SIGHUP');//kill the process and stop logging
 	});
-	//temperatureLogHandler.kill('SIGHUP');//kill the process and stop logging
 }
 
 function heatMashWater(mashSetpoint, spargeSetpoint){
 	//heats the mashing water to the starting setpoint
 	var heatingPower = 2;
 	var instantPath = "./datalog/instant.csv";
+	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
 	var errorCount = 0;//counts the file reading errors
 	var lastReadingsTimestamp = [0, 0, 0, 0, 0];//last 5 timestamps, to check if readings are going ok
+	var lastValidTemperature = 0;//the last valid temperature reading (defaults to zero, not the better solution)
 	var reachedSetpoint = false;//var set to true the first time the checkpoint is reached
 	environmentVariables.tmpMTsetp = mashSetpoint;//stores the setpoints
 	environmentVariables.tmpBKsetp = spargeSetpoint;
@@ -231,14 +241,29 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 	}, 5000);
 	var readTmpTimer = setInterval(function(){//read temperature every second
 		fs.readFile(instantPath, "utf-8" ,function(err, data){//gets the most recent temperature reading
-			var parsedData = data.trim().split('\n').slice(-1)[0].split(',');
+		var parsedData ;//variable to hold the relevant data (temperature and its timestamp)
 			if(err){//could not read temperature
 				errorCount++;//increment the errorCount variable
 				if(errorCount >= 180){//180 arbitrarily chosen - it is 5% of 1 hour logging readings
-					//oh my god thigs are bad here! User, you must take over from here
+					//oh my god thigs are bad! User, you must take over from here
+					debug("Too many temperature reading errors, something may be going awry!");
 				}
 			}
 			else{//if temperature reading from file was successful
+				parsedData = data.trim().split('\n').slice(-1)[0].split(',');
+				if((parsedData[0] == "temperature") || (typeof parsedData[0] != "string") || isNaN(+parsedData[0])){//wrong reading beacuse of wrong logging
+					debug("Wrong temperature reading: " + parsedData[0]);
+					parsedData[0] = lastValidTemperature;//then use the last valid temperature reading
+					errorCount++;//increment the errorCount variable
+					if(errorCount >= 180){//180 arbitrarily chosen - it is 5% of 1 hour logging readings
+						//oh my god thigs are bad! User, you must take over from here
+						debug("Too many temperature reading errors, something may be going awry!");
+					}
+				}
+				else{
+					parsedData[0] = +parsedData[0];//string to number
+					lastValidTemperature = +parsedData[0];//save the last valid temperature reading
+				}
 				lastReadingsTimestamp[4] = parsedData[1];//updates last temperature reading timestamp
 				for(var i = 0; i < 4; i++){//updates the older timestamps also
 					lastReadingsTimestamp[i] = lastReadingsTimestamp[i+1];
@@ -248,6 +273,7 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 				}
 				else{//then we can act in order to get to the temperature setpoint
 					environmentVariables.tmpMT = parsedData[0];//update the mash tun temperature
+					debug(typeof parsedData[0]);
 					if(parsedData[0] < 0.7*mashSetpoint){//if temperature is less then 0.7 of the setpoint
 						changeStatusIO("mash_heat", "true");//give 100% power to the heating resistor
 					}
@@ -276,15 +302,29 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 					else{//in this case, the temperature got to the setpoint
 						//should everything be turned off or should it try to keep the temperature?
 						if(!reachedSetpoint){//if it is the first time the setpoint is reached
-							reachedSetpoint = true;
+							reachedSetpoint = true;//holds this information
+							clearInterval(logTimer);//stop the logging
+							logToFile("waiting for grains", 3);//log to file at least once
+							logTimer = setInterval(function(){//logs that system is waiting for user input
+								logToFile("waiting for grains", 3);//log to file
+							}, 5000);
+							temperatureLogHandler.kill('SIGHUP');//kill the process and stop logging (for tests only)
 							//send message to the user and wait for him to add the grains
 						}
 						//just do the next things after the user added the grains
+						clearInterval(logTimer);//stop the logging (just for testing purposes)
+						fs.writeFile(lockFile, 0, function(err){//release the lock for testing purposes
+							if(err){
+								serverResponse.resp = "could not write to lockfile";
+							}
+						});
 						changeStatusIO("mash_pump", "false");//turn the recirculation pump off
 						changeStatusIO("mash_heat", "false");//turn the heating element off
-						clearInterval(logTimer);//stop the logging
-						clearInterval(readTmpTimer);//stop the temperature adjusting loop
-						debug("    Heating of the mash water finished");
+						//clearInterval(readTmpTimer);//stop the temperature adjusting loop
+						//temperatureLogHandler.kill('SIGHUP');//kill the process and stop logging (for tests only)
+						debug(	"    Heating of the mash water finished\n"
+								+ "            Temperature = " + parsedData[0]
+								+ "            Reading errors = " + errorCount);
 						//return happily ever after
 						//tell the user he must add the grains to the water
 					}
@@ -474,7 +514,7 @@ function changeStatusIO(pin, val){
 	}
 }
 
-function getStatusIO(){
+function getSystemStatus(){
 	var all_io_status = {};//object with all the pin pairs key:value
 	for(i = 0; i < all_io_objects.length; i++){//get the pair key:value pin by pin
 		all_io_status[all_io_objects[i]] = all_io[all_io_objects[i]].state;
