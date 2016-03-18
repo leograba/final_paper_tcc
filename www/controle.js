@@ -99,43 +99,7 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	}
 	else if(command == "startRecipe"){//start the recipe; should only be requested after the "startRequest" command
 		recipeName = req.body.recipe + ".recipe";//recipe name sent from the client
-		if(environmentVariables.okToStart){//first check is if the recipe is ok to start
-			if(recipeName == environmentVariables.recipe){//recipe name should match also
-				fs.writeFile(lockFile, 1, function(err){//write to lockfile telling there is a recipe in progress
-					if(err){
-						serverResponse.resp = "could not write to lockfile";
-						res.send(serverResponse);
-					}
-					else{
-						logToFile("production starting", 1);//log to file
-						fs.readFile(recipesPath + "/" + environmentVariables.recipe, function(err, data){
-							if(err){//if file contents could not be retrieved
-								serverResponse.resp = "couldn't read recipe file";//tells the client
-								res.send(serverResponse);
-							}
-							else{///if file was successfully read
-								startTemperatureLogging();
-								recipeContents = data.toString("UTF8").split("\n");//split contents to array
-								for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
-									recipeContents[i] = recipeContents[i].split('"')[1];
-								}
-								serverResponse.resp = "success";//tells the client everything went alright
-								res.send(serverResponse);
-								heatMashWater(recipeContents[7], recipeContents[5]);//start to heat the mash water
-							}
-						});
-					}
-				});
-			}
-			else{//if recipe name doesn't match the one from "startRequest"
-				serverResponse.resp = "failed";
-				res.send(serverResponse);
-			}
-		}
-		else{//if recipe isn't ok to start
-			serverResponse.resp = "failed";
-			res.send(serverResponse);
-		}
+		startMashingProcess(recipeName, res, lockFile, recipesPath);//start the production
 	}
 	else if(command == "inProgress"){//checks if there is a recipe running
 		fs.readFile(lockFile, function(err, data){
@@ -205,6 +169,50 @@ app.route('/config')//used to unite all the requst types for the same route
 		});
 	}
 });
+
+function startMashingProcess(recipe, res, lockFile, recipesPath){
+	/*Starts the mashing process, checking if everything is in order, starting
+	the temperature logging and the heating of the mash water*/
+	var serverResponse = {resp:"success"};
+	var recipeContents ;
+	if(environmentVariables.okToStart){//first check is if the recipe is ok to start
+		if(recipe == environmentVariables.recipe){//recipe name should match also
+			fs.writeFile(lockFile, 1, function(err){//write to lockfile telling there is a recipe in progress
+				if(err){
+					serverResponse.resp = "could not write to lockfile";
+					res.send(serverResponse);
+				}
+				else{
+					logToFile("production starting", 1);//log to file
+					fs.readFile(recipesPath + "/" + environmentVariables.recipe, function(err, data){
+						if(err){//if file contents could not be retrieved
+							serverResponse.resp = "couldn't read recipe file";//tells the client
+							res.send(serverResponse);
+						}
+						else{///if file was successfully read
+							startTemperatureLogging();
+							recipeContents = data.toString("UTF8").split("\n");//split contents to array
+							for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
+								recipeContents[i] = recipeContents[i].split('"')[1];
+							}
+							serverResponse.resp = "success";//tells the client everything went alright
+							res.send(serverResponse);
+							heatMashWater(recipeContents[7], recipeContents[5]);//start to heat the mash water
+						}
+					});
+				}
+			});
+		}
+		else{//if recipe name doesn't match the one from "startRequest"
+			serverResponse.resp = "failed";
+			res.send(serverResponse);
+		}
+	}
+	else{//if recipe isn't ok to start
+		serverResponse.resp = "failed";
+		res.send(serverResponse);
+	}
+}
 
 function startTemperatureLogging(){
 	//starts the python script that logs temperature to file
@@ -338,92 +346,104 @@ function checkRecipeIntegrity(recipe, path, res){
 	var serverResponse = {resp: "success", warn: "", err: ""};//tells the client if everything is ok
 	var recipeContents ;
 	environmentVariables.recipe = recipe;//save the recipe name
-	fs.readFile(path + "/" + recipe, function(err, data){
+	fs.readFile(path + "/" + recipe, function(err, recipeFileContents){
 		var okToStartFlag = 1;
 		if(err){//if file contents could not be retrieved
 			serverResponse.resp = "couldntReadFile";//tells the client
 			res.send(serverResponse);
 		}
 		else{///if file was successfully read
-			recipeContents = data.toString("UTF8").split("\n");//split contents to array
-			for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
-				recipeContents[i] = recipeContents[i].split('"')[1];
-				if(!recipeContents[i]){//if some recipe line is blank
-					switch(i){//and this line is important, then:
-						case 0://recipe name not set (warning)
-							serverResponse.warn += "nome da receita; ";
-							break;
-						case 1://beer style not set (warning)
-							serverResponse.warn += "estilo; ";
-							break;
-						case 2://beer yeast not set (warning)
-							serverResponse.warn += "levedura; ";
-							break;
-						case 3://mash water not set (error)
-							serverResponse.err += "água de brassagem; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 4://sparging water not set (warning)
-							serverResponse.warn += "água de sparging; ";
-							break;
-						case 5://sparging water temperature not set (warning)
-							serverResponse.warn += "temperatura de sparging; ";
-							break;
-						case 6://boiling time not set (error)
-							serverResponse.err += "tempo da fervura; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 7://mash initial temperature not set (error)
-							serverResponse.err += "temperatura inicial de brassagem; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 8://mash first step not set (error)
-							serverResponse.err += "primeiro degrau de temperatura; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 9://mash first step time not set (error)
-							serverResponse.err += "tempo do primeiro degrau; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 24://malt 1 not set (error)
-							serverResponse.err += "malte 1; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 25://malt 1 quantity not set (error)
-							serverResponse.err += "quantidade do malte 1; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 40://hop 1 not set (error)
-							serverResponse.err += "lúpulo 1; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 41://hop 1 quantity not set (error)
-							serverResponse.err += "quantidade do lúpulo 1; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-						case 42://hop 1 adding time not set (error)
-							serverResponse.err += "tempo de adição do lúpulo 1; ";
-							environmentVariables.okToStart = false;
-							okToStartFlag = 0;
-							break;
-					}
+			fs.readFile("./datalog/lockfile", function(err, lockFileContents){
+				if(err){//if lockfile could not be read for some reason
+					serverResponse.resp = err;
+					//res.send(serverResponse);
+					okToStartFlag = 0;//unable to start the recipe
+					debug("couldn't read lockfile, unable to start recipe.");
+					return;
 				}
-			}
-			if(okToStartFlag){//if recipe can be started
-				environmentVariables.okToStart = true;//add this info to the global variables
-			}
-			logToFile("request to start production", 0);
-			res.send(serverResponse);//answer to the client
-			//debug(serverResponse);
+				if(+lockFileContents == 0){//if there is no recipe in progress
+					debug("ready to rock!");
+					recipeContents = recipeFileContents.toString("UTF8").split("\n");//split contents to array
+					for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
+						recipeContents[i] = recipeContents[i].split('"')[1];
+						if(!recipeContents[i]){//if some recipe line is blank
+							switch(i){//and this line is important, then:
+								case 0://recipe name not set (warning)
+									serverResponse.warn += "nome da receita; ";
+									break;
+								case 1://beer style not set (warning)
+									serverResponse.warn += "estilo; ";
+									break;
+								case 2://beer yeast not set (warning)
+									serverResponse.warn += "levedura; ";
+									break;
+								case 3://mash water not set (error)
+									serverResponse.err += "água de brassagem; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 4://sparging water not set (warning)
+									serverResponse.warn += "água de sparging; ";
+									break;
+								case 5://sparging water temperature not set (warning)
+									serverResponse.warn += "temperatura de sparging; ";
+									break;
+								case 6://boiling time not set (error)
+									serverResponse.err += "tempo da fervura; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 7://mash initial temperature not set (error)
+									serverResponse.err += "temperatura inicial de brassagem; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 8://mash first step not set (error)
+									serverResponse.err += "primeiro degrau de temperatura; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 9://mash first step time not set (error)
+									serverResponse.err += "tempo do primeiro degrau; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 24://malt 1 not set (error)
+									serverResponse.err += "malte 1; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 25://malt 1 quantity not set (error)
+									serverResponse.err += "quantidade do malte 1; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 40://hop 1 not set (error)
+									serverResponse.err += "lúpulo 1; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 41://hop 1 quantity not set (error)
+									serverResponse.err += "quantidade do lúpulo 1; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+								case 42://hop 1 adding time not set (error)
+									serverResponse.err += "tempo de adição do lúpulo 1; ";
+									environmentVariables.okToStart = false;
+									okToStartFlag = 0;
+									break;
+							}
+						}
+					}
+					if(okToStartFlag){//if recipe can be started
+						environmentVariables.okToStart = true;//add this info to the global variables
+					}
+					logToFile("request to start production", 0);
+					res.send(serverResponse);//answer to the client
+					debug(serverResponse);
+				}
+			});
 		}
 	});
 }
