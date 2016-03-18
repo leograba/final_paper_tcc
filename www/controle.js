@@ -18,16 +18,18 @@ var phpExpress = require('php-express')({  // assumes php is in your PATH
 //Global variables that should also be saved to a backup file periodically
 var environmentVariables = {
 	msg: "",//holds some explanatory message
+	warn: "",//if not empty holds some warning message
 	logTimestamp: "", //holds the epoch time of the current variables state
 	recipe: "", //recipe name
 	okToStart: false, //true if a recipe is ok enough to start a production
 	auto: true, //whether the process is running automatically or there is human intervention
+	processFail: false,//flag is set if the process fails irreversibly
 	code: "",//tells the same as msg, but as an index, easier to check programatically
 	tmpMT: "",//mash tun temperature
 	tmpMTsetp: "",//mash tun current setpoint
 	tmpBK: "",//brewing kettle temperature, also the "hot liquor tank" for sparging
 	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
-	ioStatus: all_io,//also records the IO status
+	ioStatus: all_io//also records the IO status
 };
 var temperatureLogHandler ;//variable to handle the python "log.py" script
 /*
@@ -96,7 +98,13 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	}
 	else if(command == "startRecipe"){//start the recipe; should only be requested after the "startRequest" command
 		recipeName = req.body.recipe + ".recipe";//recipe name sent from the client
-		startMashingProcess(recipeName, res, lockFile, recipesPath);//start the production
+		startMashingProcess(recipeName, res, lockFile, recipesPath, function(err, nextStep){
+			if(err){
+				debug("Ops, something wrong. It's so annoying that the error isn't explained here, isn't it?");
+				return;
+			}
+			debug(nextStep);//here the next step, i.e. controlling the mash steps, should be called
+		});//start the production
 	}
 	else if(command == "inProgress"){//checks if there is a recipe running
 		fs.readFile(lockFile, function(err, data){
@@ -167,9 +175,10 @@ app.route('/config')//used to unite all the requst types for the same route
 	}
 });
 
-function startMashingProcess(recipe, res, lockFile, recipesPath){
+function startMashingProcess(recipe, res, lockFile, recipesPath, callback){
 	/*Starts the mashing process, checking if everything is in order, starting
-	the temperature logging and the heating of the mash water*/
+	the temperature logging and the heating of the mash water.
+	The callback function is passed as callback to the heatMashWater function*/
 	var serverResponse = {resp:"success"};
 	var recipeContents ;
 	if(environmentVariables.okToStart){//first check is if the recipe is ok to start
@@ -195,6 +204,7 @@ function startMashingProcess(recipe, res, lockFile, recipesPath){
 							serverResponse.resp = "success";//tells the client everything went alright
 							res.send(serverResponse);
 							heatMashWater(recipeContents[7], recipeContents[5]);//start to heat the mash water
+							callback("fuckme!","Run, baby, run!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 						}
 					});
 				}
@@ -230,6 +240,7 @@ function startTemperatureLogging(){
 
 function heatMashWater(mashSetpoint, spargeSetpoint){
 	//heats the mashing water to the starting setpoint
+	var retStatus = false;//false means fail, true means success
 	var heatingPower = 2;
 	var instantPath = "./datalog/instant.csv";
 	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
@@ -251,6 +262,7 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 				errorCount++;//increment the errorCount variable
 				if(errorCount >= 180){//180 arbitrarily chosen - it is 5% of 1 hour logging readings
 					//oh my god thigs are bad! User, you must take over from here
+					retStatus = false;//return error
 					debug("Too many temperature reading errors, something may be going awry!");
 				}
 			}
@@ -262,6 +274,7 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 					errorCount++;//increment the errorCount variable
 					if(errorCount >= 180){//180 arbitrarily chosen - it is 5% of 1 hour logging readings
 						//oh my god thigs are bad! User, you must take over from here
+						retStatus = false;//return error
 						debug("Too many temperature reading errors, something may be going awry!");
 					}
 				}
@@ -274,6 +287,13 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 					lastReadingsTimestamp[i] = lastReadingsTimestamp[i+1];
 				}
 				if(lastReadingsTimestamp[0] >= lastReadingsTimestamp[4]){//if the reading is the same within 4s
+					debug("Log not updating, check temperature probe connection!");
+					errorCount++;//increment the errorCount variable
+					if(errorCount >= 180){//180 arbitrarily chosen - it is 5% of 1 hour logging readings
+						//oh my god thigs are bad! User, you must take over from here
+						retStatus = false;//return error
+						debug("Too many temperature reading errors, something may be going awry!");
+					}
 					//hey user check this, because something may be going awry!
 				}
 				else{//then we can act in order to get to the temperature setpoint
@@ -317,10 +337,10 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 							//send message to the user and wait for him to add the grains
 						}
 						//just do the next things after the user added the grains
-						clearInterval(logTimer);//stop the logging (just for testing purposes)
-						fs.writeFile(lockFile, 0, function(err){//release the lock for testing purposes
+						clearInterval(logTimer);//stop the "waiting for grains" logging (just for testing purposes)
+						fs.writeFile(lockFile, 0, function(err){//release the lock (just for testing purposes)
 							if(err){
-								serverResponse.resp = "could not write to lockfile";
+								//serverResponse.resp = "could not write to lockfile";
 							}
 						});
 						changeStatusIO("mash_pump", "false");//turn the recirculation pump off
@@ -330,13 +350,16 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 						debug(	"    Heating of the mash water finished\n"
 								+ "            Temperature = " + parsedData[0]
 								+ "            Reading errors = " + errorCount);
-						//return happily ever after
 						//tell the user he must add the grains to the water
+						//return happily ever after
+						clearInterval(readTmpTimer);//do it only after user acknowlegde about adding the grains (return anyway for testing purposes)
+						retStatus = true;//do it only after user acknowlegde about adding the grains (return anyway for testing purposes)
 					}
 				}
 			}
 		});
 	},1000);
+	return retStatus;
 }
 
 function checkRecipeIntegrity(recipe, path, res){
@@ -596,75 +619,56 @@ debug(ioStatus.total + " pins being used: ", all_io_pins.toString());
 
 // Pin configuration
 debug("Configuring pins...");
-for (var i = 0; i < all_io_objects.length; i++){//set all pins as outputs
-	(function (pinIndex){//need to create a scope for the current pin variable, because it is asynchronous
-		//debug("pin passed is " + this + "; pin index passed is " + pinIndex);//"this" is the first parameter passed -> the current pin
-		b.pinMode(this, all_io[all_io_objects[pinIndex]].cfg, function(err, pin){//configure and callback function
-			if(err)//if by the end of executing pinMode function, there is an error
-				console.error(err.message);//then the error is printed
-			else{//initial state, everyone LOW because HIGH state means ON
-				if(all_io[all_io_objects[pinIndex]].cfg == b.OUTPUT){//if pin is configured as digital output
-					debug('    pin ' + pin + ' ready[OUTPUT], ' + (ioStatus.cfgok+1) + "/" + ioStatus.total + "pins configured");
-					b.digitalWriteSync(pin, all_io[all_io_objects[pinIndex]].state);//state is LOW because of initial values
-					//ioStatus.cfgok++;
-					ioStatus.newGpio();//indicates one more pin is configured as gpio
-					if(ioStatus.cfgok == ioStatus.total){//if all pins are already configured
-						//interval = setInterval(function(){ioTest()}, 5000);//then start the blinking test very slow
-						debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
-							ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");
+pinsConfiguration();
+
+function pinsConfiguration(){
+	for (var i = 0; i < all_io_objects.length; i++){//set all pins as outputs
+		(function (pinIndex){//need to create a scope for the current pin variable, because it is asynchronous
+			//debug("pin passed is " + this + "; pin index passed is " + pinIndex);//"this" is the first parameter passed -> the current pin
+			b.pinMode(this, all_io[all_io_objects[pinIndex]].cfg, function(err, pin){//configure and callback function
+				if(err)//if by the end of executing pinMode function, there is an error
+					console.error(err.message);//then the error is printed
+				else{//initial state, everyone LOW because HIGH state means ON
+					if(all_io[all_io_objects[pinIndex]].cfg == b.OUTPUT){//if pin is configured as digital output
+						debug('    pin ' + pin + ' ready[OUTPUT], ' + (ioStatus.cfgok+1) + "/" + ioStatus.total + "pins configured");
+						b.digitalWriteSync(pin, all_io[all_io_objects[pinIndex]].state);//state is LOW because of initial values
+						//ioStatus.cfgok++;
+						ioStatus.newGpio();//indicates one more pin is configured as gpio
+						if(ioStatus.cfgok == ioStatus.total){//if all pins are already configured
+							//interval = setInterval(function(){ioTest()}, 5000);//then start the blinking test very slow
+							debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
+								ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");
+						}
+					}
+					else if(all_io[all_io_objects[pinIndex]].cfg == b.ANALOG_OUTPUT){//if pin is configured as PWM
+						debug('    pin ' + pin + ' ready[PWM], ' + (ioStatus.cfgok+1) + "/" + ioStatus.total + "pins configured");
+						b.analogWrite(servo_pwm.id,servo_pwm.state.duty,servo_pwm.state.freq, function(err_wr){//try to configure
+							if(err_wr){//if error
+								debug(err_wr);
+							}
+							else{//if ok
+								ioStatus.newPwm();//indicates one more pin is configured as PWM
+								if(ioStatus.cfgok == ioStatus.total){//if all pins are already configured
+									//interval = setInterval(function(){ioTest()}, 5000);//then start the blinking test very slow
+									debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
+										ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");
+								}
+								/*debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
+										ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");*/
+							}
+						});
 					}
 				}
-				else if(all_io[all_io_objects[pinIndex]].cfg == b.ANALOG_OUTPUT){//if pin is configured as PWM
-					debug('    pin ' + pin + ' ready[PWM], ' + (ioStatus.cfgok+1) + "/" + ioStatus.total + "pins configured");
-					b.analogWrite(servo_pwm.id,servo_pwm.state.duty,servo_pwm.state.freq, function(err_wr){//try to configure
-						if(err_wr){//if error
-							debug(err_wr);
-						}
-						else{//if ok
-							ioStatus.newPwm();//indicates one more pin is configured as PWM
-							if(ioStatus.cfgok == ioStatus.total){//if all pins are already configured
-								//interval = setInterval(function(){ioTest()}, 5000);//then start the blinking test very slow
-								debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
-									ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");
-							}
-							/*debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
-									ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");*/
-						}
-					});
-				}
-			}
-				
-		});//everyone is output
-	//get all the object keys as vector and use it to access all the object keys
-	}).call(all_io[all_io_objects[i]].id,i);//passes pin as "this" and index as pinIndex
+					
+			});//everyone is output
+		//get all the object keys as vector and use it to access all the object keys
+		}).call(all_io[all_io_objects[i]].id,i);//passes pin as "this" and index as pinIndex
+	}
 }
-	
-//control variables
-//var 
-
-//Brewing control
-/*var temp_wort, temp_sparge, time_window;//variables to control temperatures and time window
-turnOnPID(temp_wort, temp_sparge, time_window);//pass the variables to the PID and turn it ON
-if(pru.getSharedRAM() == "done"){//if the heating of the mash water is done
-	mashControl();
-}
-
-function mashControl(){//function that controls the mash process 
-	//add the malts to the water
-	turnOnPID(temp_wort, temp_sparge, time_window);//turn on the temperature control
-	mash_pump.state = b.HIGH;//mash pump status is updated
-	b.digitalWriteSync(mash_pump.id, mash_pump.state);//turn the mash pump ON
-	pru.getSharedRAM();//get the current temperature to display to client
-	
-}*/
-
-//test to see if the ports work
-var interval;
-//var mySetInterval = setInterval(ioTest, process.argv[2]);
-debug("Switching time: " + interval);
-//setInterval(ioTest, interval);//period = interval*IOpins = 500ms*9 = 4.5s
 
 function ioTest(){
+	/*This function do some blinking thing, it should be called inside setInterval(),like:
+	setInterval(ioTest, interval);//period = interval*IOpins = 500ms*9 = 4.5s*/
 	var on_count = 0;//number of io turned b.HIGH
 	var last_on; //number of last io b.HIGH
 	
