@@ -86,10 +86,7 @@ app.route('/startrecipe')//used to unite all the requst types for the same route
 	var recipesPath = "./recipes";//path to the recipes directory
 	var bkpFile = "./datalog/backup.log";//path to the backup logs file 
 	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
-	var recipeContents ;
-	var dataToSave ;
 	var recipeName ;
-	var d = new Date();
 	if(command == "getRecipes"){//if command passed by client is to get the recipe names
 		sendRecipeNames(recipesPath, res);//get it and return to the client
 	}
