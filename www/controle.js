@@ -13,7 +13,9 @@ var phpExpress = require('php-express')({  // assumes php is in your PATH
 // must specify options hash even if no options provided!
   binPath: 'php'
 });
-//var unserialize=require("php-serialization").unserialize; //to unserialize the recipes
+
+//Load modules written for this application
+var gpioCfg = require('./my_node_modules/gpio_cfg.js');
 
 //Global variables that should also be saved to a backup file periodically
 var environmentVariables = {
@@ -29,7 +31,7 @@ var environmentVariables = {
 	tmpMTsetp: "",//mash tun current setpoint
 	tmpBK: "",//brewing kettle temperature, also the "hot liquor tank" for sparging
 	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
-	ioStatus: all_io//also records the IO status
+	ioStatus: gpioCfg.all_io//also records the IO status
 };
 var temperatureLogHandler ;//variable to handle the python "log.py" script
 /*
@@ -41,6 +43,11 @@ pru.execute(0,"/var/www/myPRUcodes/pisca_text.bin",0);
 //console.log(pru.getSharedRAM());
 pru.exit(0);//force the PRU code to terminate
 */
+
+// Pin configuration
+debug(gpioCfg.ioStatus.total + " pins being used: ", gpioCfg.all_io_pins.toString());
+debug("Configuring pins...");
+gpioCfg.pinsConfiguration();
 
 //Using Express to create a server
 app.use(bodyParser.urlencoded({//to support URL-encoded bodies, MUST come before routing
@@ -69,13 +76,13 @@ app.route('/controle')//used to unite all the requst types for the same route
 	var command = req.body.command, pin = req.body.btn, val = req.body.val;
 	
 	if(command == "pinSwitch"){//if command passed by client is to switch a pin configuration
-		changeStatusIO(pin, val);//change the IO status according to the data recieved
+		gpioCfg.changeStatusIO(pin, val);//change the IO status according to the data recieved
 		res.send(serverResponse);//echo the recieved data to the server
 	}
 	else if(command == "getStatus"){
-		//debug(getSystemStatus());
-		//res.send(getSystemStatus());
-		environmentVariables.ioStatus = all_io;//all of the pins status
+		//debug(gpioCfg.getSystemStatus());
+		//res.send(gpioCfg.getSystemStatus());
+		environmentVariables.ioStatus = gpioCfg.all_io;//all of the pins status
 		res.send(environmentVariables);
 	}
 });
@@ -250,7 +257,7 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 	var reachedSetpoint = false;//var set to true the first time the checkpoint is reached
 	environmentVariables.tmpMTsetp = mashSetpoint;//stores the setpoints
 	environmentVariables.tmpBKsetp = spargeSetpoint;
-	changeStatusIO("mash_pump", "true");//turn the recirculation pump on
+	gpioCfg.changeStatusIO("mash_pump", "true");//turn the recirculation pump on
 	
 	var logTimer = setInterval(function(){//logs the heating process every ~5s
 		logToFile("heating mash water", 2);//log to file
@@ -300,26 +307,26 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 					environmentVariables.tmpMT = parsedData[0];//update the mash tun temperature
 					debug(typeof parsedData[0]);
 					if(parsedData[0] < 0.7*mashSetpoint){//if temperature is less then 0.7 of the setpoint
-						changeStatusIO("mash_heat", "true");//give 100% power to the heating resistor
+						gpioCfg.changeStatusIO("mash_heat", "true");//give 100% power to the heating resistor
 					}
 					else if(parsedData[0] < 0.9*mashSetpoint){//if temperature between 0.7 and 0.9 of the setpoint 
 						if(heatingPower == 0){//give 66% power to the heating resistor
-							changeStatusIO("mash_heat", "false");// 1/3 of the time off
+							gpioCfg.changeStatusIO("mash_heat", "false");// 1/3 of the time off
 							heatingPower = 2;// heatingPower goes from 0 to 2
 						}
 						else{
-							changeStatusIO("mash_heat", "true");// 2/3 of the time on
+							gpioCfg.changeStatusIO("mash_heat", "true");// 2/3 of the time on
 							heatingPower--;
 							
 						}
 					}
 					else if(parsedData[0] < mashSetpoint){//if temperature between 0.9 and 1.0 of the setpoint 
 						if(heatingPower == 0){//give 33% power to the heating resistor
-							changeStatusIO("mash_heat", "true");// 1/3 of the time on
+							gpioCfg.changeStatusIO("mash_heat", "true");// 1/3 of the time on
 							heatingPower = 2;// heatingPower goes from 0 to 2
 						}
 						else{
-							changeStatusIO("mash_heat", "false");// 2/3 of the time off
+							gpioCfg.changeStatusIO("mash_heat", "false");// 2/3 of the time off
 							heatingPower--;
 							
 						}
@@ -343,8 +350,8 @@ function heatMashWater(mashSetpoint, spargeSetpoint){
 								//serverResponse.resp = "could not write to lockfile";
 							}
 						});
-						changeStatusIO("mash_pump", "false");//turn the recirculation pump off
-						changeStatusIO("mash_heat", "false");//turn the heating element off
+						gpioCfg.changeStatusIO("mash_pump", "false");//turn the recirculation pump off
+						gpioCfg.changeStatusIO("mash_heat", "false");//turn the heating element off
 						//clearInterval(readTmpTimer);//stop the temperature adjusting loop
 						//temperatureLogHandler.kill('SIGHUP');//kill the process and stop logging (for tests only)
 						debug(	"    Heating of the mash water finished\n"
@@ -475,7 +482,7 @@ function logToFile(message, code){
 	environmentVariables.msg = message;//explanatory message to be logged
 	environmentVariables.code = code;//code referring to the message
 	environmentVariables.logTimestamp = d.getTime();//logs the request to start recipe timestamp
-	environmentVariables.ioStatus = all_io;//all of the pins status
+	environmentVariables.ioStatus = gpioCfg.all_io;//all of the pins status
 	dataToSave = JSON.stringify(environmentVariables) + "\n";
 	debug(dataToSave);
 	if(code == 0){//if it is the first line to be logged, overwrite log file
@@ -517,7 +524,7 @@ function sendRecipeNames(path, res){//try to read files in directory
 				files[i] = files[i].replace(".recipe", "");//remove the file extension
 				files[i] = files[i].replace(/_/g, " ");//replace underlines with spaces
 			}
-			for(var i = (deletedIndexes.length)-1; i >= 0;  i--){//iterate the array of deleted recipes
+			for(i = (deletedIndexes.length)-1; i >= 0;  i--){//iterate the array of deleted recipes
 				//debug("index: " + deletedIndexes[i]);
 				files.splice(deletedIndexes[i],1);//deletes the file name from the array
 			}
@@ -526,193 +533,4 @@ function sendRecipeNames(path, res){//try to read files in directory
 		}
 		res.send(serverResponse);//send the recipes if successful, otherwise sends the error
 	});//get it and return to the client
-}
-
-function changeStatusIO(pin, val){
-	if(val == "true"){//if button is checked
-		all_io[pin].state = b.HIGH;//turn corresponding pin HIGH
-		b.digitalWriteSync(all_io[pin].id, all_io[pin].state);
-		debug("Pin " + pin + " turned HIGH");
-	}
-	else if(val == "false"){//if button is unchecked
-		all_io[pin].state = b.LOW;//turn corresponding pin LOW
-		b.digitalWriteSync(all_io[pin].id, all_io[pin].state);
-		debug("Pin " + pin + " turned LOW");
-	}
-	else{//if it is not a button
-		if(pin == "servo_pwm"){//check if this is the PWM
-			servo_pwm.state.duty = 0.0325 + (0.0775/180)*val;//turn degree to duty-cycle
-			b.analogWrite(servo_pwm.id,servo_pwm.state.duty,servo_pwm.state.freq, function(err_wr){//set PWM
-				if(err_wr){//if anything goes wrong
-					debug(err_wr);//print the error
-				}
-				else{//otherwise
-					debug("Servo angle set to: " + val);//print the angle the PWM was set to
-				}
-			});
-		}
-	}
-}
-
-function getSystemStatus(){
-	var all_io_status = {};//object with all the pin pairs key:value
-	for(i = 0; i < all_io_objects.length; i++){//get the pair key:value pin by pin
-		all_io_status[all_io_objects[i]] = all_io[all_io_objects[i]].state;
-	}
-	return(all_io_status);
-}
-
-// I/O pins
-function PinObjectIO(pinId){//function to create pin object, should recieve pin ID
-	if(pinId){//if the variable is passed to function or not empty
-		this.id = pinId; this.state = b.LOW; this.cfg = b.OUTPUT;
-	}
-	else{//if no variable is passed or passed empty
-		debug("No variable passed to create pin object");
-		process.exit(1);//exit process with error code
-	}
-}
-
-var led = new PinObjectIO("USR1");
-
-var mash_pump = new PinObjectIO("P8_07");
-var boil_pump = new PinObjectIO("P8_08");
-var pumps = {mash_pump:mash_pump, boil_pump:boil_pump};
-
-var mash_valve = new PinObjectIO("P8_09");
-var boil_valve = new PinObjectIO("P8_10");
-var chill_valve = new PinObjectIO("P8_11");
-var water_valve = new PinObjectIO("P8_12");
-var valves = {	mash_valve:mash_valve, boil_valve:boil_valve,
-				chill_valve:chill_valve, water_valve:water_valve};
-
-var mash_heat = new PinObjectIO("P8_13");
-var boil_heat = new PinObjectIO("P8_14");
-var heaters = {mash_heat:mash_heat, boil_heat:boil_heat};
-
-		//for servo, use 0.0325 < duty < 0.11 to protect servo integrity
-var servo_pwm = {id:"P8_19", state:{duty:0.11, freq:50}, cfg:b.ANALOG_OUTPUT};//state of PWM is duty-cycle and frequency
-//var servo_pwm = {id:"P8_19", state:{duty:0.11, freq:60}};//this is for the SSR test
-
-var all_io = collect(pumps,valves,heaters,{led:led},{servo_pwm:servo_pwm});
-var all_io_objects = Object.keys(all_io);//get all the keys, because cannot access object by index, e.g all_io[2]
-var all_io_pins = [];//all the pins used as an array
-for (var i = 0; i < all_io_objects.length; i++){//get the pins one by one
-	all_io_pins[i] = all_io[all_io_objects[i]].id;//and add to the array
-}
-
-var ioStatus =	{cfgok:0, gpio:0, pwm:0, analog:0, interrupt:0, total:all_io_objects.length, //helping object
-				//some functions just to exercise the use of methods
-				newGpio:		function(){	this.cfgok++; this.gpio++;},
-				newPwm:			function(){	this.cfgok++; this.pwm++;},
-				newAnalog:		function(){	this.cfgok++; this.analog++;},
-				newInterrupt:	function(){	this.cfgok++; this.analog++;},
-				gpio2pwm:		function(){ this.gpio--; this.pwm++;},
-				gpio2interrupt:	function(){ this.gpio--; this.interrupt++;},
-				pwm2gpio:		function(){ this.pwm--; this.gpio++;},
-				pwm2interrupt:	function(){ this.pwm--; this.interrupt++;},
-				interrupt2gpio:	function(){ this.interrupt--; this.gpio++;},
-				interrupt2pwm:	function(){ this.interrupt--; this.pwm++;}
-};
-//helping variables
-debug(ioStatus.total + " pins being used: ", all_io_pins.toString());
-
-// Pin configuration
-debug("Configuring pins...");
-pinsConfiguration();
-
-function pinsConfiguration(){
-	for (var i = 0; i < all_io_objects.length; i++){//set all pins as outputs
-		(function (pinIndex){//need to create a scope for the current pin variable, because it is asynchronous
-			//debug("pin passed is " + this + "; pin index passed is " + pinIndex);//"this" is the first parameter passed -> the current pin
-			b.pinMode(this, all_io[all_io_objects[pinIndex]].cfg, function(err, pin){//configure and callback function
-				if(err)//if by the end of executing pinMode function, there is an error
-					console.error(err.message);//then the error is printed
-				else{//initial state, everyone LOW because HIGH state means ON
-					if(all_io[all_io_objects[pinIndex]].cfg == b.OUTPUT){//if pin is configured as digital output
-						debug('    pin ' + pin + ' ready[OUTPUT], ' + (ioStatus.cfgok+1) + "/" + ioStatus.total + "pins configured");
-						b.digitalWriteSync(pin, all_io[all_io_objects[pinIndex]].state);//state is LOW because of initial values
-						//ioStatus.cfgok++;
-						ioStatus.newGpio();//indicates one more pin is configured as gpio
-						if(ioStatus.cfgok == ioStatus.total){//if all pins are already configured
-							//interval = setInterval(function(){ioTest()}, 5000);//then start the blinking test very slow
-							debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
-								ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");
-						}
-					}
-					else if(all_io[all_io_objects[pinIndex]].cfg == b.ANALOG_OUTPUT){//if pin is configured as PWM
-						debug('    pin ' + pin + ' ready[PWM], ' + (ioStatus.cfgok+1) + "/" + ioStatus.total + "pins configured");
-						b.analogWrite(servo_pwm.id,servo_pwm.state.duty,servo_pwm.state.freq, function(err_wr){//try to configure
-							if(err_wr){//if error
-								debug(err_wr);
-							}
-							else{//if ok
-								ioStatus.newPwm();//indicates one more pin is configured as PWM
-								if(ioStatus.cfgok == ioStatus.total){//if all pins are already configured
-									//interval = setInterval(function(){ioTest()}, 5000);//then start the blinking test very slow
-									debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
-										ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");
-								}
-								/*debug(ioStatus.gpio + " pins as GPIO, " + ioStatus.pwm + " as PWM, " + 
-										ioStatus.analog + " as ANALOG, " + ioStatus.interrupt + " as INTERRUPT");*/
-							}
-						});
-					}
-				}
-					
-			});//everyone is output
-		//get all the object keys as vector and use it to access all the object keys
-		}).call(all_io[all_io_objects[i]].id,i);//passes pin as "this" and index as pinIndex
-	}
-}
-
-function ioTest(){
-	/*This function do some blinking thing, it should be called inside setInterval(),like:
-	setInterval(ioTest, interval);//period = interval*IOpins = 500ms*9 = 4.5s*/
-	var on_count = 0;//number of io turned b.HIGH
-	var last_on; //number of last io b.HIGH
-	
-	for(i = 0; i < all_io_objects.length; i++){//check all
-		if(all_io[all_io_objects[i]].state == b.HIGH){//if HIGH
-			on_count++;//one more io HIGH
-			last_on = i;//this is the last io HIGH
-		}
-	}
-	if(on_count == 1){//if only one IO HIGH
-		if(last_on == 8){//if last pin is the one HIGH
-			//debug('Activating pin 0');
-			all_io[all_io_objects[last_on]].state = b.LOW;//turn it LOW
-			all_io[all_io_objects[0]].state = b.HIGH;//and next one HIGH, which means the first
-			b.digitalWriteSync(all_io[all_io_objects[last_on]].id, all_io[all_io_objects[last_on]].state);
-			b.digitalWriteSync(all_io[all_io_objects[0]].id, all_io[all_io_objects[0]].state);
-		}
-		else{//if any pin but the last is the one HIGH
-			//debug('Activating pin ' + (last_on+1));
-			all_io[all_io_objects[last_on]].state = b.LOW;//turn it LOW
-			all_io[all_io_objects[last_on+1]].state = b.HIGH;//and next one HIGH
-			b.digitalWriteSync(all_io[all_io_objects[last_on]].id, all_io[all_io_objects[last_on]].state);
-			b.digitalWriteSync(all_io[all_io_objects[last_on+1]].id, all_io[all_io_objects[last_on+1]].state);
-			}
-	}
-	else{//if there is more than one IO HIGH
-		for(i = 1; i < all_io_objects.length; i++){
-			all_io[all_io_objects[i]].state = b.LOW;//turn all but first LOW
-			b.digitalWriteSync(all_io[all_io_objects[i]].id, all_io[all_io_objects[i]].state);
-		}
-		all_io[all_io_objects[0]].state = b.HIGH;//turn first HIGH
-		b.digitalWriteSync(all_io[all_io_objects[0]].id, all_io[all_io_objects[0]].state);
-	}
-}
-
-function collect() {//function concat objects
-	var ret = {};//the new object
-	var len = arguments.length;//the total number of objects passed to collect
-	for (var i=0; i<len; i++) {//do it for every object passed
-		for (var p in arguments[i]) {//iterate the i-eth object passed
-			if (arguments[i].hasOwnProperty(p)) {//whenever there is a property
-				ret[p] = arguments[i][p];//add the property to the new object
-			}
-		}
-	}
-	return ret;
 }
