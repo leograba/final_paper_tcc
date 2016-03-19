@@ -7,7 +7,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" type="text/css" href="./css/config.css">
 		<link rel="stylesheet" type="text/css" href="./css/buttons.css">
-		<link rel="icon" type="image/png" href="./figuras/beer2.png">
+		<link rel="icon" type="image/png" href="./img/beer2.png">
 	    <script type="text/javascript" src="./lib/header.js"></script>
 	    <script type="text/javascript" src="./lib/listrecipe.js"></script>
 		<script>
@@ -36,18 +36,19 @@
             	var recipeName = $("#recipeSel").val().replace(/ /g, "_");
 				$("#previewData").attr("href","?=" + recipeName);//replace spaces with underlines
 			    recipePreview($("#previewData"));//pass its name (through the current element)
-			    
-			    $.post("/startrecipe", {command:"startRequest", recipe:recipeName}, function(data, status){//ask the server for the recipe names
-					if(status == "success"){//if server responds ok
-						if(data.resp == "success"){//if the recipes are successfully recieved
-							console.log(data);
-							if(errorWarningHandler(data, "#errors", "#warnings", "#messages")){//if recipe can be started
-								startRecipe(recipeName);
-								//window.location.replace("http://beaglebrewing.servebeer.com:8587/control.php?start=true");
+			    setTimeout(function(){
+				    $.post("/startrecipe", {command:"startRequest", recipe:recipeName}, function(data, status){//ask the server for the recipe names
+						if(status == "success"){//if server responds ok
+							if(data.resp == "success"){//if the recipes are successfully recieved
+								console.log(data);
+								if(errorWarningHandler(data, "#errors", "#warnings", "#messages")){//if recipe can be started
+									startRecipe(recipeName);
+									//window.location.replace("http://beaglebrewing.servebeer.com:8587/control.php?start=true");
+								}
 							}
 						}
-					}
-				},"json");
+					},"json");
+			    },1000);
             }
             
             function startRecipe(recipeName){
@@ -56,7 +57,8 @@
             		if(status == "success"){//if server responds ok
             			console.log(data);
             			if(data.resp == "success"){//if the recipes are successfully recieved
-            				
+            				console.log("starting the requested recipe...");
+            				window.location.replace("http://beaglebrewing.servebeer.com:8587/control.php");
             			}
             		}
             	},"json");
@@ -138,11 +140,12 @@
 				<p class="prevhead">Lúpulos</p><p class="prev" id="lupulos"></p>
 			</div>
 		</div>
-        
+		
         <a id="previewData" style="display:none;"></a>
         
         <h2>Controle do sistema</h2>
-        <p>Em breve a tela de controle será ajustada para acompanhamento e ajustes da brassagem:</p>
+        <p>Ao iniciar uma receita você será automaticamente redirecionado para o controle.</p>
+        <p>É possível acessar os controles a qualquer momento:</p>
         <input class="leftselect" type="button" value="controle" onClick="window.location='./control.php'" />
         
 	</body>
