@@ -22,6 +22,27 @@
 					},"json");
 				});
 				
+				$("#confirmStartNextStep").click(function startMashRamp(){//whenever button is clicked
+					$.post("/clientrequest", {command:"startMashRamp"}, function(data, status){
+						if(status == "success"){//if server responds ok
+							console.log("Starting the ramp control process");
+						}
+					},"json");
+				});
+				
+				//Tell the server to start the mash ramp control
+				/*$("#confirmStartNextStep").click(function startMashRamp(){
+					console.log("1)Starting the ramp control process");
+					
+					console.log("2)Starting the ramp control process");
+					$.post("/controle", {command:"startMashRamp"}, function(data, status){
+						if(status == "success"){//if server responds ok
+							console.log("3)Starting the ramp control process");
+						}
+					},"json");
+					console.log("4)Starting the ramp control process");
+				});*/
+				
 				//Display the slider value dinamically
 				$(".slider").on("input",function(){//whenever user is changing value
 					$(".slider-value").html($(this).val()+"°");//change the display value
@@ -53,28 +74,39 @@
 								$("#pwm_slider").show();//then show the div correctly set
 							}
 						}
+						if(data.auto) $("#auto").prop("checked", true);//tells the process is in automatic mode
+						else $("#auto").prop("checked", false);//automatic mode turned off
 					}
 					updateStatusMessage(data);
 				},"json");
 			}
 			
 			function updateStatusMessage(data){
-				if(data.code){//if something is going on
-					switch(data.code){
-						case 2://mash water being heated
-							$("#current_status").text("Esquentando água da brassagem: ");
-							$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + data.tmpMTsetp + "°C");
-							break;
-						case 3://waiting for the user to add the grains
-							$("#current_status").text("Adicione os maltes antes de prosseguir!");
-							$("#current_status_helper").text("");
-							break;
+				if(!data.processFail){//if the process is running smoothly
+					if(data.code){//if something is going on
+						switch(data.code){
+							case 2://mash water being heated
+								$("#current_status").text("Esquentando água da brassagem: ");
+								$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + data.tmpMTsetp + "°C");
+								break;
+							case 3://waiting for the user to add the grains
+								$("#current_status").text("Adicione os maltes e clique em prosseguir!");
+								$("#current_status_helper").text("");
+								$("#confirmationButton").show();//wait for the user to click this button to continue
+								break;
+							case 4://if the ramp control is going on
+								$("#confirmationButton").hide();
+						}
+						$("h2").show();//show some information/status message
 					}
-					$("h2").show();//show some information/status message
+					else{//if nothing is going on
+						$("#current_status").text("Sistema parado.");//display idle message
+						$("#current_status_helper").text("");//display idle message
+					}
 				}
-				else{//if nothing is going on
-					$("#current_status").text("Sistema parado.");//display idle message
-					$("#current_status_helper").text("");//display idle message
+				else{//if there is some error that caused the production to stop irreversibly
+					$("#current_status").text("Erro no sistema.");
+					$("#current_status_helper").text("Algo impediu que esta receita continue.");
 				}
 			}
 		</script>
@@ -82,13 +114,18 @@
 
 	<body style="display:none;">
 		<!--<h1>Controle do Sistema</h1>-->
-		<h2 style="display:inline-block;" id="current_status"></h2>
+		<h2 style="display:inline-block;" id="current_status">-</h2>
 		<h2 style="display:inline-block;" id="current_status_helper"></h2>
 		<form>
 			<div class="slideThree">	
 				<input type="checkbox" value="None" id="auto" name="check" />
 				<label for="auto"></label>
 				<span>AUTO</span>
+			</div>
+			<div class="slideThree" id="confirmationButton" style="display:none;">	
+				<input type="checkbox" value="None" id="confirmStartNextStep" name="check" />
+				<label for="confirmStartNextStep"></label>
+				<span>PROSSEGUIR</span>
 			</div>
 			<hr>
     	    <div class="slideThree">	
