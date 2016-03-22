@@ -96,6 +96,8 @@
 								break;
 							case 4://if the ramp control is going on
 								$("#confirmationButton").hide();
+								$("#current_status").text("Esquentando mosto: ");
+								$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + data.tmpMTsetp + "°C");
 						}
 						$("h2").show();//show some information/status message
 					}
