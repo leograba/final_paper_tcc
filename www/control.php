@@ -13,14 +13,7 @@
 				refreshSystemStatus();//get the status fo the GPIO, PWM, etc
 				var refreshHandler = setInterval(refreshSystemStatus, 2500);//and then do it periodically
 				
-				$(".btn").click(function valveToggle(){//whenever button is clicked
-					//Post the button ID and VALUE
-					$.post("/controle", {command:"pinSwitch", btn:$(this).attr("id"), val:$(this).is(":checked")}, function(data, status){
-						if(status == "success"){//if server responds ok
-							console.log("Server - ID: " + data.btn + "; VALUE: " + data.val);
-						}
-					},"json");
-				});
+				$(".btn").click(valveToggle);
 				
 				$("#confirmStartNextStep").click(function startMashRamp(){//whenever button is clicked
 					$.post("/clientrequest", {command:"startMashRamp"}, function(data, status){
@@ -56,6 +49,15 @@
 				});
 			});
 			
+			function valveToggle(){//whenever button is clicked
+				//Post the button ID and VALUE
+				$.post("/controle", {command:"pinSwitch", btn:$(this).attr("id"), val:$(this).is(":checked")}, function(data, status){
+					if(status == "success"){//if server responds ok
+						console.log("Server - ID: " + data.btn + "; VALUE: " + data.val);
+					}
+				},"json");
+			}
+			
 			function refreshSystemStatus(){
 				$.post("/controle", {command:"getStatus"}, function(data, status){//ask for the server status
 					var degreeAngle;//var to temporarily store the servo_motor angle in degree
@@ -74,8 +76,14 @@
 								$("#pwm_slider").show();//then show the div correctly set
 							}
 						}
-						if(data.auto) $("#auto").prop("checked", true);//tells the process is in automatic mode
-						else $("#auto").prop("checked", false);//automatic mode turned off
+						if(data.auto){//tells the process is in automatic mode
+							$("#auto").prop("checked", true);
+							$(".btn").off("click");
+						}
+						else{//automatic mode turned off
+							$("#auto").prop("checked", false);
+							$(".btn").on("click", valveToggle);
+						}
 					}
 					updateStatusMessage(data);
 				},"json");
@@ -98,6 +106,18 @@
 								$("#confirmationButton").hide();
 								$("#current_status").text("Esquentando mosto: ");
 								$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + data.tmpMTsetp + "°C");
+								break;
+							case 5://if the step rest is going on
+								$("#current_status").text("Degrau de repouso: ");
+								if(data.timeLeft >= 1){
+									$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
+										Math.floor(data.timeLeft) + ":" + (data.timeLeft % 1)*60 + " minutos restantes");
+								}
+								else{
+									$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
+										Math.round((data.timeLeft % 1)*60) + " segundos restantes");
+								}
+								break;
 						}
 						$("h2").show();//show some information/status message
 					}

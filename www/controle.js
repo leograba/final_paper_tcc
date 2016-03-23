@@ -21,7 +21,19 @@ var routes = require('./my_node_modules/routes.js');
 global.environmentVariables = {
 	msg: "",//holds some explanatory message
 	warn: "",//if not empty holds some warning message
-	logTimestamp: "", //holds the epoch time of the current variables state
+	timestamps:{//notable timestamps
+		start: "",//epoch time of the first request to start a recipe
+		startHeating: "",//epoch time of the start to heat the mash water
+		finishHeating: "",//epoch for the finish of the heating of mash water
+		//start of the ramps
+		sRamp0: "", sRamp1: "", sRamp2: "", sRamp3: "", sRamp4: "", sRamp5: "", sRamp6: "", sRamp7: "",
+		//finish of the ramps
+		fRamp0: "", fRamp1: "", fRamp2: "", fRamp3: "", fRamp4: "", fRamp5: "", fRamp6: "", fRamp7: "",
+		startSparge: "",//coincides with the end of the final step
+		
+		curr: "", //epoch time of the current variables state
+	},
+	timeLeft: "",//helping variable to tell the client the time left for the step rests or the boil, etc
 	recipe: "", //recipe name
 	okToStart: false, //true if a recipe is ok enough to start a production
 	auto: true, //whether the process is running automatically or there is human intervention
