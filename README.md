@@ -12,7 +12,7 @@ no certainty whether there is something not working or unfinished.
 **Module**           | **Status/Info**
 ---------------------|-------------
 body-parser          | middleware used within Express
-bonescript           | deprecated --> use octalbonescript
+bonescript           | deprecated &rarr; use octalbonescript
 debug                | no need since Express has it
 ds18b20              | currently not in use
 express              | in use
