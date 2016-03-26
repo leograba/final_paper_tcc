@@ -133,6 +133,14 @@
 									}
 								}
 								break;
+							case 6://if the sparging process is running (without overflow)
+								$("#current_status").text("Lavagem (sparging) em andamento. ");
+								$("#current_status_helper").text("");
+								break;
+							case 7://if the sparging process is running (without overflow)
+								$("#current_status").text("Lavagem (sparging) em andamento. ");
+								$("#current_status_helper").text("Tina do mosto cheia, drenando...");
+								break;
 						}
 						$("h2").show();//show some information/status message
 					}
@@ -178,7 +186,7 @@
 			<div class="slideThree">	
 				<input type="checkbox" class="btn" value="None" id="boil_pump" name="check" />
 				<label for="boil_pump"></label>
-				<span>BOMBA DE FERVURA</span>
+				<span>BOMBA DA FERVURA</span>
 			</div>
 			<div class="slideThree">	
 				<input type="checkbox" class="btn" value="None" id="mash_valve" name="check" />
