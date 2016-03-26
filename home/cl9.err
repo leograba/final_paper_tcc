@@ -1,6 +1,0 @@
-17334: Error: ENOENT, stat '/root/.c9/managed/plugins/'
-17334: Error: ENOENT, stat '/root/.c9/plugins/'
-17334: Error: ENOENT, stat '/root/.c9/dev/plugins/'
-18092: Error: ENOENT, stat '/root/.c9/plugins/'
-18092: Error: ENOENT, stat '/root/.c9/managed/plugins/'
-18092: Error: ENOENT, stat '/root/.c9/dev/plugins/'
