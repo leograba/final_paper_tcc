@@ -109,13 +109,28 @@
 								break;
 							case 5://if the step rest is going on
 								$("#current_status").text("Degrau de repouso: ");
-								if(data.timeLeft >= 1){
-									$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
-										Math.floor(data.timeLeft) + ":" + (data.timeLeft % 1)*60 + " minutos restantes");
+								if(data.tmpBKsetp){//if sparging is set
+									if(data.timeLeft >= 1){
+										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
+											Math.floor(data.timeLeft) + ":" + (data.timeLeft % 1)*60 + 
+											" minutos restantes. Temperatura de sparging: " + data.tmpBK + "°C");
+									}
+									else{
+										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
+											Math.round((data.timeLeft % 1)*60) + " segundos restantes. " +
+											"Temperatura de sparging: " + data.tmpBK + "°C");
+									}
 								}
-								else{
-									$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
-										Math.round((data.timeLeft % 1)*60) + " segundos restantes");
+								else{//no sparging, no sparging water being heated
+									if(data.timeLeft >= 1){
+										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
+											Math.floor(data.timeLeft) + ":" + (data.timeLeft % 1)*60 + 
+											" minutos restantes");
+									}
+									else{
+										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
+											Math.round((data.timeLeft % 1)*60) + " segundos restantes");
+									}
 								}
 								break;
 						}
