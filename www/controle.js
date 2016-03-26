@@ -29,7 +29,8 @@ global.environmentVariables = {
 		sRamp0: "", sRamp1: "", sRamp2: "", sRamp3: "", sRamp4: "", sRamp5: "", sRamp6: "", sRamp7: "",
 		//finish of the ramps
 		fRamp0: "", fRamp1: "", fRamp2: "", fRamp3: "", fRamp4: "", fRamp5: "", fRamp6: "", fRamp7: "",
-		startSparge: "",//coincides with the end of the final step
+		startDrain: "",//start of the sparging process, when the mash is parcially drained to the BK
+		startSparge: "",//here the recirculation pump starts working
 		
 		curr: "", //epoch time of the current variables state
 	},
