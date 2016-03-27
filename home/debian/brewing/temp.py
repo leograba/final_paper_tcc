@@ -56,18 +56,35 @@ def tlog(file = "/var/www/datalog/default.csv"):
 	#o arg. 1 indica que o buffer antes de escrever no arquivo eh 1 linha
 		if exist is False:#se vai criar o arquivo agora
 			log.write("temperatura,data\n")
-		temp_celsius = 20.00
+		temp_celsius = 25.00#somente para teste
+		temp_sparge = 20.00#somente para teste
+		flag1 = 0#somente para teste
+		flag2 = 0
 		while True: #loop infinito
 		#while amostras > 0:#coleta o numero de amostras
 			#amostras = amostras - 1#decrementa variavel de controle
 			#temp_celsius = tread()
-			temp_celsius += 0.2 #usando valores incrementais para teste
+			if temp_celsius < 32.00 and flag1:#apos decrescer, volta a aumentar
+				print "L1"
+				flag2 = 1#impossibilita entrar aqui de novo
+				temp_celsius += 0.2 #usando valores incrementais para teste
+                                temp_sparge += 0.2
+			elif temp_celsius > 36.00 and not flag2:#decresce um pouco para testar temperatura abaixo do setpoint
+				print "L2"
+				flag1 = 1#impossibilita entrar aqui de novo
+				temp_celsius -= 0.2 #usando valores incrementais para teste
+                                temp_sparge -= 0.2
+			elif temp_celsius < 75.00:#somente para testes nao incrementa alem de 75
+				print "L3"
+				temp_celsius += 0.2 #usando valores incrementais para teste
+				temp_sparge += 0.2
 			epoch = time.time()#lê a data/hora do sistema
 			#nowis = time.ctime(epoch)#converte para string
 			if temp_celsius >= 0:#evita leitura errada
 			#essa leitura errada é intermitente e causa desconhecida
 				log.write("%f,%f\n" % (temp_celsius, epoch))
 				tlog_instant(temp_celsius, epoch)#escreve arquivo com ultima leitura
+				tlog_instant(temp_sparge, epoch, "/var/www/datalog/instant_bk.csv")#somente para teste por enquanto
 				#graph.graph_gen()# atualiza gráfico da temperatura
 				#escreve temperatura e data/hora no .txt
 				time.sleep(tsample)#espera n segundos
