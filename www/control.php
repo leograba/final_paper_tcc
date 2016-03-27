@@ -11,7 +11,7 @@
 			$(function(){//when document is fully loaded
 				gambiarraHeaderPHP("./lib/header.php");//add the header
 				refreshSystemStatus();//get the status fo the GPIO, PWM, etc
-				var refreshHandler = setInterval(refreshSystemStatus, 2500);//and then do it periodically
+				var refreshHandler = setInterval(refreshSystemStatus, 500);//and then do it periodically
 				
 				$(".btn").click(valveToggle);
 				
@@ -22,19 +22,6 @@
 						}
 					},"json");
 				});
-				
-				//Tell the server to start the mash ramp control
-				/*$("#confirmStartNextStep").click(function startMashRamp(){
-					console.log("1)Starting the ramp control process");
-					
-					console.log("2)Starting the ramp control process");
-					$.post("/controle", {command:"startMashRamp"}, function(data, status){
-						if(status == "success"){//if server responds ok
-							console.log("3)Starting the ramp control process");
-						}
-					},"json");
-					console.log("4)Starting the ramp control process");
-				});*/
 				
 				//Display the slider value dinamically
 				$(".slider").on("input",function(){//whenever user is changing value
@@ -145,7 +132,7 @@
 						$("h2").show();//show some information/status message
 					}
 					else{//if nothing is going on
-						$("#current_status").text("Sistema parado.");//display idle message
+						$("#current_status").text("Sistema parado");//display idle message
 						$("#current_status_helper").text("");//display idle message
 					}
 				}
