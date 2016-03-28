@@ -45,8 +45,7 @@ def tlog(file = "/var/www/datalog/default.csv"):
 
 
 	#os comandos acima foram ignorados para poder usar o nohup (que nao recebe input)
-	#tsample = 0.2202 #amostra a cada x segundos
-	tsample = 1 #valor de amostragem para teste
+	tsample = 0.2202 #amostra a cada x segundos
 	#amostras = 5000#numero de amostras a serem coletadas
 	buff_temp = tread()#guarda o último valor lido
 	exist = os.path.isfile(file)
@@ -56,35 +55,16 @@ def tlog(file = "/var/www/datalog/default.csv"):
 	#o arg. 1 indica que o buffer antes de escrever no arquivo eh 1 linha
 		if exist is False:#se vai criar o arquivo agora
 			log.write("temperatura,data\n")
-		temp_celsius = 25.00#somente para teste
-		temp_sparge = 20.00#somente para teste
-		flag1 = 0#somente para teste
-		flag2 = 0
 		while True: #loop infinito
 		#while amostras > 0:#coleta o numero de amostras
 			#amostras = amostras - 1#decrementa variavel de controle
-			#temp_celsius = tread()
-			if temp_celsius < 32.00 and flag1:#apos decrescer, volta a aumentar
-				print "L1"
-				flag2 = 1#impossibilita entrar aqui de novo
-				temp_celsius += 0.2 #usando valores incrementais para teste
-                                temp_sparge += 0.2
-			elif temp_celsius > 36.00 and not flag2:#decresce um pouco para testar temperatura abaixo do setpoint
-				print "L2"
-				flag1 = 1#impossibilita entrar aqui de novo
-				temp_celsius -= 0.2 #usando valores incrementais para teste
-                                temp_sparge -= 0.2
-			elif temp_celsius < 75.00:#somente para testes nao incrementa alem de 75
-				print "L3"
-				temp_celsius += 0.2 #usando valores incrementais para teste
-				temp_sparge += 0.2
+			temp_celsius = tread()
 			epoch = time.time()#lê a data/hora do sistema
 			#nowis = time.ctime(epoch)#converte para string
 			if temp_celsius >= 0:#evita leitura errada
 			#essa leitura errada é intermitente e causa desconhecida
 				log.write("%f,%f\n" % (temp_celsius, epoch))
 				tlog_instant(temp_celsius, epoch)#escreve arquivo com ultima leitura
-				tlog_instant(temp_sparge, epoch, "/var/www/datalog/instant_bk.csv")#somente para teste por enquanto
 				#graph.graph_gen()# atualiza gráfico da temperatura
 				#escreve temperatura e data/hora no .txt
 				time.sleep(tsample)#espera n segundos
@@ -98,3 +78,56 @@ def tlog_instant(temperature, epoch, file = "/var/www/datalog/instant.csv"):
 		#epoch = int(time.time())#lê o Unix Time do sistema
 		log.write("temperatura,data\n")
 		log.write("%f,%f\n" % (temperature, epoch))
+
+def tlog_test(file = "/var/www/datalog/default.csv"):
+	"""salva temperatura e Unix Time em .csv """
+	#arquivo padrão CSV com cabecalho
+	tsample = 1 #valor de amostragem para teste
+	exist = os.path.isfile(file)
+	with open(file, 'a', 1) as log:#desse jeito, o arquivo será fechado
+		if exist is False:#se vai criar o arquivo agora
+			log.write("temperatura,data\n")
+		temp_celsius = 25.00#somente para teste
+		temp_sparge = 20.00#somente para teste
+		ramp_section = 0#sequencia de funcoes que gera as rampas/degraus
+		while True: #loop infinito
+			if ramp_section == 0:#aquece medio ate 90% de 30 graus
+				temp_celsius += 0.2
+				if temp_celsius == 0.9*30:
+					ramp_section = 1
+			elif ramp_section == 1:#aquece devagar ate 30 graus
+                                temp_celsius += 0.1
+                                if temp_celsius == 30:
+                                        ramp_section = 2
+			elif ramp_section == 3:#espera usuario adicionar maltes
+				time.sleep(30)#30 segundos
+				ramp_section = 3
+			elif ramp_section == 3:#aquece devagar ate 35 graus
+                                temp_celsius += 0.1
+                                if temp_celsius == 35:
+                                        ramp_section = 4
+                        elif ramp_section == 4:#degrau 1, aquece sparge durante 1 minuto
+				temp_sparge += 0.5
+                                if temp_sparge == 50:
+                                        ramp_section = 5
+			elif ramp_section == 5:#aquece rapido ate 42 graus
+				temp_celsius += 0.3
+				if temp_celsius == 42:
+					ramp_section = 6
+			elif ramp_section == 6:#aquece medio ate 54 graus
+                                temp_celsius += 0.2
+                                if temp_celsius == 54:
+                                        ramp_section = 7
+			elif ramp_section == 7:#aquece devagar ate 60 graus
+                                temp_celsius += 0.1
+                                if temp_celsius == 60:
+                                        ramp_section = 8
+			else:#mantem a temperatura
+				pass
+			epoch = time.time()#lê a data/hora do sistema
+			log.write("%f,%f\n" % (temp_celsius, epoch))
+			tlog_instant(temp_celsius, epoch)#escreve arquivo com ultima leitura
+			tlog_instant(temp_sparge, epoch, "/var/www/datalog/instant_bk.csv")#somente para teste por enquanto
+			#escreve temperatura e data/hora no .txt
+			time.sleep(tsample)#espera n segundos
+			print "registrando temperatura!",temp_celsius
