@@ -91,43 +91,48 @@ def tlog_test(file = "/var/www/datalog/default.csv"):
 		temp_sparge = 20.00#somente para teste
 		ramp_section = 0#sequencia de funcoes que gera as rampas/degraus
 		while True: #loop infinito
-			if ramp_section == 0:#aquece medio ate 90% de 30 graus
+			if ramp_section == 0:#aquece medio ate 29 graus
 				temp_celsius += 0.2
-				if temp_celsius == 0.9*30:
+				if temp_celsius >= 29:
 					ramp_section = 1
 			elif ramp_section == 1:#aquece devagar ate 30 graus
                                 temp_celsius += 0.1
-                                if temp_celsius == 30:
+                                if temp_celsius >= 30:
                                         ramp_section = 2
-			elif ramp_section == 3:#espera usuario adicionar maltes
-				time.sleep(30)#30 segundos
+			elif ramp_section == 2:#espera usuario adicionar maltes
+				time.sleep(15)#30 segundos
 				ramp_section = 3
-			elif ramp_section == 3:#aquece devagar ate 35 graus
-                                temp_celsius += 0.1
-                                if temp_celsius == 35:
-                                        ramp_section = 4
-                        elif ramp_section == 4:#degrau 1, aquece sparge durante 1 minuto
-				temp_sparge += 0.5
-                                if temp_sparge == 50:
-                                        ramp_section = 5
-			elif ramp_section == 5:#aquece rapido ate 42 graus
-				temp_celsius += 0.3
-				if temp_celsius == 42:
-					ramp_section = 6
-			elif ramp_section == 6:#aquece medio ate 54 graus
+			elif ramp_section == 3:#aquece medio ate 35 graus
                                 temp_celsius += 0.2
-                                if temp_celsius == 54:
-                                        ramp_section = 7
-			elif ramp_section == 7:#aquece devagar ate 60 graus
-                                temp_celsius += 0.1
-                                if temp_celsius == 60:
+                                if temp_celsius >= 35:
+                                        ramp_section = 4
+			elif ramp_section == 4:#retrai aquecimento ate 33 graus
+                                temp_celsius -= 0.2
+                                if temp_celsius <= 33:
+                                        ramp_section = 5
+                        elif ramp_section == 5:#degrau 1, aquece sparge durante 1 minuto
+				temp_sparge += 0.5
+                                if temp_sparge >= 50:
+                                        ramp_section = 6
+			elif ramp_section == 6:#aquece rapido ate 42 graus
+				temp_celsius += 0.3
+				if temp_celsius >= 42:
+					ramp_section = 7
+			elif ramp_section == 7:#aquece medio ate 59 graus
+                                temp_celsius += 0.2
+                                if temp_celsius >= 59:
                                         ramp_section = 8
-			else:#mantem a temperatura
-				pass
+			elif ramp_section == 8:#aquece devagar ate 60 graus
+                                temp_celsius += 0.1
+                                if temp_celsius >= 60:
+                                        ramp_section = 9
+			else:#temperatura de fervura
+                                if temp_sparge <= 98.5:
+					temp_sparge += 0.3
 			epoch = time.time()#lê a data/hora do sistema
 			log.write("%f,%f\n" % (temp_celsius, epoch))
 			tlog_instant(temp_celsius, epoch)#escreve arquivo com ultima leitura
 			tlog_instant(temp_sparge, epoch, "/var/www/datalog/instant_bk.csv")#somente para teste por enquanto
 			#escreve temperatura e data/hora no .txt
 			time.sleep(tsample)#espera n segundos
-			print "registrando temperatura!",temp_celsius
+			print "registrando temperatura!",temp_celsius,temp_sparge
