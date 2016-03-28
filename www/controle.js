@@ -40,7 +40,9 @@ global.environmentVariables = {
 		fRamp0: "", fRamp1: "", fRamp2: "", fRamp3: "", fRamp4: "", fRamp5: "", fRamp6: "", fRamp7: "",
 		startDrain: "",//start of the sparging process, when the mash is parcially drained to the BK
 		startSparge: "",//here the recirculation pump starts working
-		
+		heatingBoil: "",//started to heat the wort after sparging
+		boilStart: "",//time when temperature is near enough boiling (>96°C)
+		boilFinishScheduled: "",//time when the boil is scheduled to finish
 		curr: "", //epoch time of the current variables state
 	},
 	ioStatus: gpioCfg.all_io,//also records the IO status

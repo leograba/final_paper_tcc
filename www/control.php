@@ -121,12 +121,24 @@
 								}
 								break;
 							case 6://if the sparging process is running (without overflow)
-								$("#current_status").text("Lavagem (sparging) em andamento. ");
+								$("#current_status").html("<i>Sparging</i> em andamento. ");
 								$("#current_status_helper").text("");
 								break;
-							case 7://if the sparging process is running (without overflow)
-								$("#current_status").text("Lavagem (sparging) em andamento. ");
+							case 7://if there is an overflow
+								$("#current_status").html("<i>Sparging</i> em andamento. ");
 								$("#current_status_helper").text("Tina do mosto cheia, drenando...");
+								break;
+							case 8://heating for the boil
+								$("#current_status").text("Aquecendo mosto para a fervura. ");
+								$("#current_status_helper").html(data.tmpBK + "°C");
+								break;
+							case 9://boiling the wort
+								$("#current_status").text("Fervura em andamento. ");
+								$("#current_status_helper").html((data.timestamps.boilFinishScheduled - data.timestamps.curr)/60000 + " minutos restantes");
+								break;
+							case 10://hop added
+								$("#current_status").text("Fervura em andamento. ");
+								$("#current_status_helper").text("Lúpulo adicionado!");
 								break;
 						}
 						$("h2").show();//show some information/status message
