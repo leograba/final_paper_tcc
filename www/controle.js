@@ -19,8 +19,17 @@ var routes = require('./my_node_modules/routes.js');
 
 //global variables that should also be saved to a backup file periodically
 global.environmentVariables = {
-	msg: "",//holds some explanatory message
 	warn: "",//if not empty holds some warning message
+	code: "",//tells the same as msg, but as an index, easier to check programatically
+	tmpMT: "",//mash tun temperature
+	tmpMTsetp: "",//mash tun current setpoint
+	tmpBK: "",//brewing kettle temperature, also the "hot liquor tank" for sparging
+	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
+	timeLeft: "",//helping variable to tell the client the time left for the step rests or the boil, etc
+	readyForNextStep: false,//set whenever the system is ready for the next step
+	auto: true, //whether the process is running automatically or there is human intervention
+	processFail: false,//flag is set if the process fails irreversibly
+	msg: "",//holds some explanatory message
 	timestamps:{//notable timestamps
 		start: "",//epoch time of the first request to start a recipe
 		startHeating: "",//epoch time of the start to heat the mash water
@@ -34,18 +43,9 @@ global.environmentVariables = {
 		
 		curr: "", //epoch time of the current variables state
 	},
-	timeLeft: "",//helping variable to tell the client the time left for the step rests or the boil, etc
-	recipe: "", //recipe name
+	ioStatus: gpioCfg.all_io,//also records the IO status
 	okToStart: false, //true if a recipe is ok enough to start a production
-	auto: true, //whether the process is running automatically or there is human intervention
-	processFail: false,//flag is set if the process fails irreversibly
-	readyForNextStep: false,//set whenever the system is ready for the next step
-	code: "",//tells the same as msg, but as an index, easier to check programatically
-	tmpMT: "",//mash tun temperature
-	tmpMTsetp: "",//mash tun current setpoint
-	tmpBK: "",//brewing kettle temperature, also the "hot liquor tank" for sparging
-	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
-	ioStatus: gpioCfg.all_io//also records the IO status
+	recipe: "" //recipe name
 };
 /*
 //Trying to access and/or use the PRU
