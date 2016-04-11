@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from scipy import interpolate
 #from matplotlib.backends.backend_pdf import PdfPages
 
-def graph_gen(file = '/var/www/default.csv', graph = '/var/www/tplot.png'):
+def graph_gen(file = '/home/root/log/default.csv', graph = '/home/root/log/tplot.png'):
 	#le arquivo com as temperaturas armazenadas
 	#file = '/var/www/default.csv'
 	tvalues=[]#declara lista das temperaturas

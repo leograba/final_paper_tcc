@@ -34,7 +34,7 @@ def tprint_all_terminal(tcelsius):
         print "%.2f K" % (tcelsius+273.15)#kelvin
         print "%.2f" % (tcelsius*1.8+32+459.67), u"\u00B0R"#rankine
 
-def tlog(file = "/var/www/datalog/default.csv"):
+def tlog(file = "/home/root/log/default.csv"):
 	"""salva temperatura e Unix Time em .csv """
 	#arquivo padrão CSV com cabecalho
 
@@ -48,7 +48,8 @@ def tlog(file = "/var/www/datalog/default.csv"):
 	#tsample = 0.2202 #amostra a cada x segundos
 	tsample = 1 #valor de amostragem para teste
 	#amostras = 5000#numero de amostras a serem coletadas
-	buff_temp = tread()#guarda o último valor lido
+	#buff_temp = tread()#guarda o último valor lido
+	buff_temp = 32
 	exist = os.path.isfile(file)
 	#buffer = open(file,"a")#mesma funcao da linha abaixo, porem menos recomendada
 	with open(file, 'a', 1) as log:#desse jeito, o arquivo será fechado
@@ -74,7 +75,7 @@ def tlog(file = "/var/www/datalog/default.csv"):
 				print "registrando temperatura!",temp_celsius
 
 
-def tlog_instant(temperature, epoch, file = "/var/www/datalog/instant.csv"):
+def tlog_instant(temperature, epoch, file = "/home/root/log/instant.csv"):
 	"""salva última temperatura e Unix Time em arquivo .csv"""
 	with open(file, 'w', 1) as log:#sobrescreve o arquivo toda vez
 		#temperature = tread()#lê a temperatura
