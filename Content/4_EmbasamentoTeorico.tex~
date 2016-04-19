@@ -1,0 +1,720 @@
+\chapter{Embasamento Teórico}
+\label{EmbasamentoTeorico}
+
+Neste capítulo, será apresentado o embasamento teórico utilizado para o desenvolvimento deste Trabalho de Conclusão de Curso, abordando desde o processo de produção de cerveja e os equipamentos utilizados até os sistemas de controle e plataforma de implementação da interface de usuário, dentre outros tópicos.
+
+\section{Processo de Produção de Cerveja}
+
+O primeiro passo para o desenvolvimento do controle de automatização da produção de cerveja é o entendimento dos seus processos e particularidades. Esta seção tem o objetivo de apresentar uma introdução à fabricação de cerveja, o que implica em significativas simplificações e resumos dos processos apresentados. Para maiores informações sobre o tema, recomenda-se a consulta do material bibliográfico de referência. 
+
+A produção começa com a escolha e \textbf{moagem} dos maltes, produzidos a partir de cereais selecionados, sendo a cevada o cereal mais amplamente utilizado -- embora outros grãos, como trigo, centeio e aveia também possam ser empregados \cite{briggs}. O grão malteado é a fonte principal de açúcares fermentáveis utilizado na fabricação de cerveja e é produzido a partir da germinação parcial do cereal, sendo que diferentes processos e variedades de grãos resultam em diferentes qualidades de maltes. Estes,  por sua vez, conferem características únicas aos diversos estilos de cerveja \cite{palmer,briggs}. O método de moagem do malte é escolhido com base nos métodos de brassagem e separação de mosto a serem empregados \cite{briggs}, e.g. em uma moagem na qual a cama de grãos formada no processo serve como um filtro para separação do mosto, deve-se preservar a casca, utilizando uma moagem grossa e de maceração, evitando trituração.
+
+Com os maltes moídos, segue-se para a \textbf{brassagem}, que consiste na mistura de determinada quantidade de água quente aos maltes, possibilitando a extração e diluição dos seus açúcares fermentáveis. Enquanto um extrato em água fria tem rendimento na ordem de 15-22\%, o HWE (\textit{hot water extract}) -- extrato em água quente, chega à ordem de 75-83\% devido à atividade enzimática catalisadora \cite{briggs}.
+
+O processo de brassagem pode ser realizado de várias maneiras, dentre elas \cite{briggs}:
+
+\begin{enumerate}[label=(\alph*)]
+	\item infusão simples, na qual os maltes são cozidos a uma temperatura fixa, quase isotérmica, utilizado tradicionalmente por cervejarias britânicas. É feita em uma tina de brassagem, na qual tanto o processo de extração dos açúcares quanto a separação do extrato do mosto são realizados. O cozimento se dá a uma temperatura na ordem de 63\textdegree C a 67\textdegree C, durante 30 minutos a duas horas e meia. O líquido da panela (extrato) é re-circulado para que as partículas sólidas sejam separadas deste e, por isso, é importante que a moagem dos grãos seja grossa, já que estes assentam na tina e servem como filtro. Após a separação do extrato, a cama de grãos formada é lavada com um spray de água quente, processo denominado \textit{sparging};
+	\item decocção, na qual a moagem dos grãos é mais fina e os maltes utilizados são pouco modificados: devido à moagem fina, os grãos podem ser bombeados ou misturados. Este método usa três recipientes: um recipiente de mistura da mosturação, um recipiente de decocção e um dispositivo de separação do extrato do mosto. Neste processo retira-se uma quantidade de líquido, que está a uma temperatura inicial de 35\textdegree C, e este é fervido e adicionado novamente ao restante. Após a mistura, a temperatura do mosto deve ser de cerca de 50\textdegree C e deve permanecer assim por um período de tempo. O processo é repetido outras duas vezes, para obter as temperaturas de 65\textdegree C e 76\textdegree C respectivamente;
+	\item dupla infusão; e
+	\item maceração escalonada, infusão por temperaturas programadas ou infusão por degraus de temperatura é um processo que tem substituído os outros sistemas, em função de sua praticidade e economia de energia, podendo economizar de 30 a 50\% com relação a um programa de decocção similar. A extração de açúcares é feita de forma análoga ao processo de infusão simples, com a diferença de que as temperaturas do processo são controladas em rampas e patamares. A filtragem do extrato do mosto pode ser feita tanto utilizando a técnica de cama de grãos do processo de infusão simples quanto a filtragem direta da decocção. A figura \ref{exRampa} apresenta o exemplo de três programas de temperatura de brassagem - de cima para baixo, os gráficos da figura se referem a brassagens por degraus, decocção simples e decocção dupla. No processo por degraus, o aumento de temperatura entre os patamares deve ser da ordem de 1\textdegree C/min.
+\end{enumerate}
+
+%\newpage
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.20]{./Resources/exRampas.jpg}
+	\captionsetup{justification=centering}
+	\caption[Programa de temperaturas típico de uma brassagem.]{Programa de temperaturas típico de uma brassagem. \\Fonte: BRIGGS (2011)
+	}
+	\label{exRampa}
+\end{figure}
+
+Após a \textbf{filtragem} do extrato do mosto, este é transferido para um caldeirão de \textbf{fervura}, processo no qual são adicionados os lúpulos e que leva cerca de uma hora, mas que pode durar mais tempo dependendo da receita \cite{briggs}, a exemplo das cervejas comerciais \textit{90 Minute IPA} e \textit{120 Minute IPA}, da cervejaria Dogfish Head, cujo tempo de fervura dura 90 minutos e 120 minutos, respectivamente \cite{1001,dogfish}. Lúpulo é uma flor em formato de cone e é utilizado para conferir amargor e aroma à cerveja, além de ser um ótimo conservante natural. Pode ser adicionado ao mosto em flores, \textit{pellets} (pastilhas prensadas) ou extrato. Quando adicionado no início da fervura, contribui para o amargor da cerveja, por meio da isomerização de ácidos alfa que ocorre em função da alta temperatura. Em contrapartida, compostos aromáticos voláteis são perdidos neste processo e, por isso, também é adicionada uma quantidade de lúpulos ao final da fervura, para contribuir com o aroma \cite{palmer,briggs}.
+
+Além de conferir amargor à cerveja, por meio da adição de lúpulos, a fervura também é responsável pela coagulação de proteínas indesejáveis, assepsia do líquido, evaporação e consequente redução do seu volume, mudanças no sabor da cerveja e evaporação de compostos voláteis indesejáveis \cite{briggs}.
+
+A seguir, o mosto fervido deve ser \textbf{resfriado} rapidamente até 26\textdegree C para evitar oxidação, contaminação e criação de compostos orgânicos que introduzem sabores indesejados \cite{palmer}. O processo de resfriamento é realizado com o emprego de um trocador de calor, denominado \textit{chiller}. Também devem ser separadas e desprezadas as proteínas coaguladas e os restos de lúpulos decorrentes da fervura. Este processo geralmente é denominado \textit{whirlpool}, em função de sua natureza, na qual o mosto fervido é centrifugado e os compostos indesejados se acumulam no centro e no fundo da panela de fervura \cite{briggs}. O último passo é aerar ou até mesmo oxigenar o mosto, para que as leveduras possam se reproduzir corretamente no início da \textbf{fermentação} \cite{briggs}.
+
+A levedura deve ser adicionada ao mosto resfriado e oxigenado o mais rápido possível para evitar contaminações, e o recipiente de fermentação comumente é selado, evitando a entrada de ar \cite{briggs}. O processo de fermentação e os subsequentes processos de \textbf{maturação} e \textbf{envase} não serão detalhados, pois sua automação não é parte do escopo deste trabalho. 
+
+\section{Estrutura mecânica}
+
+O processo de brassagem, que consiste no cozimento dos maltes para extração dos açúcares fermentáveis e filtração do líquido resultante, conhecido como mosto, é realizado em equipamentos específicos para estas tarefas. Em função das diferentes técnicas de brassagem e tecnologias desenvolvidas ao longo do tempo, diversos tipos e arranjos de equipamentos foram desenvolvidos \cite{briggs}.
+
+Atualmente existe uma convergência nos métodos de fabricação de cervejas, motivada principalmente por questões financeiras, cujo objetivo do equipamento é maximizar a produção. Outros motivos para o desenvolvimento e aprimoramento de equipamentos são a necessidade de sempre produzir uma cerveja com as mesmas características, ou seja, padronizar a produção e, também, a preocupação crescente com redução do uso de energia e água e a redução da produção de efluentes \cite{briggs}. Ainda assim, equipamentos antigos continuam em uso, seja pela impossibilidade de reproduzir a cerveja em equipamentos mais modernos ou pelo custo elevado da atualização das plantas de produção.
+
+Na adição dos grãos à panela de mostura, o processo de mistura destes à água é importante para que a brassagem seja eficiente, uma vez que os grãos mal misturados podem formar aglutinados que impedem a extração dos açúcares. Para evitar este inconveniente, dispositivos mecânicos foram desenvolvidos, conforme exposto na figura \ref{mashin}: em (a) a água e os grãos são misturados em um fluxo constante, determinado pela velocidade de giro de uma rosca sem fim e; em (b) a água é adicionada aos maltes em um ângulo tangente, de tal forma que um vórtex a mistura aos grãos.  A temperatura da água também deve ser controlada, para evitar que proteínas sejam inativadas e seu volume inicial é predeterminado conforme a receita \cite{briggs}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.59\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/mashin.jpg}
+		\caption{Dispositivo com rosca sem fim}
+		\label{mashin:1}
+	\end{subfigure}
+	\begin{subfigure}{.4\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/mashin1.jpg}
+		\caption{Dispositivo de mistura por vórtex}
+		\label{mashin:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Dispositivos de mistura de grãos à brassagem.]{Dispositivos de mistura de grãos à brassagem. \\Fonte: BRIGGS (2011)
+	}
+	\label{mashin}
+\end{figure}
+
+\subsection{Panela de mostura}
+
+A panela de mostura, ou MT (\textit{mash tun}), é o dispositivo mais simples para a preparação do mosto, uma vez que nela ocorre a extração dos açúcares, a filtração do extrato do mosto e a lavagem dos grãos \cite{briggs}. A figura \ref{mashTun} apresenta uma configuração comum de MT, usada atualmente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/mt_modern.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de panela de brassagem industrial moderna.]{Esquema de panela de brassagem industrial moderna. \\Fonte: BRIGGS (2011)
+	}
+	\label{mashTun}
+\end{figure}
+
+As MTs possuem seção transversal circular e atualmente são feitas de aço inoxidável, revestidas com material isolante térmico. Embora originalmente fossem abertas, atualmente são cobertas para evitar perda de calor e espalhamento do vapor de água pelo ambiente da brassagem. O fundo da MT é coberto por um fundo falso, que fica a alguns centímetros acima do fundo original e cuja função é atuar como filtro, em conjunto com a cama de grãos. Este fundo falso consiste de uma ou mais chapas de metal com rasgos da ordem de 0,7-1,0mm, que representam uma área livre para a drenagem de cerca de 12\% da área total, ou uma trama com fios de metal cuja área livre chega a 22\% \cite{briggs}.
+
+O descarte dos grãos é feito através de um tubo, com a ajuda de uma pá que varre o fundo da panela ou um jato de ar comprimido. Métodos de remoção dos grãos descontinuados são a remoção manual (que ainda existe em pequenas instalações) e o enxágue dos grãos com bombeamento para um tanque anexo -- este não mais usado em função da necessidade de mais água e posterior tratamento desta, que resulta em custos adicionais, além da perda do valor comercial dos grãos a serem descartados. Com relação à limpeza, as MTs são construídas com suporte à limpeza CIP (limpeza no local), inclusive na região entre o fundo da panela e o fundo falso \cite{briggs}.
+
+A água da lavagem dos grãos, ou \textit{sparging}, é borrifada por um cano ou mais canos suspensos acima da cama de grãos, conforme ilustrado na figura \ref{mashTun}. Estes canos são conhecidos como braços de \textit{sparging} e geralmente giram no eixo em função da força da água, o que só é possível devido aos furos no tubo serem feitos na vertical, especialmente para este propósito. Outro aspecto da construção dos braços de \textit{sparging} é que, á medida que se aproxima do centro da panela, os furos são feitos a uma distância menor entre si, possibilitando que a água seja igualmente distribuída sobre a cama de grãos \cite{briggs}. O extrato do mosto é coletado por tubos no fundo da panela.
+
+No caso da brassagem feita pelo processo de decocção, brassagem dupla ou infusão por temperatura controlada, diferentes recipientes de brassagem são utilizados. A figura \ref{mashMixer} é um exemplo de tina de mistura (não confundir com mostura, embora a panela seja utilizada no processo de mostura) usada para brassagem de temperatura controlada. Nestes casos, a moagem dos maltes é mais fina e estes são constantemente misturados por uma pá no fundo da panela. Mesmo dentre estes sistemas os equipamentos diferem entre si e, diferente da MT, nestes sistemas é preciso utilizar outro recipiente para separar o extrato dos grãos. O separador pode ser uma tina de lavagem, conhecida também como LT (\textit{lauter tun}), ou pode ser um filtro de mosto. Embora a LT e o filtro de mosto sejam amplamente utilizados na indústria, não serão detalhados neste trabalho, já que a abordagem prática adotada não inclui seu uso.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/mt_mix.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de panela de mistura do mosto.]{Esquema de panela de mistura do mosto. \\Fonte: BRIGGS (2011)
+	}
+	\label{mashMixer}
+\end{figure}
+
+\subsection{Caldeirão de fervura}
+
+A fervura é o processo no qual o extrato do mosto é fervido com a adição de lúpulos em um caldeirão de fervura. Em inglês o termo utilizado para este caldeirão (\textit{copper}, que significa cobre) lembra o fato de que inicialmente era comum o emprego de tinas de cobre, dada a facilidade de moldagem que este metal permite, a alta condutividade térmica e a aparência atrativa dos caldeirões \cite{briggs}. Este também é usualmente referido como BK, ou \textit{brewing kettle} (caldeirão de fervura). Por muito tempo o estudo do processo de fervura foi negligenciado por ser considerado simples, mas à medida que a questão da economia de energia veio à pauta, estudos oriundos desta necessidade mostraram que o processo é mais complicado do que foi inicialmente considerado \cite{briggs}.
+
+Como existe uma lista de objetivos que devem ser cumpridos durante o processo de fervura, o projeto do equipamento é essencial para que estes sejam atingidos e, em um grau mais avançado, a maior economia de energia possa ser obtida. O primeiro objetivo -- que não está necessariamente em ordem de importância -- é a evaporação de água e consequente concentração do mosto, com taxas de evaporação inicialmente na faixa de 10\% do volume por hora e que foram reduzidas com o desenvolvimento tecnológico das grandes indústrias, já que o custo de evaporação da água é caro em termos de demanda energética. O segundo objetivo importante da fervura é esterilizar o mosto, ou pelo menos matar formas vegetativas de micróbios -- ainda que esporos possam sobreviver ao processo. A terceira função do processo é a evaporação de compostos voláteis indesejados, o que resultou em um desafio tecnológico para diminuir os tempos de fervura e quantidade de água evaporada sem que os compostos voláteis deixassem de ser eliminados efetivamente \cite{briggs}.
+
+Dentre as mudanças que ocorrem no mosto durante a fervura, podem ser notadas criações, adições e transformações de substâncias químicas, como a dispersão de resinas e óleos do lúpulo no mosto e a isomerização de ácidos-\si{\alpha} (transformação dos ácidos-\si{\alpha} presentes no lúpulo em isômeros que conferem características de amargor à bebida), além da desnaturação e formação de coágulos de proteínas -- processo que é favorecido por uma fervura rigorosa e prolongada -- que virão a formar o chamado \textit{trub}, resultado da decantação destas proteínas.  Este processo de decantação pode ser acelerado por meio da adição de substâncias como gel de sílica ou musgo irlandês, conhecido como \textit{irish moss} \cite{briggs}.
+
+Historicamente o aquecimento dos BKs era feito de forma direta, com a queima de combustíveis sólidos. Embora estes não sejam empregados atualmente, ainda existem BKs que são aquecidos diretamente, por meio da queima de óleos ou gases. Ainda assim, atualmente o maior elemento de aquecimento utilizado é o vapor d'água. Embora estes sistemas sejam mecanicamente mais complexos, o aquecimento a vapor reduz a quantidade de calor aplicada por unidade de área, o que evita a caramelização do mosto \cite{briggs}. Na figura \ref{boilcopper} são apresentadas três configurações de BKs, sendo (a) e (b) por meio de aplicação direta de vapor à superfície do recipiente e (c) utilizando um aquecedor interno, também a vapor.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/boil_steam1.jpg}
+		\caption{Caldeirão com base arredondada e revestimentos de vapor assimetricamente dispostos}
+		\label{boilcopper:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/boil_steam2.jpg}
+		\caption{Caldeirão de alta eficiência, com revestimentos de vapor na base e no cone central}
+		\label{boilcopper:2}
+	\end{subfigure}
+	\begin{subfigure}{.65\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/boil_internal.jpg}
+		\caption{Caldeirão com aquecimento interno e mais profundo no centro, permitindo um aquecedor maior}
+		\label{boilcopper:3}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Diferentes configurações de caldeirões de fervura.]{Diferentes configurações de caldeirões de fervura. \\Fonte: BRIGGS (2011)
+	}
+	\label{boilcopper}
+\end{figure}
+
+O projeto destes sistemas mecânicos são feitos com o objetivo de evitar que o mosto seja caramelizado ou descaracterizado de alguma forma e de modo a economizar energia. Com isso surgiram em função do tempo sistemas pressurizados e de aquecimento externo do líquido, dentre outras configurações diversas. Todos os sistemas modernos e eficientes de fervura são fechados e se aproveitam da pressurização de algum modo para reduzir o custo energético do processo de fervura, que se dá pela redução do tempo de fervura possibilitada pela elevação da temperatura do mosto. Contudo é preciso atentar-se ao fato de que temperaturas muito altas podem afetar negativamente a produção da cerveja e, portanto, valores típicos de temperatura empregados pela indústria chegam a até 104\si{\degree}C, com exceções\footnotemark \cite{briggs}. A tabela \ref{tipos_fervura} apresenta alguns sistemas de fervura utilizados na indústria e suas características com relação a temperatura, tempo de fervura e evaporação do mosto. Note-se que mesmo para um tipo específico de fervura, diversas configurações de equipamento podem ser adotadas.
+
+\footnotetext{O sistema de alta temperatura / alta pressão (140\si{\degree}C) é pouco utilizado e testes práticos mostram que os resultados em termos de qualidade da cerveja são questionáveis \cite{briggs}}
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Características de diferentes sistemas de fervura.]{Características de diferentes sistemas de fervura. \\Fonte: adaptado de BRIGGS(2011)}
+		\label{tipos_fervura}
+		\begin{tabular}{ | M{6cm}  M{3cm}  M{3cm}  M{3cm} |}
+			\hline
+			\textbf{Sistema de aquecimento} & \textbf{Temperatura (\si{\degree}C)} & \textbf{Tempo de fervura (min.)} & \textbf{Evaporação (\%)} \\ \hline
+			Panela de "alta performance" & 100 & 120-150 & 12-16 \\
+			Aquecedores internos/externos, com contrapressão & 102-103 & 60-80 & 8 \\
+			Fervura de baixa pressão & 103-104 & 55-65 & 6-7 \\
+			Fervura dinâmica de baixa pressão & 103-104 & 45-50 & 4,5-5 \\
+			Fervura de alta temperatura / alta pressão & 130-140 & 2,5-3 & 6-8 \\
+			Aquecimento de película fina & 100 & 35-40 & 4-4,7\\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+Embora o objetivo principal deste trabalho não seja a eficiência energética do sistema, neste parágrafo são apresentadas algumas considerações acerca do tema. Uma vez que o aquecimento de água une todas as partes do processo de produção de cerveja, não é realista acreditar que a economia de energia pode ser aplicada exclusivamente ao processo de fervura, que é o mais custoso em termos energéticos, portanto automação de controles, equipe bem capacitada, boa conservação do edifício, \textit{designs} eficientes, dentre outros fatores, são importantes para a economia de energia. No tocante à fervura em específico, geralmente são utilizados sistemas que recuperam energia de vapor e/ou água quente para reuso nas diversas etapas do processo de produção de cerveja \cite{briggs}. Um exemplo é o sistema da figura \ref{eng_sav}, que utiliza energia do vapor de aquecimento utilizado na fervura para posterior aquecimento do mosto e pré-aquecimento de outra fervura. Para que isto seja possível, é essencial que a cervejaria realize consecutivas produções, uma vez que a energia é transferida para a produção seguinte.
+
+\newpage
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{./Resources/energy_saving.jpg}
+	\captionsetup{justification=centering}
+	\caption[Arranjo para recuperação de energia.]{Arranjo no qual vapor do caldeirão de fervura é condensado e calor é recuperado e armazenado como água quente em um tanque de gradiente de temperatura. \\Fonte: BRIGGS (2011)
+	}
+	\label{eng_sav}
+\end{figure}
+
+\subsection{Adição de lúpulos}
+
+É comum realizar a adição de lúpulos manualmente em pequenas cervejarias, porém deve-se observar que a adição de lúpulos pode ser uma tarefa perigosa, pois o mosto pode subitamente vazar. Também, em adições tardias de lúpulo, ocorre a entrada de ar no BK, o que faz com que sistemas pressurizados não possam ser utilizados sem as devidas considerações e/ou modificações no equipamento \cite{briggs}.
+
+A adição de lúpulos geralmente não é satisfatória quando são utilizadas flores, por isso pastilhas ou extratos são geralmente utilizados. Em grandes cervejarias a maior parte do desafio está no fato de que os lúpulos devem ser armazenados em ambientes com temperatura controlada, que geralmente ficam longe do BK, além de serem armazenados em caixas ou tanques. Além do sistema automático de transporte destes pacotes, em caso de BKs com pressurização, é preciso utilizar sistemas de câmaras de compressão para adicionar os lúpulos à panela \cite{briggs}.
+
+\subsection{Clarificação e resfriamento do mosto}
+Quando o processo de fervura é finalizado, o mosto deverá estar claro, ou seja, com aparência brilhante. Ainda assim, é preciso remover o \textit{trub}\footnotemark \footnotetext{O \textit{trub} descrito neste capítulo é referente ao \textit{hot break}, ou processo de fervura. Neste trabalho não será abordado o \textit{trub} decorrente do \textit{cold break}, ou resfriamento do mosto, que começa a ser formado em temperaturas próximas a 70\si{\degree}C} e os restos de lúpulos utilizados no processo, já que o \textit{trub} contribui com compostos sulfurosos e alcoóis indesejados, além de tornar a cerveja turva -- o que pode ou não ser um problema \cite{byown}. Diversos equipamentos foram criados com este propósito, seja para mostos com adição de lúpulos em flores, que facilitam a extração dos compostos indesejáveis, quanto para mostos feitos com pastilhas e extratos de lúpulo. Há sistemas chamados \textit{hop back} empregados na filtragem de mostos com lúpulos em flor e que lembram MTs, nos quais o mosto é filtrado por um fundo falso, com elemento filtrador sendo a cama de lúpulos que decanta para o fundo da panela -- inclusive há pequenas cervejarias que utilizam a MT para realizar este método de clarificação \cite{briggs}.
+
+Embora existam outros sistemas de clarificação, o empregado mais largamente na indústria atual é a técnica de \textit{whirlpool} (redemoinho, em tradução livre) na qual mosto quente é injetado tangencialmente em um recipiente cilíndrico, a uma velocidade fixa, sendo a altura de injeção do mosto variável em função de diferentes projetos. Sistemas de gravidade geralmente não são suficientes e bombas ou sistemas projetados para utilizar o efeito de termossifão são utilizadas. As correntes de circulação do mosto decorrentes desta injeção tangencial fazem com que o material particulado fique concentrado no fundo e no centro do recipiente, possibilitando o escoamento controlado do líquido e a consequente separação do \textit{trub} \cite{briggs}. Na figura \ref{whirlpool} são ilustrados sistemas de separação por decantação (a) e por \textit{whirlpool} (b).
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/trub_decanter.jpg}
+		\caption{Sistema de serapação do \textit{trub} por decantação}
+		\label{whirlpool:1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/trub_whirlpool.jpg}
+		\caption{Sistemas de separação do \textit{trub} por \textit{whirlpool}, com fundo plano e arredondado}
+		\label{whirlpool:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Sistemas de clarificação.]{Sistemas de clarificação. \\Fonte: BRIGGS (2011)
+	}
+	\label{whirlpool}
+\end{figure}
+
+Após o processo de clarificação deve começar a fermentação e, para que as leveduras possam ser inoculadas no mosto, este deve ser resfriado até a temperatura ideal de operação destes microorganismos, que está típicamente na faixa 15-22\si{\degree}C para leveduras do tipo \textit{ale} e 6-12\si{\degree}C para leveduras do tipo \textit{lager}. O resfriamento rápido do mosto deve ocorrer, pois assim reações químicas decorretes da fervura são interrompidas e a chance de contaminação do mosto é reduzida \cite{briggs}.
+
+Para isto, um \textit{cooler} (resfriador ou trocador de calor) é utilizado. Dentre os modelos mais largamente empregados encontra-se o \textit{cooler} vertical, no qual o mosto passa por dentro de um arranjo de tubos finos, enquanto na parte externa destes água fria é circulada em contra-fluxo. Ainda assim, o modelo de \textit{cooler} mais popular é do trocador de calor de placas, devido ao seu tamanho compacto, versatilidade e eficiência. As placas possuem padrões de desenho de tal forma que, quando são compactadas, elas formam canais pelos quais o mosto é passado em contra-fluxo a um agente resfriador (água fria, por exemplo). Estes trocadores de calor são projetados para que o escoamento seja turbulento e, consequentemente, a troca de calor seja mais eficiente. Quando um agente resfriador diferente da água é utilizado, a manutenção do sistema deve ser reforçada, já que vazamentos implicam na contaminação do mosto \cite{briggs}. A figura apresenta um esquema de \textit{cooler} de placas.
+
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.55]{./Resources/cooler.jpg}
+ 	\captionsetup{justification=centering}
+ 	\caption[Esquema de funcionamento do trocador de calor de placas.]{Esquema de funcionamento do trocador de calor de placas. \\Fonte: Site da Offshore Energy Today\protect\footnotemark
+ 	}
+ 	\label{usa-breweries}
+ \end{figure}
+ 
+ \footnotetext{Disponível em \url{http://www.offshoreenergytoday.com/wp-content/uploads/2012/03/Alfa-Laval-to-Supply-Plate-Heat-Exchangers-for-Brazilian-Offshore-Plaforms.jpg}}
+
+Por fim, antes de inocular a levedura, é importante que o mosto seja suficientemente aerado ou oxigenado. Sem isso, a levedura não terá um ambiente adequado à sua reprodução e a atenuação do mosto -- transformação de açúcares e oxigênio em álcool e gás carbônico -- não será completada. Diferenças de solubilidade do mosto e dos tipos de levedura podem influenciar na quantidade de oxigênio necessária para um bom andamento da fermentação, sendo que para obter os níveis adequados, em escala industrial a oxigenação geralmente é forçada  \cite{briggs,palmer}. Na produção de cerveja artesanal, a aeração geralmente é feita agitando o mosto resfriado ou com a ajuda de um sistema de aeração de aquário \cite{palmer}.
+
+\section{BeagleBone Black}
+
+BBB é uma placa de sistema embarcado desenvolvida para a comunidade de código aberto (\textit{open-source}), iniciantes e quaisquer pessoas interessadas em um sistema equipado com um processador ARM Cortex-A8 32-bits de baixo custo, seja para teste de conceito ou mesmo uso pessoal/profissional. Embora o sistema tenha sido desenvolvido com um número reduzido de funcionalidades, de modo a proporcionar uma boa experiência de uso, esta placa não é uma plataforma completa de desenvolvimento nem é voltada para o desenvolvimento de um produto específico, mas sim para a experimentação e aprendizado nas áreas de \textit{software} e \textit{hardware} \cite{bbb_srm}. A figura \ref{bbb} apresenta a placa e seus principais componentes, em conjunto com a tabela \ref{bbb_specs}, onde estão contidas as especificações gerais de hardware e a figura \ref{bbb-bdg}, na qual está contido um diagrama de blocos do sistema, de alto nível de abstração. O diagrama esquemático do sistema pode ser obtido no Anexo \ref{Anexo1}.
+
+É imprescindível atentar para o fato de que a BBB possui diversas revisões de \textit{hardware}, sendo que a versão utilizada neste trabalho é a \textbf{revisão C}.
+
+A combinação do processador ARM Cortex-A8 com o projeto de \textit{hardware} da placa possibilita o uso de um sistema operacional embarcado -- geralmente uma distribuição Linux -- que fornece facilidades de programação, a exemplo de uma IDE acessada pelo navegador da internet chamada Cloud9 em combinação com uma biblioteca de acesso ao hardware em \textit{server-side} Javascript (Node.js), possibilitando a prototipagem rápida de soluções embarcadas de produtos voltados ao mundo real. À medida que o desenvolvedor do sistema se torna mais experiente, é possível desenvolver soluções mais complicadas em diversas linguagens de programação, utilizando-se para isto do sistema operacional Linux embarcado na placa. \cite{bbb_nannan}. Além disso, projetos como o do carro de controle remoto via web, desenvolvido por \cite{bbb_nannan} com o intuito de confirmar as capacidades de placa e seu potencial uso no ensino de sistemas embarcados, reforçam a escolha da BBB como plataforma para este projeto.  
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/bbb-components.jpg}
+	\captionsetup{justification=centering}
+	\caption[BeagleBone Black e principais componentes]{BeagleBone Black e principais componentes. \\Fonte: COLEY (2014)
+	}
+	\label{bbb}
+\end{figure}
+
+\begin{itemize}
+	\item \textbf{Sitara AM3358BZCZ100} - SoC (\textit{system on chip})
+	\item \textbf{Micron 512MB DDR3L ou Kingston 512MB DDR3} - memória RAM
+	\item \textbf{TPS65217C PMIC} - controlador de alimentação dos diferentes componentes do sistema
+	\item \textbf{SMSC Ethernet PHY} - interface física à rede Ethernet
+	\item \textbf{Micron eMMC} - memória não volátil MMC de 4GB
+	\item \textbf{HDMI Framer} - controlador para uso com display HDMI ou DVI-D
+\end{itemize}
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Especificações Gerais da BeagleBone Black]{Especificações Gerais da BeagleBone Black. \\Fonte: adaptado de COLEY(2014)}
+		\label{bbb_specs}
+		\begin{tabular}{ | M{3cm} | M{12cm} |}
+			\hline
+			& \multicolumn{1}{|c|}{\textbf{Especificação}} \\ \hline
+			Processador & Sitara AM3358BZCZ100, 1GHz, 2000 MIPS\\ \hline
+			Motor Gráfico & SGX530 3D, 20M polígonos/s \\ \hline
+			Memória SDRAM & 512MB DDR3L 800MHz \\ \hline
+			Memória Flash & 4GB, 8bit MMC embarcada \\ \hline
+			CI Gerenciador de Alimentação & TPS65217C + regulador adicional (linear) \\ \hline
+			Suporte a \textit{debug} & Interface serial, Conector CTI JTAG opcional de 20 pinos \\ \hline
+			Fonte de Alimentação & mini USB, conector DC ou 5VDC na barra de pinos\\ \hline
+			PCB & 8,64cm x 5,33cm (3,4" x 2,1") - 6 \textit{layers}\\ \hline
+			Leds Indicadores & 1 para alimentação; 2 para Ethernet; 4 acessíveis ao usuário \\ \hline
+			USB 2.0 \textit{Client} & Acesso à USB0 via miniUSB \\ \hline
+			USB 2.0 \textit{Host} & Acesso à USB1, soquete tipo A, 500mA LS/FS/HS \\ \hline
+			Serial & Acesso à UART0 via \textit{header} de 6 pinos, TTL 3.3V \\ \hline
+			Ethernet & 10/100 RJ45 \\ \hline
+			SD/MMC & Conector microSD, 3,3V \\ \hline
+			Chaves & Botões push de reset, boot e alimentação \\ \hline
+			Saída de vídeo & 16b HDMI, 1280x1024 (MAX), 1024x768, 1280x720, 1440x900, 1920x1080@24Hz \\ \hline
+			Audio & Via interface HDMI, estéreo \\ \hline
+			Conectores de expansão & Alimentação 5V, 3,3V e VDD\_ADC(1,8V) \newline 3,3V para todos os sinais de E/S \newline McASP0, SPI, I2C, até 69 pinos de GPIO, LCD, GPMC, MMC1, MMC2, 7 entradas para conversor A/D (1,8V MAX), 4 \textit{timers}, 4 UART, CAN, PWM via \textit{hardware}, interrupção XDMA\\ \hline
+			Peso & 39,68g (1,4oz) \\ \hline
+			Consumo@5VDC & Ocioso - 280mA \newline Carregando página web - 430mA \newline \*O consumo varia conforme o desempenho \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/bbb-blockDG.jpg}
+	\captionsetup{justification=centering}
+	\caption[Diagrama de blocos de alto nível da BeagleBone Black]{Diagrama de blocos de alto nível da BeagleBone Black. \\Fonte: COLEY (2014)
+	}
+	\label{bbb-bdg}
+\end{figure}
+
+Cada pino de GPIO digital da BBB possui até 7 modos diferentes de operação, que são configurados utilizando uma ferramenta do Linux chamada \textit{Device Tree}. A figura \ref{bbb_pins_def} apresenta a configuração padrão dos pinos, ou seja, quando é usada a distribuição Angstrom do Linux, pré-compilada e que é fornecida com a placa. Com relação aos pinos de GPIO, é importante notar que sua lógica opera com níveis de tensão de 0V e 3,3V para os níveis baixo e alto, respectivamente e portanto aplicar uma tensão negativa ou superior a 3,3V pode danificar permanentemente a placa \cite{lumme}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/bbb-pins-def.jpg}
+	\captionsetup{justification=centering}
+	\caption[Configuração padrão dos pinos da BeagleBone Black]{Configuração padrão dos pinos da BeagleBone Black. \\Fonte: Site oficial da Fundação BeagleBoard.org\protect\footnotemark
+	}
+	\label{bbb_pins_def}
+\end{figure}
+
+\footnotetext{Disponível em \url{http://beagleboard.org/Support/bone101}}
+
+\subsection{\textit{Programmable Real-time Unit -- PRU-ICSS}}
+
+A PRU-ICSS -- \textit{Programmable Real-Time Unit Subsystem and Industrial Communications Subsystem} (Unidade Programável de Tempo-Real e Subsistema de Comunicação Industrial, em tradução livre) é um subsistema do processador AM3358 que equipa a BBB, que é fabricado pela \textit{Texas Instruments} mas não tem suporte oficial da mesma \cite{bbb_srm}. Esta unidade consiste de dois núcleos RISC de 32 bits, uma memória compartilhada de 12kB, uma memória de dados e uma memória de programa para cada núcleo, ambas com 8kB de capacidade e periféricos internos -- além da possibilidade de acessar todos os eventos, pinos e recursos do SoC AM3358 por meio de uma interface OCP, que confere a este subsistema grande flexibilidade. Cada núcleo da PRU pode operar independentemente ou de maneira sincronizada, dependendo de como o \textit{firmware} para eles é escrito \cite{soc_manual}. Na figura é ilustrado o diagrama de blocos deste sistema.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/pru-blockDG.png}
+	\captionsetup{justification=centering}
+	\caption[Diagrama de blocos do subsistema PRU-ICSS]{Diagrama de blocos do subsistema PRU-ICSS. \\Fonte: TEXAS INSTRUMENTS (2015)
+	}
+	\label{pru-bdg}
+\end{figure}
+
+Os núcleos da PRU foram otimizados para realizar tarefas com requisitos severos de tempo-real e, portanto, tem um \textit{clock} de 200MHz e um sistema de instruções RISC no qual todas elas são executadas em um ciclo de \textit{clock}, propositalmente sem suporte a \textit{pipelining}. Cada núcleo tem 31 registradores, cuja utilização vai de propósito geral a indexação e controle de GPIO, acessíveis a nível de bit, byte, \textit{halfword} (16 bits), \textit{word} (32 bits) ou por ponteiro \cite{soc_manual}. Uma vez que cada instrução pode ser executada em 5ns e o acesso a GPIO é feito por meio de uma única instrução de acesso a registradores, isto significa que é possível obter uma resolução de chaveamento determinística de no máximo 5ns, com dados obtidos na prática, por \cite{bbb_pulsegen}, de \textit{jitter} RMS de 290ps e estabilidade de frequência na ordem de 10 ppm .
+
+Uma vez que as diversas funcionalidades do módulo PRU são acessadas por meio de mapeamento da memória de dados, é preciso saber a faixa de endereço destas. Aqui deve ser feita a distinção entre acesso à memória local da PRU, que compreende os endereços de 0x0000\_0000 a 0x0007\_FFFF, e o acesso à memória global, cujos endereços começam em 0x0008\_0000. Também é importante notar que as memórias internas dos módulos podem ser acessados com o endereço global de memória, mas isso reduz significativamente o tempo de acesso, já que o sinal é roteado para fora da PRU antes de ser recebido \cite{soc_manual}. Na tabela \ref{pru_localmem} é apresentado o mapa de memória local e na tabela \ref{pru_globalmem} é apresentado o mapa de memória global. Também há uma tabela de constantes gravada em hardware, com valores de uso recorrente, para economizar instruções de programação e registradores, nos quais estes endereços precisariam ser carregados se não estivessem disponíveis em hardware \cite{soc_manual}.
+
+Embora cada PRU suporte 30 canais de entrada e 32 canais de saída no modo direto \cite{soc_manual}, a BBB roteia somente 25 pinos do SoC ao conector de expansão. Destes, 10 pinos são exclusivos da PRU0 (8 saídas ou 9 entradas) e 15 pinos para a PRU1 (13 saídas ou 14 entradas). Eventualmente, alguns pinos pré-configurados para outras funções devem ser reconfigurados antes que possam ser utilizados \cite{bbb_srm}. Os pinos da BBB acessíveis pela PRU podem ser obtidos na figura \ref{bbb_pins_pru}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/bbb-pins-pru.jpg}
+	\captionsetup{justification=centering}
+	\caption[Pinos da BeagleBone Black acessíveis pela PRU-ICSS]{Pinos da BeagleBone Black acessíveis pela PRU-ICSS. \\Fonte: Site oficial da Fundação BeagleBoard.org\protect\footnotemark
+	}
+	\label{bbb_pins_pru}
+\end{figure}
+
+\footnotetext{Disponível em \url{http://beagleboard.org/Support/bone101}}
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Mapa de Memória Local da PRU]{Mapa de Memória Local da PRU. \\Fonte: adaptado de TEXAS INSTRUMENTS(2014)}
+		\label{pru_localmem}
+		\begin{tabular}{ | M{5cm} | M{5cm} | M{5cm} |}
+			\hline
+			\textbf{Endereço Inicial} & \textbf{PRU0} & \textbf{PRU1} \\ \hline
+			0x0000\_0000 & Mem. dados da PRU0 & Mem. dados da PRU1\\ \hline
+			0x0000\_2000 & Mem. dados da PRU1 & Mem. dados da PRU0\\ \hline
+			0x0001\_0000 & Mem. dados compartilhada & Mem. dados compartilhada \\ \hline
+			0x0002\_0000 & INTC & INTC \\ \hline
+			0x0002\_2000 & Controle da PRU0 & Controle da PRU0 \\ \hline
+			0x0002\_2400 & Reservado & Reservado \\ \hline
+			0x0002\_4000 & Controle da PRU1 & Controle da PRU1 \\ \hline
+			0x0002\_4400 & Reservado & Reservado \\ \hline
+			0x0002\_6000 & CFG & CFG \\ \hline
+			0x0002\_8000 & UART0 & UART0 \\ \hline
+			0x0002\_A000 & Reservado & Reservado \\ \hline
+			0x0002\_C000 & Reservado & Reservado \\ \hline
+			0x0002\_E000 & IEP & IEP \\ \hline
+			0x0003\_0000 & eCAP0 & eCAP0 \\ \hline
+			0x0003\_2000 & Reservado & Reservado \\ \hline
+			0x0003\_2400 & Reservado & Reservado  \\ \hline
+			0x0003\_4000 & Reservado & Reservado  \\ \hline
+			0x0003\_8000 & Reservado & Reservado  \\ \hline
+			0x0004\_0000 & Reservado & Reservado  \\ \hline
+			0x0008\_0000 & System OCP\_HP0 & System OCP\_HP1 \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+As interfaces de interrupção e de GPIO estão contidas nos registradores R30 e R31: o registrador R31 é utilizado tanto para interface dos pinos configurados como entrada quanto para leitura e/ou geração de eventos de interrupção, enquanto o registrador R30
+retorna status ou muda o valor dos pinos configurados como saída, para leitura e escrita, respectivamente. Embora a entrada possa ser configurada nos modos de captura paralela de 16 bits e trem de pulsos de 28 bits, estes modos de operação não serão detalhados, já que seu uso não está contido no escopo deste projeto. O mesmo é válido para a saída, que além do modo direto, pode ser configurada para transmitir um trem de pulsos \cite{soc_manual}.
+
+Outra característica da PRU é a existência de um IEP - \textit{Industrial Ethernet Peripheral} (Periférico Ethernet Industrial, em tradução livre), composto de um \textit{timer} para Ethernet industrial com 8 eventos de comparação e uma porta digital de E/S. O \textit{timer} Ethernet industrial é simplesmente um temporizador de 32 bits e, portanto, pode ser utilizado para uso geral. É um contador positivo, cujo valor dos incrementos pode ser programado na faixa de 1-16, com compensador de uso opcional. Os 8 registradores comparadores permitem a criação de eventos cada vez que o valor do comparador corresponde ao do temporizador \cite{soc_manual}.
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Mapa de Memória Global da PRU]{Mapa de Memória Global da PRU. \\Fonte: adaptado de TEXAS INSTRUMENTS(2014)}
+		\label{pru_globalmem}
+		\begin{tabular}{ | M{5cm} | M{10cm} |}
+			\hline
+			\textbf{Endereço de Offset} & PRU-ICSS \\ \hline
+			0x0000\_0000 & Mem. dados da PRU0 \\ \hline
+			0x0000\_2000 & Mem. dados da PRU1 \\ \hline
+			0x0001\_0000 & Mem. dados compartilhada \\ \hline
+			0x0002\_0000 & INTC \\ \hline
+			0x0002\_2000 & Controle da PRU0 \\ \hline
+			0x0002\_2400 & Debug da PRU0 \\ \hline
+			0x0002\_4000 & Controle da PRU1 \\ \hline
+			0x0002\_4400 & Debug da PRU1 \\ \hline
+			0x0002\_6000 & CFG \\ \hline
+			0x0002\_8000 & UART0 \\ \hline
+			0x0002\_A000 & Reservado \\ \hline
+			0x0002\_C000 & Reservado \\ \hline
+			0x0002\_E000 & IEP \\ \hline
+			0x0003\_0000 & eCAP0 \\ \hline
+			0x0003\_2000 & Reservado \\ \hline
+			0x0003\_2400 & Reservado  \\ \hline
+			0x0003\_4000 & IRAM da PRU0  \\ \hline
+			0x0003\_8000 & IRAM da PRU1  \\ \hline
+			0x0004\_0000 & Reservado  \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+No que diz respeito ao desenvolvimento de \textit{firmware} para a PRU, há um conjunto de instruções RISC em assembly, suportado por um conjunto de ferramentas que ajudam a gerar o arquivo binário a ser carregado na memória de programa. Alguns exemplos são o \textit{assembler}, \textit{archiver} e o \textit{linker} \cite{pru_assembly_tools}. Outra ferramenta de desenvolvimento proporcionada pela Texas Instruments é um compilador C/C++, que facilita a programação em níveis de abstração elevados \cite{pru_compiler}. A figura \ref{pru_firmdev} apresenta um diagrama de blocos que ilustra os passos a serem executados desde compilar o código C/C++ até carregar o arquivo executável na memória de programa da PRU.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/pru-software-dev.png}
+	\captionsetup{justification=centering}
+	\caption[Fluxo de desenvolvimento de software da PRU]{Fluxo de desenvolvimento de software da PRU. \\Fonte: TEXAS INSTRUMENTS
+	}
+	\label{pru_firmdev}
+\end{figure}
+
+\subsection{\textit{Device Tree}}
+
+A \textit{Device Tree} ou DT é basicamente uma estrutura de dados utilizada para descrever \textit{hardware}, cujo objetivo é possibilitar que as características de \textit{hardware} de um sistema específico sejam passadas para o SO durante o \textit{boot}, ao invés de estas informações ficarem gravadas no SO \cite{devicetree}, o que possibilita que um \textit{driver} do Kernel seja usado em configurações diferentes de \textit{hardware} sem a necessidade de modificações em seu código-fonte. Com relação aos sistemas equipados com processadores ARM, a necessidade de uso da DT surgiu devido ao grande número de novas placas, que tornou muito difícil manter uma versão do Kernel para cada sistema. Seu objetivo não é modificar o sistema em tempo de execução, porém no caso da BBB, foi criada uma solução chamada \textit{Device Tree Overlay} (ou sobreposição) para executar esta função, facilitando a configuração de GPIO, dentre outras funções, e uso da DT pelo usuário final \cite{bbb_devicetree}, fatores que são do interesse de aprendizes da área.
+
+Uma DT é uma estrutura em árvore, composta de nós e propriedades. Uma abordagem para entender o seu funcionamento é por meio de um exemplo de sobreposição específico para a BBB. Abaixo é apresentado um exemplo de sobreposição de DT específico da BBB que apresenta os principais conceitos para o uso desta ferramenta:
+
+\newpage
+
+\lstset{language=dtc}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+
+/*
+* Copyright (C) 2013 CircuitCo
+*
+* Virtual cape for UART1 on connector pins P9.24 P9.26
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2 as
+* published by the Free Software Foundation.
+*/
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "ti,beaglebone", "ti,beaglebone-black";
+
+	/* identification */
+	part-number = "BB-UART1";
+	version = "00A0";
+	
+	/* state the resources this cape uses */
+	exclusive-use =
+		/* the pin header uses */
+		"P9.24",        /* uart1_txd */
+		"P9.26",        /* uart1_rxd */
+		/* the hardware ip uses */
+		"uart1";
+	
+	fragment@0 {
+		target = <&am33xx_pinmux>;
+		__overlay__ {
+			bb_uart1_pins: pinmux_bb_uart1_pins {
+				pinctrl-single,pins = <
+		/* P9.24 uart1_txd.uart1_txd MODE0 OUTPUT (TX) */
+					0x184 0x20
+		/* P9.26 uart1_rxd.uart1_rxd MODE0 INPUT (RX) */ 
+					0x180 0x20
+				>;
+			};
+		};
+	};
+	
+	fragment@1 {
+		target = <&uart2>;	/* really uart1 */
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&bb_uart1_pins>;
+		};
+	};
+};
+\end{lstlisting}
+
+Neste código, na linha 14 é definida a plataforma à qual esta DT se refere. Com isso, ficam declaradas as funcionalidades de \textit{hardware} do sistema. Na sequência, a identificação mostra quais sobreposições de DT estão carregadas e o nome do arquivo compilado deve ser igual ao nome nela atribuído; a versão deve ser 00A0 para a BBB. Entre as linhas 20 e 26 são listados os recursos de \textit{hardware} utilizados por esta sobreposição, que impedem que outras sobreposições que usem os mesmos recursos sejam carregadas; no caso deste exemplo, os pinos referentes à UART1, assim como o próprio dispositivo UART1 são utilizados. A seguir, os fragmentos descrevem qual dispositivo terá suas configurações sobrepostas. No fragmento 0, é o multiplexador dos pinos da BBB, compatível com o \textit{driver} \textit{pinctrl-single} - os dois valores hexadecimais utilizados para cada pino são o \textit{offset} do pino com relação ao seu registrador e a configuração do pino. Já no fragmento 1 é configurada a interface UART1. Por enquanto, serão introduzidas somente as questões referentes à configuração do multiplexador, uma vez que seu conhecimento é necessário para o uso dos pinos no modo GPIO.
+
+Para determinar o valor hexadecimal de \textit{offset} do pino ao qual se deseja aplicar uma configuração, primeiro é preciso obter seu nome a partir do seu número na barra de pinos, conforme ilustrado na figura \ref{bbb_pins_def}, consultando as tabelas \ref{p8-header} e \ref{p9-header}, nas quais o nome do pino é referente ao \textbf{modo 0}, que também é o nome do pino no manual do SoC \cite{bbb_srm, soc_manual}. A seguir, obtém-se o valor hexadecimal do registrador referente ao pino, na tabela \ref{dt_offset} presente no anexo \ref{Anexo2}, adaptada do manual do SoC, e subtrai-se 0x800 de seu valor original.
+
+Com relação à configuração do pino, este aceita os parâmetros de ajuste de \textit{slew-rate}, ativação do \textit{buffer} de entrada, ajuste e ativação do \textit{pull-up/pull-down} interno e seleção do modo de operação do pino. Note-se que, com relação ao buffer de entrada, ao menos um blog da internet refere-se a este bit como sendo um bit de seleção para entrada \textbf{ou} saída \cite{derek_devtree}, porém o manual indica que quando o bit está setado, o pino pode ser usado tanto como entrada quanto saída \cite{soc_manual}. A tabela \ref{pad_cfg} apresenta os campos do registrador de controle de E/S, assim como a descrição de cada campo e os valores aceitos.
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Descrição dos campos do registrador de controle de \textit{pads}]{Descrição dos campos do registrador de controle de \textit{pads}. \\Fonte: adaptado de TEXAS INSTRUMENTS(2014)}
+		\label{pad_cfg}
+		\begin{tabular}{ | M{1cm} | M{3cm} | M{1cm} | M{10cm} |}
+			\hline
+			\textbf{Bit} & \textbf{Campo} & \textbf{Valor} & \textbf{Descrição} \\ \hline
+			31-7 & Reservado &  & Reservado. Leitura retorna 0 \\ \hline
+			6 & SLEWCTRL & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Seleciona entre \textit{slew-rate} rápido ou lento \\ 0 - rápido \\ 1 - lento} \\ \hline
+			5 & RXACTIVE & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Ativa modo de entrada para o pino \\ 0 - somente saída \\ 1 - Receptor ativado. Entrada ou saída}. \\ \hline
+			4 & PULLTYPESEL & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Seleção de pull-up/pull-down \\ 0 - pull-down \\ 1 - pull-up} \\ \hline
+			3 & PULLUDEN & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Habilita pull-up/pull-down \\ 0 - habilitado \\ 1 - desabilitado} \\ \hline
+			2-0 & MUXMODE & 0-7 & Seleção de funcionalidade do pino multiplexado \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\newpage
+
+%tabela do header 8
+\begin{minipage}[t][.49\textheight]{1\textwidth}
+	\begin{center}
+		\begin{table}[H]
+			\captionsetup{justification=centering}
+			\caption[Lista de pinos do \textit{header} P8 e seus respectivos modos de funcionamento]{Lista de pinos do \textit{header} P8 e seus respectivos modos de funcionamento \\ fonte: COLEY}
+			\label{p8-header}
+			\begin{center}
+				\includegraphics[page=1, height=0.4\textheight]{./Resources/tabela_pinos_SRM.pdf}
+			\end{center}
+		\end{table}
+		%\includegraphics[page=3, scale=0.5]{./Resources/BBB_SCH.pdf}
+	\end{center}
+\end{minipage}
+
+%tabela do header 9
+\begin{minipage}[b][.49\textheight]{1\textwidth}
+	\begin{center}
+		\begin{table}[H]
+			\captionsetup{justification=centering}
+			\caption[Lista de pinos do \textit{header} P9 e seus respectivos modos de funcionamento]{Lista de pinos do \textit{header} P9 e seus respectivos modos de funcionamento \\ fonte: COLEY}
+			\label{p9-header}
+			\begin{center}
+				\includegraphics[page=2, height=0.4\textheight]{./Resources/tabela_pinos_SRM.pdf}
+			\end{center}
+		\end{table}
+		%\includegraphics[page=3, scale=0.5]{./Resources/BBB_SCH.pdf}
+	\end{center}
+\end{minipage}
+
+%Páginas relevantes do manual do SoC
+%1356 - pullup, RXactive, etc e 1365 - registers offset, 1422 - registrador
+
+\subsection{Programação em Python}
+
+\subsection{Programação em Node.js (Javascript)}
+
+\subsection{Servidor Express.js}
+
+\section{Circuitos de Interface}
+
+No âmbito deste trabalho, circuitos de interface são circuitos eletrônicos que possibilitam a interação entre a plataforma BeagleBone Black e os sensores e atuadores do sistema mecânico. O projeto adequado destes circuitos é essencial não somente para que o projeto funcione corretamente, mas também para evitar que componentes do sistema, a exemplo da BBB, sejam danificados. Nesta seção, será abordada a teoria essencial para o projeto destes, desde conceitos relacionados à teoria de sinais, passando por alguns elementos básicos da eletrônica e finalizando com as características dos sensores e atuadores empregados.
+
+\subsection{Sinais}
+
+Sinais são funções matemáticas que guardam informações acerca de fenômenos físicos, a exemplo da temperatura de um elemento em função do tempo ou a representação do som de um instrumento musical. Na figura \ref{seno_1p} é apresentado um período de um sinal senoidal puro. Uma vez que, para obter informações a partir de um sinal, é preciso processá-lo, as mais diversas grandezas físicas devem ser convertidas para grandezas manipuláveis pelo sistema de processamento --- que no caso de circuitos eletrônicos é comumente a tensão elétrica, embora outras grandezas também sejam utilizadas \cite{sedra}. Para que a conversão de diferentes grandezas físicas em sinais elétricos seja possível, são empregados dispositivos sensores e transdutores.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/seno2.png}
+	\captionsetup{justification=centering}
+	\caption[Sinal senoidal em função do tempo]{Sinal senoidal em função do tempo}
+	\label{seno_1p}
+\end{figure}
+
+\subsection{Dispositivos Semicondutores}
+
+Diodos são os elementos eletrônicos mais simples, constituídos de dois terminais que estão conectados a uma junção PN, ou seja, a uma junção formada pelo contato entre dois cristais semicondutores dopados com impurezas de polaridades opostas \cite{juncoes_vero}. O efeito prático desta junção é a capacidade de retificação: quando uma DDP positiva é aplicada aos terminais do diodo conforme exposto na figura \ref{diode}, a corrente elétrica flui pelos terminais do dispositivo e diz-se que o diodo está polarizado diretamente; caso a DDP aplicada seja invertida, a corrente elétrica deixa de fluir pelo dispositivo \cite{sedra}. Este pode ser considerado o diodo ideal, que é o modelo mais simplificado deste elemento e não leva em consideração nenhuma característica real do mesmo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/diode.jpg}
+	\captionsetup{justification=centering}
+	\caption[Representação esquemática do diodo polarizado diretamente]{Representação esquemática do diodo polarizado diretamente}
+	\label{diode}
+\end{figure}
+
+O diodo ideal é descrito pela equação \ref{eq_diodo_real}, na qual $I_{s}$ é a corrente de saturação reversa, $k=11600/\eta$, com $\eta$ igual a 1 para o germânio e 2 para o silício e $T_{k}$ é a temperatura em kelvin. Muitas vezes, esta curva é aproximada por um modelo conhecido como \textit{circuito equivalente linear}, composto de um diodo em série com uma fonte de tensão e um resistor, que definem o limiar de condução e o nível de resistência do dispositivo quando está conduzindo \cite{boylestad}. A figura \ref{diodo_curva} ilustra um exemplo de definição do circuito equivalente a partir da representação real. Outra modelagem é conhecida como \textit{modelo para pequenos sinais}, no qual é fixado um ponto de operação em torno do qual a excursão do sinal aplicado ao circuito é pequena, conhecido como ponto de polarização ou \textbf{ponto quiescente}. Neste modelo, a região exponencial é aproximada linearmente por um resistor cujo valor é o inverso da inclinação da reta tangente ao ponto de polarização \cite{sedra}. Cabe salientar que o avanço das ferramentas de computação tornaram possível o cálculo dos mais diversos circuitos eletrônicos de forma rápida e exata, relegando portanto os modelos simplificados a ferramentas de ensino ou para esboço de circuitos simples \cite{boylestad}, desde que os modelos empregados nas simulações sejam fiéis ao comportamento real dos componentes \cite{sedra}.
+
+\begin{equation}
+	\label{eq_diodo_real}
+	I_{d}=I_{s}\epsilon ^{kV_{d}/T_{k}}-I_{s}
+\end{equation}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/diodo_curva.jpg}
+	\captionsetup{justification=centering}
+	\caption[Definição do circuito equivalente linear, usando-se segmentos de reta para aproximar a curva característica]{Definição do circuito equivalente linear, usando-se segmentos de reta para aproximar a curva característica \\ Fonte: BOYLESTAD (2011)}
+	\label{diodo_curva}
+\end{figure}
+
+A partir do conhecimento obtido com a introdução ao diodo e sua junção PN, será agora abordado o transistor bipolar de junção, também conhecido com BJT. De forma análoga ao diodo, este dispositivo é constituído da junção de três cristais semicondutores dopados, podendo ser uma junção do tipo NPN ou PNP: ambos funcionam de forma complementar, sendo que o tipo NPN conduz majoritariamente elétrons, enquanto o tipo PNP conduz majoritariamente lacunas. Na figura \ref{transistor} são apresentados os sentidos de corrente e os símbolos dos transistores PNP e NPN e, aplicando a lei das correntes de Kirchhoff, obtém-se a relação entre as correntes de emissor, coletor e base do transistor, descritas pela equação \ref{eq_bjt_kirch} \cite{boylestad}. Note-se que é usado o sentido real da corrente e não o convencional, comumente adotado em cálculos.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=8cm]{./Resources/bjt_pnp.jpg}
+		\caption{Transistor \textit{pnp}}
+		\label{transistor:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=8cm]{./Resources/bjt_npn.jpg}
+		\caption{Transistor \textit{npn}}
+		\label{transistor:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Notações e símbolos utilizados para a configuração base-comum]{Notações e símbolos utilizados para a configuração base-comum. \\Fonte: BOYLESTAD (2011)
+	}
+	\label{transistor}
+\end{figure}
+
+\begin{equation}
+	\label{eq_bjt_kirch}
+	I_{e}=I_{c} + I_{b}
+\end{equation}
+
+Para finalizar a introdução ao transistor bipolar, é apresentada uma relação simplificada entre as correntes de coletor $I_{c}$ e de base $I_{b}$ na equação \ref{eq_bjt_beta}, uma vez que esta é uma relação que permite a realização de cálculos rápidos para esboçar circuitos com transistores BJT. Cabe salientar que a validade desta relação se dá somente quando o transistor está corretamente polarizado e na região de condução. Outro fato que deve ser levado em conta é que o valor de $\beta$ depende das características de construção de cada BJT e é um valor cujo desvio padrão é elevado mesmo se comparados dois transistores reais do mesmo modelo \cite{boylestad}. Ainda que o conteúdo relativo a transistores BJT seja muito mais extenso e detalhado, cabe ao leitor consultar as referências bilbiográficas \cite{boylestad} e \cite{sedra} para mais detalhes acerca do tema. 
+
+\begin{equation}
+	\label{eq_bjt_beta}
+	I_{c} = \beta\cdot I_{b}
+\end{equation}
+
+Existe outro tipo de transistor conhecido como transistor de efeito de campo ou FET. Embora este seja um dispositivo semelhante ao BJT no que diz respeito à aplicação, também existem inúmeras diferenças, dentre as quais a mais notável é o fato de que o BJT é controlado a corrente, enquanto o FET é controlado a tensão. Outra diferença importante é o fato de que transistores FET podem ser de canal \textit{n} ou canal \textit{p}, ou seja, são transistores unipolares --- que conduzem somente elétrons ou somente lacunas, respectivamente. Sendo um dispositivo controlado a tensão, a impedância de entrada é altíssima, muitas vezes considerada infinita em casos práticos \cite{boylestad}. Uma subclasse destes dispositivos muito popular é o MOSFET - popularmente empregado como chave eletrônica na área de circuitos integrados, mas também adotado para chaveamento de dispositivos de alta potência em função da sua baixa impedância quando ligado \cite{sedra}. O símbolo dos transistores JFET e MOSFET são apresentados na figura \ref{fet_symbol}. Os terminais do dispositivo são nomeados \textit{fonte} (\textit{source}), \textit{dreno} (\textit{drain}) e \textit{porta} (\textit{gate}).
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.23\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/fet_n.jpg}
+		\caption{FET canal \textit{n}}
+		\label{fet_symbol:1}
+	\end{subfigure}
+	\begin{subfigure}{.23\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/fet_p.jpg}
+		\caption{FET canal \textit{p}}
+		\label{fet_symbol:2}
+	\end{subfigure}
+	\begin{subfigure}{.23\textwidth}
+		\centering
+		\includegraphics[height=3cm]{./Resources/mosfet_n.jpg}
+		\caption{MOSFET canal \textit{n}}
+		\label{fet_symbol:3}
+	\end{subfigure}
+	\begin{subfigure}{.23\textwidth}
+		\centering
+		\includegraphics[height=3cm]{./Resources/mosfet_p.jpg}
+		\caption{MOSFET canal \textit{p}}
+		\label{fet_symbol:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Símbolos do JFET e do MOSFET]{Símbolos do JFET e do MOSFET. \\Fonte: BOYLESTAD (2011)}
+	\label{fet_symbol}
+\end{figure}
+
+Os transistores do tipo FET/MOSFET são também conhecidos como resistores controlados por tensão, o que ajuda a entender seu funcionamento: assumindo que há uma DDP entre os terminais de \textit{dreno} e \textit{fonte} $V_{ds}$, a resistência à passagem de corrente por estes terminais é controlada pela tensão aplicada à \textit{porta} com relação à \textit{fonte} $V_{gs}$ do dispositivo. Quanto mais próximo de zero é a tensão, maior é o valor da resistência, para os dispositivos FET e MOSFET intensificação \cite{boylestad}. Este comportamento é ilustrado na figura \ref{curva_fet} e a equação simplificada \ref{eq_fet_id} rege o comportamento de $I_{d}$ em função de $V_{gs}$, na qual $I_{dss}$ e $V_{p}$ são os pontos notáveis no gráfico da figura \ref{curva_fet} \cite{boylestad}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.38]{./Resources/curva_fet.jpg}
+	\captionsetup{justification=centering}
+	\caption[Obtendo a curva de transferência das curvas de dreno de um JFET]{Obtendo a curva de transferência das curvas de dreno \\ Fonte: BOYLESTAD (2011)}
+	\label{curva_fet}
+\end{figure}
+
+\begin{equation}
+	\label{eq_fet_id}
+	I_{d} = I_{dss} \left(1 - \frac{V_{gs}}{V_{p}}\right)^2
+\end{equation}
+
+De maneira análoga ao BJT, tanto o FET quanto suas variações, aperfeiçoamentos e aplicações possuem uma teoria vasta, que não cabe a este trabalho detalhar. Para o aprofundamento no tema, recomenda-se a leitura da bilbiografia --- em especial de \cite{boylestad} e \cite{sedra}.
+
+\subsection{Sensor de temperatura DS18B20}
+
+O sensor de temperatura DS18B20, projetado pela Maxim, é um sensor digital que utiliza somente um pino de dados para comunicação com o dispositivo \textit{master}, cujas regras são estabelecidas pelo protocolo proprietário de comunicação \textit{1-Wire}\textregistered \cite{ds18b20}.
+
+\textit{1-Wire} é um protocolo de comunicação serial \textit{half-duplex} que utiliza uma linha para transmissão de dados, além da referência. É um protocolo de comunicação \textit{master/slave}, ou seja, um dispositivo \textit{master} inicia a comunicação e os dispositivos \textit{slave} somente respondem aos seus comandos. No caso deste protocolo específico, todo dispositivo possui um identificador de 64 bits único, dentro do qual um byte indica o tipo do dispositivo. Devido ao seu modo de funcionamento, quando a linha de dados é desconectada, os dispositivos \textit{slave} entram em estado de \textit{reset}, o que favorece seu uso em aplicações de contato. Enquanto a maioria destes dispositivos tem uma faixa de alimentação de 2,80-5,25V e não possui pino para alimentação \cite{onewire_ov} -- utilizando um sistema de alimentação parasita -- o sensor DS18B20 tem a possibilidade de alimentação parasita ou não e sua faixa tolerada para funcionamento é de 3-5,5V \cite{ds18b20}.
+
+Uma vez que este protocolo de comunicação foi concebido para operações nas quais os dispositivos \textit{master} e \textit{slave} estão fisicamente muito próximos, alguns cuidados devem ser observados ao utilizar linhas de transmissão de longas distâncias para manter a boa performance do sistema \cite{onewire_distance}. Como o estudo da Maxim acerca das implicações do uso de linhas de longa distância negligencia este aspecto para redes com poucos dispositivos e cabeamento curto (menor que 10m), os cuidados de projeto das redes 1-wire não serão aqui especificados, deixando um aviso para trabalhos futuros que visem aplicações de longas distâncias ou com número elevado de dispositivos, a exemplo de uma microcervejaria de porte industrial.
+
+Com relação a aspectos específicos do sensor de temperatura, este apresenta precisão de 0,5\si{\degree}C para a faixa de temperaturas de -10\si{\degree}C a +85\si{\degree}C, e de 2,0\si{\degree}C para a faixa completa de operação, de -55\si{\degree}C a +125\si{\degree}C. Quanto à resolução, esta pode ser programada de 9 a 12 bits, sendo 8 bits para a parte inteira e 1 a 4 bits decimais. O custo da melhor resolução é o aumento no tempo de conversão de uma leitura para valor digital, variando de 93,75ms a 750ms para os casos extremos \cite{ds18b20}.
+
+A arquitetura interna do CI é apresentada na figura \ref{18b_blocos}. Nota-se que o dispositivo, por utilizar o protocolo \textit{1-Wire}, tem uma ROM de 64 bits para identificação \cite{onewire_ov}, além de uma região de memória de rascunho, que consiste de uma memória SRAM de 64 bits, dividida em 8 regiões de 1 byte, para promover a interface com as funcionalidades do CI: sensor de temperatura, alarmes programáveis para estouro de valores mínimo e máximo das medições, registrador de configuração da resolução e gerador de código CRC de 8 bits \cite{ds18b20}. A figura \ref{18b_mmap} apresenta o mapa de memória do DS18B20 -- nota-se que os registradores de configuração e alarme são copiados para uma memória não volátil (EEPROM) após configurados pelo \textit{master}, retendo seus valores mesmo em caso de corte na alimentação. Outra informação útil obtida a partir da figura \ref{18b_mmap} é o valor da temperatura lido após uma queda de alimentação, que é de +85\si{\degree} C até que o dispositivo esteja pronto para uso \cite{ds18b20}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{./Resources/ds18b20-blocos.png}
+	\captionsetup{justification=centering}
+	\caption[Arquitetura interna do DS18B20]{Arquitetura interna do DS18B20 \\Fonte: MAXIM INTEGRATED
+	}
+	\label{18b_blocos}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=11.83cm]{./Resources/ds18b20-mmap.png}
+	\captionsetup{justification=centering}
+	\caption[Mapa de memória do DS18B20]{Mapa de memória do DS18B20. \\Fonte: MAXIM INTEGRATED
+	}
+	\label{18b_mmap}
+\end{figure}
+
+As leituras de temperatura são feitas em dois bytes, LSB e MSB, representados na figura \ref{18b_formato}, e que juntos são uma representação em complemento de dois, sendo que os 5 bits mais significativos são redundantes e, para resoluções menores do que 12 bits, o valor dos bits menos significativos é indefinido (1 bit indefinido para 11 bits de resolução; 2 bits indefinidos para 10 bits de resolução, etc).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=11.83cm]{./Resources/ds18b20-formato.png}
+	\captionsetup{justification=centering}
+	\caption[Registradores de temperatura do DS18B20]{Registradores de temperatura do DS18B20. \\Fonte: MAXIM INTEGRATED
+	}
+	\label{18b_formato}
+\end{figure}
+
+O Kernel do Linux possui \textit{device drivers} que suportam parcialmente o uso do sensor DS18B20, portanto não há a necessidade de descrever em detalhes o protocolo \textit{1-Wire}. O \textit{device driver} \textit{w1-gpio} controla o barramento (\textit{master}) \textit{1-wire} utilizando a API GPIO para controlar a linha, sendo que a porta utilizada é especificada utilizando dados específicos da placa. O \textit{device driver} \textit{w1-therm} suporta algumas famílias de sensores de temperatura da Maxim (\textit{slave}), dentre elas a DS18*20, fazendo conversões básicas de temperatura e fornecendo-as ao sistema por meio do FS (\textit{File System} ou Sistema de Arquivos). O resultado da abertura e leitura do arquivo correspondente a um sensor, é a conversão de temperatura pelo \textit{driver} e posterior fornecimento dos dados recebidos pela placa, checagem do CRC e temperatura em \si{\degree}C/1000. Este driver não suporta conversão de temperatura simultânea de múltiplos sensores nem redução da precisão de conversão, portanto só são possíveis leituras de 12 bits. Em caso de alimentação parasita, somente um sensor pode estar conectado à linha por vez e, caso a placa ofereça suporte a \textit{pull-up} interno, o driver é capaz de usá-lo \cite{onewire_kernel}.
+
+\subsection{Detector de passagem por zero}
+
+\subsection{\textit{Drivers} de potência}
+
+\subsection{Roteamento de placas de circuito impresso}
+
+\section{Servo-motor}
+
+\section{Sistema de controle de temperatura}
+
+\subsection{Controlador PID}
+
+\subsection{Interface com sensores e atuadores}

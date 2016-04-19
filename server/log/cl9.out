@@ -1,9 +1,0 @@
-Starting standalone
-Warning: running Cloud9 without using HTTP authentication.
-Run using --listen localhost instead to only expose Cloud9 to localhost,
-or use -a username:password to setup HTTP authentication
-
-Connect server listening at http://192.168.1.155:8588
-Using basic authentication
-CDN: version standalone initialized /home/debian/c9sdk/build
-Started '/home/debian/c9sdk/configs/standalone' with config 'standalone'!

@@ -1,0 +1,147 @@
+\chapter{Introdução}
+\label{Introducao}
+
+O objetivo deste Trabalho de Conclusão de Curso é o projeto de um sistema elétrico automatizado de produção de cerveja, monitorado e controlado remotamente. A plataforma de Linux embarcado BeagleBone Black foi escolhida para ser o núcleo de processamento de dados, cuja linguagem de programação escolhida foi o Javascript em conjunto com o interpretador Node.js; comunicação via \textit{web} desenvolvida em HTML, CSS, Javascript e PHP e; controle do processo, de tal modo que foi necessário projetar circuitos de interface entre a placa e os sensores e atuadores do sistema. 
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Motivação}
+
+Há algumas décadas começou nos Estados Unidos da América um movimento espontâneo no qual diversos cidadãos norte-americanos começaram a produzir cervejas por conta própria. Estes foram denominados \textit{homebrewers}, ou cervejeiros caseiros, e eles criaram um mercado de insumos e equipamentos para brassar - ou seja, produzir cerveja - em pequenas quantidades e de forma artesanal, utilizando-se de processos e ferramentas improvisados para tal \cite{palmer}. 
+
+Apesar das ferramentas de produção rudimentares empregadas no início do movimento de produção caseira de cerveja --- e que são utilizadas até hoje --- percebeu-se que a qualidade do resultado final podia ser tão boa quanto a de cervejas comerciais de alta qualidade. O movimento cervejeiro cresceu e a partir dele nasceram diversas microcervejarias: segundo dados da \textit{Brewers Association}, em 1994 existiam 192 microcervejarias e 329 \textit{brewpubs} (bares que produzem a própria cerveja) nos Estados Unidos, enquanto em 2014 este número cresceu para 1871 microcervejarias e 1412 \textit{brewpubs} \cite{brewersAssoc}, indicando uma tendência de mercado no que diz respeito às cervejas artesanais: a figura \ref{usa-breweries} ilustra os números que apoiam esta tendência. 
+
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.35]{./Resources/cervejarias_usa.png}
+ 	\captionsetup{justification=centering}
+ 	\caption[Número de cervejarias norte-americanas por categoria.]{Número de cervejarias norte-americanas por categoria. \\Fonte: Site da Brewers Association\protect\footnotemark
+ 		}
+ 	\label{usa-breweries}
+ \end{figure}
+ 
+ \footnotetext{Disponível em \url{https://www.brewersassociation.org/statistics/number-of-breweries/}}
+
+No Brasil, o movimento cervejeiro artesanal caseiro é considerado por algumas fontes um mercado incipiente, porém com bom ritmo de crescimento \cite{bndes}, devido em grande parte à tendência de mercado em relação às microcervejarias. Desde 1995, com a fundação da cervejaria Dado Bier, no estado do Rio Grande do Sul, que alega ser a primeira microcervejaria do Brasil \cite{revCervEd1}, seguida pela cervejaria Colorado, do estado de São Paulo, fundada em 1996 \cite{revCervEd2}, o movimento cervejeiro cresceu e, a partir do início da década de 2010 se popularizou, com estimativa de que existam atualmente cerca de 200 microcervejarias no país \cite{bndes}. Esta busca por diferenciação do consumo é refletida também no aumento do coeficiente de penetração de importações neste setor, que indica a quantidade percentual de importações: este cresceu de 0,02\% em 2005 para 0,21\% em 2011 \cite{bndes}. Cabe ressaltar que a indústria da cerveja no Brasil, como um todo, corresponde a 2\% do PIB do país, representando um faturamento anual de R\$70 bilhões \cite{cervbrasil}, portanto o mercado de artesanais, que representa cerca de 1\% do total, corresponde a um faturamento de R\$700 milhões, com prognóstico de crescimento para 2\% em até dez anos \cite{abrabe}.
+
+Além disto, existem sistemas de produção automática de cerveja que são comercializados em outros países, a exemplo do PicoBrew \cite{picobrew}, dos Estados Unidos, cuja ideia é similar à de uma cafeteira automática e do Williams Warn \cite{wwarn}, da Nova Zelândia, que é um projeto compacto mais parecido com o equipamento de um produtor caseiro, apesar de completamente automatizado.
+
+A motivação para este trabalho, portanto, surgiu a partir da constatação de que o mercado de cervejas artesanais é crescente e rentável, tanto no que diz respeito a fornecer equipamentos para produtores caseiros, quanto ao fornecimento de equipamentos e tecnologia para micro e pequenas cervejarias. Outro ponto que cabe ressaltar é que a maioria das indústrias nacionais fornecedoras de equipamentos para o mercado cervejeiro -- dentre elas Mec Bier Microcervejarias, Bierking Equipamentos, Biermatik Comercial Ltda., Cervejando.com e Mybeer, dentre outros -- oferece, na melhor das hipóteses, soluções semi-automatizadas para operação presencial, a despeito das soluções automáticas encontradas em outros países, o que motivou a automação mais complexa e remota deste trabalho. A motivação final deste projeto não é a criação de um produto, mas sim a compreensão e aplicação de tecnologias à área de automação do processo de produção de cerveja.
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Objetivos}
+
+Para melhor entender os objetivos propostos, uma breve introdução ao processo de produção de cerveja é necessária, visando a identificação dos processos que podem ser automatizados. As principais etapas são: moagem dos maltes - moagem dos grãos maltados de cevada; mosturação - cozimento dos maltes seguindo rampas e patamares específicos de temperatura; filtragem do mosto - recirculação do líquido (mosto) por um filtro, com o objetivo de evitar que ele apresente material particulado; lavagem dos grãos - processo opcional no qual, após separar o mosto dos grãos, estes são lavados para extrair o máximo possível dos seus açúcares fermentáveis; fervura do mosto - processo de fervura do mosto por um tempo predeterminado e adição dos lúpulos ao longo do processo; \textit{whirlpool} - separação das proteínas coaguladas e material particulado do líquido, geralmente feito por centrifugação; resfriamento - diminuição abrupta da temperatura do mosto a fim de evitar sua contaminação por bactérias, utilizando um \textit{chiller}, também conhecido como trocador de calor; adição das leveduras e fermentação - processo que transforma os açúcares fermentáveis da cerveja em álcool e gás carbônico; maturação - processo de envase ou consumo do barril - o envase seguido de uma refermentação da garrafa serve para carbonatar a cerveja, enquanto ao consumir diretamente do barril, é preciso ter um equipamento que possibilite a carbonatação forçada da mesma \cite{palmer}.
+
+Conhecido o processo de produção, é possível entender o que se espera obter do trabalho: projeto de um sistema embarcado multiprocessado que automatiza o processo de produção de cerveja desde o cozimento do mosto até seu resfriamento. A moagem dos grãos e as etapas subsequentes ao resfriamento não estão inclusas no escopo deste projeto, uma vez que a soma de toda a automação seria impraticável em função do orçamento e do tempo disponíveis. Com relação ao controle e monitoramento, o microcontrolador ARM do sistema deve executar uma distribuição de Linux embarcado, sobre a qual será implementado um servidor web que hospede a interface de usuário e também parte do código de controle do sistema. A interface possibilita ao usuário adicionar, editar e excluir receitas; iniciar, monitorar e modificar \textit{on-the-fly} o processo automático de produção de cerveja; apresentar estatísticas do sistema e; oferecer opções de configuração ao usuário. 
+
+Os objetivos gerais e específicos do projeto são:
+
+\begin{itemize}
+	\item Implantação de distribuição Debian do Linux no sistema BeagleBone Black
+	\item Projeto de interfaceamento entre sensores diversos e o sistema BeagleBone Black
+	\item Projeto, aquisição dos componentes e montagem do sistema mecânico
+	\item Levantamento das plantas térmicas a serem controladas
+	\item Projeto dos controladores do sistema de temperatura e implementação no subsistema PRU-ICSS
+	\item Projeto do acionamento dos resistores de potência
+	\item Projeto e implementação do programa de controle de acionamento de válvulas e bombas, e adição de ingradientes
+	\item Desenvolvimento da interface web do sistema
+	\item Detecção e tomada de decisões em caso de interrupção no fornecimento de energia
+	\item Teste e validação do funcionamento do sistema completo
+	\item Verificação organoléptica subjetiva da qualidade da cerveja, objetivando a comprovação do funcionamento do sistema 
+\end{itemize}
+
+\subsection{Cronograma}
+\label{cronograma}
+
+O cronograma previsto para a realização deste projeto contém as atividades e suas respectivas alocações de tempo. As atividadas são listadas na tabela \ref{objTCC} e o cronograma é exposto na figura \ref{cronogramaPrev}.
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption{Atividades propostas do Trabalho de Conclusão de Curso}
+		\label{objTCC}
+		\begin{tabular}{ | P{3cm} | p{12cm} |}
+			\hline
+			\textbf{Atividade} & \multicolumn{1}{|c|}{\textbf{Descrição}} \\ \hline
+			1 & Instalação do Debian na memória eMMC da BeagleBone Black\\
+			2 & Acesso aos terminais de E/S da BeagleBone Black \\
+			3 & Instalação e uso de módulo WI-FI USB \\
+			4 & Interfaceamento e uso de sensores de temperatura DS18B20 \\
+			5 & Projeto da parte mecânica \\
+			6 & Aquisição das peças e montagem da parte mecânica \\
+			7 & Dimensionamento e aquisição dos resistores de aquecimento \\
+			8 & Projeto, teste e interfaceamento do circuito de acionamento das bombas de recirculação e válvulas solenóide \\
+			9 & Teste de funcionamento da parte mecânica, com controle manual \\
+			10 & Projeto do acionamento dos resistores de potência, utilizando relé de estado sólido \\
+			11 & Projeto, teste e interfaceamento de sistema de detecção de vazão \\
+			12 & Projeto dos sistemas de adição controlada de insumos \\
+			13 & Levantamento das plantas térmicas do sistema \\
+			14 & Projeto dos controladores PID digitais e implementação no subsistema PRU-ICSS \\
+			15 & Desenvolvimento da interface web para cadastro de receitas de cerveja \\
+			16 & Desenvolvimento da interface web para acompanhamento do processo de brassagem \\
+			17 & Desenvolvimento da interface web para controle e ajustes do processo de brassagem \textit{on-the-fly} \\
+			18 & Desenvolvimento da interface web para acesso a estatísticas das produções anteriores \\
+			19 & Teste completo do sistema \\
+			20 & Pesquisa de avaliação organoléptica da cerveja produzida, para validação do sistema \\
+			21 & Redação da monografia \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.56]{./Resources/cronogramaTCC.pdf}
+	\captionsetup{justification=centering}
+	\caption{Cronograma do Trabalho de Conclusão de Curso}
+	\label{cronogramaPrev}
+\end{figure}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section {Justificativas/relevância}
+
+Este trabalho objetiva a aplicação de conhecimentos e técnicas -- além da busca pelo estado da arte -- nas áreas de sistemas de controle, circuitos elétricos e eletrônicos, instrumentação, microcontroladores e sistemas digitais. Conhecimentos estes obtidos durante o curso de graduação em Engenharia Elétrica - Ênfase em Eletrônica.
+
+Outro foco é o aprendizado de novos conhecimentos, majoritariamente nas áreas de Linux embarcado, desenvolvimento de aplicações \textit{web} e engenharia mecânica.
+
+Este trabalho é importante por criar métodos de automação para uma indústria representativa no mercado nacional e, no que diz respeito ao desenvolvimento de um produto, ao incentivo da população ao consumo consciente de cervejas --- bandeira levantada pelas microcervejarias artesanais nacionais, com o lema "beba menos, beba melhor".
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section {Organização do Trabalho}
+
+Este trabalho está distribuído em XXX capítulos, incluindo esta introdução, dispostos conforme a descrição que segue:
+
+Capítulo 2: Descreve .....................................................................................
+
+Capítulo 3: Discorre sobre .....................................................................................
+
+Capítulo 4: Apresenta .....................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

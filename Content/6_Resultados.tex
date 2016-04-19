@@ -1,0 +1,123 @@
+\chapter{Resultados e Discussões}
+\label{Resultados}
+
+Neste capítulo são apresentados os resultados obtidos a partir dos métodos descritos na seção \ref{Materiais}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Interface de usuário}
+\label{resIntUser}
+
+Nesta seção são apresentados os resultados do desenvolvimento da interface de usuário. 
+
+A página inicial é composta de uma imagem com uma área clicável no centro, sobre a etiqueta \textit{Start Here}, que leva à página de apresentação. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-ini}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/inipg.jpg}
+	\captionsetup{justification=centering}
+	\caption{Página inicial da UI}
+	\label{ui-ini}
+\end{figure}
+
+A página de apresentação contém uma breve descrição do projeto e de seu objetivo, além dos botões que levam: à interface onde estão os gráficos de temperatura e; ao menu de seleção de tarefas. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-present}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/presentpg.jpg}
+	\captionsetup{justification=centering}
+	\caption{Página de apresentação da UI}
+	\label{ui-present}
+\end{figure}
+
+Na página que plota os gráficos de temperatura em função do tempo é possível ler o valor atual da temperatura do sensor DS18B20. Também é nesta página que encontra-se o gráfico dinâmico e interativo, que é atualizado a cada aproximadamente 1 segundo -- o tempo de atualização não é fixo em função da natureza de operação do interpretador do Javascript e o tempo de amostragem da temperatura não é fixo em função do sistema operacional escolhido não ser de tempo real. Neste gráfico, apresentado na figura \ref{ui-graph1} é possível:
+
+\begin{itemize}
+	\item Selecionar as variáveis plotadas
+	\item Escolher a plotagem do gráfico em linha ou área
+	\item Empilhar ou sobrepor os gráficos (no caso da plotagem em área)
+	\item Unir os pontos amostrados em degrau, linha ou realizar uma interpolação cardinal
+	\item Suavizar a plotagem empregando um filtro de média móvel
+	\item Escolher o número de pontos plotados, de maneira a obter o registro dos últimos: 5 minutos, 30 minutos ou 1 hora de amostragens
+	\item Ajuste fino do número de pontos plotados, por meio da escolha dos limites inicial e final, utilizando a barra sob o gráfico
+	\item Leitura precisa do valor de qualquer ponto plotado e da data/hora da amostragem, colocando o cursor sobre o local do gráfico no qual se deseja realizar a leitura
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/graphpg1.jpg}
+	\captionsetup{justification=centering}
+	\caption[Gráfico dinâmico de temperatura em função do tempo]{Gráfico dinâmico de temperatura em função do tempo \\ Ajuste fino e cursor sobre o gráfico sendo aplicados}
+	\label{ui-graph1}
+\end{figure}
+
+Ainda na página que plota os gráficos de temperatura, é plotado um gráfico estático do histórico de todos os pontos registrados no arquivo de \textit{log}. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-graph2}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/graphpg2.jpg}
+	\captionsetup{justification=centering}
+	\caption{Gráfico estático do histórico de temperaturas registradas}
+	\label{ui-graph2}
+\end{figure}
+
+O menu de tarefas, ilustrado na figura \ref{ui-task} é basicamente uma página com links para o gerenciador de receitas, o gerenciador de início da produção, o acompanhamento e ajustes da brassagem e as estatísticas. A página de configurações e opções não foi implementada em tempo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/taskmenupg.jpg}
+	\captionsetup{justification=centering}
+	\caption{Menu de tarefas da UI}
+	\label{ui-task}
+\end{figure}
+
+O gerenciador de receitas lista e permite acesso a todas as receitas cadastradas no sistema, possibilita exclusão (com a opção de desfazer para exclusão acidental) e criação de nova receita. Quando o cursor é colocado sobre uma receita cadastrada, é apresentado um \textit{preview} para que o usuário tenha uma realimentação rápida de seu conteúdo. A figura \ref{ui-manager} ilustra esta interface em uso, com o cursor sobre a receita \textit{TheMightyMightyIPA} e seu \textit{preview}, além da receita \textit{Exemplo Kolsch} excluída e com possibilidade de recuperação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/managerpg.jpg}
+	\captionsetup{justification=centering}
+	\caption[Gerenciador de receitas da UI]{Gerenciador de receitas da UI \\ Cursor sobre a receita \textit{TheMightyMightyIPA} e receita \textit{Exemplo Kolsch} excluída}
+	\label{ui-manager}
+\end{figure}
+
+O editor de receitas apresenta caixas de entrada para o usuário adicionar as características desejadas da cerveja, sendo que a cada malte, lúpulo e temperatura adicionado, aparece automaticamente um campo extra para estes itens, limitado a 8 entradas para cada. Só foi implementado um botão de voltar pois há uma funcionalidade de salvamento automático -- o aviso no canto superior direito da tela mostra o status do salvamento da receita: no caso da figura \ref{ui-editor}, que ilustra a implementação do editor, nota-se que a mensagem de status avisa o usuário que há um campo essencial para a produção da cerveja que não foi preenchido.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/editorpg.jpg}
+	\captionsetup{justification=centering}
+	\caption[Editor de receitas da UI]{Editor de receitas da UI \\ Receita \textit{bla} parcialmente preenchida com aviso de campos essenciais em branco}
+	\label{ui-editor}
+\end{figure}
+
+O gerenciador de início da produção apresenta ao usuário um aviso sinalizando de que tudo deve estar devidamente verificado antes do início da produção. Também apresenta uma caixa de seleção da receita a ser produzida. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-start}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/startbrewingpg.jpg}
+	\captionsetup{justification=centering}
+	\caption{Gerenciador de início da produção}
+	\label{ui-start}
+\end{figure}
+
+O acompanhamento e possibilidade de ajustes da brassagem implementa um controle manual do LED1 da BBB, bombas, válvulas, resistores de potência e servo-motor do sistema, com \textit{feedback} visual para o usuário. Na figura \ref{ui-ctrl} é apresentada a UI e o console do Javascript, no qual aparecem as respostas do servidor para a seguinte sequência de comandos: ativação da bomba do mosto, ativação da válvula da água, valor do ângulo do servo-motor setado para 87\si{\degree} e, ativação seguida desligamento do aquecedor de fervura.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/manualctrlpg.jpg}
+	\captionsetup{justification=centering}
+	\caption{Interface de acompanhamento e ajustes da brassagem - console Javascript com \textit{feedback} do servidor para uma sequência de comandos executados}
+	\label{ui-ctrl}
+\end{figure}
+
+
+A página de estatísticas apresenta somente um aviso de página em desenvolvimento, conforme ilustrado na figura \ref{ui-dev}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/uips/developg.jpg}
+	\captionsetup{justification=centering}
+	\caption{Aviso de página em desenvolvimento}
+	\label{ui-dev}
+\end{figure}

@@ -1,0 +1,261 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURA??ES DE CAPA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{titlepage}
+	
+	% CAPA PRINCIPAL
+	\begin{center}
+		\Huge{UNIVERSIDADE DE SÃO PAULO}\\
+		\vspace{0.02\textheight}
+		\huge{ESCOLA DE ENGENHARIA DE SÃO CARLOS}\\
+		\vspace{0.01\textheight}
+		\huge{DEPARTAMENTO DE ENGENHARIA ELÉTRICA E DE COMPUTAÇÃO}\\
+		\vspace{0.2\textheight}
+		\huge{\textbf{Sistema Automatizado de Produção de Cerveja, Monitorado e Controlado Remotamente}}
+		\vspace{0.2\textheight}
+	\end{center}
+		
+		\large
+		{
+			\begin{flushleft}
+			\Large{ \textbf{Autor}: \hspace{1.45cm} Leonardo Graboski Veiga }\\
+			\Large{ \textbf{Orientador}: \hspace{0.3cm} Prof. Dr. Evandro Luis Linhari Rodrigues }\\
+			\end{flushleft}
+	
+			\begin{center}
+				\vspace{0.09\textheight}
+				\Large{São Carlos}\\
+				\Large{2015}
+			\end{center}
+		}
+	
+\end{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FOLHA DE ROSTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\vspace{0.01\textheight} 
+	\begin{center}
+	\vspace{-0.06\textheight}
+	%\thispagestyle{empty}
+		\Large{\textbf{Leonardo Graboski Veiga}}\\
+		\vspace{0.15\textheight}
+		\Huge{\textbf{Sistema Automatizado de Produção de Cerveja, Monitorado e Controlado Remotamente}} 
+		\vspace{0.08\textheight}
+	\end{center}
+		
+		\large
+		{
+			\begin{flushright}
+			\Large{Trabalho de Conclusão de Curso apresentado} \hspace{1cm}\\
+			\Large{à Escola de Engenharia de São Carlos, da}\\
+			\Large{Universidade de São Paulo}\\
+			\vspace{0.05\textheight}
+			\Large{Curso de Engenharia Elétrica}\\
+			\vspace{0.05\textheight}
+			\Large{ORIENTADOR: Prof. Dr. Evandro Luis Linhari Rodrigues}\\
+			\end{flushright}
+	
+			\begin{center}
+				\vspace{0.15\textheight}
+				\Large{São Carlos}\\
+				\Large{2015}
+			\end{center}
+		}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FICHA CATALOGRAFICA % % % % % % % % % % % % % % % % % % %
+\newpage
+
+Página com a ficha catalográfica (em página par).
+
+%ficha catalografica no verso
+%\includepdf{./Resources/ficha_catalografica.pdf}
+
+% % % % % % % % % % % % % % % % % % % % % % % % Folha de aprovação % % % % % % % % % % % % % % % % % % %
+\newpage
+
+página com a folha de aprovação (página ímpar). \cleardoublepage
+
+\begin{comment}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{./Resources/aprovacao.jpg}
+	\caption{Fluxo de comunicação entre os principais componentes.}
+	\label{Aprovacao}
+\end{figure}
+\cleardoublepage
+\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEDICAT?RIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\
+\vspace{0.11\textheight} 
+\begin{center}
+\textbf{\Huge{Dedicatória}}
+\end{center}
+\vspace{0.05\textheight}	
+		
+Dedico este trabalho aos meus pais.
+		
+\begin{flushright}
+Leonardo Graboski Veiga.
+\end{flushright}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AGRADECIMENTOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\
+\vspace{0.11\textheight} 
+
+\begin{center}
+\textbf{\Huge{Agradecimentos}}
+\end{center}
+
+\vspace{0.05\textheight}
+			
+Tenho convicção de que quem somos pode ser sintetizado pela soma das interações sociais que acumulamos com o passar dos anos. É por isso que agradeço a todos que passaram por minha vida --- cada um de vocês é parte daquilo que hoje sou. Não obstante, farei alguns agradecimentos direcionados às pessoas que não são cometas, mas sim pedaços de rocha eternos. Os planetas do meu sistema solar.
+
+Agradeço à minha família pelo suporte incondicional: aos meus genitores Dirce Graboski e Gustavo Veiga, pela vida e por tudo aquilo que se sucedeu desde então; à minha avó Sofia Karachinski e o meu avô Victor Graboski, que me ensinaram que as virtudes e a inteligência de um ser humano vão muito além do estudo; aos meus padrinhos Luis Fernando Busnardo e Cinderela Busnardo, com os quais me diverti e aprendi um bocado; às minhas tias Inez Graboski e Glaci Edwiges Graboski, que foram minhas segundas mães durante a maior parte da minha vida; aos meus primos e primas André Luiz Graboski, Felippe Busnardo, Ana Paula Busnardo e Maria Fernanda Busnardo e; à esposa do meu pai, Elisabete Veiga.
+
+Agradeço aos meus amigos de Curitiba pelas inúmeras situações que compartilhamos: Albert Faria, Pedro Henrique Bertolin, Douglas Auchewski, Eduardo Henrique Fasolin, Isabela Deolindo, Lucas Lupatini, Pamella Prohmann, Massimo Karly, Moacir Costa Filho, Lucas Vieira e Paulo Jacques Filho, dentre vários outros não menos importantes. Desde os tempos do Santa Maria e, posteriormente da UTFPR, até os dias de hoje, nunca aceitaram ver senão alegria em meus olhos e sempre estiveram dispostos a encarar uma boa aventura.
+
+Agradeços aos meus amigos de São Carlos pela caminhada que fizemos juntos ao longo destes anos de faculdade: Rafael Hellman, com quem dividi moradia; Rafael Oishi, Vitor Martins e Gabriel Moreira, da Rep Hot Chili Peppers, minha segunda casa sancarlense; Renato Nunes Moraes e Renata de Camilo, pelo duradouro companheirismo e; a todos os outros amigos e colegas de classe que compartilharam experiência e conhecimento me prol de atingir um objetivo coletivo almejado por todos, chamado graduação.
+
+Agradeço aos meus professores: em especial ao meu professor orientador Prof. Dr. Evandro Luis Linhari Rodrigues, que me incentivou a sempre buscar o melhor e me apresentou ao incrível mundo do Linux embarcado.
+
+E a todos os outros que porventura eu tenha esquecido por um lapso de memória, mas não por falta de merecimento.
+
+Também agradeço àqueles que contribuíram para o resultado final que é este trabalho de conclusão de curso.
+
+
+\begin{flushright}
+Leonardo Graboski Veiga.
+\end{flushright}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% EPÍGRAFE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\
+\vspace{0.76\textheight} 
+
+\begin{flushright}
+\textit{"O sucesso é ir de fracasso em fracasso}
+
+\textit{sem perder o entusiasmo."}
+
+Winston Churchill
+\end{flushright}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESUMO - PORTUGUES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\
+\vspace{0.11\textheight} 
+
+\begin{center}
+\textbf{\Huge{Resumo}}
+\end{center}
+
+\vspace{0.05\textheight}
+			
+Este trabalho consiste na implementação de um sistema elétrico automatizado de produção de cerveja, baseado na plataforma de Linux embarcado BeagleBone Black. Foi desenvolvida uma interface de usuário para prover comunicação entre o operador e o sistema pela internet, enquanto o controle do processo de brassagem foi implementado em Node.js. O subsistema \textit{PRU-ICSS} da BeagleBone foi utilizado para o controle de temperatura do processo, por meio de um controlador PID cujo atuador utilizado foi um resistor de potência. O sistema foi capaz de produzir 20 litros de cerveja sem intervenção do operador desde após a adição de maltes até o resfriamento do mosto cervejeiro.
+
+\vspace{0.05\textheight}
+	
+Palavras-Chave: BeagleBone, Black, PID, PRU, node, controlador, brassagem, cerveja, automatizado, SBC.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESUMO - INGLÊS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\
+\vspace{0.11\textheight} 
+
+\begin{center}
+\textbf{\Huge{Abstract}}
+\end{center}
+
+\vspace{0.05\textheight}	
+		
+This work consists in the implementation of an automated electric brewing system, based in the BeagleBone Black embedded Linux platform. A user interface was developed to provide web communication between the operator and the system, while the brewing process control was deployed in Node.js. The BeagleBone subsystem \textit{PRU-ICSS} was used to control the process temperature, by running a PID controller with a power resistor as the actuator. The system was capable of making 20 litres of beer without the operator's intervention since after the adding of the malts until the wort chilling.
+
+\vspace{0.05\textheight}
+
+Keywords: BeagleBone, Black, PID, PRU, node, controller, brewing, beer, automated, SBC.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+%\thispagestyle{empty}
+%\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESUMO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURA??ES DOS ?NDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\clearpage
+%\thispagestyle{empty}
+\listoffigures % ?ndice de Figuras
+
+\listoftables % ?ndice de Tabelas
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LISTA DE ABREVIATURAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\
+\vspace{0.11\textheight} 
+
+\textbf{\Huge{Siglas}}
+
+\vspace{0.05\textheight}
+			
+\begin{tabbing}
+\hspace*{0.5cm}\=\hspace{2.5cm}\= \kill
+
+% Exemplo de lista de lista de abreviaturas
+\> ABV \> \textit{Alcohol by Volume} - Porcentagem do volume de álcool na cerveja \\
+\> API \> \textit{Application Programming Interface} - Interface de Programação de Aplicação \\
+\> BBB \> BeagleBone Black \\
+\> BJT \> \textit{Bipolar Junction Transistor} - Transistor Bipolar de Junção \\
+\> BK \>  \textit{Brewing Kettle} - Panela de Fervura \\
+\> CI \> Circuito Integrado - equivalente a IC (\textit{Integrated Circuit}) e muitas vezes referido como \textit{chip}. \\
+\> CIP \> \textit{Clean in Process} - Limpeza no Local, é a limpeza automatizada dos equipamentos\\
+\> CRC \> \textit{Cyclic Redundancy Check} - Verificação de Redundância Cíclica \\
+\> DDP \> Diferença de potencial
+\> DT \> \textit{Device Tree} - Uma estrutura de dados em árvore usada para descrever \textit{hardware} \\
+\> FET \> \textit{Field Effect Transistor} - Transistor de Efeito de Campo \\
+\> GPIO \> \textit{General Purpose Input/Output} - Entrada/Saída de Propósito Geral \\
+\> HLT \> \textit{Hot Liquor Tank} - Tanque de Água Quente \\
+\> CI \> Circuito Integrado \\
+\> IBU \> \textit{International Bitterness Unit} - Unidade de Amargor Internacional \\
+\> IEP \> \textit{Industrial Ethernet Peripheral} - Periférico Ethernet Industrial \\
+\> LSB \> \textit{Least Significant Bit} - Bit Menos Significativo \\
+\> MOSFET \> \textit{Metal-Oxide Semiconductor Field Effect Transistor} - Transistor de Efeito de Campo Metal-Óxido Semicondutor \\
+\> LT \> \textit{Lauter Tun} - Panela de Filtragem \\
+\> MSB \> \textit{Most Significant Bit} - Bit Mais Significativo \\
+\> MT \> \textit{Mash Tun} - Panela de Mostura \\
+\> PID \> \textit{Proportional-Integral-Derivative-Controller} - Controlador Proporcional Integral Derivativo\\
+\> PCB \> \textit{Printed Circuit Board} - Placa de Circuito Impresso. Embora PCI seja a abreviação em portugês, o termo PCB foi escolhido para uso no intuito de não confundir o leitor com o barramento de computadores \textit{Peripheral Component Interconnect} \\
+\> RISC \> \textit{Reduced Instruction Set Computer} - Computador com um conjunto reduzido de instruções \\
+\> SO \> \textit{Sistema Operacional} - também conhecido como OS (\textit{Operating System}) \\
+\> SoC \> \textit{System on Chip} - Sistema em um Chip \\
+\> SBC \> \textit{Single Board Computer} - Computador de Placa Única \\
+\> SSH \> \textit{Secure Shell} - Protocolo de comunicação entre computadores \\
+\> UI \> \textit{User Interface} - Interface de Usuário \\
+
+
+\end{tabbing}
+\cleardoublepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURAÇÕES DOS ÍNDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyhead[RO, LE] {\thepage}
+
+\fancypagestyle{plain}{\pagestyle{fancy}}
+
+\tableofcontents % Índice Geral

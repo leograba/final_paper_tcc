@@ -1,0 +1,149 @@
+\documentclass[11pt,a4paper,twoside,openright]{report}
+
+\usepackage[pdftex]{graphicx} % Biblioteca para uso de figuras
+\usepackage{subcaption}
+\usepackage{color}
+
+\usepackage[brazil]{babel} % Biblioteca para uso da lï¿½ngua portuguesa
+\usepackage[T1]{fontenc} % Biblioteca para uso da acentuaï¿½ï¿½o de entrada
+\usepackage[latin1]{inputenc} % Biblioteca para uso da acentuaï¿½ï¿½o de saï¿½da
+\usepackage{enumitem} % biblioteca para formatar listas, enumeradas ou não
+\setlist[itemize]{itemsep=-1ex}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\usepackage{array} % biblioteca para ajustar tamanho das colunas de tabela
+\newcolumntype{P}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}p{#1}}
+\newcolumntype{M}[1]{>{\centering\let\newline\\\arraybackslash}m{#1}}
+\usepackage{longtable}%para quebrar a tabela em multiplas paginas
+
+%\usepackage{pbox} %pacote pra poder quebrar linha dentro de células da tabela
+
+\usepackage{siunitx} % biblioteca para uso de unidades si
+\usepackage{amsthm,amsfonts,amsmath,amssymb}  % Biblioteca para uso de comandos matemï¿½ticos
+\usepackage{pslatex}
+\usepackage{pstricks,pst-node,color,pst-gantt,pst-coil}
+\usepackage{scalefnt}
+\usepackage{float} %Permite colocar "\begin{figure}[H]" e colocar imagem exatamente onde desejar
+\usepackage[hyphens]{url} % Para Aceitar URL nas referencias
+\usepackage{pdfpages}
+\usepackage{caption,setspace}
+
+\usepackage{eurosym} %Pacote para possibilitar o uso do sï¿½mbolo de euro "\euro"
+
+\usepackage{listings} % para importaï¿½ï¿½o de cï¿½digos fonte 
+%%%%%%%%%%%%%%% Configuração da formatação das linguagens %%%%%%%%%%%%%%%%%%%
+% Definindo novas cores
+\definecolor{verde}{rgb}{0,0.5,0}
+% Configurando layout para mostrar codigos Bash
+\lstset{
+	language=bash,
+	basicstyle=\ttfamily\small, 
+	keywordstyle=\color{blue}, 
+	stringstyle=\color{verde}, 
+	commentstyle=\color{red}, 
+	extendedchars=true, 
+	showspaces=false, 
+	showstringspaces=false, 
+	numbers=left,
+	numberstyle=\tiny,
+	breaklines=true, 
+	%backgroundcolor=\color{green!10},
+	breakautoindent=true, 
+	captionpos=b,
+	xleftmargin=0pt,
+}
+%%%%%%%%%%%%% Layout para Device Tree %%%%%%%%%%%%%%%%%%%%%%%%
+\lstdefinelanguage{dtc}{
+	%keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	%keywordstyle=\color{blue}\bfseries,
+	%ndkeywords={class, export, boolean, throw, implements, import, this},
+	%ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+
+\usepackage{comment}
+\usepackage[margin=2.7cm]{geometry}
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\parskip}{0em}
+
+% Pacote para configurar cabeï¿½alho e rodape
+\usepackage{fancyhdr}
+\pagestyle{empty}
+\fancyhf{} % clear all header and footer fields
+
+\fancypagestyle{plain}{\pagestyle{fancy}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%Pacote para organizar apendices 
+\usepackage[titletoc]{appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURAÇÕES DE ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\annexname}{Anexo}
+\makeatletter
+\newcommand\annex{\par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\@chapapp{\annexname}%
+  \gdef\thechapter{\@Roman\c@chapter}}
+\makeatother
+
+\newenvironment{poliabstract}[1]
+  {\renewcommand{\abstractname}{#1}\begin{abstract}}
+  {\end{abstract}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONFIGURAÇÕES DE Pï¿½GINA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\topmargin -2.1cm
+%\oddsidemargin 0.5cm 
+%\evensidemargin 0.5cm 
+%\textwidth 15cm
+%\textheight 25.1cm
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INÍCIO DO DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  INCLUDES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ELEMENTOS PRÉ-TEXTUAIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{./Content/1_PreTexto.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADIÇÃO DOS CAPÍTULOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\input{./Content/2_Introducao.tex}
+%\input{./Content/3_EspecificacaoProjeto.tex}
+\input{./Content/4_EmbasamentoTeorico.tex}
+\input{./Content/5_MateriaisMetodos.tex}
+\input{./Content/6_Resultados.tex}
+\input{./Content/7_Conclusao.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADIÇÃO DAS BIBLIOGRAFIAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\bibliographystyle{is-unsrt} % Define o estilo da bibliografia
+\bibliography{./Content/References} % Faz referencia ao arquivo ref.bib
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ADIÇÃO DOS ANEXOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+%\begin{appendices}
+\appendix
+\input{./Content/8_Apendices.tex}
+%\end{appendices}
+
+\annex
+\input{./Content/9_Anexos.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TÉRMINO DO DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}    
+	

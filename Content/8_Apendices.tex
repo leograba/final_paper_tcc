@@ -1,0 +1,102 @@
+\chapter{Códigos-fonte da interface de usuário}
+\label{Apêndice A}
+
+Códigos em elaboração.
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Arquivos de configuração do sistema}
+\label{Apêndice B}
+
+\section{Arquivo de configuração de rede}
+
+\lstset{language=bash}
+\begin{lstlisting}
+# This file describes the network interfaces available
+# on your system and how to activate them.
+# For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+#auto eth0
+#iface eth0 inet dhcp
+# Example to keep MAC address between reboots
+#hwaddress ether DE:AD:BE:EF:CA:FE
+
+# The secondary network interface
+#auto eth1
+#iface eth1 inet dhcp
+
+# WiFi Example
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet static
+#allow-hotplug wlan0
+#auto lo
+#iface lo inet loopback
+#auto eth0
+#iface eth0 inet static
+address 192.168.1.155
+netmask 255.255.252.0
+network 192.168.1.0
+gateway 192.168.1.1
+#pre-up ifconfig eth0 hw ether 00:01:02:03:05:14
+dns-nameservers  143.107.225.6 143.107.182.2 8.8.8.8
+wpa-ssid        "nome_da_rede"
+wpa-psk         "senha1"
+#iface wlan0 inet dhcp
+#    wpa-ssid "outra_rede"
+#    wpa-psk  "senha2"
+
+# Ethernet/RNDIS gadget (g_ether)
+# ... or on host side, usbnet and random hwaddr
+# Note on some boards, usb0 is automaticly 
+#setup with an init script
+iface usb0 inet static
+address 192.168.7.2
+netmask 255.255.255.0
+network 192.168.7.0
+gateway 192.168.7.1
+
+
+
+\end{lstlisting}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Relatório Parcial do TCC}
+\label{Apêndice C}
+
+
+\begin{center}
+\textbf {\color{blue}{Cuidados e orientações para a composição do Relatório Parcial do TCC}}
+\end{center}
+
+
+Trata-se de um relatório completo, com todas as partes de uma monografia final. 
+
+Atente-se para as partes em {\color{red}{vermelho}}.
+
+\begin{itemize}
+\item Resumo
+\item Introdução
+\item Objetivos
+\item Justificativas/Relevância
+\item Embasamento Teórico (Fundamentação Teórica-Revisão Bibliográfica)
+\item Materiais e métodos
+\item {\color{red}{Resultados Preliminares}}
+\item {\color{red}{Sequência do trabalho (indicando possíveis correções de rota do projeto)}}
+\item {\color{red}{Cronograma Final (com correções se necessário)}}
+\item {\color{red}{Conclusões Preliminares}}
+\item Referências Bibliográficas
+\item Apêndices
+\item Anexos
+\end{itemize} 
+
+Sendo bem feito, irá poupar esforço para a redação da monografia.
+
+
