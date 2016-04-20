@@ -276,6 +276,62 @@
 @misc { dorf,
 		author = "DORF, R.C.; BISHOP, R.H.",
 		title = "\textit{Sistemas de Controle Modernos}",
-		howpublished = "LTC - Livros Técnicos e Científicos Editora S.A. Oitava Edição",
-		year = 2001
+		howpublished = "LTC - Livros Técnicos e Científicos Editora S.A. Décima Segunda Edição",
+		year = 2013
+}
+
+@misc { node_intro,
+	author = "TILKOV, S.; VINOSKI, S.",
+	title = "\textit{Node.js: Using JavaScript to Build High-Performance Network Programs}",
+	howpublished = "IEEE Internet Computing, p. 80-83, nov. 2010. Disponível em: \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=5617064}",
+	year = "Acesso em: 19 de abril de 2016"
+}
+
+@misc { node_created,
+	author = "TILKOV, S.; VINOSKI, S.",
+	title = "\textit{Node.js: Using JavaScript to Build High-Performance Network Programs}",
+	howpublished = "2015 30th IEEE/ACM International Conference on Automated Software Engineering Workshop (ASEW), Lincoln/NE, p. 86-89, nov. 2015. Disponível em: \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7426643}",
+	year = "Acesso em: 19 de abril de 2016"
+}
+
+@misc { node_book,
+		author = "TEIXEIRA, P.",
+		title = "\textit{Professional Node.js - Building Javascript Based Scalable Software}",
+		howpublished = "John Wiley & Sons, Inc.",
+		year = 2013
+}
+
+@misc { node_fast,
+	author = "BOSÁK, T., ZÁKOVÁ, K.",
+	title = "\textit{Node.js Based Remote Control of Thermo-optical Plant}",
+	howpublished = "2015 12th International Conference on Remote Engineering and Virtual Instrumentation (REV), Bangkok - Tailândia, p. 209-213, fev. 2015. Disponível em: \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7087293}",
+	year = "Acesso em: 19 de abril de 2016"
+}
+
+@misc { node_dyntype,
+	author = "OGASAWARA, T.",
+	title = "\textit{Workload Characterization of Server-Side JavaScript}",
+	howpublished = "2014 IEEE International Symposium on Workload Characterization (IISWC), Raleigh/NC, p. 13-21, out. 2014. Disponível em: \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=6983035}",
+	year = "Acesso em: 19 de abril de 2016"
+}
+
+@misc { callback_hell,
+	author = "callbackhell.com",
+	title = "\textit{Callback Hell - A Guide to Writing Asynchronous JavaScript Programs}",
+	howpublished = "Disponível em: \url{http://callbackhell.com/}",
+	year = "Acesso em: 19 de abril de 2016"
+}
+
+@misc { avoid_hell,
+	author = "ROBINSON, S.",
+	title = "\textit{Avoiding Callback Hell in Node.js}",
+	howpublished = "Stack Abuse, jul. 2015. Disponível em: \url{http://stackabuse.com/avoiding-callback-hell-in-node-js/}",
+	year = "Acesso em: 19 de abril de 2016"
+}
+
+@misc { node_mean,
+	author = "OGASAWARA, T.",
+	title = "\textit{Workload Characterization of Server-Side JavaScript}",
+	howpublished = "2015 IEEE 2nd World Forum on Internet of Things (WF-IoT), Milão - Itália, p. 280-285, dez. 2015. Disponível em: \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7389066}",
+	year = "Acesso em: 20 de abril de 2016"
 }

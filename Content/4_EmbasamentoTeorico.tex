@@ -529,11 +529,92 @@ Com relação à configuração do pino, este aceita os parâmetros de ajuste de \text
 %Páginas relevantes do manual do SoC
 %1356 - pullup, RXactive, etc e 1365 - registers offset, 1422 - registrador
 
-\subsection{Programação em Python}
+%\subsection{Programação em Python}
 
-\subsection{Programação em Node.js (Javascript)}
+\section{Programação em Node.js (Javascript)}
+
+Node.js é um ambiente em tempo de execução recente, criado em 2009 \cite{node_created},que permite a execução no servidor de programas escritos em Javascript. Para tal, este ambiente utiliza um motor implementado pelo Google para seu navegador Chrome --- o \textit{V8}, que compila o Javascript em código de máquina e não \textit{bytecode} ou interpretação \textit{on-the-fly}, o que torna a execução de Javascript extremamente rápida \cite{node_fast}, embora seja importante lembrar que o \textit{overhead} inerente de lingaugens de tipagem dinâmica custa o tempo de processamento de resolução do tipo de variável utilizada \cite{node_dyntype}. 
+
+Node, devido à natureza assíncrona de I/O do Javascript, implementa um suporte nativo à programação orientada a eventos, ainda que seja executado em uma única \textit{thread}, o que o torna um diferencial com relação às outras lingaugens de programação mais populares, que exigem do desenvolvedor a implementação de processos de \textit{multithreading} para atingir paralelismo de processamento \cite{node_intro}. Ainda, o estilo de programação em Node é orientado a \textit{callbacks}, que nada mais é do que passar como argumento uma função que será executada assim que um evento acabar.
+
+Historicamente, o desenvolvimento de \textit{multithreading} surgiu da necessidade de serviços de rede que possibilitassem múltiplas comunicações em paralelo, o que é conhecido como múltiplas fontes de I/O e assim será referenciado neste trabalho --- isto ocorreu devido ao fato de linguagens tradicionais de programação, mais antigas, focarem na implementação de aplicações operadas por um único ser humano enquanto, com o desenvolvimento da internet, esta realidade mudou drasticamente, exigindo processamento de I/O massivo \cite{node_book}. Em processadores com diversos núcleos, isso significa processamento em paralelo, enquanto em processadores com um único núcleo é implementada uma multiplexação temporal que permite tal técnica. O fato mais notável das implementações de \textit{multithreading} é a complexidade do código, que não é trivial e geralmente dá origem a códigos mal estruturados e repletos de variáveis globais, difíceis de manter \cite{node_intro, node_book}.
+
+Javascript, que nasceu como uma linguagem para execução no cliente, tornou-se a espinha dorsal de aplicações HTML modernas e, recentemente, ficou muito popular dentre aplicações no servidor. Especificamente em Node, o comportamento assíncrono é a regra geral, devido à orientação a eventos. Isto leva programadores acostumados a linguagens síncronas como C a terem dificuldades iniciais de programação: o uso de \textit{callbacks} de evento é fundamental para estruturar a ordem com que certas tarefas são executadas, sempre após o final do evento pai \cite{node_book}. É importante salientar que este tipo de implementação ocorre de forma transparente ao usuário mas, na verdade, nada mais é do que um \textit{loop} principal cujo objetivo é cuidar de todas as chamadas a funções. Outro ponto notável relacionado ao Node é que, para executar aplicações em múltiplos núcleos, é preciso executar múltiplas instâncias, o que pode ser gerenciado com bibliotecas de suporte \cite{node_intro, node_book}. Note-se também que os termos \textit{orientado a eventos} e \textit{assíncrono} são equivalentes \cite{node_book}.
+
+Para ilustrar o comportamento assíncrono do Node, no código a seguir não há garantia alguma de que a função executada na segunda linha receba um parâmetro diferente de nulo (Null) \cite{node_book}:
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+var botaoStatus = leBotao();
+imprimeValorBotao(botaoStatus); //nao ha garantia de que leBotao ja acabou de ser executada
+\end{lstlisting}
+
+A maneira correta para executar este tipo de código seria usando uma função de callback, como descrito no trecho de código abaixo, embora esta não seja a única maneira de fazê-lo. Observe-se que a função é declarada como um parâmetro de \textit{leBotao} e não tem nome --- é uma função anônima. Embora isto seja prático, do ponto de vista de manutenção de código e \textit{debug} é uma prática que deve ser evitada \cite{callback_hell, avoid_hell}.
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+leBotao(function(botaoStatus){
+	imprimeValorBotao(botaoStatus); //so acontece depois que o botao eh lido
+});
+\end{lstlisting}
+
+\subsection{\textit{Node Package Manager - NPM}}
+
+O \textit{Node Package Manager}, ou simplesmente NPM, é não somente um gerenciador de pacotes como também é um repositório de pacotes de terceiros e um padrão para definição de dependências. Os pacotes ficam em um registro público e podem ser gerenciados por uma ferramenta própria por linha de comando. O uso do NPM não é obrigatório, mas à medida que aplicações mais complexas são desenvolvidas é quase mandatório seu uso, pois assim é possível usar módulos prontos para executar diversas tarefas com facilidade. Uma vantagem do NPM é que os módulos podem ser instalados localmente, restringindo-os ao diretório do projeto e, portanto, garantindo certo nível de segurança. \cite{node_book}. Abaixo é apresentado um exemplo no qual o pacote fictício \textit{meuPacote} é instalado para a versão mais recente adicionada ao repositório do NPM:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+npm install meuPacote@latest
+\end{lstlisting}
+
+Outro exemplo de uso do NPM é a definição de dependências de um projeto e posterior possibilidade de instalação de todas elas de uma só vez. Para isto, um arquivo no formato JSON descreve estas dependências e outras informações do projeto:
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+{
+	"name" : "meuPacote",
+	"version" : "1.0.0",
+	"dependencies" : {
+		"debug" : "0.3.x",
+		"nano" : "*",
+		"request" : ">0.2.0"
+	}
+}
+\end{lstlisting}
+
+E a instalação das dependências se dá da seguinte maneira, assumindo que o presente diretório de trabalho é o mesmo do projeto:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+npm install
+\end{lstlisting}
+
+\subsection{\textit{MEAN Stack}}
+
+MEAN é uma pilha de desenvolvimento, de código aberto, para aplicações web e provê um conjunto de quatro ferramentas que, juntas, são a base necessária para a criação de aplicações tanto de servidor quanto do cliente. Um exemplo de pilha de desenvolvimento para aplicações web muito disseminado é a pilha LAMP. Voltando à MEAN, cada uma das 4 letras deste acrônimo representa uma das ferramentas \cite{node_mean}:
+
+\begin{itemize}
+	\item \textbf{MongoDB} - banco de dados orientado a objetos
+	\item \textbf{Express.js} - framework para criação de servidor web e roteamento
+	\item \textbf{Angular.js} - framework para aplicações web
+	\item \textbf{Node.js} - base da aplicação do servidor
+\end{itemize}
+
+Note-se que toda a pilha é baseada na linguagem Javascript, o que permite ao desenvolvedor de uma solução completa uma curva de aprendizado mais rápida, pois menos tempo é empregado aprendendo a sintaxe e o paradigma de programação e mais tempo dedicado à funcionalidade da aplicação em si \cite{node_mean}.
 
 \subsection{Servidor Express.js}
+
+Express é um framework de \textit{middleware} para implementação de aplicações web no servidor, incluindo mas não limitado a roteamento e operações HTTP, a exemplo dos métodos GET e POST. Embora o Node apresente um módulo dedicado a HTTP, a proposta do Express é simplificar seu uso e evitar que o mesmo trabalho seja realizado múltiplas vezes e por várias pessoas diferentes \cite{node_mean}.
+
+Dentre as facilidades proporcionadas pelo node está a fácil implementação de diferentes respostas para diferentes tipos de requisições baseadas no método HTTP e a renderização dinâmica de documentos HTML \cite{node_book}. O tratamento de requisições baseadas no método HTTP, possibilitado pelo Express, também é conhecido como RESTful API, que é uma API baseada no REST (\textit{Representational State Transfer}). Este por sua vez é um modelo para serviços web que implementa as operações HTTP POST, GET, PUT e DELETE, que são mapeadas como operações básicas de banco de dados: criar, ler, atualizar e deletar \cite{node_mean}.
+
+%\subsection{Performance do Node.js}
+
+%\subsection{Interação com código escrito em C/C++}
+
+%\subsection{Confiabilidade e segurança quanto ao uso de módulos de terceiros}
+
+%\section{Computação em nuvem e Internet das Coisas}
 
 \section{Circuitos de Interface}
 
@@ -714,8 +795,6 @@ O Kernel do Linux possui \textit{device drivers} que suportam parcialmente o uso
 %\section{Servo-motor}
 
 \section{Sistema de controle de temperatura}
-
-
 
 \subsection{Controlador PID}
 
