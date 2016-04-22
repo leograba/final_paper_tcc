@@ -168,6 +168,6 @@
 \label{Anexo5}
 
 %Adiciona o PDF do diagrama esquemático da BBB
-\includepdf[pages=1-2]{./Resources/TL-B08H.pdf}
+\includepdf[pages=-]{./Resources/TL-B08H.pdf}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
