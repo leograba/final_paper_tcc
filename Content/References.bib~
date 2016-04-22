@@ -335,3 +335,31 @@
 	howpublished = "2015 IEEE 2nd World Forum on Internet of Things (WF-IoT), Milão - Itália, p. 280-285, dez. 2015. Disponível em: \url{http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7389066}",
 	year = "Acesso em: 20 de abril de 2016"
 }
+
+@misc { cip_pres,
+	author = "ROSE, T.; MONTGOMERY, E.",
+	title = "\textit{Brewery & CIP Automation Systems}",
+	howpublished = "MBAA District NW Fall Meeting, Portland/OR, out. 2010. Disponível em: \url{http://www.mbaa.com/districts/northwest/events/documents/2010_10_08brewerycipautomation.pdf}",
+	year = "Acesso em: 22 de abril de 2016"
+}
+
+@misc { danfoss_solenoid,
+	author = "DANFOSS",
+	title = "\textit{How to Use Solenoid Valves}",
+	howpublished = "Disponível em: \url{http://www.danfoss.com/NR/rdonlyres/CDF180FA-4AFE-46AF-99A1-4E20A4FC1418/0/ICPS600A402_1_oms_solenoid_valves_how_to_use.pdf}",
+	year = "Acesso em: 22 de abril de 2016"
+}
+
+@misc { jefferson_solenoid,
+	author = "JEFFERSON AUTOMAÇÃO",
+	title = "\textit{Válvulas Solenóides - Informação de Engenharia}",
+	howpublished = "Disponível em: \url{http://www.jefferson.ind.br/imagens/download/Valvula-solenoide.pdf}",
+	year = "Acesso em: 22 de abril de 2016"
+}
+
+@misc { ifba,
+		author = "FERRAZ, F.",
+		title = "\textit{Meios de Ligação de Tubos - Conexões de Tubulação - Válvulas Industriais}",
+		howpublished = "IFBA, abr. 2009. Disponível em: \url{http://docente.ifb.edu.br/paulobaltazar/lib/exe/fetch.php?media=apostila_tubulacao_ifba.pdf}",
+		year = "Acesso em: 22 de abril de 2016"
+}

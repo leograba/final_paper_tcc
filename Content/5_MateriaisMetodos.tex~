@@ -1,127 +1,127 @@
-\chapter{Materiais e MÈtodos}
+\chapter{Materiais e M√©todos}
 \label{Materiais}
 
-Este capÌtulo descreve os materiais e mÈtodos empregados no desenvolvimento deste projeto. Cabe salientar que, embora este seja um projeto de integraÁ„o entre \textit{hardware} e \textit{software}, os esforÁos foram concentrados na ·rea de desenvolvimento dos mais diversos \textit{softwares}, desde o \textit{firmware} da PRU-ICSS integrado ao servidor desenvolvido inicialmente em Python e posteriormente migrado para Node.js, atÈ a aplicaÁ„o de usu·rio, escrita em diversas linguagens, de programaÁ„o ou n„o -- a exemplo de HTML e CSS.
+Este cap√≠tulo descreve os materiais e m√©todos empregados no desenvolvimento deste projeto. Cabe salientar que, embora este seja um projeto de integra√ß√£o entre \textit{hardware} e \textit{software}, os esfor√ßos foram concentrados na √°rea de desenvolvimento de \textit{softwares}, desde o \textit{firmware} da PRU-ICSS integrado ao servidor desenvolvido inicialmente em Python e posteriormente migrado para Node.js, at√© a aplica√ß√£o de usu√°rio, escrita em diversas linguagens, de programa√ß√£o ou n√£o --- a exemplo de HTML e CSS.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Materiais}
 
-Os materiais utilizados no n˙cleo deste projeto est„o contidos na tabela \ref{bom_core}:
+Os materiais utilizados no n√∫cleo deste projeto est√£o contidos na tabela \ref{bom_core}:
 
 \begin{center}
 	\begin{table}[H]
 		\captionsetup{justification=centering}
-		\caption[Lista de materiais que compıem o n˙cleo do projeto]{Lista de materiais que compıem o n˙cleo do projeto}
+		\caption[Lista de materiais que comp√µem o n√∫cleo do projeto]{Lista de materiais que comp√µem o n√∫cleo do projeto}
 		\label{bom_core}
 		\begin{tabular}{ | M{13cm} | M{2cm} |}
 			\hline
-			\textbf{DescriÁ„o} & \textbf{Quantidade} \\ \hline
+			\textbf{Descri√ß√£o} & \textbf{Quantidade} \\ \hline
 			BeagleBone Black Rev. C & 1\\ \hline
-			Fonte de tens„o 5V/2A & 1\\ \hline
-			Cart„o \si{\micro}SD 4GB & 1\\ \hline
+			Fonte de tens√£o 5V/2A & 1\\ \hline
+			Cart√£o \si{\micro}SD 4GB & 1\\ \hline
 			Adaptador Wi-Fi USB Ralink RT5370 & 1\\ \hline
-			Sonda de aÁo inoxid·vel ‡ prova d'·gua com sensor DS18B20 & 1\\ \hline
+			Sonda de a√ßo inoxid√°vel √† prova d'√°gua com sensor DS18B20 & 1\\ \hline
 		\end{tabular}
 	\end{table}
 \end{center}
 
-Os materiais utilizados na construÁ„o da parte mec‚nica do sistema est„o listados na tabela \ref{bom_mec}:
+Os materiais utilizados na constru√ß√£o da parte mec√¢nica do sistema est√£o listados na tabela \ref{bom_mec}:
 
 \begin{center}
 	\begin{table}[H]
 		\captionsetup{justification=centering}
-		\caption[Lista de materiais utilizados na confecÁ„o do subsistema mec‚nico]{Lista de materiais utilizados na confecÁ„o do subsistema mec‚nico}
+		\caption[Lista de materiais utilizados na confec√ß√£o do subsistema mec√¢nico]{Lista de materiais utilizados na confec√ß√£o do subsistema mec√¢nico}
 		\label{bom_mec}
 		\begin{tabular}{ | M{13cm} | M{2cm} |}
 			\hline
-			\textbf{DescriÁ„o} & \textbf{Quantidade} \\ \hline
+			\textbf{Descri√ß√£o} & \textbf{Quantidade} \\ \hline
 			
 			\textbf{Itens diversos} & \\ \hline
-			Caldeir„o de alumÌnio n.\si{\degree}36 (32 litros) & 2\\ \hline
+			Caldeir√£o de alum√≠nio n.\si{\degree}36 (32 litros) & 2\\ \hline
 			Resistor helicoidal com duas voltas, 110V/2200W & 2\\ \hline
-			Fundo falso de aÁo inoxid·vel circular \si{\phi}=36cm & 1\\ \hline
-			Bomba centrÌfuga magnÈtica 12VDC Topsflo TL-B08H & 2\\ \hline
-			Trocador de calor de contra-fluxo, tubo de alumÌnio de 7m & 1\\ \hline
-			Tecido mussalina x 1,5m (centÌmetros) & 30\\ \hline
+			Fundo falso de a√ßo inoxid√°vel circular \si{\phi}=36cm & 1\\ \hline
+			Bomba centr√≠fuga magn√©tica 12VDC Topsflo TL-B08H-12-1006 & 2\\ \hline
+			Trocador de calor de contra-fluxo, tubo de alum√≠nio de 7m & 1\\ \hline
+			Tecido mussalina x 1,5m (cent√≠metros) & 30\\ \hline
 			
-			\textbf{TubulaÁ„o} & \\ \hline
+			\textbf{Tubula√ß√£o} & \\ \hline
 			Mangueira silicone 3/8" (metros) & 1\\ \hline
 			Mangueira cristal 3/8" (metros) & 2\\ \hline
 			Mangueira cristal 1/2" (metros) & 7\\ \hline
-			Tubo schedule S40 1/2" aÁo inoxid·vel (metros) & 3\\ \hline
+			Tubo schedule S40 1/2" a√ßo inoxid√°vel (metros) & 3\\ \hline
 			
-			\textbf{V·lvulas e acessÛrios} & \\ \hline
-			V·lvula de retenÁ„o portinhola 1/2" aÁo inoxid·vel & 2\\ \hline
-			V·lvula esfera lat„o, passagem plena 1/2" & 2\\ \hline
-			V·lvula solenÛide 1/2" 12V pl·stico uso geral & 1\\ \hline
-			V·lvula solenÛide Danfoss 1/2" EV210BD 032U3620 & 3\\ \hline
+			\textbf{V√°lvulas e acess√≥rios} & \\ \hline
+			V√°lvula de reten√ß√£o portinhola 1/2" a√ßo inoxid√°vel & 2\\ \hline
+			V√°lvula esfera lat√£o, passagem plena 1/2" & 2\\ \hline
+			V√°lvula solen√≥ide 1/2" 12V pl√°stico uso geral & 1\\ \hline
+			V√°lvula solen√≥ide Danfoss 1/2" EV210BD 032U3620 & 3\\ \hline
 			Bobina Danfoss 15W 12VDC 042N7550 & 3\\ \hline
 			
-			\textbf{Conexıes e acessÛrios} & \\ \hline
-			Espig„o de lat„o com reduÁ„o 1/2" - 3/8" & 3\\ \hline
-			Bico de engate r·pido de pl·stico 1/2" & 1\\ \hline
-			Engate r·pido de pl·stico 1/2" & 1\\ \hline
-			AbraÁadeira 3/8" & 4\\ \hline
-			AbraÁadeira 1/2" & 2\\ \hline
-			Luva sextavada 1/2" lat„o & 1\\ \hline
-			Arruela aÁo inoxid·vel 1/2" & 4\\ \hline
-			Anel de vedaÁ„o de silicone 1/2" & 4\\ \hline
-			Contra porca aÁo inoxid·vel 1/2" & 2\\ \hline
-			Cotovelo fÍmea 90\si{\degree} 1/2" aÁo inoxid·vel & 1\\ \hline
-			Cotovelo M/F 90\si{\degree} 1/2" aÁo inoxid·vel & 1\\ \hline
-			Tee fÍmea 90\si{\degree} 1/2" aÁo inoxid·vel & 4\\ \hline
-			Niple duplo sextavado 1/2" aÁo inoxid·vel & 9\\ \hline
-			Espig„o sextavado 1/2" aÁo inoxid·vel & 4\\ \hline 
+			\textbf{Conex√µes e acess√≥rios} & \\ \hline
+			Espig√£o de lat√£o com redu√ß√£o 1/2" - 3/8" & 3\\ \hline
+			Bico de engate r√°pido de pl√°stico 1/2" & 1\\ \hline
+			Engate r√°pido de pl√°stico 1/2" & 1\\ \hline
+			Abra√ßadeira 3/8" & 4\\ \hline
+			Abra√ßadeira 1/2" & 2\\ \hline
+			Luva sextavada 1/2" lat√£o & 1\\ \hline
+			Arruela a√ßo inoxid√°vel 1/2" & 4\\ \hline
+			Anel de veda√ß√£o de silicone 1/2" & 4\\ \hline
+			Contra porca a√ßo inoxid√°vel 1/2" & 2\\ \hline
+			Cotovelo f√™mea 90\si{\degree} 1/2" a√ßo inoxid√°vel & 1\\ \hline
+			Cotovelo M/F 90\si{\degree} 1/2" a√ßo inoxid√°vel & 1\\ \hline
+			Tee f√™mea 90\si{\degree} 1/2" a√ßo inoxid√°vel & 4\\ \hline
+			Niple duplo sextavado 1/2" a√ßo inoxid√°vel & 9\\ \hline
+			Espig√£o sextavado 1/2" a√ßo inoxid√°vel & 4\\ \hline 
 		\end{tabular}
 	\end{table}
 \end{center}
 
-Os componentes eletrÙnicos utilizados para confecÁ„o dos circuitos de interface com a BBB, acionamentos de potÍncia e circuitos diversos est„o listados na tabela \ref{bom_eln}:
+Os componentes eletr√¥nicos utilizados para confec√ß√£o dos circuitos de interface com a BBB, acionamentos de pot√™ncia e circuitos diversos est√£o listados na tabela \ref{bom_eln}:
 
 \begin{center}
 	\begin{table}[H]
 		\captionsetup{justification=centering}
-		\caption[Lista de componentes eletrÙnicos diversos empregados na confecÁ„o de PCBs e cabeamento do sistema]{Lista de componentes eletrÙnicos diversos empregados na confecÁ„o de PCBs e cabeamento do sistema}
+		\caption[Lista de componentes eletr√¥nicos diversos empregados na confec√ß√£o de PCBs e cabeamento do sistema]{Lista de componentes eletr√¥nicos diversos empregados na confec√ß√£o de PCBs e cabeamento do sistema}
 		\label{bom_eln}
 		\begin{tabular}{ | M{6.5cm} | M{6.5cm} | M{2cm} |}
 			\hline
-			\textbf{Componente} & \textbf{Modelo/valor/descriÁ„o} & \textbf{Quantidade} \\ \hline
+			\textbf{Componente} & \textbf{Modelo/valor/descri√ß√£o} & \textbf{Quantidade} \\ \hline
 			
-			\textbf{Placa de acionamentos de potÍncia} & & \\ \hline
-			Capacitor cer‚mico & 100nF & 1\\ \hline
-			Capacitor poliÈster & 330nF & 1\\ \hline
+			\textbf{Placa de acionamentos de pot√™ncia} & & \\ \hline
+			Capacitor cer√¢mico & 100nF & 1\\ \hline
+			Capacitor poli√©ster & 330nF & 1\\ \hline
 			Resistor & 2,2k\si{\ohm} 1/4W 5\% & 10\\ \hline
 			Resistor & 22k\si{\ohm} 1/4W 5\% & 10\\ \hline
 			Optoacoplador & 4N25 DIP & 7\\ \hline
-			Regulador de tens„o & LM7805 TO220 & 1\\ \hline
+			Regulador de tens√£o & LM7805 TO220 & 1\\ \hline
 			Transistor MOSFET & IRF540N TO220 & 7\\ \hline
 			Diodo retificador & 1N4007 & 6\\ \hline
-			Conector para alimentaÁ„o & J4 & 2\\ \hline
+			Conector para alimenta√ß√£o & J4 & 2\\ \hline
 			Conector header & 10 vias & 1\\ \hline
 			Borne KRE & 2 vias & 6\\ \hline
-			Porta fusÌvel & 25mm 6A(MAX) & 1\\ \hline
-			FusÌvel de vidro & 20AG 5A 20mm & 1\\ \hline
+			Porta fus√≠vel & 25mm 6A(MAX) & 1\\ \hline
+			Fus√≠vel de vidro & 20AG 5A 20mm & 1\\ \hline
 			
 			\textbf{Cabeamento} & & \\ \hline
 			Conector latch & 10 vias & 1\\ \hline
 			Cabo flat (metros) & 10 vias & 2\\ \hline
 			
 			\textbf{Componentes diversos} & & \\ \hline
-			Fonte de tens„o & 12V/5A & 1\\ \hline
-			RelÈ de estado sÛlido & Fotek SSR-25 DA (25A) & 2\\ \hline
-			Cabo de cobre (metros) & 4mm seÁ„o transversal & 6\\ \hline
+			Fonte de tens√£o & 12V/5A & 1\\ \hline
+			Rel√© de estado s√≥lido & Fotek SSR-25 DA (25A) & 2\\ \hline
+			Cabo de cobre (metros) & 4mm se√ß√£o transversal & 6\\ \hline
 			Tomada & 20A & 1\\ \hline
-			Adaptador T & padr„o NEMA & 1\\ \hline
-			Terminal anel & prÈ-isolado M6 & 4\\ \hline
-			Plug tomada & 20A padr„o NBR 14136 & 1\\ \hline
+			Adaptador T & padr√£o NEMA & 1\\ \hline
+			Terminal anel & pr√©-isolado M6 & 4\\ \hline
+			Plug tomada & 20A padr√£o NBR 14136 & 1\\ \hline
 			Servo Motor & TowerPro MG995 & 1\\ \hline
 			
 		\end{tabular}
 	\end{table}
 \end{center}
 
-Os equipamentos, instrumentos de mediÁ„o e demais objetos e/ou \textit{softwares} de suporte ao desenvolvimento do projeto est„o listados na tabela \ref{bom_sup}.
+Os equipamentos, instrumentos de medi√ß√£o e demais objetos e/ou \textit{softwares} de suporte ao desenvolvimento do projeto est√£o listados na tabela \ref{bom_sup}.
 
 \begin{center}
 	\begin{table}[H]
@@ -130,14 +130,14 @@ Os equipamentos, instrumentos de mediÁ„o e demais objetos e/ou \textit{softwares
 		\label{bom_sup}
 		\begin{tabular}{ | M{10cm} | M{5cm} |}
 			\hline
-			\textbf{DescriÁ„o} & \textbf{Detalhes} \\ \hline
+			\textbf{Descri√ß√£o} & \textbf{Detalhes} \\ \hline
 			
-			\textbf{Instrumentos de mediÁ„o} & \\ \hline
-			OsciloscÛpio Agilent DSO-X 2002A & 70MHz - 2 canais\\ \hline
-			MultÌmetro Minipa ET-2110 & \\ \hline
+			\textbf{Instrumentos de medi√ß√£o} & \\ \hline
+			Oscilosc√≥pio Agilent DSO-X 2002A & 70MHz - 2 canais\\ \hline
+			Mult√≠metro Minipa ET-2110 & \\ \hline
 			
 			\textbf{\textit{Softwares}} & \\ \hline
-			MATLAB & vers„o\\ \hline
+			MATLAB & vers√£o\\ \hline
 			FreeCAD & v. 0.15\\ \hline
 			MatterControl & v. 1.3.0 + plugin CNCBrasil\\ \hline
 			Cura & v. 15.06.03\\ \hline
@@ -146,55 +146,67 @@ Os equipamentos, instrumentos de mediÁ„o e demais objetos e/ou \textit{softwares
 			
 			\textbf{Diversos} & \\ \hline
 			Impressora 3D & CNCBrasil Standard\\ \hline
-			Filamento para impress„o 3D & ABS 1,75mm\\ \hline
+			Filamento para impress√£o 3D & ABS 1,75mm\\ \hline
+
+			\textbf{Controle de vers√£o} & \\ \hline
+			GitHub & \url{https://github.com/leograba/final_paper_tcc}\\ \hline
+			Filamento para impress√£o 3D & ABS 1,75mm\\ \hline
 			
 		\end{tabular}
 	\end{table}
 \end{center}
 
-A descriÁ„o dos insumos cervejeiros utilizados para confecÁ„o da receita e posterior teste do sistema pode ser encontrada na tabela \ref{bom_recipe}.
+A descri√ß√£o dos insumos cervejeiros utilizados para confec√ß√£o da receita e posterior teste do sistema pode ser encontrada na tabela \ref{bom_recipe}.
 
 \begin{center}
 	\begin{table}[H]
 		\captionsetup{justification=centering}
-		\caption[Lista insumos cervejeiros para produÁ„o de cerveja do tipo \textit{Blond Ale}]{Lista insumos cervejeiros para produÁ„o de cerveja do tipo \textit{Blond Ale}}
+		\caption[Lista insumos cervejeiros para produ√ß√£o de cerveja do tipo \textit{Blond Ale}]{Lista insumos cervejeiros para produ√ß√£o de cerveja do tipo \textit{Blond Ale}}
 		\label{bom_recipe}
 		\begin{tabular}{ | M{13cm} | M{2cm} |}
 			\hline
-			\textbf{DescriÁ„o} & \textbf{Quantidade} \\ \hline
+			\textbf{Descri√ß√£o} & \textbf{Quantidade} \\ \hline
 			Malte Pilsen (kg) & 4,5\\ \hline
 			Malte Munich (kg) & 0,5\\ \hline
-			L˙pulo Hallertauer Tradition (g) & 50\\ \hline
-			Levedura desidratada Safale S-04 (Tipo Ale inglesa) sachÍ & 1\\ \hline
-			Sanitizante Iodophor diluÌdo em ·gua (ml/l) & 0,8\\ \hline
+			L√∫pulo Hallertauer Tradition (g) & 50\\ \hline
+			Levedura desidratada Safale S-04 (Tipo Ale inglesa) sach√™ & 1\\ \hline
+			Sanitizante Iodophor dilu√≠do em √°gua (ml/l) & 0,8\\ \hline
 		\end{tabular}
 	\end{table}
 \end{center}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-\section{MÈtodos}
+\section{M√©todos}
 
-Esta seÁ„o descreve todos os procedimentos de projeto e testes, dentre outros,  empregados visando a obtenÁ„o do resultado final deste trabalho. Os procedimentos aqui empregados s„o embasados na teoria apresentada no capÌtulo \ref{EmbasamentoTeorico}.
+Esta se√ß√£o descreve todos os procedimentos de projeto e testes, dentre outros,  empregados visando a obten√ß√£o do resultado final deste trabalho. Os procedimentos aqui empregados s√£o embasados na teoria apresentada no cap√≠tulo \ref{EmbasamentoTeorico}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{ConfiguraÁ„o da BeagleBone Black}
 
-O primeiro passo para o desenvolvimento do projeto foi a configuraÁ„o da BeagleBone Black, que È o coraÁ„o deste sistema. Para tal, foi escolhido o procedimento de gravar a distribuiÁ„o Debian prÈ-compilada do sistema operacional Linux na memÛria de armazenamento eMMC de 4GB da placa. Esta distribuiÁ„o foi escolhida em funÁ„o da facilidade de obtenÁ„o de suporte em fÛruns da internet, artigos e livros, dentre outros, alÈm de ser o SO oficial da BBB \cite{bbb_debian}.
 
-NOTA: Na ocasi„o da realizaÁ„o deste procedimento, havia uma diferenciaÁ„o entre a imagem fornecida para uso diretamente a partir do cart„o \si{\micro}SD e a imagem para gravaÁ„o no eMMC, porÈm agora o procedimento adotado pela fundaÁ„o BeagleBoard.org È fornecer somente uma imagem pronta para uso diretamente do cart„o \si{\micro}SD e, no caso de o usu·rio decidir gravar a distribuiÁ„o no eMMC, o arquivo uEnv.txt na partiÁ„o de \textit{boot} do cart„o \si{\micro}SD deve ser editado conforme instruÁıes antes de ser inserido na BBB.
+\subsubsection{Estrutura met√°lica de suporte}
 
-Tanto a ˙ltima vers„o est·vel do Debian para BBB (v. 7.9), conhecida como \textit{Wheezy} e a ˙ltima vers„o em desenvolvimento (v. 8.2), conhecida como \textit{Jessie}, quanto a vers„o utilizada neste projeto (v. 7.5) podem ser obtidas a partir do site oficial da BBB \cite{bbb_images}, conforme ilustrado na figura \ref{debian_images}. A instalaÁ„o da vers„o 7.5 se resume a:
+Parte importante do projeto foi o dimensionamento da estrutura met√°lica de suporte √†s panelas, j√° que esta √© respons√°vel n√£o somente pelo bom funcionamento do sistema mec√¢nico como tamb√©m pela facilidade de manuten√ß√£o do mesmo.
+
+
+
+\subsection{Configura√ß√£o da BeagleBone Black}
+
+O primeiro passo para o desenvolvimento do projeto foi a configura√ß√£o da BeagleBone Black, que √© o cora√ß√£o deste sistema. Para tal, foi escolhido o procedimento de gravar a distribui√ß√£o Debian pr√©-compilada do sistema operacional Linux na mem√≥ria de armazenamento eMMC de 4GB da placa. Esta distribui√ß√£o foi escolhida em fun√ß√£o da facilidade de obten√ß√£o de suporte em f√≥runs da internet, artigos e livros, dentre outros, al√©m de ser o SO oficial da BBB \cite{bbb_debian}.
+
+NOTA: Na ocasi√£o da realiza√ß√£o deste procedimento, havia uma diferencia√ß√£o entre a imagem fornecida para uso diretamente a partir do cart√£o \si{\micro}SD e a imagem para grava√ß√£o no eMMC, por√©m agora o procedimento adotado pela funda√ß√£o BeagleBoard.org √© fornecer somente uma imagem pronta para uso diretamente do cart√£o \si{\micro}SD e, no caso de o usu√°rio decidir gravar a distribui√ß√£o no eMMC, o arquivo uEnv.txt na parti√ß√£o de \textit{boot} do cart√£o \si{\micro}SD deve ser editado conforme instru√ß√µes antes de ser inserido na BBB.
+
+Tanto a √∫ltima vers√£o est√°vel do Debian para BBB (v. 7.9), conhecida como \textit{Wheezy} e a √∫ltima vers√£o em desenvolvimento (v. 8.2), conhecida como \textit{Jessie}, quanto a vers√£o utilizada neste projeto (v. 7.5) podem ser obtidas a partir do site oficial da BBB \cite{bbb_images}, conforme ilustrado na figura \ref{debian_images}. A instala√ß√£o da vers√£o 7.5 se resume a:
 
 \begin{enumerate}
 	\item Baixar a imagem Debian 7.5 para eMMC do site \url{beagleboard.org/latest-images}
 	\item Descomprimir a imagem
-	\item Gravar a imagem em um cart„o \si{\micro}SD formatado (n„o basta copiar, È preciso utilizar um software que grave a imagem corretamente. Neste caso foi utilizado o \textit{Win32 Disk Imager})
-	\item Inserir o cart„o \si{\micro}SD na BBB desligada
-	\item Pressionar o bot„o de boot e energizar a placa com ele ainda pressionado
-	\item Esperar um dos leds de status acender antes de largar o bot„o
-	\item Esperar os 4 leds de status ficarem continuamente acesos (durante o processo de gravaÁ„o eles trabalhar„o de maneira intermitente)
-	\item Desenergizar a BBB e retirar o cart„o \si{\micro}SD
+	\item Gravar a imagem em um cart√£o \si{\micro}SD formatado (n√£o basta copiar, √© preciso utilizar um software que grave a imagem corretamente. Neste caso foi utilizado o \textit{Win32 Disk Imager})
+	\item Inserir o cart√£o \si{\micro}SD na BBB desligada
+	\item Pressionar o bot√£o de boot e energizar a placa com ele ainda pressionado
+	\item Esperar um dos leds de status acender antes de largar o bot√£o
+	\item Esperar os 4 leds de status ficarem continuamente acesos (durante o processo de grava√ß√£o eles trabalhar√£o de maneira intermitente)
+	\item Desenergizar a BBB e retirar o cart√£o \si{\micro}SD
 \end{enumerate}
  
  \newpage
@@ -203,19 +215,19 @@ Tanto a ˙ltima vers„o est·vel do Debian para BBB (v. 7.9), conhecida como \texti
 	\centering
 	\fbox{\includegraphics[scale=0.30]{./Resources/debian-latest.jpg}}
 	\captionsetup{justification=centering}
-	\caption[⁄ltimas imagens prÈ-compiladas disponÌveis para a BBB]{⁄ltimas imagens prÈ-compiladas disponÌveis para a BBB. \\Fonte: Adaptado do site oficial da FundaÁ„o BeagleBoard.org\protect\footnotemark}
+	\caption[√öltimas imagens pr√©-compiladas dispon√≠veis para a BBB]{√öltimas imagens pr√©-compiladas dispon√≠veis para a BBB. \\Fonte: Adaptado do site oficial da Funda√ß√£o BeagleBoard.org\protect\footnotemark}
 	\label{debian_images}
 \end{figure}
 
-\footnotetext{DisponÌvel em \url{http://beagleboard.org/latest-images}}
+\footnotetext{Dispon√≠vel em \url{http://beagleboard.org/latest-images}}
 
-ApÛs este procedimento, a BBB estar· pronta para uso a partir da memÛria interna eMMC. A verificaÁ„o do funcionamento do sistema foi feita conectando a placa a um computador instalado com Windows 7 e conectado ‡ internet, via interface USB e posterior acesso atravÈs do software de cÛdigo aberto para acesso via SSH \textit{Putty}, disponÌvel para \textit{download} no site oficial \url{putty.org} \cite{putty} (qualquer software similar que possibilite o acesso via SSH pode ser utilizado para este fim). Para isso, È preciso tambÈm instalar no computador o driver que d· acesso ‡ BBB via USB, disponÌvel em \url{beagleboard.org/getting-started}. O acesso via SSH se d· utilizando o endereÁo de IP \textbf{192.168.7.2}, usu·rio: \textbf{debian} e senha: \textbf{debian} \cite{lumme}. A figura \ref{putty-cfg} mostra o ambiente de configuraÁ„o do \textit{Putty} e a figura \ref{putty-flogin} apresenta a tela apÛs uma tentativa de login bem sucedida.
+Ap√≥s este procedimento, a BBB estar√° pronta para uso a partir da mem√≥ria interna eMMC. A verifica√ß√£o do funcionamento do sistema foi feita conectando a placa a um computador instalado com Windows 7 e conectado √† internet, via interface USB e posterior acesso atrav√©s do software de c√≥digo aberto para acesso via SSH \textit{Putty}, dispon√≠vel para \textit{download} no site oficial \url{putty.org} \cite{putty} (qualquer software similar que possibilite o acesso via SSH pode ser utilizado para este fim). Para isso, √© preciso tamb√©m instalar no computador o driver que d√° acesso √† BBB via USB, dispon√≠vel em \url{beagleboard.org/getting-started}. O acesso via SSH se d√° utilizando o endere√ßo de IP \textbf{192.168.7.2}, usu√°rio: \textbf{debian} e senha: \textbf{debian} \cite{lumme}. A figura \ref{putty-cfg} mostra o ambiente de configura√ß√£o do \textit{Putty} e a figura \ref{putty-flogin} apresenta a tela ap√≥s uma tentativa de login bem sucedida.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.90]{./Resources/putty-cfg.jpg}
 	\captionsetup{justification=centering}
-	\caption[ConfiguraÁ„o do \textit{Putty} para acesso SSH via USB]{ConfiguraÁ„o do \textit{Putty} para acesso SSH via USB}
+	\caption[Configura√ß√£o do \textit{Putty} para acesso SSH via USB]{Configura√ß√£o do \textit{Putty} para acesso SSH via USB}
 	\label{putty-cfg}
 \end{figure}
 
@@ -227,58 +239,58 @@ ApÛs este procedimento, a BBB estar· pronta para uso a partir da memÛria interna
 	\label{putty-flogin}
 \end{figure}
 
-\subsubsection{ConfiguraÁ„o da rede para uso do adaptador Wi-Fi/USB}
+\subsubsection{Configura√ß√£o da rede para uso do adaptador Wi-Fi/USB}
 
-Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado ‡ BBB. Em seguida, no terminal, o dispositivo foi listado para confirmar que o sistema estava identificando-o corretamente e ativado, permitindo assim obter a lista de redes Wi-Fi prÛximas. Com isso, foi possÌvel obter os dados da rede Wi-Fi de interesse, para posterior ediÁ„o do arquivo \textit{/etc/network/interfaces}, respons·vel pelas configuraÁıes de rede do sistema -- este pode ser obtido no apÍndice \ref{ApÍndice B}. O cÛdigo abaixo ilustra a sequÍncia de comandos executados:
+Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado √† BBB. Em seguida, no terminal, o dispositivo foi listado para confirmar que o sistema estava identificando-o corretamente e ativado, permitindo assim obter a lista de redes Wi-Fi pr√≥ximas. Com isso, foi poss√≠vel obter os dados da rede Wi-Fi de interesse, para posterior edi√ß√£o do arquivo \textit{/etc/network/interfaces}, respons√°vel pelas configura√ß√µes de rede do sistema -- este pode ser obtido no ap√™ndice \ref{Ap√™ndice B}. O c√≥digo abaixo ilustra a sequ√™ncia de comandos executados:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
 	lsusb # verifica se o dispositivo USB foi detectado
 	sudo ifconfig wlan up # ativa a interface de rede USB
-	sudo iwlist scan # lista as redes Wi-Fi disponÌveis
+	sudo iwlist scan # lista as redes Wi-Fi dispon√≠veis
 	
 	# Identificar os valores da rede de interesse, e.g.
 	#	ESSID:"Nome_da_rede" -> nome da rede
-	#	IE: IEEE 802.11i/WPA2 Version 1 -> encriptaÁ„o
-	# E ent„o È modificado o arquivo de configuraÁ„o
+	#	IE: IEEE 802.11i/WPA2 Version 1 -> encripta√ß√£o
+	# E ent√£o √© modificado o arquivo de configura√ß√£o
 	
-	# abre o arquivo para ediÁ„o
+	# abre o arquivo para edi√ß√£o
 	sudo nano /etc/network/interfaces 
-	# ApÛs modificar o arquivo e salv·-lo:
+	# Ap√≥s modificar o arquivo e salv√°-lo:
 	
 	sudo ifup wlan0 # ativa a interface de rede Wi-Fi
 	sudo ifdown eth0 # desativa a interaface Ethernet
 
 \end{lstlisting}
 
-No arquivo \textit{/etc/network/interfaces}, as configuraÁıes utilizadas entre as linhas 19 e 35 do cÛdigo s„o referentes ‡ configuraÁ„o do Wi-Fi para configuraÁ„o da BBB com endereÁo de IP est·tico, permitindo o acesso ‡ plataforma remotamente pela internet e n„o somente dentro da intranet. Depois de todo este procedimento, o dispositivo ainda n„o estava funcionando apÛs a operaÁ„o de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instruÁıes de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, foram as seguintes:
+No arquivo \textit{/etc/network/interfaces}, as configura√ß√µes utilizadas entre as linhas 19 e 35 do c√≥digo s√£o referentes √† configura√ß√£o do Wi-Fi para configura√ß√£o da BBB com endere√ßo de IP est√°tico, permitindo o acesso √† plataforma remotamente pela internet e n√£o somente dentro da intranet. Depois de todo este procedimento, o dispositivo ainda n√£o estava funcionando ap√≥s a opera√ß√£o de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instru√ß√µes de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, foram as seguintes:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
 git clone https://github.com/adafruit/wifi-reset.git #download do script
-cd wifi-reset/ #entra no diretÛrio do script
-chmod +x install.sh #permiss„o de execuÁ„o para o script
+cd wifi-reset/ #entra no diret√≥rio do script
+chmod +x install.sh #permiss√£o de execu√ß√£o para o script
 sudo ./install.sh #executa o script
 \end{lstlisting}
 
-\subsubsection{ConfiguraÁ„o de data/hora}
+\subsubsection{Configura√ß√£o de data/hora}
 
-Para a configuraÁ„o autom·tica de data e hora da BBB, foi escolhido o uso do protocolo NTP -- \textit{Network Time Protocol} ou Protocolo de Tempo para Redes -- cujo objetivo È sincronizar os relÛgios de dispositivos conectados a uma rede a partir de fontes precisas \cite{ntp}. No Brasil, a confiabilidade deste protocolo È responsabilidade do ObservatÛrio Nacional (ON), respons·vel legal por garantir a Hora Legal Brasileira, em conjunto com o N˙cleo de InformaÁ„o e CoordenaÁ„o do Ponto BR, administrador e operador do domÌnio ".br"  \cite{nic,dsho}.
+Para a configura√ß√£o autom√°tica de data e hora da BBB, foi escolhido o uso do protocolo NTP -- \textit{Network Time Protocol} ou Protocolo de Tempo para Redes -- cujo objetivo √© sincronizar os rel√≥gios de dispositivos conectados a uma rede a partir de fontes precisas \cite{ntp}. No Brasil, a confiabilidade deste protocolo √© responsabilidade do Observat√≥rio Nacional (ON), respons√°vel legal por garantir a Hora Legal Brasileira, em conjunto com o N√∫cleo de Informa√ß√£o e Coordena√ß√£o do Ponto BR, administrador e operador do dom√≠nio ".br"  \cite{nic,dsho}.
 
-Primeiramente foi realizada a instalaÁ„o do protocolo, seguida da configuraÁ„o do arquivo \textit{/etc/ntp.conf} e da modificaÁ„o do arquivo que indica a \textit{timezone}, sendo este um link simbÛlico para o verdadeiro arquivo. Os comandos executados est„o descritos abaixo:
+Primeiramente foi realizada a instala√ß√£o do protocolo, seguida da configura√ß√£o do arquivo \textit{/etc/ntp.conf} e da modifica√ß√£o do arquivo que indica a \textit{timezone}, sendo este um link simb√≥lico para o verdadeiro arquivo. Os comandos executados est√£o descritos abaixo:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
 sudo apt-get install ntp #instala o NTP
-sudo nano /etc/ntp.conf #abre o arquivo de configuraÁ„o para ediÁ„o
+sudo nano /etc/ntp.conf #abre o arquivo de configura√ß√£o para edi√ß√£o
 sudo mv /etc/localtime /etc/localtime-old #backup do arquivo antigo da timezone
-sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime #cria link simbÛlico para arquivo da nova timezone
+sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime #cria link simb√≥lico para arquivo da nova timezone
 \end{lstlisting}
 
-Na ediÁ„o do arquivo \textit{/etc/ntp.conf}, a ˙nica modificaÁ„o feita È a substituiÁ„o dos servidores de hora padr„o para os servidores brasileiros, listados no endereÁo \url{http://www.pool.ntp.org/zone/br} -- no final de cada endereÁo foi adicionada a instruÁ„o \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora n„o esteja claro seu funcionamento, È essencial para que o hor·rio seja corretamente configurado a cada \textit{reboot}. O trecho de cÛdigo modificado no arquivo \textit{/etc/ntp.conf} com os servidores brasileiros È ilustrado abaixo:
+Na edi√ß√£o do arquivo \textit{/etc/ntp.conf}, a √∫nica modifica√ß√£o feita √© a substitui√ß√£o dos servidores de hora padr√£o para os servidores brasileiros, listados no endere√ßo \url{http://www.pool.ntp.org/zone/br} -- no final de cada endere√ßo foi adicionada a instru√ß√£o \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora n√£o esteja claro seu funcionamento, √© essencial para que o hor√°rio seja corretamente configurado a cada \textit{reboot}. O trecho de c√≥digo modificado no arquivo \textit{/etc/ntp.conf} com os servidores brasileiros √© ilustrado abaixo:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
 # You do need to talk to an NTP server or two (or three).
 #server ntp.your-provider.example
 
@@ -293,29 +305,34 @@ server 3.br.pool.ntp.org iburst
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Interface de usu·rio}
+\subsection{Aplica√ß√£o \textit{server-side} em Node.js}
 
-A interface de usu·rio foi desenvolvida para acesso via navegador da internet. Dois servidores foram utilizados em conjunto: o servidor Apache, que È um servidor \textit{web} robusto e de f·cil implementaÁ„o e o \textit{framework Express.js}, para \textit{Node.js}. As linguagens utilizadas para a implementaÁ„o da aplicaÁ„o foram: a linguagem de marcaÁ„o HTML, a linguagem de folhas de estilo CSS, a linguagem de programaÁ„o \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o mÈtodo AJAX, a linguagem de programaÁ„o \textit{server-side} interpretada PHP e, a linguagem de programaÁ„o \textit{server-side} Javascript interpretada pela aplicaÁ„o \textit{Node.js}.
+\subsection{Interface de usu√°rio}
 
-Parte da implementaÁ„o foi feita por meio de acesso ao terminal via SSH e parte via \textit{Cloud9}, que È uma IDE online. A estrutura da aplicaÁ„o desenvolvida È apresentada:
+A interface de usu√°rio foi desenvolvida para acesso via navegador da internet. Dois servidores foram utilizados em conjunto: o servidor Apache, que √© um servidor \textit{web} robusto e de f√°cil implementa√ß√£o e o \textit{framework Express.js}, para \textit{Node.js}. As linguagens utilizadas para a implementa√ß√£o da aplica√ß√£o foram: a linguagem de marca√ß√£o HTML, a linguagem de folhas de estilo CSS, a linguagem de programa√ß√£o \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o m√©todo AJAX, a linguagem de programa√ß√£o \textit{server-side} interpretada PHP e, a linguagem de programa√ß√£o \textit{server-side} Javascript interpretada pela aplica√ß√£o \textit{Node.js}.
+
+Parte da implementa√ß√£o foi feita por meio de acesso ao terminal via SSH e parte via \textit{Cloud9}, que √© uma IDE online. A estrutura da aplica√ß√£o desenvolvida √© apresentada:
 
 \begin{itemize}
-	\item P·gina inicial
-	\item P·gina de apresentaÁ„o
-	\item Gr·ficos de temperatura din‚mico e est·tico (p·gina somente para vers„o de demonstraÁ„o)
-	\item Menu de seleÁ„o de tarefas
+	\item P√°gina inicial
+	\item P√°gina de apresenta√ß√£o
+	\item Gr√°ficos de temperatura din√¢mico e est√°tico (p√°gina somente para vers√£o de demonstra√ß√£o)
+	\item Menu de sele√ß√£o de tarefas
 	\begin{itemize}
 		\item Gerenciador de receitas de cerveja
 		\begin{itemize}
 			\item Editor de receitas
 		\end{itemize}
-		\item Gerenciador de inÌcio da produÁ„o (em desenvolvimento)
+		\item Gerenciador de in√≠cio da produ√ß√£o (em desenvolvimento)
 		\item Acompanhamento e possibilidade de ajustes da brassagem (em desenvolvimento)
-		\item EstatÌsticas (a ser desenvolvida)
-		\item OpÁıes e ajuste de configuraÁıes do sistema (a ser desenvolvida)
+		\item Estat√≠sticas (a ser desenvolvida)
+		\item Op√ß√µes e ajuste de configura√ß√µes do sistema (a ser desenvolvida)
 	\end{itemize}
 \end{itemize}
 
-Os cÛdigos desenvolvidos e comentados podem ser consultados no apÍndice \ref{ApÍndice B} e os resultados s„o descritos na seÁ„o \ref{resIntUser}.
+Os c√≥digos desenvolvidos e comentados podem ser consultados no ap√™ndice \ref{Ap√™ndice B} e os resultados s√£o descritos na se√ß√£o \ref{resIntUser}.
 
+\subsection{Circuitos de interface}
+
+\subsection{Sistema de controle de temperatura}
 
