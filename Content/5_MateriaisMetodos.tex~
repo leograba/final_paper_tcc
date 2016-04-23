@@ -184,6 +184,7 @@ Esta seção descreve todos os procedimentos de projeto e testes, dentre outros,  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Estrutura mecânica}
+\label{estmec}
 
 Para o projeto da parte mecânica, em primeiro lugar foi concebida uma configuração de sistema baseada tanto na literatura disponível quanto em projetos de sistemas disponíveis para aquisição no mercado: um sistema de duas panelas análogas à MT e ao BK, sendo que durante o processo de cozimento do mosto, o BK pudesse ser utilizado como HLT e, portanto, fez-se necessário o projeto de um sistema de recirculação entre as duas panelas. Obserava-se que esta proposta representa um híbrido entre um sistema de 3 panelas tradicional - que consiste de uma panela para mosturação, uma para lavagem dos grãos, ou sparging, e uma para fervura; e o sistema popularizado pela Braumeister, composto de 1 panela, com recirculação. Esta abordagem permite a economia financeira e simplificação mecânica do sistema de três panelas com o benefício do \textit{sparging} inexistente no sistema de uma panela.
 
@@ -293,9 +294,83 @@ Na figura \ref{mt_cad} é apresentado um diagrama da MT construído no software Fr
 
 \subsubsection{Estrutura metálica de suporte}
 
-Parte importante do projeto foi o dimensionamento da estrutura metálica de suporte às panelas, já que esta é responsável não somente pelo bom funcionamento do sistema mecânico como também pela facilidade de manutenção do mesmo.
+Parte importante do projeto é o dimensionamento da estrutura metálica de suporte às panelas, já que esta é responsável não somente pelo alojamento do sistema mecânico como também pela facilidade de manutenção. Para definição da altura das panelas, foram observadas primeiramente as alturas das panelas, da estrutura de adição de lúpulos (que será detalhada à parte na seção \ref{hopbox}) e do \textit{chiller}. Na sequência, foi estimado um espaço de manobra entre as duas panelas e uma altura mínima do chão, com base na figura \ref{esboco}. Todas as medidas citadas estão dispostas na tabela \ref{alturas}.
 
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Dimensões elementos mecânicos relevantes para o projeto da altura da estrutura metálica]{Dimensões elementos mecânicos relevantes para o projeto da altura da estrutura metálica}
+		\label{alturas}
+		\begin{tabular}{ | M{10cm} | M{5cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Altura (cm)} \\ \hline
+			Panela BK & 30,0\\ \hline
+			Panela MT & 30,0\\ \hline
+			\textit{Chiller} & 30,0\\ \hline			
+			Estrutura dos lúpulos aberta & 20,0\\ \hline
+			Vão livre entre panelas & 20,0\\ \hline
+			Vão do \textit{chiller} ao BK & 10,0\\ \hline
+			Espaço entre MT e topo & 10,0\\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
 
+Somando as alturas medidas e estimadas, obteve-se que a estrutura metálica deve ter 1,5m de altura. A largura deve ser de 36,5cm para acomodar as panelas somente com uma pequena folga e o comprimento escolhido é de 70cm, o que permite alinhar as panelas de maneira não concêntrica, conforme abordado na seção \ref{estmec} --- este valor é suficiente, já que o diâmetro somado das duas panelas é de 72cm e deve haver ao menos uma intersecção para permitir o escoamento por gravidade da MT ao BK. Na figura \ref{estmec_cad} é apresentado o projeto da estrutura já com as prateleiras para acomodar as panelas. Note-se que foram escolhidas cantoneiras de 2" x 1/8" para a construção deste equipamento.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/mecsys/estmec-freecad.pdf}
+	\captionsetup{justification=centering}
+	\caption[Projeto da estrutura metálica]{Projeto da estrutura metálica}
+	\label{estmec_cad}
+\end{figure}
+
+\subsection{Estrutura de adição de lúpulos}
+\label{hopbox}
+
+Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados para adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
+
+Fixando a altura do compartimento em 10,0cm foram escolhidos valores de comprimento e largura de 16,0cm e 8,0cm respectivamente, assumindo inicialmente que as paredes das divisórias tem espessura desprezível. A equação para volume de um prisma e a escolha das dimensões são demonstradas em \ref{eq_hop_vini}:
+
+\begin{subequations}
+	\label{eq_hop_vini}
+	\begin{align}
+		V &= l\cdot w\cdot h = V_{50g}\cdot 8 \\
+		&= l\cdot w\cdot 10 = 160\cdot 8 \nonumber \\
+		l\cdot w\cdot &= 128, fixando \quad l = 16cm \quad \therefore \nonumber \\
+		w &= 128/16 = 8cm \quad e \\
+		w_{compartimento} &= l/8 = 16/8 = 2cm
+	\end{align}
+\end{subequations}
+
+Posteriormente aos cálculos de \ref{eq_hop_vini}, durante o projeto no software FreeCAD, observou-se que a assumpção de espessura desprezível é falsa e um retrabalho nas medidas do compartimento levou às dimensões externas finais de 18,0cm x 8,4cm x 10,0cm; as paredes externas tendo espessura de 3,0mm e as internas de 2,0mm. A figura \ref{caixa_cinza} esboça as dimensões externas da caixa e a figura \ref{corpo_hopbox} apresenta o corpo da estrutura.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/estLup/caixa_lupulos(1).pdf}
+	\captionsetup{justification=centering}
+	\caption[Dimensões da estrutura de adição de lúpulos]{Dimensões da estrutura de adição de lúpulos}
+	\label{caixa_cinza}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(2).pdf}
+		\caption{Vista superior}
+		\label{corpo_hopbox:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(3).pdf}
+		\caption{Vista axiométrica}
+		\label{corpo_hopbox:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Corpo da estrutura de adição de lúpulos]{Corpo da estrutura de adição de lúpulos}
+	\label{corpo_hopbox}
+\end{figure}
 
 \subsection{Configuração da BeagleBone Black}
 
@@ -352,21 +427,21 @@ Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado à BBB.
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
-	lsusb # verifica se o dispositivo USB foi detectado
-	sudo ifconfig wlan up # ativa a interface de rede USB
-	sudo iwlist scan # lista as redes Wi-Fi disponíveis
-	
-	# Identificar os valores da rede de interesse, e.g.
-	#	ESSID:"Nome_da_rede" -> nome da rede
-	#	IE: IEEE 802.11i/WPA2 Version 1 -> encriptação
-	# E então é modificado o arquivo de configuração
-	
-	# abre o arquivo para edição
-	sudo nano /etc/network/interfaces 
-	# Após modificar o arquivo e salvá-lo:
-	
-	sudo ifup wlan0 # ativa a interface de rede Wi-Fi
-	sudo ifdown eth0 # desativa a interaface Ethernet
+lsusb # verifica se o dispositivo USB foi detectado
+sudo ifconfig wlan up # ativa a interface de rede USB
+sudo iwlist scan # lista as redes Wi-Fi disponíveis
+
+# Identificar os valores da rede de interesse, e.g.
+#	ESSID:"Nome_da_rede" -> nome da rede
+#	IE: IEEE 802.11i/WPA2 Version 1 -> encriptação
+# E então é modificado o arquivo de configuração
+
+# abre o arquivo para edição
+sudo nano /etc/network/interfaces 
+# Após modificar o arquivo e salvá-lo:
+
+sudo ifup wlan0 # ativa a interface de rede Wi-Fi
+sudo ifdown eth0 # desativa a interaface Ethernet
 
 \end{lstlisting}
 

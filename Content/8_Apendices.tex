@@ -68,35 +68,33 @@ gateway 192.168.7.1
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-\chapter{Relatório Parcial do TCC}
+\chapter{Cálculo de parâmetros de uma receita de cerveja}
 \label{Apêndice C}
 
+descrito pelo conjunto de equações \ref{eq_aau}, \ref{eq_ograv}, \ref{eq_utilizacao} e \ref{eq_ibu}, nas quais AAU é a quantidade normalizada de ácidos alfa por peso do lúpulo, 
 
-\begin{center}
-\textbf {\color{blue}{Cuidados e orientações para a composição do Relatório Parcial do TCC}}
-\end{center}
+\begin{equation}
+	\label{eq_aau}
+	AAU = w\cdot aa
+\end{equation}
 
+%How to Brew pg ~164 e pg ~59
+\begin{equation}
+	\label{eq_ograv}
+	OG = \left\{\left[\displaystyle\sum_{n} (pts_n\cdot w_n)\right]\cdot \frac{\eta}{1000\cdot V}\right\} + 1
+\end{equation}
 
-Trata-se de um relatório completo, com todas as partes de uma monografia final. 
+\begin{subequations}
+	\begin{align}
+		\label{eq_utilizacao}
+		&u = f(OG)\cdot f(t), \quad onde:\\
+		&f(OG) =  1,65\cdot 0,000125^{(OG-1)}\\
+		&f(t) = \frac{1-\epsilon^{-0,04t}}{4,15}
+	\end{align}
+\end{subequations}
 
-Atente-se para as partes em {\color{red}{vermelho}}.
-
-\begin{itemize}
-\item Resumo
-\item Introdução
-\item Objetivos
-\item Justificativas/Relevância
-\item Embasamento Teórico (Fundamentação Teórica-Revisão Bibliográfica)
-\item Materiais e métodos
-\item {\color{red}{Resultados Preliminares}}
-\item {\color{red}{Sequência do trabalho (indicando possíveis correções de rota do projeto)}}
-\item {\color{red}{Cronograma Final (com correções se necessário)}}
-\item {\color{red}{Conclusões Preliminares}}
-\item Referências Bibliográficas
-\item Apêndices
-\item Anexos
-\end{itemize} 
-
-Sendo bem feito, irá poupar esforço para a redação da monografia.
-
+\begin{equation}
+	\label{eq_ibu}
+	IBU = \frac{AAU\cdot u\cdot 75}{V}
+\end{equation}
 
