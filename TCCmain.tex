@@ -39,6 +39,8 @@
 \usepackage{eurosym} %Pacote para possibilitar o uso do sï¿½mbolo de euro "\euro"
 
 \usepackage{listings} % para importaï¿½ï¿½o de cï¿½digos fonte 
+\renewcommand{\lstlistingname}{Código-fonte}
+\renewcommand*{\lstlistlistingname}{Lista de Códigos-fonte}
 %%%%%%%%%%%%%%% Configuração da formatação das linguagens %%%%%%%%%%%%%%%%%%%
 % Definindo novas cores
 \definecolor{verde}{rgb}{0,0.5,0}
@@ -76,6 +78,40 @@
 	morestring=[b]',
 	morestring=[b]"
 }
+%%%%%%%%%%%%% Fim Layout para Device Tree %%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%% Layout para Javascript %%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\lstdefinelanguage{javascript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  sensitive=true
+}
+\lstset{
+   language=javascript,
+   %backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   numbers=left,
+   numberstyle=\footnotesize,
+   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+%%%%%%%%%%%%% Fim Layout para Javascript %%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \usepackage{comment}

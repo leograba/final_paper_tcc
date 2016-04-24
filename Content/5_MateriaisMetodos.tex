@@ -1,12 +1,10 @@
-\chapter{Materiais e Métodos}
-\label{Materiais}
+\chapter{Materiais}
 
-Este capítulo descreve os materiais e métodos empregados no desenvolvimento deste projeto. Cabe salientar que, embora este seja um projeto de integração entre \textit{hardware} e \textit{software}, os esforços foram concentrados na área de desenvolvimento de \textit{softwares}, desde o \textit{firmware} da PRU-ICSS integrado ao servidor desenvolvido inicialmente em Python e posteriormente migrado para Node.js, até a aplicação de usuário, escrita em diversas linguagens, de programação ou não --- a exemplo de HTML e CSS.
+Este capítulo lista os materiais empregados no desenvolvimento deste projeto. 
 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-\section{Materiais}
+\section{Núcleo do projeto}
 
-Os materiais utilizados no núcleo deste projeto estão contidos na tabela \ref{bom_core}:
+Os materiais utilizados no núcleo do mesmo estão contidos na tabela \ref{bom_core}:
 
 \begin{center}
 	\begin{table}[H]
@@ -24,6 +22,8 @@ Os materiais utilizados no núcleo deste projeto estão contidos na tabela \ref{bo
 		\end{tabular}
 	\end{table}
 \end{center}
+
+\section{Sistema mecânico}
 
 Os materiais utilizados na construção da parte mecânica do sistema estão listados na tabela \ref{bom_mec}:
 
@@ -77,6 +77,7 @@ Os materiais utilizados na construção da parte mecânica do sistema estão listado
 	\end{table}
 \end{center}
 
+\section{Componentes eletrônicos}
 
 Os componentes eletrônicos utilizados para confecção dos circuitos de interface com a BBB, acionamentos de potência e circuitos diversos estão listados na tabela \ref{bom_eln}:
 
@@ -122,6 +123,8 @@ Os componentes eletrônicos utilizados para confecção dos circuitos de interface 
 	\end{table}
 \end{center}
 
+\section{Equipamentos, instrumentos, \textit{softwares} e miscelânea}
+
 Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares} de suporte ao desenvolvimento do projeto estão listados na tabela \ref{bom_sup}.
 
 \begin{center}
@@ -157,6 +160,8 @@ Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares
 	\end{table}
 \end{center}
 
+\section{Insumos cervejeiros}
+
 A descrição dos insumos cervejeiros utilizados para confecção da receita e posterior teste do sistema pode ser encontrada na tabela \ref{bom_recipe}.
 
 \begin{center}
@@ -177,18 +182,18 @@ A descrição dos insumos cervejeiros utilizados para confecção da receita e poste
 \end{center}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-\section{Métodos}
+\chapter{Métodos}
 
-Esta seção descreve todos os procedimentos de projeto e testes, dentre outros,  empregados visando a obtenção do resultado final deste trabalho. Os procedimentos aqui empregados são embasados na teoria apresentada no capítulo \ref{EmbasamentoTeorico}.
+Este capítulo descreve todos os procedimentos de projeto e testes, dentre outros,  empregados visando a obtenção do resultado final deste trabalho. Os procedimentos aqui empregados são embasados na teoria apresentada no capítulo \ref{EmbasamentoTeorico}. Cabe salientar que, embora este seja um projeto de integração entre \textit{mecânica}, \textit{hardware} e \textit{software}, os esforços foram concentrados na área de desenvolvimento de \textit{softwares}, desde o \textit{firmware} da PRU-ICSS integrado ao servidor Apache posteriormente migrado para Node.js, até a aplicação de usuário, escrita em diversas linguagens, de programação ou não --- a exemplo de HTML e CSS.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Estrutura mecânica}
+\section{Estrutura mecânica}
 \label{estmec}
 
 Para o projeto da parte mecânica, em primeiro lugar foi concebida uma configuração de sistema baseada tanto na literatura disponível quanto em projetos de sistemas disponíveis para aquisição no mercado: um sistema de duas panelas análogas à MT e ao BK, sendo que durante o processo de cozimento do mosto, o BK pudesse ser utilizado como HLT e, portanto, fez-se necessário o projeto de um sistema de recirculação entre as duas panelas. Obserava-se que esta proposta representa um híbrido entre um sistema de 3 panelas tradicional - que consiste de uma panela para mosturação, uma para lavagem dos grãos, ou sparging, e uma para fervura; e o sistema popularizado pela Braumeister, composto de 1 panela, com recirculação. Esta abordagem permite a economia financeira e simplificação mecânica do sistema de três panelas com o benefício do \textit{sparging} inexistente no sistema de uma panela.
 
-\subsubsection{Funcionamento da parte funcional}
+\subsection{Funcionamento da estrutura}
 
 Na figura \ref{esboco} é apresentada uma representação esquemática da parte funcional.
 
@@ -231,7 +236,7 @@ Para o bom funcionamento do sistema proposto, algumas condições devem ser atendi
 	\label{cip_system}
 \end{figure}
 
-\subsubsection{Dimensionamento da parte funcional} 
+\subsection{Dimensionamento da parte funcional} 
 
 Com a filosofia de operação do sistema mecânico definida, é possível realizar o dimensionamento deste sistema. A primeira consideração a ser feita é que os materiais e métodos aqui empregados não seguem nenhuma norma que permita o uso deste equipamento para fabricação de cerveja para venda --- tal escolha é feita em função do alto custo de um sistema completamente dentro das normas e também pelo fato de este ser um trabalho cujo foco é a automação e o acesso remoto.
 
@@ -292,7 +297,7 @@ Na figura \ref{mt_cad} é apresentado um diagrama da MT construído no software Fr
 	\label{mt_cad_close}
 \end{figure}
 
-\subsubsection{Estrutura metálica de suporte}
+\subsection{Estrutura metálica de suporte}
 
 Parte importante do projeto é o dimensionamento da estrutura metálica de suporte às panelas, já que esta é responsável não somente pelo alojamento do sistema mecânico como também pela facilidade de manutenção. Para definição da altura das panelas, foram observadas primeiramente as alturas das panelas, da estrutura de adição de lúpulos (que será detalhada à parte na seção \ref{hopbox}) e do \textit{chiller}. Na sequência, foi estimado um espaço de manobra entre as duas panelas e uma altura mínima do chão, com base na figura \ref{esboco}. Todas as medidas citadas estão dispostas na tabela \ref{alturas}.
 
@@ -325,7 +330,9 @@ Somando as alturas medidas e estimadas, obteve-se que a estrutura metálica deve 
 	\label{estmec_cad}
 \end{figure}
 
-\subsection{Estrutura de adição de lúpulos}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Estrutura de adição de lúpulos}
 \label{hopbox}
 
 Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados para adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
@@ -372,7 +379,74 @@ Posteriormente aos cálculos de \ref{eq_hop_vini}, durante o projeto no software 
 	\label{corpo_hopbox}
 \end{figure}
 
-\subsection{Configuração da BeagleBone Black}
+Foram projetadas duas portinholas: uma na face superior da caixa, para reabastecimento manual dos lúpulos, com uma alça e fixada na caixa por dois pinos, de modo que a abertura desta tampa é um movimento de rotação e; uma na face inferior, para adição automática, de correr, de modo que a abertura é um movimento de translação; ambas estão ilustradas na figura \ref{tampas_hopbox}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(4).pdf}
+		\caption{Tampa manual para reabastecimento}
+		\label{tampas_hopbox:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(5).pdf}
+		\caption{Tampa para adição automática dos lúpulos}
+		\label{tampas_hopbox:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Tampas da estrutura de adição de lúpulos]{Tampas da estrutura de adição de lúpulos}
+	\label{tampas_hopbox}
+\end{figure}
+
+Duas varetas de comprimento $l_1$ e $l_2$ são ligadas ao encaixa da tampa de correr, representada em azul na figura \ref{tampas_hopbox:2}, e a elas é acoplado um servo-motor cujo ângulo de operação $\theta$ define a abertura --- ou deslocamento --- da tampa, definido por $d$. A figura \ref{varetas} esquematiza as ligações.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.1]{./Resources/estLup/esquema-varetas.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de ligação das varetas à tampa de correr]{Esquema de ligação das varetas à tampa de correr}
+	\label{varetas}
+\end{figure}
+
+Sendo o comprimento da tampa igual a $l_3$, a condição em \ref{eq_varetas} deve ser satisfeita para que a excursão máxima de abertura da caixa possa ser atingida. É possível demonstrar com o auxílio da Lei dos Cossenos, em \ref{eq_cossenos} que $l_1 = l_2 = l$ para que a mínima abertura da caixa possa ser atingida.
+
+\begin{align}
+	\label{eq_varetas}
+	l_1 + l_2 \geq l_3
+\end{align}
+
+\begin{align}
+	\label{eq_cossenos}
+	&l_2^2 = d^2 + l_1^2 - 2dl_1\cdot cos(\theta) \\
+	&se \quad \theta = 90\si{\degree} \rightarrow d = 0 \therefore \nonumber\\
+	\label{res_cossenos}
+	&l_2^2 = l_1^2 \rightarrow l_2 = l_1 = l
+\end{align}
+
+A taxa máxima de deslocamento em função do ângulo do servo motor é expressa em \ref{eq_desl}:
+
+\begin{align}
+	\label{eq_desl}
+	\frac{dl_3}{d\theta} = \frac{2l}{90\si{\degree}}
+\end{align}
+
+Entretanto, quanto maior o valor desta taxa, menor é a resolução de abertura da caixa, portanto obtem-se que o menor valor possível de $l$, a partir de \ref{eq_varetas} é $l = l_3/2$. Assim sendo, a taxa de deslocamento calculada a partir de \ref{eq_desl} é de $2mm/\si{\degree}$.
+
+Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao encaixe entre tampa e vareta não ser na extremidade, este valor é reduzido. Tal fato não deve ser negligenciado, uma vez que isto pode forçar a operação do servo-motor. Sabe-se pelo projeto executado no FreeCAD que a distância da borda ao encaixe da tampa é de 2,3cm portanto, com o auxílio da Lei dos Cossenos, obtém-se que $\theta_{max} = 82\si{\degree}$. Quanto ao valor mínimo não há preocupação , já que a abertura da caixa terá uma excursão reduzida em 2,3cm com relação ao seu comprimento. As varetas não foram calculadas novamente pois julgou-se uma boa prática essa redução, que evita que a tampa caia da caixa quando em máxima excursão. A figura \ref{completa_hopbox} apresenta o esquema completo de construção da estrutura de adição de lúpulos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/estLup/final.jpg}
+	\captionsetup{justification=centering}
+	\caption[Estrutura de adição de lúpulos]{Estrutura de adição de lúpulos}
+	\label{completa_hopbox}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Configuração da BeagleBone Black}
 
 O primeiro passo para o desenvolvimento do projeto foi a configuração da BeagleBone Black, que é o coração deste sistema. Para tal, foi escolhido o procedimento de gravar a distribuição Debian pré-compilada do sistema operacional Linux na memória de armazenamento eMMC de 4GB da placa. Esta distribuição foi escolhida em função da facilidade de obtenção de suporte em fóruns da internet, artigos e livros, dentre outros, além de ser o SO oficial da BBB \cite{bbb_debian}.
 
@@ -421,12 +495,12 @@ Após este procedimento, a BBB estará pronta para uso a partir da memória interna
 	\label{putty-flogin}
 \end{figure}
 
-\subsubsection{Configuração da rede para uso do adaptador Wi-Fi/USB}
+\subsection{Ajustes de rede para uso do adaptador Wi-Fi/USB}
 
-Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado à BBB. Em seguida, no terminal, o dispositivo foi listado para confirmar que o sistema estava identificando-o corretamente e ativado, permitindo assim obter a lista de redes Wi-Fi próximas. Com isso, foi possível obter os dados da rede Wi-Fi de interesse, para posterior edição do arquivo \textit{/etc/network/interfaces}, responsável pelas configurações de rede do sistema -- este pode ser obtido no apêndice \ref{Apêndice B}. O código abaixo ilustra a sequência de comandos executados:
+Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado à BBB. Em seguida, no terminal, o dispositivo foi listado para confirmar que o sistema estava identificando-o corretamente e ativado, permitindo assim obter a lista de redes Wi-Fi próximas. Com isso, foi possível obter os dados da rede Wi-Fi de interesse, para posterior edição do arquivo \textit{/etc/network/interfaces}, responsável pelas configurações de rede do sistema -- este pode ser obtido no apêndice \ref{Apêndice B}. O código \ref{wifi_conf} ilustra a sequência de comandos executados:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Passos para configuração do Wi-Fi, label=wifi_conf]
 lsusb # verifica se o dispositivo USB foi detectado
 sudo ifconfig wlan up # ativa a interface de rede USB
 sudo iwlist scan # lista as redes Wi-Fi disponíveis
@@ -445,34 +519,44 @@ sudo ifdown eth0 # desativa a interaface Ethernet
 
 \end{lstlisting}
 
-No arquivo \textit{/etc/network/interfaces}, as configurações utilizadas entre as linhas 19 e 35 do código são referentes à configuração do Wi-Fi para configuração da BBB com endereço de IP estático, permitindo o acesso à plataforma remotamente pela internet e não somente dentro da intranet. Depois de todo este procedimento, o dispositivo ainda não estava funcionando após a operação de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instruções de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, foram as seguintes:
+No arquivo \textit{/etc/network/interfaces}, as configurações utilizadas entre as linhas 19 e 35 do código são referentes à configuração do Wi-Fi para configuração da BBB com endereço de IP estático 192.168.1.155, permitindo o acesso à plataforma remotamente pela internet e não somente dentro da intranet. Observe-se que o acesso a este IP da intranet se dá pelo IP externo 143.107.xxx.xxx, que é o endereço do departamento da engenharia elétrica da USP de São Carlos. Por motivos de segurança este será omitido no presente trabalho.
+
+Depois de todo este procedimento, o dispositivo ainda não estava funcionando após a operação de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instruções de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, estão descritas no código-fonte \ref{rst_wifi}. A figura \ref{success_ssh} indica sucesso de conexão via SSH usando uma máquina com sistema operacional Linux Ubuntu 14.04 LTS.
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Configuração para reset do Wi-Fi após o boot, label=rst_wifi]
 git clone https://github.com/adafruit/wifi-reset.git #download do script
 cd wifi-reset/ #entra no diretório do script
 chmod +x install.sh #permissão de execução para o script
 sudo ./install.sh #executa o script
 \end{lstlisting}
 
-\subsubsection{Configuração de data/hora}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/ssh_login_linux.jpg}
+	\captionsetup{justification=centering}
+	\caption[Acesso à BBB via SSH]{Acesso à BBB via SSH}
+	\label{success_ssh}
+\end{figure}
+
+\subsection{Data/hora}
 
 Para a configuração automática de data e hora da BBB, foi escolhido o uso do protocolo NTP -- \textit{Network Time Protocol} ou Protocolo de Tempo para Redes -- cujo objetivo é sincronizar os relógios de dispositivos conectados a uma rede a partir de fontes precisas \cite{ntp}. No Brasil, a confiabilidade deste protocolo é responsabilidade do Observatório Nacional (ON), responsável legal por garantir a Hora Legal Brasileira, em conjunto com o Núcleo de Informação e Coordenação do Ponto BR, administrador e operador do domínio ".br"  \cite{nic,dsho}.
 
-Primeiramente foi realizada a instalação do protocolo, seguida da configuração do arquivo \textit{/etc/ntp.conf} e da modificação do arquivo que indica a \textit{timezone}, sendo este um link simbólico para o verdadeiro arquivo. Os comandos executados estão descritos abaixo:
+Primeiramente foi realizada a instalação do protocolo, seguida da configuração do arquivo \textit{/etc/ntp.conf} e da modificação do arquivo que indica a \textit{timezone}, sendo este um link simbólico para o verdadeiro arquivo. Os comandos executados estão descritos no código-fonte \ref{ntp_install}:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação e configuração do NTP, label=ntp_install]
 sudo apt-get install ntp #instala o NTP
 sudo nano /etc/ntp.conf #abre o arquivo de configuração para edição
 sudo mv /etc/localtime /etc/localtime-old #backup do arquivo antigo da timezone
 sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime #cria link simbólico para arquivo da nova timezone
 \end{lstlisting}
 
-Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita é a substituição dos servidores de hora padrão para os servidores brasileiros, listados no endereço \url{http://www.pool.ntp.org/zone/br} -- no final de cada endereço foi adicionada a instrução \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora não esteja claro seu funcionamento, é essencial para que o horário seja corretamente configurado a cada \textit{reboot}. O trecho de código modificado no arquivo \textit{/etc/ntp.conf} com os servidores brasileiros é ilustrado abaixo:
+Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita é a substituição dos servidores de hora padrão para os servidores brasileiros, listados no endereço \url{http://www.pool.ntp.org/zone/br} -- no final de cada endereço foi adicionada a instrução \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora não esteja claro seu funcionamento, é essencial para que o horário seja corretamente configurado a cada \textit{reboot}. O trecho de código-fonte \ref{ntp_br} indica as modificações no arquivo \textit{/etc/ntp.conf} adequando aos servidores brasileiros:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Servidores brasileiros do NTP, label=ntp_br]
 # You do need to talk to an NTP server or two (or three).
 #server ntp.your-provider.example
 
@@ -485,11 +569,138 @@ server 2.br.pool.ntp.org iburst
 server 3.br.pool.ntp.org iburst
 \end{lstlisting}
 
+\subsection{Sensor DS18B20}
+
+Uma vez que o sensor de temperatura DS18B20 já é suportado pelo Kernel e incluído como \textit{driver} na distribuição padrão da BBB, somente foi necessário criar uma sobreposição de \textit{device tree} indicando em que pino o sensor está ligado. Tanto o mux quanto o OCP do SoC precisaram ser configurados e, para a compilação do arquivo texto em binário, foi necessária a instalação do DTC, descrita no código-fonte \ref{dtc_install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do DTC, label=dtc_install]
+sudo wget -c https://raw.github.com/RobertCNelson/tools/master/pkgs/dtc.sh 
+sudo chmod +x dtc.sh
+./dtc.sh
+\end{lstlisting}
+
+O arquivo com a sobreposição da \textit{device tree} é descrito na seção \ref{ap3ds18b20}, porém o código-fonte \ref{dtf_ds18b20} apresenta um trecho relevante deste, no qual observa-se a configuração do multiplexador do SoC. Note-se que esta configuração significa que o \textit{pull-up} interno de 10k\ohm da BBB está ativado, eliminando a necessidade de um resistor externo. O valor mínimo de \textit{pull-up} segundo a folha de dados do sensor é de 4,7k\ohm, mas não foi observada perda de desempenho do mesmo na presente configuração.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Fragmento de device tree para o DS18B20, label=dtf_ds18b20]
+bb_w1_pins: pinmux_bb_w1_pins {
+	pinctrl-single,pins =  <0x70 0x37>;
+};
+\end{lstlisting}
+
+A compilação da sobreposição é executada com o comando presente no trecho de código \ref{dtc_compile}. Adicionar "-00A0" ao nome do arquivo de saída DTBO é fundamental. Note-se também que o arquivo DTBO é copiado para o diretório no qual ficam todas as sobreposições de \textit{device tree}. Para carregar a sobreposição no boot, é preciso adicionar a linha \textit{echo w1 > /sys/devices/bone\_capemgr.*/slots} ao arquivo \textit{/etc/rc.local}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Compilação de \textit{device tree}, label=dtc_compile]
+sudo dtc -O dtb -o w1-00A0.dtbo -b 0 -@ w1.dts
+sudo cp w1-00A0.dtbo /lib/firmware
+\end{lstlisting}
+
+Após o reboot e com o sensor conectado à BBB, é possível obter o valor da temperatura realizando a leitura do arquivo \textit{/sys/devices/w1\_bus\_master1/28-*/w1\_slave}, conforme ilustrado na figura \ref{ds_reading}. Observe-se que na figura ao invés do asterisco foi utilizado o identificador único deste sensor específico --- quando é utilizado um asterisco, ele é substituído por todos os possíveis nomes de sensores, portanto é útil para leitura de diversos sensores de uma vez. Para saber quantos dispositivos com o protocolo \textit{1-wire} estão conectados à mesma linha e assim descobrir os números referentes a eles, é possível ler o arquivo \textit{/sys/devices/w1\_bus\_master1/w1\_master\_slaves} ou então verificar o conteúdo do diretório \textit{/sys/devices/w1\_bus\_master1/}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/ds_reading_terminal.jpg}
+	\captionsetup{justification=centering}
+	\caption[Leitura do sensor DS18B20 pelo terminal]{Leitura do sensor DS18B20 pelo terminal}
+	\label{ds_reading}
+\end{figure}
+
+\subsection{Webserver Apache}
+
+Embora o Apache venha instalado na distribuição padrão da imagem do Debian para a BBB, é preciso configurar a porta que ele usa para conexões, predefinida pelas configurações de rede do departamento de engenharia elétrica. A porta será omitida por segurança, mas na descrição do processo de configuração aqui proposta será usado o valor 8080, padrão para diversos protocolos de internet, inclusive o HTTP.
+
+Há dois arquivos que devem ser editados para modificar as configurações do Apache. No arquivo \textit{/etc/apache2/sites-enabled/000-default} a primeira linha do arquivo deve ser modificada para \textit{<VirtualHost *:8080>} e no arquivo \textit{/etc/apache2/ports.conf} as linhas \textit{NameVirtualHost *:8080} e \textit{Listen 8080} devem ser adicionadas ou modificadas, caso já existam. Para que as configurações tenham efeito, o servidor deve ser reiniciado com o comando descrito na caixa de código-fonte \ref{restart_apache}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Reinicialização do servidor web Apache, label=restart_apache]
+sudo service apache2 restart
+\end{lstlisting}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Aplicação \textit{server-side} em Node.js}
+\section{IDE e sistema de controle de versão}
 
-\subsection{Interface de usuário}
+\subsection{\textit{Cloud9}}
+
+\subsection{\textit{GitHub}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Geração de gráfico e registro de temperatura em Python}
+
+Para o armazenamento da temperatura do sensor em função do tempo, assim como a geração de um gráfico com o histórico de temperaturas para o usuário do sistema, foram escritos dois \textit{scripts} em Python, sendo a saída do \textit{script} de \textit{log} a entrada do \textit{script} de geração do gráfico --- embora ambos possam ser executados independentemente, a geração do gráfico precisa de um arquivo contendo o histórico de temperaturas.
+
+\subsection{Registro de temperatura}
+
+Para o arquivo do \textit{log}, foram primeiramente escritas algumas funções:
+
+\begin{itemize}
+	\item \textbf{tread()} --- lê o arquivo referente ao sensor de temperatura e retorna deste somente a temperatura formatada em graus celsius.
+	\item \textbf{tprint\_all(tcelsius)} ---  recebe temperatura em \si{\degree}C e imprime com formatação HTML em \si{\degree}C, \si{\degree}F, K e \si{\degree}R; pode ser usada em conjunto com a função tread()
+	\item \textbf{tprint\_all\_terminal(tcelsius)} ---  idêntica à função tprint\_all(), porém imprime com formatação
+para o terminal do Linux
+	\item \textbf{tlog(file = "/var/www/default.csv")} --- cria/adiciona a um arquivo de log no formato CSV a
+temperatura medida e a data/hora correspondente no formato \textit{Unix epoch} --- que é definido como o número de segundos passados desde 1 de janeiro de 1970 não considerando segundos bissextos --- em intervalo de amostragem definido na função, até que o script seja interrompido de alguma maneira. Em função de erros de leitura esporádicos do sensor, se a temperatura lida for menor ou igual a zero, esta é descartada. Imprime a temperatura lida a cada amostragem. O tempo de amostragem é definido pela soma do tempo de leitura do arquivo (inerente ao sistema) com o tempo ocioso definido nesta função: para que o tempo de amostragem seja o mais próximo possível de 1s, foi realizado um estudo de caso, descrito no apêndice \ref{analise_tread_temp}, e com isso obteve-se o valor de 0,2202s ocioso definido nesta função. Além disto, nesta função é chamada \textit{tlog\_instant} que registra em um arquivo separado a última leitura válida de temperatura e tempo.
+	\item \textbf{tlog\_instant(temperature, epoch, file = "/var/www/datalog/instant.csv")} --- registra a última leitura válida de temperatura e tempo em um arquivo, criando ou sobrescrevendo o mesmo.
+	\item \textbf{tlog\_test(file = "/var/www/datalog/default.csv")} --- função que gera um arquivo de \textit{log} com rampas e degraus de temperatura, para uso em simulações posteriores do funcionamento do sistema, descritas na seção \ref{simulacao_controle}.
+\end{itemize}
+
+Sendo a função \textit{tlog} a mais relevante, esta pode ser obtida na caixa de código-fonte \ref{tlog_python}. O script completo está registrado no código-fonte \ref{python_log_script} do apêndice \ref{codigos_python}. Ainda assim, as funções por si só não são executadas sozinhas, portanto foi criado um script auxiliar em Python que chama a função \textit{tlog}, descrito no código-fonte \ref{tlog_log}.
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Função de \textit{log} da temperatura em Python, label=tlog_python]
+def tlog(file = "/var/www/datalog/default.csv"):
+	"""salva temperatura e Unix Time em .csv """
+	tsample = 0.2202 #amostra a cada ~1 segundo
+	buff_temp = tread()#guarda o último valor lido
+	exist = os.path.isfile(file)
+	with open(file, 'a', 1) as log:
+		if exist is False:#se vai criar o arquivo agora
+			log.write("temperatura,data\n")
+		while True: #loop infinito
+			temp_celsius = tread()
+			epoch = time.time()#lê a data/hora do sistema
+			if temp_celsius >= 0:#evita leitura errada
+				log.write("%f,%f\n" % (temp_celsius, epoch))
+				tlog_instant(temp_celsius, epoch)
+				time.sleep(tsample)#espera n segundos
+				print "registrando temperatura!",temp_celsius
+\end{lstlisting}
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Script para gravação das leituras de temperatura em Python, label=tlog_log]
+import temp
+temp.tlog()
+# para executar no terminal, basta executar:
+# sudo python log.py
+\end{lstlisting}
+
+Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado pelo script \ref{tlog_log}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/csv_log_example.jpg}
+	\captionsetup{justification=centering}
+	\caption[Arquivo CSV com registro de temperaturas gerado em Python]{Arquivo CSV com registro de temperaturas gerado em Python}
+	\label{csv_log_example}
+\end{figure}
+
+\subsection{Gráfico de temperatura}
+
+\section{Aplicação \textit{server-side} em Node.js}
+
+\subsection{Servidor Express.js}
+
+\subsection{Projeto do controle do sistema}
+
+\subsection{Simulação do controle do sistema}
+\label{simulacao_controle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Interface de usuário}
 
 A interface de usuário foi desenvolvida para acesso via navegador da internet. Dois servidores foram utilizados em conjunto: o servidor Apache, que é um servidor \textit{web} robusto e de fácil implementação e o \textit{framework Express.js}, para \textit{Node.js}. As linguagens utilizadas para a implementação da aplicação foram: a linguagem de marcação HTML, a linguagem de folhas de estilo CSS, a linguagem de programação \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o método AJAX, a linguagem de programação \textit{server-side} interpretada PHP e, a linguagem de programação \textit{server-side} Javascript interpretada pela aplicação \textit{Node.js}.
 
@@ -514,9 +725,23 @@ Parte da implementação foi feita por meio de acesso ao terminal via SSH e parte 
 
 Os códigos desenvolvidos e comentados podem ser consultados no apêndice \ref{Apêndice B} e os resultados são descritos na seção \ref{resIntUser}.
 
-\subsection{Circuitos de interface}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Sistema de controle de temperatura}
+\section{Circuitos de interface entre a BBB e sensores/atuadores}
 
-\subsubsection{Resistores de aquecimento}
+\subsection{Acionamentos de potência}
+
+\subsection{Detector de \textit{zero-crossing}}
+
+\subsection{Detector de nível de líquido}
+
+%\subsection{mais o que?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Sistema de controle de temperatura}
+
+\subsection{Resistores de aquecimento}
+
+\subsection{Controlador PID}
 

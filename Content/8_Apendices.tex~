@@ -3,16 +3,160 @@
 
 Códigos em elaboração.
 
-
-
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\chapter{Scripts Python}
+\label{codigos_python}
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Módulo com as funções para \textit{log} da temperatura, label=python_log_script]
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+#importa os módulos que serão usados no script
+import time
+import os.path
+#import graficos_png as graph 
+#import datetime
+#import wiringpi2 as wpi 
+
+def tread():
+	"""lê temperatura do DS18B20 e retorna em celsius"""
+	tfile = open("/sys/bus/w1/devices/28-000004ee8ded/w1_slave")
+	tfile.readline()
+	temp_raw = tfile.readline()
+	tfile.close()
+	temp_raw = temp_raw.split(" ")[9]
+	temp_raw = float(temp_raw[2:])
+	return temp_raw/1000
+	
+def tprint_all(tcelsius):
+	"""imprime a temperatura em diversas escalas no formato HTML"""
+	print "Temperatura:<br />",
+	print "%.2f &degC<br />" % tcelsius,#celsius
+	print "%.2f &degF<br />" % (tcelsius*1.8+32),#fahrenheit
+	print "%.2f K<br />" % (tcelsius+273.15),#kelvin
+	print "%.2f &degR<br />" % (tcelsius*1.8+32+459.67),#rankine
+
+def tprint_all_terminal(tcelsius):
+        """imprime a temperatura em diversas escalas formatado para o terminal"""
+        print "Temperatura:"
+        print "%.2f" % tcelsius, u"\u00B0C"#celsius
+        print "%.2f" % (tcelsius*1.8+32), u"\u00B0F"#fahrenheit
+        print "%.2f K" % (tcelsius+273.15)#kelvin
+        print "%.2f" % (tcelsius*1.8+32+459.67), u"\u00B0R"#rankine
+
+def tlog(file = "/var/www/datalog/default.csv"):
+	"""salva temperatura e Unix Time em .csv """
+	#arquivo padrão CSV com cabecalho
+
+
+	#file = raw_input("digite o nome do arquivo e.g. log-data\n")
+	#file += ".log"
+	#tsample = float(raw_input("digite tempo de amostragem em segundos: "))
+
+
+	#os comandos acima foram ignorados para poder usar o nohup (que nao recebe input)
+	tsample = 0.2202 #amostra a cada x segundos
+	#amostras = 5000#numero de amostras a serem coletadas
+	buff_temp = tread()#guarda o último valor lido
+	exist = os.path.isfile(file)
+	#buffer = open(file,"a")#mesma funcao da linha abaixo, porem menos recomendada
+	with open(file, 'a', 1) as log:#desse jeito, o arquivo será fechado
+	#mesmo que haja uma excessao, diferente de usar file.close()
+	#o arg. 1 indica que o buffer antes de escrever no arquivo eh 1 linha
+		if exist is False:#se vai criar o arquivo agora
+			log.write("temperatura,data\n")
+		while True: #loop infinito
+		#while amostras > 0:#coleta o numero de amostras
+			#amostras = amostras - 1#decrementa variavel de controle
+			temp_celsius = tread()
+			epoch = time.time()#lê a data/hora do sistema
+			#nowis = time.ctime(epoch)#converte para string
+			if temp_celsius >= 0:#evita leitura errada
+			#essa leitura errada é intermitente e causa desconhecida
+				log.write("%f,%f\n" % (temp_celsius, epoch))
+				tlog_instant(temp_celsius, epoch)#escreve arquivo com ultima leitura
+				#graph.graph_gen()# atualiza gráfico da temperatura
+				#escreve temperatura e data/hora no .txt
+				time.sleep(tsample)#espera n segundos
+				print "registrando temperatura!",temp_celsius
+
+
+def tlog_instant(temperature, epoch, file = "/var/www/datalog/instant.csv"):
+	"""salva última temperatura e Unix Time em arquivo .csv"""
+	with open(file, 'w', 1) as log:#sobrescreve o arquivo toda vez
+		#temperature = tread()#lê a temperatura
+		#epoch = int(time.time())#lê o Unix Time do sistema
+		log.write("temperatura,data\n")
+		log.write("%f,%f\n" % (temperature, epoch))
+
+def tlog_test(file = "/var/www/datalog/default.csv"):
+	"""salva temperatura e Unix Time em .csv """
+	#arquivo padrão CSV com cabecalho
+	tsample = 1 #valor de amostragem para teste
+	exist = os.path.isfile(file)
+	with open(file, 'a', 1) as log:#desse jeito, o arquivo será fechado
+		if exist is False:#se vai criar o arquivo agora
+			log.write("temperatura,data\n")
+		temp_celsius = 25.00#somente para teste
+		temp_sparge = 20.00#somente para teste
+		ramp_section = 0#sequencia de funcoes que gera as rampas/degraus
+		while True: #loop infinito
+			if ramp_section == 0:#aquece medio ate 29 graus
+				temp_celsius += 0.2
+				if temp_celsius >= 29:
+					ramp_section = 1
+			elif ramp_section == 1:#aquece devagar ate 30 graus
+                                temp_celsius += 0.1
+                                if temp_celsius >= 30:
+                                        ramp_section = 2
+			elif ramp_section == 2:#espera usuario adicionar maltes
+				time.sleep(15)#30 segundos
+				ramp_section = 3
+			elif ramp_section == 3:#aquece medio ate 35 graus
+                                temp_celsius += 0.2
+                                if temp_celsius >= 35:
+                                        ramp_section = 4
+			elif ramp_section == 4:#retrai aquecimento ate 33 graus
+                                temp_celsius -= 0.2
+                                if temp_celsius <= 33:
+                                        ramp_section = 5
+                        elif ramp_section == 5:#degrau 1, aquece sparge durante 1 minuto
+				temp_sparge += 0.5
+                                if temp_sparge >= 50:
+                                        ramp_section = 6
+			elif ramp_section == 6:#aquece rapido ate 42 graus
+				temp_celsius += 0.3
+				if temp_celsius >= 42:
+					ramp_section = 7
+			elif ramp_section == 7:#aquece medio ate 59 graus
+                                temp_celsius += 0.2
+                                if temp_celsius >= 59:
+                                        ramp_section = 8
+			elif ramp_section == 8:#aquece devagar ate 60 graus
+                                temp_celsius += 0.1
+                                if temp_celsius >= 60:
+                                        ramp_section = 9
+			else:#temperatura de fervura
+                                if temp_sparge <= 98.5:
+					temp_sparge += 0.3
+			epoch = time.time()#lê a data/hora do sistema
+			log.write("%f,%f\n" % (temp_celsius, epoch))
+			tlog_instant(temp_celsius, epoch)#escreve arquivo com ultima leitura
+			tlog_instant(temp_sparge, epoch, "/var/www/datalog/instant_bk.csv")#somente para teste por enquanto
+			#escreve temperatura e data/hora no .txt
+			time.sleep(tsample)#espera n segundos
+			print "registrando temperatura!",temp_celsius,temp_sparge
+\end{lstlisting}
+
 \chapter{Arquivos de configuração do sistema}
 \label{Apêndice B}
 
 \section{Arquivo de configuração de rede}
 
 \lstset{language=bash}
-\begin{lstlisting}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=/etc/network/interfaces, label=etc_net]
 # This file describes the network interfaces available
 # on your system and how to activate them.
 # For more information, see interfaces(5).
@@ -61,21 +205,78 @@ address 192.168.7.2
 netmask 255.255.255.0
 network 192.168.7.0
 gateway 192.168.7.1
+\end{lstlisting}
 
+\section{Device Tree para o DS18B20}
+\label{ap3ds18b20}
 
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=w1.dts, label=dt_ds18b20]
+/*
+* Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License version 2 as
+* published by the Free Software Foundation.
+* 
+* Modified  by Russell Senior from the weather cape's DTS file.
+* Minor formatting by C W Rose.
+* Modified by Leonardo Graboski Veiga to change the DS18B20 pin and pin configuration
+*/
+/dts-v1/;
+/plugin/;
 
+/ {
+    compatible = "ti,beaglebone", "ti,beaglebone-black";
+    part-number = "BB-W1";
+    version = "00A0";
+
+    exclusive-use = "P9.11";
+
+    fragment@0 {
+        target = <&am33xx_pinmux>;
+        __overlay__ {
+             bb_w1_pins: pinmux_bb_w1_pins {
+                 pinctrl-single,pins =  <0x70 0x37>;
+             };
+        };
+    };
+
+    fragment@1 {
+        target = <&ocp>;
+        __overlay__ {
+            onewire@0 {
+                status          = "okay";
+                compatible      = "w1-gpio";
+                pinctrl-names   = "default";
+                pinctrl-0       = <&bb_w1_pins>;
+
+                gpios = <&gpio1 30 0>;
+            };
+        };
+    };
+};
 \end{lstlisting}
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
-\chapter{Cálculo de parâmetros de uma receita de cerveja}
+\chapter{Cálculo de OG e IBU de uma receita de cerveja}
 \label{Apêndice C}
 
-descrito pelo conjunto de equações \ref{eq_aau}, \ref{eq_ograv}, \ref{eq_utilizacao} e \ref{eq_ibu}, nas quais AAU é a quantidade normalizada de ácidos alfa por peso do lúpulo, 
+Neste apêndice é apresentado o cálculo da gravidade original (OG) e do amargor (IBU) de uma receita de cerveja, baseado em \cite{palmer}. Em primeiro lugar, é importante salientar que o cálculo da OG e do IBU dependem fortemente de dados do equipamento de produção de cerveja e/ou de constantes levantadas empiricamente, o que significa que este roteiro deve ser visto como um guia e, portanto, na necessidade de obter dados exatos, medições feitas por laboratórios especializados são necessárias.
+
+Primeiramente é preciso calcular as unidades de ácidos alfa, que é um meio para quantificar a contribuição de amargor independentemente do tipo de lúpulo. Para isto, o peso em onças é multiplicado pela porcentagem de ácidos alfa, medida em laboratório e fornecida pelo fabricante. A fórmula para cálculo de AAU é apresentada na equação \ref{eq_aau}. Outra aplicação interessante é quando uma variaedade específica de lúpulo tem sua porcentagem de ácidos alfa diferente em anos diferentes: neste caso, sabendo a AAU da receita original, é fácil recalcular a massa necessária para adequar a receita às novas especificações.
 
 \begin{equation}
 	\label{eq_aau}
 	AAU = w\cdot aa
+\end{equation}
+
+Outro parâmetro de padronização de uma cerveja é a gravidade original, que nada mais é do que a densidade do mosto após o cozimento dos grãos. Ela é baseada nos pontos de contribuição ($pts$) de cada malte, ou seja, uma transformação numérica da gravidade original do malte, que quantifica a contribuição de açúcares do malte em questão para o mosto e indicada em g/cm³. O valor da gravidade original do malte é fornecido pelo fabricante geralmente em pontos, mas a equação \ref{eq_pontos} expressa o cálculo a partir do valor da densidade. Com isso é possível calcular a gravidade original do mosto, conforme descrito na equação \ref{eq_ograv}, na qual $n$ é o número de maltes empregados na receita, $\eta$ é a eficiência do equipamento, ou capacidade de extração de açúcares fermentáveis dos grãos para o mosto e V é o volume final de cerveja. Observe-se que o volume é expresso em galões e a massa em onças.
+
+\begin{equation}
+	\label{eq_pontos}
+	pts_{malte} = (1-OG_{malte})\cdot 1000
 \end{equation}
 
 %How to Brew pg ~164 e pg ~59
@@ -84,17 +285,40 @@ descrito pelo conjunto de equações \ref{eq_aau}, \ref{eq_ograv}, \ref{eq_utiliza
 	OG = \left\{\left[\displaystyle\sum_{n} (pts_n\cdot w_n)\right]\cdot \frac{\eta}{1000\cdot V}\right\} + 1
 \end{equation}
 
+A utilização é um dos fatores mais críticos para o cálcula adequado da quantidade de IBU da cerveja. Ela é uma função da OG e do tempo de fervura. Uma vez que seu valor é fortemente dependente do vigor da fervura, da química do mosto e de outros parâmetros difíceis de quantificar, valores empíricos de constantes são empregados como um ponto de estimação de IBU --- embora com o tempo o operador do equipamento deva fazer um ajuste fino destas constantes para aumentar a precisão do cálculo. O cálculo da utilização $u$ é apresentado no conjunto de equações \ref{eq_utilizacao}.
+
 \begin{subequations}
+	\label{eq_utilizacao}
 	\begin{align}
-		\label{eq_utilizacao}
 		&u = f(OG)\cdot f(t), \quad onde:\\
 		&f(OG) =  1,65\cdot 0,000125^{(OG-1)}\\
 		&f(t) = \frac{1-\epsilon^{-0,04t}}{4,15}
 	\end{align}
 \end{subequations}
 
+Finalmente, é possível calcular a quantidade de amargor da cerveja usando a fórmula \ref{eq_ibu}, na qual V é o volume final da produção expresso em galões e 74,89 é o fator de conversão de onças por galão para miligramas por litro, unidade do IBU.
+
 \begin{equation}
 	\label{eq_ibu}
-	IBU = \frac{AAU\cdot u\cdot 75}{V}
+	IBU = \frac{AAU\cdot u\cdot 74,89}{V}
 \end{equation}
 
+\section{Estimação do IBU para uma receita de 20l}
+
+Para saber se 400g de lúpulos são suficientes para uma receita de 20 litros, foi feito um cálculo hipotético considerando situações extremas: densidade original alta ($1,120g/cm^3$), tempo de fervura alto (120min), lúpulo nobre (baixo teor de ácidos alfa = 5\%):
+
+\begin{subequations}
+	\label{eq_utilizacao}
+	\begin{align}
+		&AAU = (400\cdot 0,035274)\cdot 5,0 = 70,55 \nonumber\\
+		&f(OG) =  1,65\cdot 0,000125^{(1,12-1,00)} = 0,56 \nonumber\\
+		&f(t) = \frac{1-\epsilon^{-0,04\cdot 120}}{4,15} = 0,24 \nonumber\\
+		&u = 0,56\cdot 0,24 = 0,135 \nonumber\\
+		&IBU = \frac{70,55\cdot 0,135\cdot 74,89}{20\cdot 0,264} = 135 mg/l \nonumber
+	\end{align}
+\end{subequations}
+
+Considerando o guia do BJCP (Beer Judge Certification Program), que é adotado por profissionais ao redor de todo o mundo para participarem de competições de cervejas como juízes, os dois estilos de cerveja com maior amargor são \textit{Imperial India Pale Ale} e \textit{American Barley Wine}, ambos com limite superior de 120 IBU \cite{styles_ibu} e o livro \textit{How to Brew} que descreve somente um estilo com mais de 120 IBU --- justamente o \textit{American Barley Wine} --- é razoável assumir que raramente será necessário operar a estrutura de adição de lúpulos em sua capacidade máxima.
+
+\chapter{Análise do tempo de leitura do sensor DS18B20 em Python}
+\label{analise_tread_temp}
