@@ -8,6 +8,7 @@ Os materiais utilizados no núcleo do mesmo estão contidos na tabela \ref{bom_cor
 
 \begin{center}
 	\begin{table}[H]
+		\centering
 		\captionsetup{justification=centering}
 		\caption[Lista de materiais que compõem o núcleo do projeto]{Lista de materiais que compõem o núcleo do projeto}
 		\label{bom_core}
@@ -29,6 +30,7 @@ Os materiais utilizados na construção da parte mecânica do sistema estão listado
 
 \begin{center}
 	\begin{table}[H]
+		\centering
 		\captionsetup{justification=centering}
 		\caption[Lista de materiais utilizados na confecção do subsistema mecânico]{Lista de materiais utilizados na confecção do subsistema mecânico}
 		\label{bom_mec}
@@ -83,6 +85,7 @@ Os componentes eletrônicos utilizados para confecção dos circuitos de interface 
 
 \begin{center}
 	\begin{table}[H]
+		\centering
 		\captionsetup{justification=centering}
 		\caption[Lista de componentes eletrônicos diversos empregados na confecção de PCBs e cabeamento do sistema]{Lista de componentes eletrônicos diversos empregados na confecção de PCBs e cabeamento do sistema}
 		\label{bom_eln}
@@ -129,6 +132,7 @@ Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares
 
 \begin{center}
 	\begin{table}[H]
+		\centering
 		\captionsetup{justification=centering}
 		\caption[Lista de equipamentos, instrumentos e \textit{softwares} de suporte ao desenvolvimento do projeto]{Lista de equipamentos, instrumentos e \textit{softwares} de suporte ao desenvolvimento do projeto}
 		\label{bom_sup}
@@ -166,6 +170,7 @@ A descrição dos insumos cervejeiros utilizados para confecção da receita e poste
 
 \begin{center}
 	\begin{table}[H]
+		\centering
 		\captionsetup{justification=centering}
 		\caption[Lista insumos cervejeiros para produção de cerveja do tipo \textit{Blond Ale}]{Lista insumos cervejeiros para produção de cerveja do tipo \textit{Blond Ale}}
 		\label{bom_recipe}
@@ -623,9 +628,61 @@ sudo service apache2 restart
 
 \section{IDE e sistema de controle de versão}
 
+Para facilitar o desenvolvimento e a documentação de \textit{softwares}, duas ferramentas foram adotadas além do acesso ao terminal via SSH: \textit{Cloud9}, cujo uso é descrito na seção \ref{c9} e \textit{Git/GitHub}, na seção \ref{ghb}.
+
 \subsection{\textit{Cloud9}}
+\label{c9}
+
+\textit{Cloud9} é um IDE do tipo SaaS, ou seja, um software que está na nuvem e cujo acesso é feito por meio de um navegador de internet. Embora o serviço padrão seja hospedado nos próprios servidores da \textit{Cloud9 IDE Inc.}, uma SDK é disponibilizada, na qual está incluso o núcleo do projeto como código-aberto, livre para uso não comercial e desenvolvido em Node.js, possibilitanto portanto a hospedagem um serviço do \textit{Cloud9} localmente, que é o objetivo aqui proposto \cite{c9_license}. Esta é uma nítida vantagem para uma plataforma \textit{headless} --- sem periféricos do tipo HID --- e com acesso à rede, a exemplo da BBB neste projeto, pois permite a programação direta no dispositivo por meio de uma interface gráfica via web.
+
+Tanto o núcleo quanto as informações para instalação podem ser encontradas no repositório do projeto do \textit{GitHub} (\url{https://github.com/c9/core}). A primeira tentativa de instalação realizado na BBB é apresentado na caixa de código-fonte \ref{c9install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Primeira tentativa de instalação do \textit{Cloud9 IDE core} na BBB, label=c9install]
+cd ~/
+git clone git://github.com/c9/core.git c9sdk
+cd c9sdk
+scripts/install-sdk.sh
+\end{lstlisting}
+
+Ao tentar rodar a aplicação apontando para o diretório \textit{/var/www} como diretório de projeto, ou seja, o diretório raiz ao qual o \textit{Cloud9} tem acesso, não foi possível acessar os arquivos uma vez que o diretório em si pertence ao usuário \textit{www-data} e os arquivos pertencem a \textit{root}. 
+
+Ao rodar a aplicação como administrador, outros erros ocorreram, o que levou à tentativa de instalar outro script presente no endereço \url{https://github.com/c9/install} do repositório do \textit{Cloud9}, que permite a conexão da IDE a um servidor SSH. Ainda assim, os erros persistiram, o que levou à abertura de uma questão em \url{https://github.com/c9/core/issues/143}, na qual está descrito o processo adotado para solucionar o problema. Na caixa de código-fonte \ref{c9install_really} é apresentado o processo de instalação executado com sucesso:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação bem sucedida do \textit{Cloud9 IDE core} na BBB, label=c9install_really]
+cd ~/
+wget --no-check-certificate https://raw.githubusercontent.com/c9/install/master/install.sh
+sudo bash install.sh
+\end{lstlisting}
+
+Note-se que muitas tentativas foram executadas para obter o resultado final esperado, por isso em caso de tentativa de reprodução do processo de instalação aqui descrito é recomendado tentar usar somente o processo da caixa de código \ref{c9install_really} e, em caso de falha, partir para a etapa descrita anteriormente. Ainda assim, outro processo de instalação mais direto e que deve ser tentado prioritariamente ao aqui descrito, mas que não foi testado, está descrito em \url{https://cloud9-sdk.readme.io/docs/running-the-sdk}.
+
+Para rodar a aplicação no background e continuar rodando mesmo após desconectar da sessão SSH, é preciso executar o servidor do \textit{Cloud9} como root usando o comando descrito na caixa \ref{c9start}. O parâmetro \textit{-l} indica o endereço de IP do servidor, \textit{-p} a porta, \textit{-a} usuário e senha e \textit{-w} o diretório de trabalho. Também são feitas redireções das saídas \textit{stdout} e \textit{stderr} para os arquivos \textit{/var/www/log/cl9.out} e \textit{/var/www/log/cl9.err}, respectivamente.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Execução do \textit{Cloud9}, label=c9start]
+sudo su #precisa ser root
+cd /home/debian #pasta na qual esta instalado o Cloud9
+nohup node c9sdk/server.js -l 143.107.xxx.xxx -p xxxx -a usuario:senha -w /var/www/ > /var/www/log/cl9.out 2> /var/www/log/cl9.err < /dev/null &
+\end{lstlisting}
+
+Ao realizar o acesso pelo browser usando o IP e porta selecionados, ou seja, digitando \textit{IP:porta} na URL do navegador, o resultado é apresentado na figura \ref{c9ide}. Note-se que o ambiente apresentado é um \textit{preset} de IDE completa, mas que é completamente personalizável, além de existirem outros \textit{presets}, dentre os quais um modo minimalista no qual somente o editor de texto ocupa a tela, bom para momentos de desenolvimento intensivo de um arquivo específico.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/cloud9.jpg}
+	\captionsetup{justification=centering}
+	\caption[Ambiente completo do IDE \textit{Cloud9}]{Ambiente completo do IDE \textit{Cloud9}}
+	\label{c9ide}
+\end{figure}
 
 \subsection{\textit{GitHub}}
+\label{ghb}
+
+\textit{Git} é um DVCS (sistema de controle de versão distribuído) ou SCM (gerenciador de códigos-fonte), ou seja, uma ferramenta cuja finalidade é gerenciar o desenvolvimento de \textit{software}. Um dos principais objetivos de um sistema como este é a documentação das mudanças feitas nos arquivos do projeto ao longo do seu desenvolvimento, o que permite facilmente reverter arquivos ou mesmo o projeto inteiro para um estado anterior, comparar mudanças em função do tempo, verificar quem foi a última pessoa a modificar um arquivo e possivelmente introduzir um bug, dentre outros recursos. E o mais importante, executar todas estas funções de maneira leve e fácil \cite{git_book}.
+
+Esta ferramenta foi escolhida dentre muitas outras DVCS disponíveis por ser de código-aberto e extremamente popular, não somente pelas suas qualidades mas também pelo fato de ser a DCVS usada para o controle de versão do Kernel do Linux, sendo que o \textit{Git} foi criado pela própria comunidade de manutenção do Kernel, incluindo Linus Torvalds \cite{git_book}. Embora a referência bibliográfica consultada sobre este assunto possua mais de 500 páginas, demonstrando o nível de complexidade que a ferramenta pode atingir, neste projeto somente o essencial será abordado --- o que significa compreender o uso de menos de 10 comandos básicos.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -678,7 +735,7 @@ temp.tlog()
 # sudo python log.py
 \end{lstlisting}
 
-Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado pelo script \ref{tlog_log}.
+Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado pelo script \ref{tlog_log}, e que valida o funcionamento da aplicação.
 
 \begin{figure}[H]
 	\centering
@@ -689,6 +746,80 @@ Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado 
 \end{figure}
 
 \subsection{Gráfico de temperatura}
+
+Com o script que gera um registro da temperatura medida pelo sensor DS18B20 em função do tempo, o próximo passo é a análise dos dados coletados. Uma forma fazê-lo é plotando um gráfico. Para fazê-lo em Python, foi decido usar as bibliotecas \textit{Matplotlib} e \textit{NumPy}, integrantes do ecossistema \textit{SciPy}.
+
+\textit{Matplotlib} é uma biblioteca desenvolvida especificamente para a plotagem 2D de figuras estáticas em scripts Python, no Python shell (similar ao ambiente interpretador de \textit{softwares} proprietários como MATLAB e Mathematica), em aplicações de servidores e \textit{toolkits} com GUI \cite{matplotlib}. Para instalar esta biblioteca, basta executar o comando descrito na caixa de código-fonte \ref{install_matplotlib}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação da biblioteca Matplotlib, label=install_matplotlib]
+sudo apt-get install python-matplotlib
+\end{lstlisting}
+
+\textit{NumPy} é um pacote em Python que fornece suporte a arranjos e matrizes multidimensionais, além de diversas funções matemáticas de suporte a estes formatos de dados. É amplamente empregado nas áreas de computação científica, engenharia e matemática \cite{numpy}. Este pacote é parte integrante do ecossistema \textit{SciPy}, cuja instalação é apresentada na caixa de código-fonte \ref{install_scipy}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do ecossistema SciPy, label=install_scipy]
+sudo apt-get install python-scipy
+\end{lstlisting}
+
+\subsubsection{Desenvolvimento do gráfico}
+
+Com todas as ferramentas necessárias instaladas, pôde ser iniciado o desenvolvimento do script que gera o gráfico da temperatura em função do tempo. A abordagem inicial foi criar um script que gera um arquivo PDF do gráfico a partir do exemplo encontrado na página \url{http://matplotlib.org/examples/pylab_examples/multipage_pdf.html} , modificando este script para as necessidades do projeto.
+
+Como o desenvolvimento foi realizado sem uma interface gráfica, referida como \textit{backend}, foi preciso explicitar a saída como um renderizador no lugar deste, conforme indicado no código-fonte \ref{import_py}, que documenta a importação das bibliotecas/funções utilizadas no script. Note-se que a mudança da saída deve ocorrer antes da importação da biblioteca \textit{numpy} para que não ocorra erro.
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Importação das bibliotecas para geração de gráfico em Python, label=import_py]
+import time
+import matplotlib
+matplotlib.use('AGG')#muda a output para um renderer ao inves de backend
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import interpolate
+\end{lstlisting}
+
+Na única função do script, \textit{graph\_gen(file = '/var/www/default.csv', graph = '/var/www/tplot.png')}, é explicitado que a entrada é um arquivo CSV e a saída um arquivo PNG. Nesta função o arquivo CSV é lido linha por linha em um \textit{loop}, sendo a primeira linha do arquivo ignorada em função de ela não conter dados, conforme ilustrado na figura \ref{csv_log_example}. Ao longo das iterações deste \textit{loop}, a data/hora do primeiro e último registro de temperatura são usadas para gerar um título para o gráfico e, a cada iteração os dados são decodificados, o que se resume basicamente a separar o que há antes e depois da vírgula presente na linha lida do arquivo CSV.
+
+Na parte da função referente à plotagem do gráfico, além de configurações triviais como cor de fundo, tamanho de fontes e legendas, dentre outros, é notável o ajuste da escala do tempo, para o qual foi pensado um registro de temperatura contínuo e não somente o registro de uma produção de cerveja: para até duas horas de registro a escala é impressa em minutos; entre duas horas e um dia e meio de registros, em horas; entre um dia e meio e três meses de registros, em dias; e acima disto em meses. Após isto, o gráfico é plotado, salvo no formato PNG com densidade de pontos por polegada de 150dpi, e fechado para liberar a memória do sistema.
+
+O script que chama a função \textit{graph\_gen} é descrito no código-fonte \ref{gen_graph}, presente no mesmo arquivo em que está a função. Note-se que o gráfico é gerado periodicamente a cada 300 segundos e o tempo necessário para executar tal tarefa é computado e impresso na saída padrão do Python. O arquivo completo que contém a função \textit{graph\_gen} está documentado no código-fonte \ref{python_graph_script} do apêndice \ref{codigos_python}.
+
+Na figura \ref{py_graph_7200p} é apresentado um gráfico gerado na BBB a partir de 7200 pontos amostrados, ou seja, 120 minutos. Este tempo foi escolhido uma vez que dificilmente o cozimento do mosto ou a fervura dura mais do que isso, portanto provando que a implementação é factível para o uso a que se destina. A tabela  \ref{tabela_tempo_graph_python} apresenta informações estatísticas sobre o tempo de computação necessário para a geração do gráfico. A figura \ref{amostras_graph} apresenta o processo de verificação do número de pontos registrados e o posterior processo de coleta dos dados que deram origem à tabela \ref{tabela_tempo_graph_python}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{./Resources/py_graph_7200p.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico com 7200 pontos gerado em Python]{Gráfico com 7200 pontos gerado em Python}
+	\label{py_graph_7200p}
+\end{figure}
+
+%\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python]{Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python}
+		\label{tabela_tempo_graph_python}
+		\begin{tabular}{ | M{5cm} | M{2cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Valor} \\ \hline
+			N.\si{\degree} de amostras & 30\\ \hline
+			Média (s) & 2,106\\ \hline
+			Máximo (s) & 2,068\\ \hline
+			Mínimo (s) & 2,149\\ \hline
+			Desvio padrão (s) & 0,023\\ \hline
+		\end{tabular}
+	\end{table}
+%\end{center}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/log_py_graph_7200p.jpg}
+	\captionsetup{justification=centering}
+	\caption[Geração de gráfico em Python múltiplas vezes para obter o tempo médio]{Geração de gráfico em Python múltiplas vezes para obter o tempo médio}
+	\label{amostras_graph}
+\end{figure}
 
 \section{Aplicação \textit{server-side} em Node.js}
 
@@ -701,6 +832,8 @@ Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Interface de usuário}
+
+\subsection{Tratamento de formulário em PHP}
 
 A interface de usuário foi desenvolvida para acesso via navegador da internet. Dois servidores foram utilizados em conjunto: o servidor Apache, que é um servidor \textit{web} robusto e de fácil implementação e o \textit{framework Express.js}, para \textit{Node.js}. As linguagens utilizadas para a implementação da aplicação foram: a linguagem de marcação HTML, a linguagem de folhas de estilo CSS, a linguagem de programação \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o método AJAX, a linguagem de programação \textit{server-side} interpretada PHP e, a linguagem de programação \textit{server-side} Javascript interpretada pela aplicação \textit{Node.js}.
 

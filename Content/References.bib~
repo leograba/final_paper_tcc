@@ -176,9 +176,9 @@
 }
 
 @misc { putty,
-	author = "THE BEAGLEBOARD.ORG FOUNDATION",
-	title = "\textit{BeagleBoard.org Latest Firmware Images}",
-	howpublished = "Disponível em: \url{http://beagleboard.org/latest-images}",
+	author = "putty.org",
+	title = "\textit{Download Putty}",
+	howpublished = "Disponível em: \url{http://www.putty.org}",
 	year = "Acesso em: 03 de dezembro de 2015"
 }
 
@@ -376,5 +376,33 @@
 	title = "\textit{Beer Styles - IBU Chart Graph}",
 	howpublished = "Disponível em: \url{http://www.brewersfriend.com/2009/01/24/beer-styles-ibu-chart-graph-bitterness-range/}",
 	year = "Acesso em: 23 de abril de 2016"
+}
+
+@misc { matplotlib,
+	author = "HUNTER, J.D.",
+	title = "\textit{Matplotlib A 2D graphics environment}",
+	howpublished = "Computing In Science Engineering, v. 9, n. 3, p. 90-95, IEEE COMPUTER SOC",
+	year = "2007"
+}
+
+@misc { numpy,
+	author = "scipy.org",
+	title = "\textit{NumPy}",
+	howpublished = "Disponível em: \url{http://www.numpy.org/}",
+	year = "Acesso em: 24 de abril de 2016"
+}
+
+@misc { c9_license,
+	author = "Cloud9 IDE Inc.",
+	title = "\textit{License for the SDK and Packages}",
+	howpublished = "Disponível em: \url{https://cloud9-sdk.readme.io/docs/the-licenses-for-cloud9-sdk-and-packages}",
+	year = "Acesso em: 25 de abril de 2016"
+}
+
+@misc { git_book,
+		author = "CHACON, S., STRAUB, B.",
+		title = "\textit{Pro Git - Everything You Need to Know About Git}",
+		howpublished = "Apress Media LLC, Segunda Edição, 2014. Disponível em: \url{https://git-scm.com/book/en/v2}",
+		year = "Acesso em: 25 de abril de 2016"
 }
 
