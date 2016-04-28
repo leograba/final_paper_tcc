@@ -1,0 +1,93 @@
+Para facilitar o desenvolvimento e a documentação de \textit{softwares}, duas ferramentas foram adotadas além do acesso ao terminal via SSH: \textit{Cloud9}, cujo uso é descrito na seção \ref{c9} e \textit{Git/GitHub}, na seção \ref{ghb}.
+
+\subsection{\textit{Cloud9}}
+\label{c9}
+
+\textit{Cloud9} é um IDE do tipo SaaS, ou seja, um software que está na nuvem e cujo acesso é feito por meio de um navegador de internet. Embora o serviço padrão seja hospedado nos próprios servidores da \textit{Cloud9 IDE Inc.}, uma SDK é disponibilizada, na qual está incluso o núcleo do projeto como código-aberto, livre para uso não comercial e desenvolvido em Node.js, possibilitanto portanto a hospedagem um serviço do \textit{Cloud9} localmente, que é o objetivo aqui proposto \cite{c9_license}. Esta é uma nítida vantagem para uma plataforma \textit{headless} --- sem periféricos do tipo HID --- e com acesso à rede, a exemplo da BBB neste projeto, pois permite a programação direta no dispositivo por meio de uma interface gráfica via web.
+
+Tanto o núcleo quanto as informações para instalação podem ser encontradas no repositório do projeto do \textit{GitHub} (\url{https://github.com/c9/core}). A primeira tentativa de instalação realizado na BBB é apresentado na caixa de código-fonte \ref{c9install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Primeira tentativa de instalação do \textit{Cloud9 IDE core} na BBB, label=c9install]
+cd ~/
+git clone git://github.com/c9/core.git c9sdk
+cd c9sdk
+scripts/install-sdk.sh
+\end{lstlisting}
+
+Ao tentar rodar a aplicação apontando para o diretório \textit{/var/www} como diretório de projeto, ou seja, o diretório raiz ao qual o \textit{Cloud9} tem acesso, não foi possível acessar os arquivos uma vez que o diretório em si pertence ao usuário \textit{www-data} e os arquivos pertencem a \textit{root}. 
+
+Ao rodar a aplicação como administrador, outros erros ocorreram, o que levou à tentativa de instalar outro script presente no endereço \url{https://github.com/c9/install} do repositório do \textit{Cloud9}, que permite a conexão da IDE a um servidor SSH. Ainda assim, os erros persistiram, o que levou à abertura de uma questão em \url{https://github.com/c9/core/issues/143}, na qual está descrito o processo adotado para solucionar o problema. Na caixa de código-fonte \ref{c9install_really} é apresentado o processo de instalação executado com sucesso:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação bem sucedida do \textit{Cloud9 IDE core} na BBB, label=c9install_really]
+cd ~/
+wget --no-check-certificate https://raw.githubusercontent.com/c9/install/master/install.sh
+sudo bash install.sh
+\end{lstlisting}
+
+Note-se que muitas tentativas foram executadas para obter o resultado final esperado, por isso em caso de tentativa de reprodução do processo de instalação aqui descrito é recomendado tentar usar somente o processo da caixa de código \ref{c9install_really} e, em caso de falha, partir para a etapa descrita anteriormente. Ainda assim, outro processo de instalação mais direto e que deve ser tentado prioritariamente ao aqui descrito, mas que não foi testado, está descrito em \url{https://cloud9-sdk.readme.io/docs/running-the-sdk}.
+
+Para rodar a aplicação no background e continuar rodando mesmo após desconectar da sessão SSH, é preciso executar o servidor do \textit{Cloud9} como root usando o comando descrito na caixa \ref{c9start}. O parâmetro \textit{-l} indica o endereço de IP do servidor, \textit{-p} a porta, \textit{-a} usuário e senha e \textit{-w} o diretório de trabalho. Também são feitas redireções das saídas \textit{stdout} e \textit{stderr} para os arquivos \textit{/var/www/log/cl9.out} e \textit{/var/www/log/cl9.err}, respectivamente.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Execução do \textit{Cloud9}, label=c9start]
+sudo su #precisa ser root
+cd /home/debian #pasta na qual esta instalado o Cloud9
+nohup node c9sdk/server.js -l 143.107.xxx.xxx -p xxxx -a usuario:senha -w /var/www/ > /var/www/log/cl9.out 2> /var/www/log/cl9.err < /dev/null &
+\end{lstlisting}
+
+Ao realizar o acesso pelo browser usando o IP e porta selecionados, ou seja, digitando \textit{IP:porta} na URL do navegador, o resultado é apresentado na figura \ref{c9ide}. Note-se que o ambiente apresentado é um \textit{preset} de IDE completa, mas que é completamente personalizável, além de existirem outros \textit{presets}, dentre os quais um modo minimalista no qual somente o editor de texto ocupa a tela, bom para momentos de desenolvimento intensivo de um arquivo específico.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/cloud9.jpg}
+	\captionsetup{justification=centering}
+	\caption[Ambiente completo do IDE \textit{Cloud9}]{Ambiente completo do IDE \textit{Cloud9}}
+	\label{c9ide}
+\end{figure}
+
+\subsection{\textit{Git/GitHub}}
+\label{ghb}
+
+\textit{Git} é um DVCS (sistema de controle de versão distribuído) ou SCM (gerenciador de códigos-fonte), ou seja, uma ferramenta cuja finalidade é gerenciar o desenvolvimento de \textit{software}. Um dos principais objetivos de um sistema como este é a documentação das mudanças feitas nos arquivos do projeto ao longo do seu desenvolvimento, o que permite facilmente reverter arquivos ou mesmo o projeto inteiro para um estado anterior, comparar mudanças em função do tempo, verificar quem foi a última pessoa a modificar um arquivo e possivelmente introduzir um bug, dentre outros recursos. E o mais importante, executar todas estas funções de maneira leve e fácil \cite{git_book}.
+
+Esta ferramenta foi escolhida dentre muitas outras DVCS disponíveis por ser de código-aberto e extremamente popular, não somente pelas suas qualidades mas também pelo fato de ser a DCVS usada para o controle de versão do Kernel do Linux, sendo que o \textit{Git} foi criado pela própria comunidade de manutenção do Kernel, incluindo Linus Torvalds \cite{git_book}. Embora a referência bibliográfica consultada sobre este assunto possua mais de 500 páginas, demonstrando o nível de complexidade que a ferramenta pode atingir, neste projeto somente o essencial será abordado --- o que significa compreender o uso de alguns comandos básicos.
+
+Com relação ao \textit{GitHub}, este nada mais é do que um serviço de hospedagem de repositórios \textit{Git}. Uma de suas grandes vantagens é a popularidade, o que o faz ser uma fonte repleta de recursos de código-aberto. No que diz respeito a este trabalho, dentre suas vantagens estão o fato de o serviço facilitar o processo de \textit{backup} de todo o trabalho realizado no âmbito de \textit{software}, prover uma estrutura que permite a replicação do projeto com poucos comandos e também o uso deste serviço para a redação da presente monografia sem a preocupação de ter que levar os arquivos fisicamente a diversas localidades ou depender de serviços de armazenamento de propósito geral, que não apresentam as vantagens de um DVCS.
+
+Para configurar uma conta no github, o primeiro passo foi a realização do cadastro em \url{https://github.com}, seguida da criação de um repositório online, conforme ilustrado na figura \ref{gitcreate}. Após isto, o repositório foi clonado na BBB e os arquivos relevantes do sistema foram copiados para ele. Observe-se que esta abordagem foi improvisada devido ao fato de arquivos de configuração, dentre outros, encontrarem-se em repositórios específicos do sistema, já que o mais adequado seria que todos os arquivos do projeto fossem criados na pasta do \textit{Git}. Para instalar, configurar o \textit{Git} e clonar o repositório recém criado do \textit{GitHub} para a BBB, foram executados os comandos descritos na caixa de código-fonte \ref{install_git}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/git-repo-creation.jpg}
+	\captionsetup{justification=centering}
+	\caption[Criação de repositório no \textit{GitHub}]{Criação de repositório no \textit{GitHub}}
+	\label{gitcreate}
+\end{figure}
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do \textit{Git} e cópia do repositório do \textit{GitHub} para a BBB, label=install_git]
+sudo apt-get install git
+git configure --global user.name "Nome"
+git configure --global user.email email@exemplo.com
+cd ~
+git clone https://github.com/leograba/final_paper_tcc.git
+\end{lstlisting}
+
+Após isto o diretório \textit{final\_paper\_tcc} do \textit{GitHub} foi clonado. Todos os arquivos relevantes ao projeto foram copiados para ele e, subsequentemente, adicionados ao \textit{Git}: sempre que um arquivo é adicionado ou modificado em um repositório \textit{Git}, ele é ignorado a menos que seja executado o comando \textit{git add arquivo} --- isto permite flexibilidade, principalmente com relação a arquivos que não devem ser adicionados ao repositório, como arquivos auxiliares gerados por compiladores, por exemplo. Após cada mudança, para torná-la efetiva é preciso executar o comando \textit{git commit -m "mensagem para registro"}, que além da data e hora da modificação, permite adicionar uma mensagem para identificar o que foi modificado desde o último commit. Por fim, foi preciso enviar as mudanças do repositório local para o \textit{GitHub}. O processo de adicionar arquivos novos/modificados, fazer \textit{commit} nas mudanças e atualizar a origem remota está descrito no código-fonte \ref{git_commit} e foi usado sempre que mudanças foram feitas ao projeto, desde implementações de funcionalidades a correções de \textit{bugs}. Um exemplo de \textit{commit} após mudanças incrementais é apresentado na figura \ref{commit_terminal}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Primeiro \textit{git commit}, label=git_commit]
+git add .
+git commit "Primeiro commit"
+git push origin master
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/git-edit.jpg}
+	\captionsetup{justification=centering}
+	\caption[Fazendo \texit{git commit} após mudanças incrementais]{Fazendo \texit{git commit} após mudanças incrementais}
+	\label{commit_terminal}
+\end{figure}

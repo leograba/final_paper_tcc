@@ -1,0 +1,175 @@
+O processo de brassagem, que consiste no cozimento dos maltes para extração dos açúcares fermentáveis e filtração do líquido resultante, conhecido como mosto, é realizado em equipamentos específicos para estas tarefas. Em função das diferentes técnicas de brassagem e tecnologias desenvolvidas ao longo do tempo, diversos tipos e arranjos de equipamentos foram desenvolvidos \cite{briggs}.
+
+Atualmente existe uma convergência nos métodos de fabricação de cervejas, motivada principalmente por questões financeiras, cujo objetivo do equipamento é maximizar a produção. Outros motivos para o desenvolvimento e aprimoramento de equipamentos são a necessidade de sempre produzir uma cerveja com as mesmas características, ou seja, padronizar a produção e, também, a preocupação crescente com redução do uso de energia e água e a redução da produção de efluentes \cite{briggs}. Ainda assim, equipamentos antigos continuam em uso, seja pela impossibilidade de reproduzir a cerveja em equipamentos mais modernos ou pelo custo elevado da atualização das plantas de produção.
+
+Na adição dos grãos à panela de mostura, o processo de mistura destes à água é importante para que a brassagem seja eficiente, uma vez que os grãos mal misturados podem formar aglutinados que impedem a extração dos açúcares. Para evitar este inconveniente, dispositivos mecânicos foram desenvolvidos, conforme exposto na figura \ref{mashin}: em (a) a água e os grãos são misturados em um fluxo constante, determinado pela velocidade de giro de uma rosca sem fim e; em (b) a água é adicionada aos maltes em um ângulo tangente, de tal forma que um vórtex a mistura aos grãos.  A temperatura da água também deve ser controlada, para evitar que proteínas sejam inativadas e seu volume inicial é predeterminado conforme a receita \cite{briggs}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.59\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/mashin.jpg}
+		\caption{Dispositivo com rosca sem fim}
+		\label{mashin:1}
+	\end{subfigure}
+	\begin{subfigure}{.4\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/mashin1.jpg}
+		\caption{Dispositivo de mistura por vórtex}
+		\label{mashin:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Dispositivos de mistura de grãos à brassagem.]{Dispositivos de mistura de grãos à brassagem. \\Fonte: BRIGGS (2011)
+	}
+	\label{mashin}
+\end{figure}
+
+\subsection{Panela de mostura}
+
+A panela de mostura, ou MT (\textit{mash tun}), é o dispositivo mais simples para a preparação do mosto, uma vez que nela ocorre a extração dos açúcares, a filtração do extrato do mosto e a lavagem dos grãos \cite{briggs}. A figura \ref{mashTun} apresenta uma configuração comum de MT, usada atualmente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/mt_modern.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de panela de brassagem industrial moderna.]{Esquema de panela de brassagem industrial moderna. \\Fonte: BRIGGS (2011)
+	}
+	\label{mashTun}
+\end{figure}
+
+As MTs possuem seção transversal circular e atualmente são feitas de aço inoxidável, revestidas com material isolante térmico. Embora originalmente fossem abertas, atualmente são cobertas para evitar perda de calor e espalhamento do vapor de água pelo ambiente da brassagem. O fundo da MT é coberto por um fundo falso, que fica a alguns centímetros acima do fundo original e cuja função é atuar como filtro, em conjunto com a cama de grãos. Este fundo falso consiste de uma ou mais chapas de metal com rasgos da ordem de 0,7-1,0mm, que representam uma área livre para a drenagem de cerca de 12\% da área total, ou uma trama com fios de metal cuja área livre chega a 22\% \cite{briggs}.
+
+O descarte dos grãos é feito através de um tubo, com a ajuda de uma pá que varre o fundo da panela ou um jato de ar comprimido. Métodos de remoção dos grãos descontinuados são a remoção manual (que ainda existe em pequenas instalações) e o enxágue dos grãos com bombeamento para um tanque anexo -- este não mais usado em função da necessidade de mais água e posterior tratamento desta, que resulta em custos adicionais, além da perda do valor comercial dos grãos a serem descartados. Com relação à limpeza, as MTs são construídas com suporte à limpeza CIP (limpeza no local), inclusive na região entre o fundo da panela e o fundo falso \cite{briggs}.
+
+A água da lavagem dos grãos, ou \textit{sparging}, é borrifada por um cano ou mais canos suspensos acima da cama de grãos, conforme ilustrado na figura \ref{mashTun}. Estes canos são conhecidos como braços de \textit{sparging} e geralmente giram no eixo em função da força da água, o que só é possível devido aos furos no tubo serem feitos na vertical, especialmente para este propósito. Outro aspecto da construção dos braços de \textit{sparging} é que, á medida que se aproxima do centro da panela, os furos são feitos a uma distância menor entre si, possibilitando que a água seja igualmente distribuída sobre a cama de grãos \cite{briggs}. O extrato do mosto é coletado por tubos no fundo da panela.
+
+No caso da brassagem feita pelo processo de decocção, brassagem dupla ou infusão por temperatura controlada, diferentes recipientes de brassagem são utilizados. A figura \ref{mashMixer} é um exemplo de tina de mistura (não confundir com mostura, embora a panela seja utilizada no processo de mostura) usada para brassagem de temperatura controlada. Nestes casos, a moagem dos maltes é mais fina e estes são constantemente misturados por uma pá no fundo da panela. Mesmo dentre estes sistemas os equipamentos diferem entre si e, diferente da MT, nestes sistemas é preciso utilizar outro recipiente para separar o extrato dos grãos. O separador pode ser uma tina de lavagem, conhecida também como LT (\textit{lauter tun}), ou pode ser um filtro de mosto. Embora a LT e o filtro de mosto sejam amplamente utilizados na indústria, não serão detalhados neste trabalho, já que a abordagem prática adotada não inclui seu uso.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/mt_mix.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de panela de mistura do mosto.]{Esquema de panela de mistura do mosto. \\Fonte: BRIGGS (2011)
+	}
+	\label{mashMixer}
+\end{figure}
+
+\subsection{Caldeirão de fervura}
+
+A fervura é o processo no qual o extrato do mosto é fervido com a adição de lúpulos em um caldeirão de fervura. Em inglês o termo utilizado para este caldeirão (\textit{copper}, que significa cobre) lembra o fato de que inicialmente era comum o emprego de tinas de cobre, dada a facilidade de moldagem que este metal permite, a alta condutividade térmica e a aparência atrativa dos caldeirões \cite{briggs}. Este também é usualmente referido como BK, ou \textit{brewing kettle} (caldeirão de fervura). Por muito tempo o estudo do processo de fervura foi negligenciado por ser considerado simples, mas à medida que a questão da economia de energia veio à pauta, estudos oriundos desta necessidade mostraram que o processo é mais complicado do que foi inicialmente considerado \cite{briggs}.
+
+Como existe uma lista de objetivos que devem ser cumpridos durante o processo de fervura, o projeto do equipamento é essencial para que estes sejam atingidos e, em um grau mais avançado, a maior economia de energia possa ser obtida. O primeiro objetivo -- que não está necessariamente em ordem de importância -- é a evaporação de água e consequente concentração do mosto, com taxas de evaporação inicialmente na faixa de 10\% do volume por hora e que foram reduzidas com o desenvolvimento tecnológico das grandes indústrias, já que o custo de evaporação da água é caro em termos de demanda energética. O segundo objetivo importante da fervura é esterilizar o mosto, ou pelo menos matar formas vegetativas de micróbios -- ainda que esporos possam sobreviver ao processo. A terceira função do processo é a evaporação de compostos voláteis indesejados, o que resultou em um desafio tecnológico para diminuir os tempos de fervura e quantidade de água evaporada sem que os compostos voláteis deixassem de ser eliminados efetivamente \cite{briggs}.
+
+Dentre as mudanças que ocorrem no mosto durante a fervura, podem ser notadas criações, adições e transformações de substâncias químicas, como a dispersão de resinas e óleos do lúpulo no mosto e a isomerização de ácidos-\si{\alpha} (transformação dos ácidos-\si{\alpha} presentes no lúpulo em isômeros que conferem características de amargor à bebida), além da desnaturação e formação de coágulos de proteínas -- processo que é favorecido por uma fervura rigorosa e prolongada -- que virão a formar o chamado \textit{trub}, resultado da decantação destas proteínas.  Este processo de decantação pode ser acelerado por meio da adição de substâncias como gel de sílica ou musgo irlandês, conhecido como \textit{irish moss} \cite{briggs}.
+
+Historicamente o aquecimento dos BKs era feito de forma direta, com a queima de combustíveis sólidos. Embora estes não sejam empregados atualmente, ainda existem BKs que são aquecidos diretamente, por meio da queima de óleos ou gases. Ainda assim, atualmente o maior elemento de aquecimento utilizado é o vapor d'água. Embora estes sistemas sejam mecanicamente mais complexos, o aquecimento a vapor reduz a quantidade de calor aplicada por unidade de área, o que evita a caramelização do mosto \cite{briggs}. Na figura \ref{boilcopper} são apresentadas três configurações de BKs, sendo (a) e (b) por meio de aplicação direta de vapor à superfície do recipiente e (c) utilizando um aquecedor interno, também a vapor.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/boil_steam1.jpg}
+		\caption{Caldeirão com base arredondada e revestimentos de vapor assimetricamente dispostos}
+		\label{boilcopper:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/boil_steam2.jpg}
+		\caption{Caldeirão de alta eficiência, com revestimentos de vapor na base e no cone central}
+		\label{boilcopper:2}
+	\end{subfigure}
+	\begin{subfigure}{.65\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/boil_internal.jpg}
+		\caption{Caldeirão com aquecimento interno e mais profundo no centro, permitindo um aquecedor maior}
+		\label{boilcopper:3}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Diferentes configurações de caldeirões de fervura.]{Diferentes configurações de caldeirões de fervura. \\Fonte: BRIGGS (2011)
+	}
+	\label{boilcopper}
+\end{figure}
+
+O projeto destes sistemas mecânicos são feitos com o objetivo de evitar que o mosto seja caramelizado ou descaracterizado de alguma forma e de modo a economizar energia. Com isso surgiram em função do tempo sistemas pressurizados e de aquecimento externo do líquido, dentre outras configurações diversas. Todos os sistemas modernos e eficientes de fervura são fechados e se aproveitam da pressurização de algum modo para reduzir o custo energético do processo de fervura, que se dá pela redução do tempo de fervura possibilitada pela elevação da temperatura do mosto. Contudo é preciso atentar-se ao fato de que temperaturas muito altas podem afetar negativamente a produção da cerveja e, portanto, valores típicos de temperatura empregados pela indústria chegam a até 104\si{\degree}C, com exceções\footnotemark \cite{briggs}. A tabela \ref{tipos_fervura} apresenta alguns sistemas de fervura utilizados na indústria e suas características com relação a temperatura, tempo de fervura e evaporação do mosto. Note-se que mesmo para um tipo específico de fervura, diversas configurações de equipamento podem ser adotadas.
+
+\footnotetext{O sistema de alta temperatura / alta pressão (140\si{\degree}C) é pouco utilizado e testes práticos mostram que os resultados em termos de qualidade da cerveja são questionáveis \cite{briggs}}
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Características de diferentes sistemas de fervura.]{Características de diferentes sistemas de fervura. \\Fonte: adaptado de BRIGGS(2011)}
+		\label{tipos_fervura}
+		\begin{tabular}{ | M{6cm}  M{3cm}  M{3cm}  M{3cm} |}
+			\hline
+			\textbf{Sistema de aquecimento} & \textbf{Temperatura (\si{\degree}C)} & \textbf{Tempo de fervura (min.)} & \textbf{Evaporação (\%)} \\ \hline
+			Panela de "alta performance" & 100 & 120-150 & 12-16 \\
+			Aquecedores internos/externos, com contrapressão & 102-103 & 60-80 & 8 \\
+			Fervura de baixa pressão & 103-104 & 55-65 & 6-7 \\
+			Fervura dinâmica de baixa pressão & 103-104 & 45-50 & 4,5-5 \\
+			Fervura de alta temperatura / alta pressão & 130-140 & 2,5-3 & 6-8 \\
+			Aquecimento de película fina & 100 & 35-40 & 4-4,7\\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+Embora o objetivo principal deste trabalho não seja a eficiência energética do sistema, neste parágrafo são apresentadas algumas considerações acerca do tema. Uma vez que o aquecimento de água une todas as partes do processo de produção de cerveja, não é realista acreditar que a economia de energia pode ser aplicada exclusivamente ao processo de fervura, que é o mais custoso em termos energéticos, portanto automação de controles, equipe bem capacitada, boa conservação do edifício, \textit{designs} eficientes, dentre outros fatores, são importantes para a economia de energia. No tocante à fervura em específico, geralmente são utilizados sistemas que recuperam energia de vapor e/ou água quente para reuso nas diversas etapas do processo de produção de cerveja \cite{briggs}. Um exemplo é o sistema da figura \ref{eng_sav}, que utiliza energia do vapor de aquecimento utilizado na fervura para posterior aquecimento do mosto e pré-aquecimento de outra fervura. Para que isto seja possível, é essencial que a cervejaria realize consecutivas produções, uma vez que a energia é transferida para a produção seguinte.
+
+\newpage
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{./Resources/energy_saving.jpg}
+	\captionsetup{justification=centering}
+	\caption[Arranjo para recuperação de energia.]{Arranjo no qual vapor do caldeirão de fervura é condensado e calor é recuperado e armazenado como água quente em um tanque de gradiente de temperatura. \\Fonte: BRIGGS (2011)
+	}
+	\label{eng_sav}
+\end{figure}
+
+\subsection{Adição de lúpulos}
+
+É comum realizar a adição de lúpulos manualmente em pequenas cervejarias, porém deve-se observar que a adição de lúpulos pode ser uma tarefa perigosa, pois o mosto pode subitamente vazar. Também, em adições tardias de lúpulo, ocorre a entrada de ar no BK, o que faz com que sistemas pressurizados não possam ser utilizados sem as devidas considerações e/ou modificações no equipamento \cite{briggs}.
+
+A adição de lúpulos geralmente não é satisfatória quando são utilizadas flores, por isso pastilhas ou extratos são geralmente utilizados. Em grandes cervejarias a maior parte do desafio está no fato de que os lúpulos devem ser armazenados em ambientes com temperatura controlada, que geralmente ficam longe do BK, além de serem armazenados em caixas ou tanques. Além do sistema automático de transporte destes pacotes, em caso de BKs com pressurização, é preciso utilizar sistemas de câmaras de compressão para adicionar os lúpulos à panela \cite{briggs}.
+
+\subsection{Clarificação e resfriamento do mosto}
+Quando o processo de fervura é finalizado, o mosto deverá estar claro, ou seja, com aparência brilhante. Ainda assim, é preciso remover o \textit{trub}\footnotemark \footnotetext{O \textit{trub} descrito neste capítulo é referente ao \textit{hot break}, ou processo de fervura. Neste trabalho não será abordado o \textit{trub} decorrente do \textit{cold break}, ou resfriamento do mosto, que começa a ser formado em temperaturas próximas a 70\si{\degree}C} e os restos de lúpulos utilizados no processo, já que o \textit{trub} contribui com compostos sulfurosos e alcoóis indesejados, além de tornar a cerveja turva -- o que pode ou não ser um problema \cite{byown}. Diversos equipamentos foram criados com este propósito, seja para mostos com adição de lúpulos em flores, que facilitam a extração dos compostos indesejáveis, quanto para mostos feitos com pastilhas e extratos de lúpulo. Há sistemas chamados \textit{hop back} empregados na filtragem de mostos com lúpulos em flor e que lembram MTs, nos quais o mosto é filtrado por um fundo falso, com elemento filtrador sendo a cama de lúpulos que decanta para o fundo da panela -- inclusive há pequenas cervejarias que utilizam a MT para realizar este método de clarificação \cite{briggs}.
+
+Embora existam outros sistemas de clarificação, o empregado mais largamente na indústria atual é a técnica de \textit{whirlpool} (redemoinho, em tradução livre) na qual mosto quente é injetado tangencialmente em um recipiente cilíndrico, a uma velocidade fixa, sendo a altura de injeção do mosto variável em função de diferentes projetos. Sistemas de gravidade geralmente não são suficientes e bombas ou sistemas projetados para utilizar o efeito de termossifão são utilizadas. As correntes de circulação do mosto decorrentes desta injeção tangencial fazem com que o material particulado fique concentrado no fundo e no centro do recipiente, possibilitando o escoamento controlado do líquido e a consequente separação do \textit{trub} \cite{briggs}. Na figura \ref{whirlpool} são ilustrados sistemas de separação por decantação (a) e por \textit{whirlpool} (b).
+
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/trub_decanter.jpg}
+		\caption{Sistema de serapação do \textit{trub} por decantação}
+		\label{whirlpool:1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/trub_whirlpool.jpg}
+		\caption{Sistemas de separação do \textit{trub} por \textit{whirlpool}, com fundo plano e arredondado}
+		\label{whirlpool:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Sistemas de clarificação.]{Sistemas de clarificação. \\Fonte: BRIGGS (2011)
+	}
+	\label{whirlpool}
+\end{figure}
+
+Após o processo de clarificação deve começar a fermentação e, para que as leveduras possam ser inoculadas no mosto, este deve ser resfriado até a temperatura ideal de operação destes microorganismos, que está típicamente na faixa 15-22\si{\degree}C para leveduras do tipo \textit{ale} e 6-12\si{\degree}C para leveduras do tipo \textit{lager}. O resfriamento rápido do mosto deve ocorrer, pois assim reações químicas decorretes da fervura são interrompidas e a chance de contaminação do mosto é reduzida \cite{briggs}.
+
+Para isto, um \textit{cooler} (resfriador ou trocador de calor) é utilizado. Dentre os modelos mais largamente empregados encontra-se o \textit{cooler} vertical, no qual o mosto passa por dentro de um arranjo de tubos finos, enquanto na parte externa destes água fria é circulada em contra-fluxo. Ainda assim, o modelo de \textit{cooler} mais popular é do trocador de calor de placas, devido ao seu tamanho compacto, versatilidade e eficiência. As placas possuem padrões de desenho de tal forma que, quando são compactadas, elas formam canais pelos quais o mosto é passado em contra-fluxo a um agente resfriador (água fria, por exemplo). Estes trocadores de calor são projetados para que o escoamento seja turbulento e, consequentemente, a troca de calor seja mais eficiente. Quando um agente resfriador diferente da água é utilizado, a manutenção do sistema deve ser reforçada, já que vazamentos implicam na contaminação do mosto \cite{briggs}. A figura apresenta um esquema de \textit{cooler} de placas.
+
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[scale=0.55]{./Resources/cooler.jpg}
+ 	\captionsetup{justification=centering}
+ 	\caption[Esquema de funcionamento do trocador de calor de placas.]{Esquema de funcionamento do trocador de calor de placas. \\Fonte: Site da Offshore Energy Today\protect\footnotemark
+ 	}
+ 	\label{usa-breweries}
+ \end{figure}
+ 
+ \footnotetext{Disponível em \url{http://www.offshoreenergytoday.com/wp-content/uploads/2012/03/Alfa-Laval-to-Supply-Plate-Heat-Exchangers-for-Brazilian-Offshore-Plaforms.jpg}}
+
+Por fim, antes de inocular a levedura, é importante que o mosto seja suficientemente aerado ou oxigenado. Sem isso, a levedura não terá um ambiente adequado à sua reprodução e a atenuação do mosto -- transformação de açúcares e oxigênio em álcool e gás carbônico -- não será completada. Diferenças de solubilidade do mosto e dos tipos de levedura podem influenciar na quantidade de oxigênio necessária para um bom andamento da fermentação, sendo que para obter os níveis adequados, em escala industrial a oxigenação geralmente é forçada  \cite{briggs,palmer}. Na produção de cerveja artesanal, a aeração geralmente é feita agitando o mosto resfriado ou com a ajuda de um sistema de aeração de aquário \cite{palmer}.

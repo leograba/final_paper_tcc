@@ -1,0 +1,880 @@
+\chapter{Materiais}
+
+Este capítulo lista os materiais empregados no desenvolvimento deste projeto. 
+
+\section{Núcleo do projeto}
+
+Os materiais utilizados no núcleo do mesmo estão contidos na tabela \ref{bom_core}:
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Lista de materiais que compõem o núcleo do projeto]{Lista de materiais que compõem o núcleo do projeto}
+		\label{bom_core}
+		\begin{tabular}{ | M{13cm} | M{2cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Quantidade} \\ \hline
+			BeagleBone Black Rev. C & 1\\ \hline
+			Fonte de tensão 5V/2A & 1\\ \hline
+			Cartão \si{\micro}SD 4GB & 1\\ \hline
+			Adaptador Wi-Fi USB Ralink RT5370 & 1\\ \hline
+			Sonda de aço inoxidável à prova d'água com sensor DS18B20 & 1\\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\section{Sistema mecânico}
+
+Os materiais utilizados na construção da parte mecânica do sistema estão listados na tabela \ref{bom_mec}:
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Lista de materiais utilizados na confecção do subsistema mecânico]{Lista de materiais utilizados na confecção do subsistema mecânico}
+		\label{bom_mec}
+		\begin{tabular}{ | M{13cm} | M{2cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Quantidade} \\ \hline
+			
+			\textbf{Itens diversos} & \\ \hline
+			Caldeirão de alumínio n.\si{\degree}36 (32 litros) & 2\\ \hline
+			Resistor helicoidal com duas voltas, 110V/2200W & 2\\ \hline
+			Fundo falso de aço inoxidável circular \si{\phi}=36cm & 1\\ \hline
+			Bomba centrífuga magnética 12VDC Topsflo TL-B08H-12-1006 & 2\\ \hline
+			Trocador de calor de contra-fluxo, tubo de alumínio de 7m & 1\\ \hline
+			Tecido mussalina x 1,5m (centímetros) & 30\\ \hline
+			
+			\textbf{Tubulação} & \\ \hline
+			Mangueira silicone 3/8" (metros) & 1\\ \hline
+			Mangueira cristal 3/8" (metros) & 2\\ \hline
+			Mangueira cristal 1/2" (metros) & 7\\ \hline
+			Tubo schedule S40 1/2" aço inoxidável (metros) & 3\\ \hline
+			
+			\textbf{Valvulas e acessorios} & \\ \hline
+			\textbf{Válvulas e acessórios} & \\ \hline
+			Válvula de retenção portinhola 1/2" aço inoxidável & 2\\ \hline
+			Válvula esfera latão, passagem plena 1/2" & 2\\ \hline
+			Válvula solenóide 1/2" 12V plástico uso geral & 1\\ \hline
+			Válvula solenóide Danfoss 1/2" EV210BD 032U3620 & 3\\ \hline
+			Bobina Danfoss 15W 12VDC 042N7550 & 3\\ \hline
+			
+			\textbf{Conexões e acessórios} & \\ \hline
+			Espigão de latão com redução 1/2" - 3/8" & 3\\ \hline
+			Bico de engate rápido de plástico 1/2" & 1\\ \hline
+			Engate rápido de plástico 1/2" & 1\\ \hline
+			Abraçadeira 3/8" & 4\\ \hline
+			Abraçadeira 1/2" & 2\\ \hline
+			Luva sextavada 1/2" latão & 1\\ \hline
+			Arruela aço inoxidável 1/2" & 4\\ \hline
+			Anel de vedação de silicone 1/2" & 4\\ \hline
+			Contra porca aço inoxidável 1/2" & 2\\ \hline
+			Cotovelo fêmea 90\si{\degree} 1/2" aço inoxidável & 1\\ \hline
+			Cotovelo M/F 90\si{\degree} 1/2" aço inoxidável & 1\\ \hline
+			Tee fêmea 90\si{\degree} 1/2" aço inoxidável & 4\\ \hline
+			Niple duplo sextavado 1/2" aço inoxidável & 9\\ \hline
+			Espigão sextavado 1/2" aço inoxidável & 4\\ \hline 
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\section{Componentes eletrônicos}
+
+Os componentes eletrônicos utilizados para confecção dos circuitos de interface com a BBB, acionamentos de potência e circuitos diversos estão listados na tabela \ref{bom_eln}:
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Lista de componentes eletrônicos diversos empregados na confecção de PCBs e cabeamento do sistema]{Lista de componentes eletrônicos diversos empregados na confecção de PCBs e cabeamento do sistema}
+		\label{bom_eln}
+		\begin{tabular}{ | M{6.5cm} | M{6.5cm} | M{2cm} |}
+			\hline
+			\textbf{Componente} & \textbf{Modelo/valor/descrição} & \textbf{Quantidade} \\ \hline
+			
+			\textbf{Placa de acionamentos de potência} & & \\ \hline
+			Capacitor cerâmico & 100nF & 1\\ \hline
+			Capacitor poliéster & 330nF & 1\\ \hline
+			Resistor & 2,2k\si{\ohm} 1/4W 5\% & 10\\ \hline
+			Resistor & 22k\si{\ohm} 1/4W 5\% & 10\\ \hline
+			Optoacoplador & 4N25 DIP & 7\\ \hline
+			Regulador de tensão & LM7805 TO220 & 1\\ \hline
+			Transistor MOSFET & IRF540N TO220 & 7\\ \hline
+			Diodo retificador & 1N4007 & 6\\ \hline
+			Conector para alimentação & J4 & 2\\ \hline
+			Conector header & 10 vias & 1\\ \hline
+			Borne KRE & 2 vias & 6\\ \hline
+			Porta fusível & 25mm 6A(MAX) & 1\\ \hline
+			Fusível de vidro & 20AG 5A 20mm & 1\\ \hline
+			
+			\textbf{Cabeamento} & & \\ \hline
+			Conector latch & 10 vias & 1\\ \hline
+			Cabo flat (metros) & 10 vias & 2\\ \hline
+			
+			\textbf{Componentes diversos} & & \\ \hline
+			Fonte de tensão & 12V/5A & 1\\ \hline
+			Relé de estado sólido & Fotek SSR-25 DA (25A) & 2\\ \hline
+			Cabo de cobre (metros) & 4mm seção transversal & 6\\ \hline
+			Tomada & 20A & 1\\ \hline
+			Adaptador T & padrão NEMA & 1\\ \hline
+			Terminal anel & pré-isolado M6 & 4\\ \hline
+			Plug tomada & 20A padrão NBR 14136 & 1\\ \hline
+			Servo Motor & TowerPro MG995 & 1\\ \hline
+			
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\section{Equipamentos, instrumentos, \textit{softwares} e miscelânea}
+
+Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares} de suporte ao desenvolvimento do projeto estão listados na tabela \ref{bom_sup}.
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Lista de equipamentos, instrumentos e \textit{softwares} de suporte ao desenvolvimento do projeto]{Lista de equipamentos, instrumentos e \textit{softwares} de suporte ao desenvolvimento do projeto}
+		\label{bom_sup}
+		\begin{tabular}{ | M{10cm} | M{5cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Detalhes} \\ \hline
+			
+			\textbf{Instrumentos de medição} & \\ \hline
+			Osciloscópio Agilent DSO-X 2002A & 70MHz - 2 canais\\ \hline
+			Multímetro Minipa ET-2110 & \\ \hline
+			
+			\textbf{\textit{Softwares}} & \\ \hline
+			MATLAB & versão\\ \hline
+			FreeCAD & v. 0.15\\ \hline
+			MatterControl & v. 1.3.0 + plugin CNCBrasil\\ \hline
+			Cura & v. 15.06.03\\ \hline
+			Putty & \\ \hline
+			
+			
+			\textbf{Diversos} & \\ \hline
+			Impressora 3D & CNCBrasil Standard\\ \hline
+			Filamento para impressão 3D & ABS 1,75mm\\ \hline
+
+			\textbf{Controle de versão} & \\ \hline
+			GitHub & \url{https://github.com/leograba/final_paper_tcc}\\ \hline
+			Filamento para impressão 3D & ABS 1,75mm\\ \hline
+			
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\section{Insumos cervejeiros}
+
+A descrição dos insumos cervejeiros utilizados para confecção da receita e posterior teste do sistema pode ser encontrada na tabela \ref{bom_recipe}.
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Lista insumos cervejeiros para produção de cerveja do tipo \textit{Blond Ale}]{Lista insumos cervejeiros para produção de cerveja do tipo \textit{Blond Ale}}
+		\label{bom_recipe}
+		\begin{tabular}{ | M{13cm} | M{2cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Quantidade} \\ \hline
+			Malte Pilsen (kg) & 4,5\\ \hline
+			Malte Munich (kg) & 0,5\\ \hline
+			Lúpulo Hallertauer Tradition (g) & 50\\ \hline
+			Levedura desidratada Safale S-04 (Tipo Ale inglesa) sachê & 1\\ \hline
+			Sanitizante Iodophor diluído em água (ml/l) & 0,8\\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\chapter{Métodos}
+
+Este capítulo descreve todos os procedimentos de projeto e testes, dentre outros,  empregados visando a obtenção do resultado final deste trabalho. Os procedimentos aqui empregados são embasados na teoria apresentada no capítulo \ref{EmbasamentoTeorico}. Cabe salientar que, embora este seja um projeto de integração entre \textit{mecânica}, \textit{hardware} e \textit{software}, os esforços foram concentrados na área de desenvolvimento de \textit{softwares}, desde o \textit{firmware} da PRU-ICSS integrado ao servidor Apache posteriormente migrado para Node.js, até a aplicação de usuário, escrita em diversas linguagens, de programação ou não --- a exemplo de HTML e CSS.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Estrutura mecânica}
+\label{estmec}
+
+Para o projeto da parte mecânica, em primeiro lugar foi concebida uma configuração de sistema baseada tanto na literatura disponível quanto em projetos de sistemas disponíveis para aquisição no mercado: um sistema de duas panelas análogas à MT e ao BK, sendo que durante o processo de cozimento do mosto, o BK pudesse ser utilizado como HLT e, portanto, fez-se necessário o projeto de um sistema de recirculação entre as duas panelas. Obserava-se que esta proposta representa um híbrido entre um sistema de 3 panelas tradicional - que consiste de uma panela para mosturação, uma para lavagem dos grãos, ou sparging, e uma para fervura; e o sistema popularizado pela Braumeister, composto de 1 panela, com recirculação. Esta abordagem permite a economia financeira e simplificação mecânica do sistema de três panelas com o benefício do \textit{sparging} inexistente no sistema de uma panela.
+
+\subsection{Funcionamento da estrutura}
+
+Na figura \ref{esboco} é apresentada uma representação esquemática da parte funcional.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/esb_mec.jpg}
+	\captionsetup{justification=centering}
+	\caption[Representação esquemática da estrutura mecânica]{Representação esquemática da estrutura mecânica}
+	\label{esboco}
+\end{figure}
+
+Na panela superior ou MT, rotulada como \textit{Mostura}, os grãos são adicionados após o aquecimento inicial da água:
+
+\begin{itemize}
+	\item A válvula 1 é uma válvula manual do tipo esfera, com passagem plena. Durante a operação do equipamento ela deve ficar sempre aberta, portanto seu uso é realizado somente em caso de emergências.
+	\item Após a adição dos grãos, a bomba 3 é ligada para que o líquido da panela seja recirculado. As válvulas de retenção 11 e 12 não permitem que o líquido passe por elas, portanto sobra somente um caminho possível para este, que é ascender na tubulação até entrar novamente na MT. Note-se que não há válvula automatizada na saída da MT, uma vez que o mosto fica em recirculação constante ao longo do processo de cozimento.
+	\item Após a mostura a bomba 3 é desligada e a válvula solenóide 2 é aberta, escoando o líquido para a panela de fervura BK. Simultâneamente, a válvula solenóide 7 e a bomba 8 são ativadas, fazendo com que a água de lavagem presente na BK/HLT flua pela tubulação até a MT, iniciando o processo de \textit{sparging}. Durante um tempo predefinido, o mosto e a água de lavagem recirculam pelas duas panelas e se misturam.
+	\item Durante a fervura, as válvulas 2 e 7 são fechadas. Neste período a MT deve ser esvaziada, já que ela será usada posteriormente para armazenamento da água de esfriamento do mosto --- água usada para limpeza do sistema e que reduz a produção de efluentes do mesmo.
+	\item Após a fervura, as válvulas solenóides 7 e 10 são ativadas, permitindo o escoamento do líquido para o trocador de calor. Simultâneamente a válvula solenóide 13 é aberta e água fria circula em contra-fluxo para resfriar o mosto. Esta água sai quente do trocador de calor e passa pela válvula de retenção 12, preenchendo a parte superior da tubulação e sendo armazenada na MT para posterior limpeza do sistema.
+	\item O mosto que sai resfriado do \textit{chiller} cai no balde de fermentação. Neste processo o líquido entra em contato com o ar, o que é não somente desejável como essencial para o sucesso da fermentação, portanto esta é a última parte do processo automatizada. Uma solução futura e que permite automação é o uso de um aerador em conjunto com um tanque de fermentação selado.
+\end{itemize}
+
+Para o bom funcionamento do sistema proposto, algumas condições devem ser atendidas:
+
+\begin{itemize}
+	\item Se o volume total de líquido nas duas panelas ao final da mostura exceder o volume da BK, ela transbordará. Por este motivo é importante que exista um sistema de detecção de transbordo. Ainda assim, deve-se requisitar que o usuário do sistema calcule corretamente as proporções da receita, pois apesar do sistema automático anti-transbordo, ocorrerá perda de insumos devido ao acúmulo de mosto inutilizável na MT em caso de erro.
+	\item São necessários filtros de material particulado para o bom funcionamento das válvulas e bombas \cite{danfoss_solenoid}.
+	\item Os dispositivos mecânicos (válvulas, bombas, tubulação, dentre outros) e eletrônicos (sensores e atuadores) em contato com o sistema mecânico devem ser apropriados às altas temperaturas impostas pela natureza do processo \cite{danfoss_solenoid, jefferson_solenoid}.
+	\item As panelas, tendo como referência seu fundo, não devem ser alinhadas concêntricas, já que isto torna a adição de lúpulos e o processo de manutenção do equipamento desajeitados.
+	\item A automação da técnica de \textit{whirlpool} não é contemplada nesta configuração de sistema. Se o usuário a considera necessária, ele deve se encarregar de executá-la manualmente.
+	\item A única válvula com pressão suficiente para ser servo-operada é a 13, assumindo-se que a pressão incidente sobre ela seja maior do que 0,5bar, portanto as outras devem ser de operação direta \cite{danfoss_solenoid, jefferson_solenoid}.
+	\item A limpeza automatizada, ou CIP, não é contemplada nesta configuração do sistema, devido à alta complexidade \cite{cip_pres}, conforme indica a figura \ref{cip_system}, e ao custo de implementação proibitivo para este trabalho. Não obstante, é recomendado ao usuário do sistema que faça a limpeza do mesmo tão rápido quanto possível após o final da produção.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/cip_example.jpg}
+	\captionsetup{justification=centering}
+	\caption[Sistema CIP básico]{Sistema CIP básico. \\Fonte: ROSE e MONTGOMERY (2010)}
+	\label{cip_system}
+\end{figure}
+
+\subsection{Dimensionamento da parte funcional} 
+
+Com a filosofia de operação do sistema mecânico definida, é possível realizar o dimensionamento deste sistema. A primeira consideração a ser feita é que os materiais e métodos aqui empregados não seguem nenhuma norma que permita o uso deste equipamento para fabricação de cerveja para venda --- tal escolha é feita em função do alto custo de um sistema completamente dentro das normas e também pelo fato de este ser um trabalho cujo foco é a automação e o acesso remoto.
+
+Não obstante, o material da tubulação escolhido foi o aço inoxidável AISI304. Já que o volume de líquido a ser trabalhado é pequeno, menor do que 40 litros, e a pressão de trabalho não é maior do que a pressão das bombas escolhidas posteriormente, foi decidido o uso de tubulação de diâmetro de 1/2" (21,34mm de diâmetro externo) e espessura da parede no padrão Schedule 40 (2,77mm de espessura). Embora esta espessura seja superdimensionada para a presente aplicação, o mecânico responsável pela montagem do sistema a requisitou para que fosse possível fazer rosca sem danificar a integridade dos tubos. As conexões, seguindo a escolha dos tubos, também são de aço inoxidável de 1/2".
+
+As ligações entre tubos, conexões e outros componentes do sistema são ligações rosqueadas. Este é um meio de ligação antigo, porém de baixo custo, fácil execução e usualmente empregadas em tubulações de diâmetro nominal pequeno, menor do que 4" \cite{ifba}. Para vedação foi escolhido o Teflon, uma vez que é um material de baixo custo e alta disponibilidade e o padrão de rosca adotado neste projeto é o BSP, baseado na norma ISO. Cabe salientar que, embora as ligações rosqueadas sejam permitidas sob certas circunstâncias na prática, elas são relegadas a instalações de baixa responsabilidade \cite{ifba}.
+
+As panelas foram escolhidas no material de alumínio, em função do custo proibitivo do aço inoxidável. São caldeirões padrão utilizados no ramo de hotelaria e restaurantes e disponíveis em vários volumes. As duas panelas utilizadas neste trabalho tem capacidade para 32 litros e diâmetro do fundo de 36cm, portanto sua especificação no mercado é \textit{caldeirão de alumínio n. 36}. Tal volume, 60\% superior ao da produção máxima aconselhada, é necessário devido ao volume dos grãos, à quantidade da água de lavagem e às perdas por evaporação que exigem uso de um volume de água inicial superior ao nominal.
+
+O parâmetro inicial escolhido para seleção das válvulas solenóide foi a temperatura máxima de operação, cuja fonte de dados de operação é fornecida pelos fabricantes. Em seguida, foi escolhida uma vedação adequada: os dois tipos mais comums de vedação com suporte a temperatura de pelo menos 100\si{\degree}C são o EPDM e FKM (etileno-propileno-dieno e fluoreto de vinilideno, respectivamente) \cite{danfoss_solenoid}. Estes materiais possuem uma tabela de compatibilidade de fluidos cuja classificação pode ser satisfatória, boa, duvidosa, insatisfatória e desconhecida --- tanto para cerveja quanto para o mosto, ambas as vedações são classificadas como satisfatórias, embora para água a classificação do FKM seja somente boa \cite{epdm_fkm}. Por fim, um parâmetro que foi verificado antes da escolha final das válvulas é a posição de operação, que varia conforme os modelos do fabricante \cite{danfoss_solenoid}. Com base nos parâmetros supracitados, foi decidido usar:
+
+\begin{itemize}
+	\item Válvula solenóide 1/2" 12V plástico uso geral para água de resfriamento do trocador de calor.
+	\item Válvula solenóide Danfoss 1/2" EV210BD 032U3620 para demais válvulas.
+	\item Bobina Danfoss 15W 12VDC 042N7550 para acionamento das solenóides Danfoss.
+\end{itemize}
+
+Informações técnicas sobre a válvula EV210BD 032U3620 estão no anexo \ref{Anexo3} e sobre a bobina 042N7550 no anexo \ref{Anexo4}.
+
+As bombas de recirculação foram escolhidas com base na temperatura de operação e grau alimentício. Posteriormente, tanto a vazão quanto a perda de carga do sistema foram estimadas para verificar se a bomba escolhida seria adequada: o modelo Topsflo B08H-12-1006 tem capacidade máxima de vazão de 10l/min e carga expressa em coluna de água de 6m. Como a capacidade máxima do sistema é de 20l e idealmente a temperatura deve subir à taxa de 1\si{\degree}C/min, além de que a altura do sistema é menor do que 2m e as perdas de carga foram consideradas desprezíveis para este caso, foi decidido que a bomba escolhida é adequada ao projeto. No \ref{Anexo5} encontra-se a folha de dados técnicos do dispositivo.
+
+Quanto às conexões, a figura \ref{conexoes_rascunho} apresenta um diagrama conceitual do sistema, contendo todas as peças necessárias para a montagem do mesmo:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.55]{./Resources/conexoes.jpg}
+	\captionsetup{justification=centering}
+	\caption[Diagrama conceitual das conexões mecânicas]{Diagrama conceitual das conexões mecânicas}
+	\label{conexoes_rascunho}
+\end{figure}
+
+Na figura \ref{mt_cad} é apresentado um diagrama da MT construído no software FreeCAD, à qual estão conectados o resistor de potência e um niple com vedação. Também estão presentes na figura a válvula esfera manual, um \textit{tee} fêmea, uma válvula Danfoss EV210B e três niples de conexão entre estes componentes. O modelo da válvula foi obtido a partir do website da Danfoss e importado, enquanto a modelagem dos outros componentes foi desenvolvida na plataforma FreeCAD. Na figura \ref{mt_cad_close} são apresentadas em detalhe as conexões do resistor e do niple à panela e, por isto, a estrutura da mesma foi omitida. Os itens em amarelo são contra-porcas, em azul arruelas e, em vermelho anéis de vedação (\textit{o-rings}).
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/mecsys/mash-tun-top-color.pdf}
+		\caption{Vista superior}
+		\label{mt_cad:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/mecsys/mash-tun-bottom-color.pdf}
+		\caption{Vista inferior}
+		\label{mt_cad:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Diagrama da panela de mostura e conexões]{Diagrama da panela de mostura e conexões}
+	\label{mt_cad}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/mecsys/mash-tun-seal-color.pdf}
+	\captionsetup{justification=centering}
+	\caption[Detalhes da vedação da panela de mostura]{Detalhes da vedação da panela de mostura}
+	\label{mt_cad_close}
+\end{figure}
+
+\subsection{Estrutura metálica de suporte}
+
+Parte importante do projeto é o dimensionamento da estrutura metálica de suporte às panelas, já que esta é responsável não somente pelo alojamento do sistema mecânico como também pela facilidade de manutenção. Para definição da altura das panelas, foram observadas primeiramente as alturas das panelas, da estrutura de adição de lúpulos (que será detalhada à parte na seção \ref{hopbox}) e do \textit{chiller}. Na sequência, foi estimado um espaço de manobra entre as duas panelas e uma altura mínima do chão, com base na figura \ref{esboco}. Todas as medidas citadas estão dispostas na tabela \ref{alturas}.
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Dimensões elementos mecânicos relevantes para o projeto da altura da estrutura metálica]{Dimensões elementos mecânicos relevantes para o projeto da altura da estrutura metálica}
+		\label{alturas}
+		\begin{tabular}{ | M{10cm} | M{5cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Altura (cm)} \\ \hline
+			Panela BK & 30,0\\ \hline
+			Panela MT & 30,0\\ \hline
+			\textit{Chiller} & 30,0\\ \hline			
+			Estrutura dos lúpulos aberta & 20,0\\ \hline
+			Vão livre entre panelas & 20,0\\ \hline
+			Vão do \textit{chiller} ao BK & 10,0\\ \hline
+			Espaço entre MT e topo & 10,0\\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+Somando as alturas medidas e estimadas, obteve-se que a estrutura metálica deve ter 1,5m de altura. A largura deve ser de 36,5cm para acomodar as panelas somente com uma pequena folga e o comprimento escolhido é de 70cm, o que permite alinhar as panelas de maneira não concêntrica, conforme abordado na seção \ref{estmec} --- este valor é suficiente, já que o diâmetro somado das duas panelas é de 72cm e deve haver ao menos uma intersecção para permitir o escoamento por gravidade da MT ao BK. Na figura \ref{estmec_cad} é apresentado o projeto da estrutura já com as prateleiras para acomodar as panelas. Note-se que foram escolhidas cantoneiras de 2" x 1/8" para a construção deste equipamento.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/mecsys/estmec-freecad.pdf}
+	\captionsetup{justification=centering}
+	\caption[Projeto da estrutura metálica]{Projeto da estrutura metálica}
+	\label{estmec_cad}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Estrutura de adição de lúpulos}
+\label{hopbox}
+
+Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados para adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
+
+Fixando a altura do compartimento em 10,0cm foram escolhidos valores de comprimento e largura de 16,0cm e 8,0cm respectivamente, assumindo inicialmente que as paredes das divisórias tem espessura desprezível. A equação para volume de um prisma e a escolha das dimensões são demonstradas em \ref{eq_hop_vini}:
+
+\begin{subequations}
+	\label{eq_hop_vini}
+	\begin{align}
+		V &= l\cdot w\cdot h = V_{50g}\cdot 8 \\
+		&= l\cdot w\cdot 10 = 160\cdot 8 \nonumber \\
+		l\cdot w\cdot &= 128, fixando \quad l = 16cm \quad \therefore \nonumber \\
+		w &= 128/16 = 8cm \quad e \\
+		w_{compartimento} &= l/8 = 16/8 = 2cm
+	\end{align}
+\end{subequations}
+
+Posteriormente aos cálculos de \ref{eq_hop_vini}, durante o projeto no software FreeCAD, observou-se que a assumpção de espessura desprezível é falsa e um retrabalho nas medidas do compartimento levou às dimensões externas finais de 18,0cm x 8,4cm x 10,0cm; as paredes externas tendo espessura de 3,0mm e as internas de 2,0mm. A figura \ref{caixa_cinza} esboça as dimensões externas da caixa e a figura \ref{corpo_hopbox} apresenta o corpo da estrutura.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/estLup/caixa_lupulos(1).pdf}
+	\captionsetup{justification=centering}
+	\caption[Dimensões da estrutura de adição de lúpulos]{Dimensões da estrutura de adição de lúpulos}
+	\label{caixa_cinza}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(2).pdf}
+		\caption{Vista superior}
+		\label{corpo_hopbox:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(3).pdf}
+		\caption{Vista axiométrica}
+		\label{corpo_hopbox:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Corpo da estrutura de adição de lúpulos]{Corpo da estrutura de adição de lúpulos}
+	\label{corpo_hopbox}
+\end{figure}
+
+Foram projetadas duas portinholas: uma na face superior da caixa, para reabastecimento manual dos lúpulos, com uma alça e fixada na caixa por dois pinos, de modo que a abertura desta tampa é um movimento de rotação e; uma na face inferior, para adição automática, de correr, de modo que a abertura é um movimento de translação; ambas estão ilustradas na figura \ref{tampas_hopbox}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(4).pdf}
+		\caption{Tampa manual para reabastecimento}
+		\label{tampas_hopbox:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(5).pdf}
+		\caption{Tampa para adição automática dos lúpulos}
+		\label{tampas_hopbox:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Tampas da estrutura de adição de lúpulos]{Tampas da estrutura de adição de lúpulos}
+	\label{tampas_hopbox}
+\end{figure}
+
+Duas varetas de comprimento $l_1$ e $l_2$ são ligadas ao encaixa da tampa de correr, representada em azul na figura \ref{tampas_hopbox:2}, e a elas é acoplado um servo-motor cujo ângulo de operação $\theta$ define a abertura --- ou deslocamento --- da tampa, definido por $d$. A figura \ref{varetas} esquematiza as ligações.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.1]{./Resources/estLup/esquema-varetas.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de ligação das varetas à tampa de correr]{Esquema de ligação das varetas à tampa de correr}
+	\label{varetas}
+\end{figure}
+
+Sendo o comprimento da tampa igual a $l_3$, a condição em \ref{eq_varetas} deve ser satisfeita para que a excursão máxima de abertura da caixa possa ser atingida. É possível demonstrar com o auxílio da Lei dos Cossenos, em \ref{eq_cossenos} que $l_1 = l_2 = l$ para que a mínima abertura da caixa possa ser atingida.
+
+\begin{align}
+	\label{eq_varetas}
+	l_1 + l_2 \geq l_3
+\end{align}
+
+\begin{align}
+	\label{eq_cossenos}
+	&l_2^2 = d^2 + l_1^2 - 2dl_1\cdot cos(\theta) \\
+	&se \quad \theta = 90\si{\degree} \rightarrow d = 0 \therefore \nonumber\\
+	\label{res_cossenos}
+	&l_2^2 = l_1^2 \rightarrow l_2 = l_1 = l
+\end{align}
+
+A taxa máxima de deslocamento em função do ângulo do servo motor é expressa em \ref{eq_desl}:
+
+\begin{align}
+	\label{eq_desl}
+	\frac{dl_3}{d\theta} = \frac{2l}{90\si{\degree}}
+\end{align}
+
+Entretanto, quanto maior o valor desta taxa, menor é a resolução de abertura da caixa, portanto obtem-se que o menor valor possível de $l$, a partir de \ref{eq_varetas} é $l = l_3/2$. Assim sendo, a taxa de deslocamento calculada a partir de \ref{eq_desl} é de $2mm/\si{\degree}$.
+
+Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao encaixe entre tampa e vareta não ser na extremidade, este valor é reduzido. Tal fato não deve ser negligenciado, uma vez que isto pode forçar a operação do servo-motor. Sabe-se pelo projeto executado no FreeCAD que a distância da borda ao encaixe da tampa é de 2,3cm portanto, com o auxílio da Lei dos Cossenos, obtém-se que $\theta_{max} = 82\si{\degree}$. Quanto ao valor mínimo não há preocupação , já que a abertura da caixa terá uma excursão reduzida em 2,3cm com relação ao seu comprimento. As varetas não foram calculadas novamente pois julgou-se uma boa prática essa redução, que evita que a tampa caia da caixa quando em máxima excursão. A figura \ref{completa_hopbox} apresenta o esquema completo de construção da estrutura de adição de lúpulos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/estLup/final.jpg}
+	\captionsetup{justification=centering}
+	\caption[Estrutura de adição de lúpulos]{Estrutura de adição de lúpulos}
+	\label{completa_hopbox}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Configuração da BeagleBone Black}
+
+O primeiro passo para o desenvolvimento do projeto foi a configuração da BeagleBone Black, que é o coração deste sistema. Para tal, foi escolhido o procedimento de gravar a distribuição Debian pré-compilada do sistema operacional Linux na memória de armazenamento eMMC de 4GB da placa. Esta distribuição foi escolhida em função da facilidade de obtenção de suporte em fóruns da internet, artigos e livros, dentre outros, além de ser o SO oficial da BBB \cite{bbb_debian}.
+
+NOTA: Na ocasião da realização deste procedimento, havia uma diferenciação entre a imagem fornecida para uso diretamente a partir do cartão \si{\micro}SD e a imagem para gravação no eMMC, porém agora o procedimento adotado pela fundação BeagleBoard.org é fornecer somente uma imagem pronta para uso diretamente do cartão \si{\micro}SD e, no caso de o usuário decidir gravar a distribuição no eMMC, o arquivo uEnv.txt na partição de \textit{boot} do cartão \si{\micro}SD deve ser editado conforme instruções antes de ser inserido na BBB.
+
+Tanto a última versão estável do Debian para BBB (v. 7.9), conhecida como \textit{Wheezy} e a última versão em desenvolvimento (v. 8.2), conhecida como \textit{Jessie}, quanto a versão utilizada neste projeto (v. 7.5) podem ser obtidas a partir do site oficial da BBB \cite{bbb_images}, conforme ilustrado na figura \ref{debian_images}. A instalação da versão 7.5 se resume a:
+
+\begin{enumerate}
+	\item Baixar a imagem Debian 7.5 para eMMC do site \url{beagleboard.org/latest-images}
+	\item Descomprimir a imagem
+	\item Gravar a imagem em um cartão \si{\micro}SD formatado (não basta copiar, é preciso utilizar um software que grave a imagem corretamente. Neste caso foi utilizado o \textit{Win32 Disk Imager})
+	\item Inserir o cartão \si{\micro}SD na BBB desligada
+	\item Pressionar o botão de boot e energizar a placa com ele ainda pressionado
+	\item Esperar um dos leds de status acender antes de largar o botão
+	\item Esperar os 4 leds de status ficarem continuamente acesos (durante o processo de gravação eles trabalharão de maneira intermitente)
+	\item Desenergizar a BBB e retirar o cartão \si{\micro}SD
+\end{enumerate}
+ 
+ \newpage
+ 
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[scale=0.30]{./Resources/debian-latest.jpg}}
+	\captionsetup{justification=centering}
+	\caption[Últimas imagens pré-compiladas disponíveis para a BBB]{Últimas imagens pré-compiladas disponíveis para a BBB. \\Fonte: Adaptado do site oficial da Fundação BeagleBoard.org\protect\footnotemark}
+	\label{debian_images}
+\end{figure}
+
+\footnotetext{Disponível em \url{http://beagleboard.org/latest-images}}
+
+Após este procedimento, a BBB estará pronta para uso a partir da memória interna eMMC. A verificação do funcionamento do sistema foi feita conectando a placa a um computador instalado com Windows 7 e conectado à internet, via interface USB e posterior acesso através do software de código aberto para acesso via SSH \textit{Putty}, disponível para \textit{download} no site oficial \url{putty.org} \cite{putty} (qualquer software similar que possibilite o acesso via SSH pode ser utilizado para este fim). Para isso, é preciso também instalar no computador o driver que dá acesso à BBB via USB, disponível em \url{beagleboard.org/getting-started}. O acesso via SSH se dá utilizando o endereço de IP \textbf{192.168.7.2}, usuário: \textbf{debian} e senha: \textbf{debian} \cite{lumme}. A figura \ref{putty-cfg} mostra o ambiente de configuração do \textit{Putty} e a figura \ref{putty-flogin} apresenta a tela após uma tentativa de login bem sucedida.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/putty-cfg.jpg}
+	\captionsetup{justification=centering}
+	\caption[Configuração do \textit{Putty} para acesso SSH via USB]{Configuração do \textit{Putty} para acesso SSH via USB}
+	\label{putty-cfg}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/putty-first-login.jpg}
+	\captionsetup{justification=centering}
+	\caption[Tentativa de login bem sucedida pelo \textit{Putty}]{Tentativa de login bem sucedida pelo \textit{Putty}}
+	\label{putty-flogin}
+\end{figure}
+
+\subsection{Ajustes de rede para uso do adaptador Wi-Fi/USB}
+
+Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado à BBB. Em seguida, no terminal, o dispositivo foi listado para confirmar que o sistema estava identificando-o corretamente e ativado, permitindo assim obter a lista de redes Wi-Fi próximas. Com isso, foi possível obter os dados da rede Wi-Fi de interesse, para posterior edição do arquivo \textit{/etc/network/interfaces}, responsável pelas configurações de rede do sistema -- este pode ser obtido no apêndice \ref{Apêndice B}. O código \ref{wifi_conf} ilustra a sequência de comandos executados:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Passos para configuração do Wi-Fi, label=wifi_conf]
+lsusb # verifica se o dispositivo USB foi detectado
+sudo ifconfig wlan up # ativa a interface de rede USB
+sudo iwlist scan # lista as redes Wi-Fi disponíveis
+
+# Identificar os valores da rede de interesse, e.g.
+#	ESSID:"Nome_da_rede" -> nome da rede
+#	IE: IEEE 802.11i/WPA2 Version 1 -> encriptação
+# E então é modificado o arquivo de configuração
+
+# abre o arquivo para edição
+sudo nano /etc/network/interfaces 
+# Após modificar o arquivo e salvá-lo:
+
+sudo ifup wlan0 # ativa a interface de rede Wi-Fi
+sudo ifdown eth0 # desativa a interaface Ethernet
+
+\end{lstlisting}
+
+No arquivo \textit{/etc/network/interfaces}, as configurações utilizadas entre as linhas 19 e 35 do código são referentes à configuração do Wi-Fi para configuração da BBB com endereço de IP estático 192.168.1.155, permitindo o acesso à plataforma remotamente pela internet e não somente dentro da intranet. Observe-se que o acesso a este IP da intranet se dá pelo IP externo 143.107.xxx.xxx, que é o endereço do departamento da engenharia elétrica da USP de São Carlos. Por motivos de segurança este será omitido no presente trabalho.
+
+Depois de todo este procedimento, o dispositivo ainda não estava funcionando após a operação de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instruções de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, estão descritas no código-fonte \ref{rst_wifi}. A figura \ref{success_ssh} indica sucesso de conexão via SSH usando uma máquina com sistema operacional Linux Ubuntu 14.04 LTS.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Configuração para reset do Wi-Fi após o boot, label=rst_wifi]
+git clone https://github.com/adafruit/wifi-reset.git #download do script
+cd wifi-reset/ #entra no diretório do script
+chmod +x install.sh #permissão de execução para o script
+sudo ./install.sh #executa o script
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/ssh_login_linux.jpg}
+	\captionsetup{justification=centering}
+	\caption[Acesso à BBB via SSH]{Acesso à BBB via SSH}
+	\label{success_ssh}
+\end{figure}
+
+\subsection{Data/hora}
+
+Para a configuração automática de data e hora da BBB, foi escolhido o uso do protocolo NTP -- \textit{Network Time Protocol} ou Protocolo de Tempo para Redes -- cujo objetivo é sincronizar os relógios de dispositivos conectados a uma rede a partir de fontes precisas \cite{ntp}. No Brasil, a confiabilidade deste protocolo é responsabilidade do Observatório Nacional (ON), responsável legal por garantir a Hora Legal Brasileira, em conjunto com o Núcleo de Informação e Coordenação do Ponto BR, administrador e operador do domínio ".br"  \cite{nic,dsho}.
+
+Primeiramente foi realizada a instalação do protocolo, seguida da configuração do arquivo \textit{/etc/ntp.conf} e da modificação do arquivo que indica a \textit{timezone}, sendo este um link simbólico para o verdadeiro arquivo. Os comandos executados estão descritos no código-fonte \ref{ntp_install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação e configuração do NTP, label=ntp_install]
+sudo apt-get install ntp #instala o NTP
+sudo nano /etc/ntp.conf #abre o arquivo de configuração para edição
+sudo mv /etc/localtime /etc/localtime-old #backup do arquivo antigo da timezone
+sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime #cria link simbólico para arquivo da nova timezone
+\end{lstlisting}
+
+Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita é a substituição dos servidores de hora padrão para os servidores brasileiros, listados no endereço \url{http://www.pool.ntp.org/zone/br} -- no final de cada endereço foi adicionada a instrução \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora não esteja claro seu funcionamento, é essencial para que o horário seja corretamente configurado a cada \textit{reboot}. O trecho de código-fonte \ref{ntp_br} indica as modificações no arquivo \textit{/etc/ntp.conf} adequando aos servidores brasileiros:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Servidores brasileiros do NTP, label=ntp_br]
+# You do need to talk to an NTP server or two (or three).
+#server ntp.your-provider.example
+
+# pool.ntp.org maps to about 1000 low-stratum NTP servers. Your server will
+# pick a different set every time it starts up. Please consider joining the
+# pool: <http://www.pool.ntp.org/join.html>
+server 0.br.pool.ntp.org iburst
+server 1.br.pool.ntp.org iburst
+server 2.br.pool.ntp.org iburst
+server 3.br.pool.ntp.org iburst
+\end{lstlisting}
+
+\subsection{Sensor DS18B20}
+
+Uma vez que o sensor de temperatura DS18B20 já é suportado pelo Kernel e incluído como \textit{driver} na distribuição padrão da BBB, somente foi necessário criar uma sobreposição de \textit{device tree} indicando em que pino o sensor está ligado. Tanto o mux quanto o OCP do SoC precisaram ser configurados e, para a compilação do arquivo texto em binário, foi necessária a instalação do DTC, descrita no código-fonte \ref{dtc_install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do DTC, label=dtc_install]
+sudo wget -c https://raw.github.com/RobertCNelson/tools/master/pkgs/dtc.sh 
+sudo chmod +x dtc.sh
+./dtc.sh
+\end{lstlisting}
+
+O arquivo com a sobreposição da \textit{device tree} é descrito na seção \ref{ap3ds18b20}, porém o código-fonte \ref{dtf_ds18b20} apresenta um trecho relevante deste, no qual observa-se a configuração do multiplexador do SoC. Note-se que esta configuração significa que o \textit{pull-up} interno de 10k\ohm da BBB está ativado, eliminando a necessidade de um resistor externo. O valor mínimo de \textit{pull-up} segundo a folha de dados do sensor é de 4,7k\ohm, mas não foi observada perda de desempenho do mesmo na presente configuração.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Fragmento de device tree para o DS18B20, label=dtf_ds18b20]
+bb_w1_pins: pinmux_bb_w1_pins {
+	pinctrl-single,pins =  <0x70 0x37>;
+};
+\end{lstlisting}
+
+A compilação da sobreposição é executada com o comando presente no trecho de código \ref{dtc_compile}. Adicionar "-00A0" ao nome do arquivo de saída DTBO é fundamental. Note-se também que o arquivo DTBO é copiado para o diretório no qual ficam todas as sobreposições de \textit{device tree}. Para carregar a sobreposição no boot, é preciso adicionar a linha \textit{echo w1 > /sys/devices/bone\_capemgr.*/slots} ao arquivo \textit{/etc/rc.local}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Compilação de \textit{device tree}, label=dtc_compile]
+sudo dtc -O dtb -o w1-00A0.dtbo -b 0 -@ w1.dts
+sudo cp w1-00A0.dtbo /lib/firmware
+\end{lstlisting}
+
+Após o reboot e com o sensor conectado à BBB, é possível obter o valor da temperatura realizando a leitura do arquivo \textit{/sys/devices/w1\_bus\_master1/28-*/w1\_slave}, conforme ilustrado na figura \ref{ds_reading}. Observe-se que na figura ao invés do asterisco foi utilizado o identificador único deste sensor específico --- quando é utilizado um asterisco, ele é substituído por todos os possíveis nomes de sensores, portanto é útil para leitura de diversos sensores de uma vez. Para saber quantos dispositivos com o protocolo \textit{1-wire} estão conectados à mesma linha e assim descobrir os números referentes a eles, é possível ler o arquivo \textit{/sys/devices/w1\_bus\_master1/w1\_master\_slaves} ou então verificar o conteúdo do diretório \textit{/sys/devices/w1\_bus\_master1/}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/ds_reading_terminal.jpg}
+	\captionsetup{justification=centering}
+	\caption[Leitura do sensor DS18B20 pelo terminal]{Leitura do sensor DS18B20 pelo terminal}
+	\label{ds_reading}
+\end{figure}
+
+\subsection{Webserver Apache}
+
+Embora o Apache venha instalado na distribuição padrão da imagem do Debian para a BBB, é preciso configurar a porta que ele usa para conexões, predefinida pelas configurações de rede do departamento de engenharia elétrica. A porta será omitida por segurança, mas na descrição do processo de configuração aqui proposta será usado o valor 8080, padrão para diversos protocolos de internet, inclusive o HTTP.
+
+Há dois arquivos que devem ser editados para modificar as configurações do Apache. No arquivo \textit{/etc/apache2/sites-enabled/000-default} a primeira linha do arquivo deve ser modificada para \textit{<VirtualHost *:8080>} e no arquivo \textit{/etc/apache2/ports.conf} as linhas \textit{NameVirtualHost *:8080} e \textit{Listen 8080} devem ser adicionadas ou modificadas, caso já existam. Para que as configurações tenham efeito, o servidor deve ser reiniciado com o comando descrito na caixa de código-fonte \ref{restart_apache}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Reinicialização do servidor web Apache, label=restart_apache]
+sudo service apache2 restart
+\end{lstlisting}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{IDE e sistema de controle de versão}
+
+Para facilitar o desenvolvimento e a documentação de \textit{softwares}, duas ferramentas foram adotadas além do acesso ao terminal via SSH: \textit{Cloud9}, cujo uso é descrito na seção \ref{c9} e \textit{Git/GitHub}, na seção \ref{ghb}.
+
+\subsection{\textit{Cloud9}}
+\label{c9}
+
+\textit{Cloud9} é um IDE do tipo SaaS, ou seja, um software que está na nuvem e cujo acesso é feito por meio de um navegador de internet. Embora o serviço padrão seja hospedado nos próprios servidores da \textit{Cloud9 IDE Inc.}, uma SDK é disponibilizada, na qual está incluso o núcleo do projeto como código-aberto, livre para uso não comercial e desenvolvido em Node.js, possibilitanto portanto a hospedagem um serviço do \textit{Cloud9} localmente, que é o objetivo aqui proposto \cite{c9_license}. Esta é uma nítida vantagem para uma plataforma \textit{headless} --- sem periféricos do tipo HID --- e com acesso à rede, a exemplo da BBB neste projeto, pois permite a programação direta no dispositivo por meio de uma interface gráfica via web.
+
+Tanto o núcleo quanto as informações para instalação podem ser encontradas no repositório do projeto do \textit{GitHub} (\url{https://github.com/c9/core}). A primeira tentativa de instalação realizado na BBB é apresentado na caixa de código-fonte \ref{c9install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Primeira tentativa de instalação do \textit{Cloud9 IDE core} na BBB, label=c9install]
+cd ~/
+git clone git://github.com/c9/core.git c9sdk
+cd c9sdk
+scripts/install-sdk.sh
+\end{lstlisting}
+
+Ao tentar rodar a aplicação apontando para o diretório \textit{/var/www} como diretório de projeto, ou seja, o diretório raiz ao qual o \textit{Cloud9} tem acesso, não foi possível acessar os arquivos uma vez que o diretório em si pertence ao usuário \textit{www-data} e os arquivos pertencem a \textit{root}. 
+
+Ao rodar a aplicação como administrador, outros erros ocorreram, o que levou à tentativa de instalar outro script presente no endereço \url{https://github.com/c9/install} do repositório do \textit{Cloud9}, que permite a conexão da IDE a um servidor SSH. Ainda assim, os erros persistiram, o que levou à abertura de uma questão em \url{https://github.com/c9/core/issues/143}, na qual está descrito o processo adotado para solucionar o problema. Na caixa de código-fonte \ref{c9install_really} é apresentado o processo de instalação executado com sucesso:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação bem sucedida do \textit{Cloud9 IDE core} na BBB, label=c9install_really]
+cd ~/
+wget --no-check-certificate https://raw.githubusercontent.com/c9/install/master/install.sh
+sudo bash install.sh
+\end{lstlisting}
+
+Note-se que muitas tentativas foram executadas para obter o resultado final esperado, por isso em caso de tentativa de reprodução do processo de instalação aqui descrito é recomendado tentar usar somente o processo da caixa de código \ref{c9install_really} e, em caso de falha, partir para a etapa descrita anteriormente. Ainda assim, outro processo de instalação mais direto e que deve ser tentado prioritariamente ao aqui descrito, mas que não foi testado, está descrito em \url{https://cloud9-sdk.readme.io/docs/running-the-sdk}.
+
+Para rodar a aplicação no background e continuar rodando mesmo após desconectar da sessão SSH, é preciso executar o servidor do \textit{Cloud9} como root usando o comando descrito na caixa \ref{c9start}. O parâmetro \textit{-l} indica o endereço de IP do servidor, \textit{-p} a porta, \textit{-a} usuário e senha e \textit{-w} o diretório de trabalho. Também são feitas redireções das saídas \textit{stdout} e \textit{stderr} para os arquivos \textit{/var/www/log/cl9.out} e \textit{/var/www/log/cl9.err}, respectivamente.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Execução do \textit{Cloud9}, label=c9start]
+sudo su #precisa ser root
+cd /home/debian #pasta na qual esta instalado o Cloud9
+nohup node c9sdk/server.js -l 143.107.xxx.xxx -p xxxx -a usuario:senha -w /var/www/ > /var/www/log/cl9.out 2> /var/www/log/cl9.err < /dev/null &
+\end{lstlisting}
+
+Ao realizar o acesso pelo browser usando o IP e porta selecionados, ou seja, digitando \textit{IP:porta} na URL do navegador, o resultado é apresentado na figura \ref{c9ide}. Note-se que o ambiente apresentado é um \textit{preset} de IDE completa, mas que é completamente personalizável, além de existirem outros \textit{presets}, dentre os quais um modo minimalista no qual somente o editor de texto ocupa a tela, bom para momentos de desenolvimento intensivo de um arquivo específico.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/cloud9.jpg}
+	\captionsetup{justification=centering}
+	\caption[Ambiente completo do IDE \textit{Cloud9}]{Ambiente completo do IDE \textit{Cloud9}}
+	\label{c9ide}
+\end{figure}
+
+\subsection{\textit{GitHub}}
+\label{ghb}
+
+\textit{Git} é um DVCS (sistema de controle de versão distribuído) ou SCM (gerenciador de códigos-fonte), ou seja, uma ferramenta cuja finalidade é gerenciar o desenvolvimento de \textit{software}. Um dos principais objetivos de um sistema como este é a documentação das mudanças feitas nos arquivos do projeto ao longo do seu desenvolvimento, o que permite facilmente reverter arquivos ou mesmo o projeto inteiro para um estado anterior, comparar mudanças em função do tempo, verificar quem foi a última pessoa a modificar um arquivo e possivelmente introduzir um bug, dentre outros recursos. E o mais importante, executar todas estas funções de maneira leve e fácil \cite{git_book}.
+
+Esta ferramenta foi escolhida dentre muitas outras DVCS disponíveis por ser de código-aberto e extremamente popular, não somente pelas suas qualidades mas também pelo fato de ser a DCVS usada para o controle de versão do Kernel do Linux, sendo que o \textit{Git} foi criado pela própria comunidade de manutenção do Kernel, incluindo Linus Torvalds \cite{git_book}. Embora a referência bibliográfica consultada sobre este assunto possua mais de 500 páginas, demonstrando o nível de complexidade que a ferramenta pode atingir, neste projeto somente o essencial será abordado --- o que significa compreender o uso de menos de 10 comandos básicos.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Geração de gráfico e registro de temperatura em Python}
+
+Para o armazenamento da temperatura do sensor em função do tempo, assim como a geração de um gráfico com o histórico de temperaturas para o usuário do sistema, foram escritos dois \textit{scripts} em Python, sendo a saída do \textit{script} de \textit{log} a entrada do \textit{script} de geração do gráfico --- embora ambos possam ser executados independentemente, a geração do gráfico precisa de um arquivo contendo o histórico de temperaturas.
+
+\subsection{Registro de temperatura}
+
+Para o arquivo do \textit{log}, foram primeiramente escritas algumas funções:
+
+\begin{itemize}
+	\item \textbf{tread()} --- lê o arquivo referente ao sensor de temperatura e retorna deste somente a temperatura formatada em graus celsius.
+	\item \textbf{tprint\_all(tcelsius)} ---  recebe temperatura em \si{\degree}C e imprime com formatação HTML em \si{\degree}C, \si{\degree}F, K e \si{\degree}R; pode ser usada em conjunto com a função tread()
+	\item \textbf{tprint\_all\_terminal(tcelsius)} ---  idêntica à função tprint\_all(), porém imprime com formatação
+para o terminal do Linux
+	\item \textbf{tlog(file = "/var/www/default.csv")} --- cria/adiciona a um arquivo de log no formato CSV a
+temperatura medida e a data/hora correspondente no formato \textit{Unix epoch} --- que é definido como o número de segundos passados desde 1 de janeiro de 1970 não considerando segundos bissextos --- em intervalo de amostragem definido na função, até que o script seja interrompido de alguma maneira. Em função de erros de leitura esporádicos do sensor, se a temperatura lida for menor ou igual a zero, esta é descartada. Imprime a temperatura lida a cada amostragem. O tempo de amostragem é definido pela soma do tempo de leitura do arquivo (inerente ao sistema) com o tempo ocioso definido nesta função: para que o tempo de amostragem seja o mais próximo possível de 1s, foi realizado um estudo de caso, descrito no apêndice \ref{analise_tread_temp}, e com isso obteve-se o valor de 0,2202s ocioso definido nesta função. Além disto, nesta função é chamada \textit{tlog\_instant} que registra em um arquivo separado a última leitura válida de temperatura e tempo.
+	\item \textbf{tlog\_instant(temperature, epoch, file = "/var/www/datalog/instant.csv")} --- registra a última leitura válida de temperatura e tempo em um arquivo, criando ou sobrescrevendo o mesmo.
+	\item \textbf{tlog\_test(file = "/var/www/datalog/default.csv")} --- função que gera um arquivo de \textit{log} com rampas e degraus de temperatura, para uso em simulações posteriores do funcionamento do sistema, descritas na seção \ref{simulacao_controle}.
+\end{itemize}
+
+Sendo a função \textit{tlog} a mais relevante, esta pode ser obtida na caixa de código-fonte \ref{tlog_python}. O script completo está registrado no código-fonte \ref{python_log_script} do apêndice \ref{codigos_python}. Ainda assim, as funções por si só não são executadas sozinhas, portanto foi criado um script auxiliar em Python que chama a função \textit{tlog}, descrito no código-fonte \ref{tlog_log}.
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Função de \textit{log} da temperatura em Python, label=tlog_python]
+def tlog(file = "/var/www/datalog/default.csv"):
+	"""salva temperatura e Unix Time em .csv """
+	tsample = 0.2202 #amostra a cada ~1 segundo
+	buff_temp = tread()#guarda o último valor lido
+	exist = os.path.isfile(file)
+	with open(file, 'a', 1) as log:
+		if exist is False:#se vai criar o arquivo agora
+			log.write("temperatura,data\n")
+		while True: #loop infinito
+			temp_celsius = tread()
+			epoch = time.time()#lê a data/hora do sistema
+			if temp_celsius >= 0:#evita leitura errada
+				log.write("%f,%f\n" % (temp_celsius, epoch))
+				tlog_instant(temp_celsius, epoch)
+				time.sleep(tsample)#espera n segundos
+				print "registrando temperatura!",temp_celsius
+\end{lstlisting}
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Script para gravação das leituras de temperatura em Python, label=tlog_log]
+import temp
+temp.tlog()
+# para executar no terminal, basta executar:
+# sudo python log.py
+\end{lstlisting}
+
+Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado pelo script \ref{tlog_log}, e que valida o funcionamento da aplicação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/csv_log_example.jpg}
+	\captionsetup{justification=centering}
+	\caption[Arquivo CSV com registro de temperaturas gerado em Python]{Arquivo CSV com registro de temperaturas gerado em Python}
+	\label{csv_log_example}
+\end{figure}
+
+\subsection{Gráfico de temperatura}
+
+Com o script que gera um registro da temperatura medida pelo sensor DS18B20 em função do tempo, o próximo passo é a análise dos dados coletados. Uma forma fazê-lo é plotando um gráfico. Para fazê-lo em Python, foi decido usar as bibliotecas \textit{Matplotlib} e \textit{NumPy}, integrantes do ecossistema \textit{SciPy}.
+
+\textit{Matplotlib} é uma biblioteca desenvolvida especificamente para a plotagem 2D de figuras estáticas em scripts Python, no Python shell (similar ao ambiente interpretador de \textit{softwares} proprietários como MATLAB e Mathematica), em aplicações de servidores e \textit{toolkits} com GUI \cite{matplotlib}. Para instalar esta biblioteca, basta executar o comando descrito na caixa de código-fonte \ref{install_matplotlib}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação da biblioteca Matplotlib, label=install_matplotlib]
+sudo apt-get install python-matplotlib
+\end{lstlisting}
+
+\textit{NumPy} é um pacote em Python que fornece suporte a arranjos e matrizes multidimensionais, além de diversas funções matemáticas de suporte a estes formatos de dados. É amplamente empregado nas áreas de computação científica, engenharia e matemática \cite{numpy}. Este pacote é parte integrante do ecossistema \textit{SciPy}, cuja instalação é apresentada na caixa de código-fonte \ref{install_scipy}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do ecossistema SciPy, label=install_scipy]
+sudo apt-get install python-scipy
+\end{lstlisting}
+
+\subsubsection{Desenvolvimento do gráfico}
+
+Com todas as ferramentas necessárias instaladas, pôde ser iniciado o desenvolvimento do script que gera o gráfico da temperatura em função do tempo. A abordagem inicial foi criar um script que gera um arquivo PDF do gráfico a partir do exemplo encontrado na página \url{http://matplotlib.org/examples/pylab_examples/multipage_pdf.html} , modificando este script para as necessidades do projeto.
+
+Como o desenvolvimento foi realizado sem uma interface gráfica, referida como \textit{backend}, foi preciso explicitar a saída como um renderizador no lugar deste, conforme indicado no código-fonte \ref{import_py}, que documenta a importação das bibliotecas/funções utilizadas no script. Note-se que a mudança da saída deve ocorrer antes da importação da biblioteca \textit{numpy} para que não ocorra erro.
+
+\lstset{language=Python}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Importação das bibliotecas para geração de gráfico em Python, label=import_py]
+import time
+import matplotlib
+matplotlib.use('AGG')#muda a output para um renderer ao inves de backend
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import interpolate
+\end{lstlisting}
+
+Na única função do script, \textit{graph\_gen(file = '/var/www/default.csv', graph = '/var/www/tplot.png')}, é explicitado que a entrada é um arquivo CSV e a saída um arquivo PNG. Nesta função o arquivo CSV é lido linha por linha em um \textit{loop}, sendo a primeira linha do arquivo ignorada em função de ela não conter dados, conforme ilustrado na figura \ref{csv_log_example}. Ao longo das iterações deste \textit{loop}, a data/hora do primeiro e último registro de temperatura são usadas para gerar um título para o gráfico e, a cada iteração os dados são decodificados, o que se resume basicamente a separar o que há antes e depois da vírgula presente na linha lida do arquivo CSV.
+
+Na parte da função referente à plotagem do gráfico, além de configurações triviais como cor de fundo, tamanho de fontes e legendas, dentre outros, é notável o ajuste da escala do tempo, para o qual foi pensado um registro de temperatura contínuo e não somente o registro de uma produção de cerveja: para até duas horas de registro a escala é impressa em minutos; entre duas horas e um dia e meio de registros, em horas; entre um dia e meio e três meses de registros, em dias; e acima disto em meses. Após isto, o gráfico é plotado, salvo no formato PNG com densidade de pontos por polegada de 150dpi, e fechado para liberar a memória do sistema.
+
+O script que chama a função \textit{graph\_gen} é descrito no código-fonte \ref{gen_graph}, presente no mesmo arquivo em que está a função. Note-se que o gráfico é gerado periodicamente a cada 300 segundos e o tempo necessário para executar tal tarefa é computado e impresso na saída padrão do Python. O arquivo completo que contém a função \textit{graph\_gen} está documentado no código-fonte \ref{python_graph_script} do apêndice \ref{codigos_python}.
+
+Na figura \ref{py_graph_7200p} é apresentado um gráfico gerado na BBB a partir de 7200 pontos amostrados, ou seja, 120 minutos. Este tempo foi escolhido uma vez que dificilmente o cozimento do mosto ou a fervura dura mais do que isso, portanto provando que a implementação é factível para o uso a que se destina. A tabela  \ref{tabela_tempo_graph_python} apresenta informações estatísticas sobre o tempo de computação necessário para a geração do gráfico. A figura \ref{amostras_graph} apresenta o processo de verificação do número de pontos registrados e o posterior processo de coleta dos dados que deram origem à tabela \ref{tabela_tempo_graph_python}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{./Resources/py_graph_7200p.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico com 7200 pontos gerado em Python]{Gráfico com 7200 pontos gerado em Python}
+	\label{py_graph_7200p}
+\end{figure}
+
+%\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python]{Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python}
+		\label{tabela_tempo_graph_python}
+		\begin{tabular}{ | M{5cm} | M{2cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Valor} \\ \hline
+			N.\si{\degree} de amostras & 30\\ \hline
+			Média (s) & 2,106\\ \hline
+			Máximo (s) & 2,068\\ \hline
+			Mínimo (s) & 2,149\\ \hline
+			Desvio padrão (s) & 0,023\\ \hline
+		\end{tabular}
+	\end{table}
+%\end{center}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/log_py_graph_7200p.jpg}
+	\captionsetup{justification=centering}
+	\caption[Geração de gráfico em Python múltiplas vezes para obter o tempo médio]{Geração de gráfico em Python múltiplas vezes para obter o tempo médio}
+	\label{amostras_graph}
+\end{figure}
+
+\section{Aplicação \textit{server-side} em Node.js}
+
+\subsection{Servidor Express.js}
+
+\subsection{Projeto do controle do sistema}
+
+\subsection{Simulação do controle do sistema}
+\label{simulacao_controle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Interface de usuário}
+
+\subsection{Tratamento de formulário em PHP}
+
+A interface de usuário foi desenvolvida para acesso via navegador da internet. Dois servidores foram utilizados em conjunto: o servidor Apache, que é um servidor \textit{web} robusto e de fácil implementação e o \textit{framework Express.js}, para \textit{Node.js}. As linguagens utilizadas para a implementação da aplicação foram: a linguagem de marcação HTML, a linguagem de folhas de estilo CSS, a linguagem de programação \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o método AJAX, a linguagem de programação \textit{server-side} interpretada PHP e, a linguagem de programação \textit{server-side} Javascript interpretada pela aplicação \textit{Node.js}.
+
+Parte da implementação foi feita por meio de acesso ao terminal via SSH e parte via \textit{Cloud9}, que é uma IDE online. A estrutura da aplicação desenvolvida é apresentada:
+
+\begin{itemize}
+	\item Página inicial
+	\item Página de apresentação
+	\item Gráficos de temperatura dinâmico e estático (página somente para versão de demonstração)
+	\item Menu de seleção de tarefas
+	\begin{itemize}
+		\item Gerenciador de receitas de cerveja
+		\begin{itemize}
+			\item Editor de receitas
+		\end{itemize}
+		\item Gerenciador de início da produção (em desenvolvimento)
+		\item Acompanhamento e possibilidade de ajustes da brassagem (em desenvolvimento)
+		\item Estatísticas (a ser desenvolvida)
+		\item Opções e ajuste de configurações do sistema (a ser desenvolvida)
+	\end{itemize}
+\end{itemize}
+
+Os códigos desenvolvidos e comentados podem ser consultados no apêndice \ref{Apêndice B} e os resultados são descritos na seção \ref{resIntUser}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Circuitos de interface entre a BBB e sensores/atuadores}
+
+\subsection{Acionamentos de potência}
+
+\subsection{Detector de \textit{zero-crossing}}
+
+\subsection{Detector de nível de líquido}
+
+%\subsection{mais o que?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Sistema de controle de temperatura}
+
+\subsection{Resistores de aquecimento}
+
+\subsection{Controlador PID}
+

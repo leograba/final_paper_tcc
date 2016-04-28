@@ -1,0 +1,108 @@
+Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados para adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
+
+Fixando a altura do compartimento em 10,0cm foram escolhidos valores de comprimento e largura de 16,0cm e 8,0cm respectivamente, assumindo inicialmente que as paredes das divisórias tem espessura desprezível. A equação para volume de um prisma e a escolha das dimensões são demonstradas em \ref{eq_hop_vini}:
+
+\begin{subequations}
+	\label{eq_hop_vini}
+	\begin{align}
+		V &= l\cdot w\cdot h = V_{50g}\cdot 8 \\
+		&= l\cdot w\cdot 10 = 160\cdot 8 \nonumber \\
+		l\cdot w\cdot &= 128, fixando \quad l = 16cm \quad \therefore \nonumber \\
+		w &= 128/16 = 8cm \quad e \\
+		w_{compartimento} &= l/8 = 16/8 = 2cm
+	\end{align}
+\end{subequations}
+
+Posteriormente aos cálculos de \ref{eq_hop_vini}, durante o projeto no software FreeCAD, observou-se que a assumpção de espessura desprezível é falsa e um retrabalho nas medidas do compartimento levou às dimensões externas finais de 18,0cm x 8,4cm x 10,0cm; as paredes externas tendo espessura de 3,0mm e as internas de 2,0mm. A figura \ref{caixa_cinza} esboça as dimensões externas da caixa e a figura \ref{corpo_hopbox} apresenta o corpo da estrutura.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/estLup/caixa_lupulos(1).pdf}
+	\captionsetup{justification=centering}
+	\caption[Dimensões da estrutura de adição de lúpulos]{Dimensões da estrutura de adição de lúpulos}
+	\label{caixa_cinza}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(2).pdf}
+		\caption{Vista superior}
+		\label{corpo_hopbox:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(3).pdf}
+		\caption{Vista axiométrica}
+		\label{corpo_hopbox:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Corpo da estrutura de adição de lúpulos]{Corpo da estrutura de adição de lúpulos}
+	\label{corpo_hopbox}
+\end{figure}
+
+Foram projetadas duas portinholas: uma na face superior da caixa, para reabastecimento manual dos lúpulos, com uma alça e fixada na caixa por dois pinos, de modo que a abertura desta tampa é um movimento de rotação e; uma na face inferior, para adição automática, de correr, de modo que a abertura é um movimento de translação; ambas estão ilustradas na figura \ref{tampas_hopbox}.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(4).pdf}
+		\caption{Tampa manual para reabastecimento}
+		\label{tampas_hopbox:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(5).pdf}
+		\caption{Tampa para adição automática dos lúpulos}
+		\label{tampas_hopbox:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Tampas da estrutura de adição de lúpulos]{Tampas da estrutura de adição de lúpulos}
+	\label{tampas_hopbox}
+\end{figure}
+
+Duas varetas de comprimento $l_1$ e $l_2$ são ligadas ao encaixa da tampa de correr, representada em azul na figura \ref{tampas_hopbox:2}, e a elas é acoplado um servo-motor cujo ângulo de operação $\theta$ define a abertura --- ou deslocamento --- da tampa, definido por $d$. A figura \ref{varetas} esquematiza as ligações.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.1]{./Resources/estLup/esquema-varetas.jpg}
+	\captionsetup{justification=centering}
+	\caption[Esquema de ligação das varetas à tampa de correr]{Esquema de ligação das varetas à tampa de correr}
+	\label{varetas}
+\end{figure}
+
+Sendo o comprimento da tampa igual a $l_3$, a condição em \ref{eq_varetas} deve ser satisfeita para que a excursão máxima de abertura da caixa possa ser atingida. É possível demonstrar com o auxílio da Lei dos Cossenos, em \ref{eq_cossenos} que $l_1 = l_2 = l$ para que a mínima abertura da caixa possa ser atingida.
+
+\begin{align}
+	\label{eq_varetas}
+	l_1 + l_2 \geq l_3
+\end{align}
+
+\begin{align}
+	\label{eq_cossenos}
+	&l_2^2 = d^2 + l_1^2 - 2dl_1\cdot cos(\theta) \\
+	&se \quad \theta = 90\si{\degree} \rightarrow d = 0 \therefore \nonumber\\
+	\label{res_cossenos}
+	&l_2^2 = l_1^2 \rightarrow l_2 = l_1 = l
+\end{align}
+
+A taxa máxima de deslocamento em função do ângulo do servo motor é expressa em \ref{eq_desl}:
+
+\begin{align}
+	\label{eq_desl}
+	\frac{dl_3}{d\theta} = \frac{2l}{90\si{\degree}}
+\end{align}
+
+Entretanto, quanto maior o valor desta taxa, menor é a resolução de abertura da caixa, portanto obtem-se que o menor valor possível de $l$, a partir de \ref{eq_varetas} é $l = l_3/2$. Assim sendo, a taxa de deslocamento calculada a partir de \ref{eq_desl} é de $2mm/\si{\degree}$.
+
+Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao encaixe entre tampa e vareta não ser na extremidade, este valor é reduzido. Tal fato não deve ser negligenciado, uma vez que isto pode forçar a operação do servo-motor. Sabe-se pelo projeto executado no FreeCAD que a distância da borda ao encaixe da tampa é de 2,3cm portanto, com o auxílio da Lei dos Cossenos, obtém-se que $\theta_{max} = 82\si{\degree}$. Quanto ao valor mínimo não há preocupação , já que a abertura da caixa terá uma excursão reduzida em 2,3cm com relação ao seu comprimento. As varetas não foram calculadas novamente pois julgou-se uma boa prática essa redução, que evita que a tampa caia da caixa quando em máxima excursão. A figura \ref{completa_hopbox} apresenta o esquema completo de construção da estrutura de adição de lúpulos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/estLup/final.jpg}
+	\captionsetup{justification=centering}
+	\caption[Estrutura de adição de lúpulos]{Estrutura de adição de lúpulos}
+	\label{completa_hopbox}
+\end{figure}
