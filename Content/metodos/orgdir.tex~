@@ -1,0 +1,71 @@
+Dado o nível de complexidade a que chegou o desenvolvimento da aplicação de controle do sistema, foi necessário adotar um sistema de divisão de arquivos por função. Dentre os tipos de arquivos há principalmente códigos-fonte, imagens e registros. O objetivo desta seção é explicar a organização adotada.
+
+Cabe primeiramente observar que há duas grandes frentes de projeto com relação a software: a aplicação do servidor e a aplicação do cliente. Uma vez que há momentos em que ambas estão entrelaçadas, foi decidido por não separar os arquivos em pastas \textit{cliente} e \textit{servidor}, mas somente classificar cada arquivo como pertencente principalmente a uma destas duas frentes.
+
+A tabela \ref{diretorios} lista os diretórios e arquivos relevantes ao projeto, assim como uma breve descrição destes e a distinção dos arquivos entre \textit{cliente} ou \textit{servidor}.
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Estrutura de diretórios e arquivos da aplicação da BBB]{Estrutura de diretórios e arquivos da aplicação da BBB}
+		\label{diretorios}
+		\begin{tabular}{ | M{4cm} | M{9cm} | M{2cm} |}
+			\hline
+			\textbf{Diretório/arquivo} & \textbf{descrição} & \textbf{Frente} \\ \hline
+			
+			\textbf{www} & \textbf{diretório raiz} & \\ \hline
+			about.php & página de descrição do projeto & cliente \\ \hline
+			control.php & GUI de controle do sistema & cliente \\ \hline
+			controle.js & arquivo raiz da aplicação do servidor & servidor \\ \hline
+			dyn\_graph2.html & gráfico dinâmico de linha/área & cliente \\ \hline
+			index.html & página inicial - contém somente uma imagem clicável & cliente\\ \hline
+			listrecipe.php & gerenciador de receitas - permite criar, editar e excluir & cliente\\ \hline
+			newrecipe.php & GUI de edição de receitas & cliente \\ \hline
+			settings.php & GUI de configurações não referentes à brassagem & cliente \\ \hline
+			startrecipe.php & escolha da receita e início da brassagem & cliente \\ \hline
+			stats.php & estatísticas diversas de produções anteriores & cliente \\ \hline
+
+			\textbf{www/css} & \textbf{configurações de estilo da GUI} & \\ \hline
+			buttons.css & estiliza alguns botões da GUI & cliente \\ \hline
+			config.css & configurações gerais de estilo da GUI & cliente \\ \hline
+			form.css & estilo do formulário de edição de receitas & cliente \\ \hline
+
+			\textbf{www/datalog} & \textbf{registros e backup de dados em memória não volátil} & \\ \hline
+			backup.log & registro detalhado da última brassagem & servidor \\ \hline
+			default.csv & registro de temperaturas e tempos do DS18B20 & servidor \\ \hline
+			instant.csv & última leitura do DS18B20 da MT & servidor \\ \hline
+			instant\_bk.csv & última leitura do DS18B20 do BK & servidor \\ \hline
+			lockfile & arquivo que define se há uma brassagem em execução & servidor \\ \hline
+
+			\textbf{www/img} & \textbf{imagens geradas para a GUI} & \\ \hline
+			beer2.png & favicon & cliente \\ \hline
+			beer\_compiler.png & imagem da página inicial da GUI & cliente \\ \hline
+			tplot.png & gráfico estático da temperatura em função do tempo & cliente \\ \hline
+
+			\textbf{www/my\_node\_modules} & \textbf{módulos em Node.js desenvolvidos neste projeto} & \\ \hline
+			ctrl.js & implementação do algoritmo de controle da brassagem & servidor \\ \hline
+			gpio\_cfg.js & configuração e controle de GPIO e PWM & servidor \\ \hline
+			log\_check\_misc.js & verificação de integradade de receita. Leitura e registros de informações referentes à brassagem & servidor \\ \hline
+			routes.js & rotas do servidor Express.js & servidor \\ \hline
+
+			\textbf{www/lib} & \textbf{módulos requisitados por códigos-fonte do cliente} & \\ \hline
+			deleterecipe.php & deleta uma receita do servidor & servidor \\ \hline
+			header.js & auxiliar de criação do cabeçalho da GUI & cliente \\ \hline
+			header.php & criação do cabeçalho da GUI & cliente \\ \hline
+			listrecipe.js & lê conteúdo ou deleta receita do servidor & servidor \\ \hline
+			newrecipe.js & organiza e salva automaticamente a GUI de edição de receitas & cliente / servidor \\ \hline
+			newrecipe.php & salva ou carrega receita para a GUI de edição de receitas & servidor \\ \hline
+			previewrecipe.php & lê conteúdo essencial da receita e devolve para a GUI & cliente / servidor \\ \hline
+
+			\textbf{log} & \textbf{registros de erros de aplicações da BBB} & \\ \hline
+			\textbf{recipes} & \textbf{receitas de cerveja} & \\ \hline
+			\textbf{node\_modules} & \textbf{módulos do Node.js instalados por meio do NPM} & \\ \hline
+			\textbf{d3-3.4.10} & \textbf{biblioteca Javascript de visualização de dados} & \\ \hline
+			\textbf{rickshaw} & \textbf{API de geração de gráficos baseada na biblioteca D3.js} & \\ \hline
+			\textbf{tmp} & \textbf{diretório para testes e arquivos temporários} & \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+

@@ -1,0 +1,170 @@
+O primeiro passo para o desenvolvimento do projeto foi a configuração da BeagleBone Black, que é o coração deste sistema. Para tal, foi escolhido o procedimento de gravar a distribuição Debian pré-compilada do sistema operacional Linux na memória de armazenamento eMMC de 4GB da placa. Esta distribuição foi escolhida em função da facilidade de obtenção de suporte em fóruns da internet, artigos e livros, dentre outros, além de ser o SO oficial da BBB \cite{bbb_debian}.
+
+NOTA: Na ocasião da realização deste procedimento, havia uma diferenciação entre a imagem fornecida para uso diretamente a partir do cartão \si{\micro}SD e a imagem para gravação no eMMC, porém agora o procedimento adotado pela fundação BeagleBoard.org é fornecer somente uma imagem pronta para uso diretamente do cartão \si{\micro}SD e, no caso de o usuário decidir gravar a distribuição no eMMC, o arquivo uEnv.txt na partição de \textit{boot} do cartão \si{\micro}SD deve ser editado conforme instruções antes de ser inserido na BBB.
+
+Tanto a última versão estável do Debian para BBB (v. 7.9), conhecida como \textit{Wheezy} e a última versão em desenvolvimento (v. 8.2), conhecida como \textit{Jessie}, quanto a versão utilizada neste projeto (v. 7.5) podem ser obtidas a partir do site oficial da BBB \cite{bbb_images}, conforme ilustrado na figura \ref{debian_images}. A instalação da versão 7.5 se resume a:
+
+\begin{enumerate}
+	\item Baixar a imagem Debian 7.5 para eMMC do site \url{beagleboard.org/latest-images}
+	\item Descomprimir a imagem
+	\item Gravar a imagem em um cartão \si{\micro}SD formatado (não basta copiar, é preciso utilizar um software que grave a imagem corretamente. Neste caso foi utilizado o \textit{Win32 Disk Imager})
+	\item Inserir o cartão \si{\micro}SD na BBB desligada
+	\item Pressionar o botão de boot e energizar a placa com ele ainda pressionado
+	\item Esperar um dos leds de status acender antes de largar o botão
+	\item Esperar os 4 leds de status ficarem continuamente acesos (durante o processo de gravação eles trabalharão de maneira intermitente)
+	\item Desenergizar a BBB e retirar o cartão \si{\micro}SD
+\end{enumerate}
+ 
+ \newpage
+ 
+\begin{figure}[H]
+	\centering
+	\fbox{\includegraphics[scale=0.30]{./Resources/debian-latest.jpg}}
+	\captionsetup{justification=centering}
+	\caption[Últimas imagens pré-compiladas disponíveis para a BBB]{Últimas imagens pré-compiladas disponíveis para a BBB. \\Fonte: Adaptado do site oficial da Fundação BeagleBoard.org\protect\footnotemark}
+	\label{debian_images}
+\end{figure}
+
+\footnotetext{Disponível em \url{http://beagleboard.org/latest-images}}
+
+Após este procedimento, a BBB estará pronta para uso a partir da memória interna eMMC. A verificação do funcionamento do sistema foi feita conectando a placa a um computador instalado com Windows 7 e conectado à internet, via interface USB e posterior acesso através do software de código aberto para acesso via SSH \textit{Putty}, disponível para \textit{download} no site oficial \url{putty.org} \cite{putty} (qualquer software similar que possibilite o acesso via SSH pode ser utilizado para este fim). Para isso, é preciso também instalar no computador o driver que dá acesso à BBB via USB, disponível em \url{beagleboard.org/getting-started}. O acesso via SSH se dá utilizando o endereço de IP \textbf{192.168.7.2}, usuário: \textbf{debian} e senha: \textbf{debian} \cite{lumme}. A figura \ref{putty-cfg} mostra o ambiente de configuração do \textit{Putty} e a figura \ref{putty-flogin} apresenta a tela após uma tentativa de login bem sucedida.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.90]{./Resources/putty-cfg.jpg}
+	\captionsetup{justification=centering}
+	\caption[Configuração do \textit{Putty} para acesso SSH via USB]{Configuração do \textit{Putty} para acesso SSH via USB}
+	\label{putty-cfg}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.80]{./Resources/putty-first-login.jpg}
+	\captionsetup{justification=centering}
+	\caption[Tentativa de login bem sucedida pelo \textit{Putty}]{Tentativa de login bem sucedida pelo \textit{Putty}}
+	\label{putty-flogin}
+\end{figure}
+
+\subsection{Ajustes de rede para uso do adaptador Wi-Fi/USB}
+
+Para utilizar o adaptador Wi-Fi USB, em primeiro lugar este foi conectado à BBB. Em seguida, no terminal, o dispositivo foi listado para confirmar que o sistema estava identificando-o corretamente e ativado, permitindo assim obter a lista de redes Wi-Fi próximas. Com isso, foi possível obter os dados da rede Wi-Fi de interesse, para posterior edição do arquivo \textit{/etc/network/interfaces}, responsável pelas configurações de rede do sistema -- este pode ser obtido no apêndice \ref{Apêndice B}. O código \ref{wifi_conf} ilustra a sequência de comandos executados:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Passos para configuração do Wi-Fi, label=wifi_conf]
+lsusb # verifica se o dispositivo USB foi detectado
+sudo ifconfig wlan up # ativa a interface de rede USB
+sudo iwlist scan # lista as redes Wi-Fi disponíveis
+
+# Identificar os valores da rede de interesse, e.g.
+#	ESSID:"Nome_da_rede" -> nome da rede
+#	IE: IEEE 802.11i/WPA2 Version 1 -> encriptação
+# E então é modificado o arquivo de configuração
+
+# abre o arquivo para edição
+sudo nano /etc/network/interfaces 
+# Após modificar o arquivo e salvá-lo:
+
+sudo ifup wlan0 # ativa a interface de rede Wi-Fi
+sudo ifdown eth0 # desativa a interaface Ethernet
+
+\end{lstlisting}
+
+No arquivo \textit{/etc/network/interfaces}, as configurações utilizadas entre as linhas 19 e 35 do código são referentes à configuração do Wi-Fi para configuração da BBB com endereço de IP estático 192.168.1.155, permitindo o acesso à plataforma remotamente pela internet e não somente dentro da intranet. Observe-se que o acesso a este IP da intranet se dá pelo IP externo 143.107.xxx.xxx, que é o endereço do departamento da engenharia elétrica da USP de São Carlos. Por motivos de segurança este será omitido no presente trabalho.
+
+Depois de todo este procedimento, o dispositivo ainda não estava funcionando após a operação de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instruções de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, estão descritas no código-fonte \ref{rst_wifi}. A figura \ref{success_ssh} indica sucesso de conexão via SSH usando uma máquina com sistema operacional Linux Ubuntu 14.04 LTS.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Configuração para reset do Wi-Fi após o boot, label=rst_wifi]
+git clone https://github.com/adafruit/wifi-reset.git #download do script
+cd wifi-reset/ #entra no diretório do script
+chmod +x install.sh #permissão de execução para o script
+sudo ./install.sh #executa o script
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/ssh_login_linux.jpg}
+	\captionsetup{justification=centering}
+	\caption[Acesso à BBB via SSH]{Acesso à BBB via SSH}
+	\label{success_ssh}
+\end{figure}
+
+\subsection{Data/hora}
+
+Para a configuração automática de data e hora da BBB, foi escolhido o uso do protocolo NTP -- \textit{Network Time Protocol} ou Protocolo de Tempo para Redes -- cujo objetivo é sincronizar os relógios de dispositivos conectados a uma rede a partir de fontes precisas \cite{ntp}. No Brasil, a confiabilidade deste protocolo é responsabilidade do Observatório Nacional (ON), responsável legal por garantir a Hora Legal Brasileira, em conjunto com o Núcleo de Informação e Coordenação do Ponto BR, administrador e operador do domínio ".br"  \cite{nic,dsho}.
+
+Primeiramente foi realizada a instalação do protocolo, seguida da configuração do arquivo \textit{/etc/ntp.conf} e da modificação do arquivo que indica a \textit{timezone}, sendo este um link simbólico para o verdadeiro arquivo. Os comandos executados estão descritos no código-fonte \ref{ntp_install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação e configuração do NTP, label=ntp_install]
+sudo apt-get install ntp #instala o NTP
+sudo nano /etc/ntp.conf #abre o arquivo de configuração para edição
+sudo mv /etc/localtime /etc/localtime-old #backup do arquivo antigo da timezone
+sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime #cria link simbólico para arquivo da nova timezone
+\end{lstlisting}
+
+Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita é a substituição dos servidores de hora padrão para os servidores brasileiros, listados no endereço \url{http://www.pool.ntp.org/zone/br} -- no final de cada endereço foi adicionada a instrução \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora não esteja claro seu funcionamento, é essencial para que o horário seja corretamente configurado a cada \textit{reboot}. O trecho de código-fonte \ref{ntp_br} indica as modificações no arquivo \textit{/etc/ntp.conf} adequando aos servidores brasileiros:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Servidores brasileiros do NTP, label=ntp_br]
+# You do need to talk to an NTP server or two (or three).
+#server ntp.your-provider.example
+
+# pool.ntp.org maps to about 1000 low-stratum NTP servers. Your server will
+# pick a different set every time it starts up. Please consider joining the
+# pool: <http://www.pool.ntp.org/join.html>
+server 0.br.pool.ntp.org iburst
+server 1.br.pool.ntp.org iburst
+server 2.br.pool.ntp.org iburst
+server 3.br.pool.ntp.org iburst
+\end{lstlisting}
+
+\subsection{Sensor DS18B20}
+\label{ds18b20_dev_tree}
+
+Uma vez que o sensor de temperatura DS18B20 já é suportado pelo Kernel e incluído como \textit{driver} na distribuição padrão da BBB, somente foi necessário criar uma sobreposição de \textit{device tree} indicando em que pino o sensor está ligado. Tanto o mux quanto o OCP do SoC precisaram ser configurados e, para a compilação do arquivo texto em binário, foi necessária a instalação do DTC, descrita no código-fonte \ref{dtc_install}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do DTC, label=dtc_install]
+sudo wget -c https://raw.github.com/RobertCNelson/tools/master/pkgs/dtc.sh 
+sudo chmod +x dtc.sh
+./dtc.sh
+\end{lstlisting}
+
+O arquivo com a sobreposição da \textit{device tree} é descrito na seção \ref{ap3ds18b20}, porém o código-fonte \ref{dtf_ds18b20} apresenta um trecho relevante deste, no qual observa-se a configuração do multiplexador do SoC. Note-se que esta configuração significa que o \textit{pull-up} interno de 10k\ohm da BBB está ativado, eliminando a necessidade de um resistor externo. O valor mínimo de \textit{pull-up} segundo a folha de dados do sensor é de 4,7k\ohm, mas não foi observada perda de desempenho do mesmo na presente configuração.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Fragmento de device tree para o DS18B20, label=dtf_ds18b20]
+bb_w1_pins: pinmux_bb_w1_pins {
+	pinctrl-single,pins =  <0x70 0x37>;
+};
+\end{lstlisting}
+
+A compilação da sobreposição é executada com o comando presente no trecho de código \ref{dtc_compile}. Adicionar "-00A0" ao nome do arquivo de saída DTBO é fundamental. Note-se também que o arquivo DTBO é copiado para o diretório no qual ficam todas as sobreposições de \textit{device tree}. Para carregar a sobreposição no boot, é preciso adicionar a linha \textit{echo w1 > /sys/devices/bone\_capemgr.*/slots} ao arquivo \textit{/etc/rc.local}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Compilação de \textit{device tree}, label=dtc_compile]
+sudo dtc -O dtb -o w1-00A0.dtbo -b 0 -@ w1.dts
+sudo cp w1-00A0.dtbo /lib/firmware
+\end{lstlisting}
+
+Após o reboot e com o sensor conectado à BBB, é possível obter o valor da temperatura realizando a leitura do arquivo \textit{/sys/devices/w1\_bus\_master1/28-*/w1\_slave}, conforme ilustrado na figura \ref{ds_reading}. Observe-se que na figura ao invés do asterisco foi utilizado o identificador único deste sensor específico --- quando é utilizado um asterisco, ele é substituído por todos os possíveis nomes de sensores, portanto é útil para leitura de diversos sensores de uma vez. Para saber quantos dispositivos com o protocolo \textit{1-wire} estão conectados à mesma linha e assim descobrir os números referentes a eles, é possível ler o arquivo \textit{/sys/devices/w1\_bus\_master1/w1\_master\_slaves} ou então verificar o conteúdo do diretório \textit{/sys/devices/w1\_bus\_master1/}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/ds_reading_terminal.jpg}
+	\captionsetup{justification=centering}
+	\caption[Leitura do sensor DS18B20 pelo terminal]{Leitura do sensor DS18B20 pelo terminal}
+	\label{ds_reading}
+\end{figure}
+
+\subsection{Webserver Apache}
+
+Embora o Apache venha instalado na distribuição padrão da imagem do Debian para a BBB, é preciso configurar a porta que ele usa para conexões, predefinida pelas configurações de rede do departamento de engenharia elétrica. A porta será omitida por segurança, mas na descrição do processo de configuração aqui proposta será usado o valor 8080, padrão para diversos protocolos de internet, inclusive o HTTP.
+
+Há dois arquivos que devem ser editados para modificar as configurações do Apache. No arquivo \textit{/etc/apache2/sites-enabled/000-default} a primeira linha do arquivo deve ser modificada para \textit{<VirtualHost *:8080>} e no arquivo \textit{/etc/apache2/ports.conf} as linhas \textit{NameVirtualHost *:8080} e \textit{Listen 8080} devem ser adicionadas ou modificadas, caso já existam. Para que as configurações tenham efeito, o servidor deve ser reiniciado com o comando descrito na caixa de código-fonte \ref{restart_apache}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Reinicialização do servidor web Apache, label=restart_apache]
+sudo service apache2 restart
+\end{lstlisting}

@@ -120,6 +120,7 @@ server 3.br.pool.ntp.org iburst
 \end{lstlisting}
 
 \subsection{Sensor DS18B20}
+\label{ds18b20_dev_tree}
 
 Uma vez que o sensor de temperatura DS18B20 já é suportado pelo Kernel e incluído como \textit{driver} na distribuição padrão da BBB, somente foi necessário criar uma sobreposição de \textit{device tree} indicando em que pino o sensor está ligado. Tanto o mux quanto o OCP do SoC precisaram ser configurados e, para a compilação do arquivo texto em binário, foi necessária a instalação do DTC, descrita no código-fonte \ref{dtc_install}:
 

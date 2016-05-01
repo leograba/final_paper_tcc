@@ -14,12 +14,21 @@ Códigos em elaboração.
 \section{Script para plotagem de gráfico}
 \input{./SourceCodes/grafico.py.tex}
 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\chapter{Códigos-fonte Node.js}
+\label{codigos_nodejs}
+
+\section{Módulo de gerenciamento de GPIO e PWM}
+\input{./SourceCodes/gpio_cfg.tex}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
 \chapter{Arquivos de configuração do sistema}
 \label{Apêndice B}
 
 \section{Arquivo de configuração de rede}
 \input{./SourceCodes/etc-network-interfaces.tex}
-
 
 \section{Device Tree para o DS18B20}
 \label{ap3ds18b20}

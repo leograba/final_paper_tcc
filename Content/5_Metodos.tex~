@@ -1,4 +1,5 @@
 \chapter{Métodos}
+\label{metodosec}
 
 Este capítulo descreve todos os procedimentos de projeto e testes, dentre outros,  empregados visando a obtenção do resultado final deste trabalho. Os procedimentos aqui empregados são embasados na teoria apresentada no capítulo \ref{EmbasamentoTeorico}. Cabe salientar que, embora este seja um projeto de integração entre \textit{mecânica}, \textit{hardware} e \textit{software}, os esforços foram concentrados na área de desenvolvimento de \textit{softwares}, desde o \textit{firmware} da PRU-ICSS integrado ao servidor Apache posteriormente migrado para Node.js, até a aplicação de usuário, escrita em diversas linguagens, de programação ou não --- a exemplo de HTML e CSS.
 
@@ -21,6 +22,11 @@ Este capítulo descreve todos os procedimentos de projeto e testes, dentre outros
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Organização do diretório da aplicação}
+\input{./Content/metodos/orgdir.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{IDE e sistema de controle de versão}
 \input{./Content/metodos/gitc9.tex}
 
@@ -28,6 +34,8 @@ Este capítulo descreve todos os procedimentos de projeto e testes, dentre outros
 
 \section{Geração de gráfico e registro de temperatura em Python}
 \input{./Content/metodos/python.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Aplicação \textit{server-side} em Node.js}
 \input{./Content/metodos/nodejs.tex}

@@ -1,0 +1,191 @@
+Nesta seção será detalhado o uso da linguagem de programação Javascript no ambiente de interpretação Node.js. O escopo da aplicação desta linguagem no projeto se aplica, mas não é limitado a: acesso ao \textit{hardware}, incluindo barramentos de propósito geral (GPIO) e periféricos como PWM; criação de um servidor web minimalista; e controle do processo de produção de cerveja. Node.js já vem instalado na distribuição padrão do Debian utilizada neste projeto, porém é possível instalar ou atualizar o ambiente por meio do gerenciador de pacotes \textit{apt-get}, conforme descrito na caixa de código-fonte \ref{install_node}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação e/ou atualização do Node.js, label=install_node]
+sudo apt-get install nodejs
+\end{lstlisting}
+
+Com isto, o gerenciador de pacotes do Node chamado NPM (Node Package Manager) também é instalado no sistema. Neste projeto, o desenvolvimento em Node foi legado do desenvolvimento prévio em PHP e, por isto, tudo foi realizado no diretório \textit{/var/www}, cujo dono é o usuário \textit{www-data}. Em função disto, foi criada manualmente a pasta \textit{/var/www/node\_modules} e o dono foi trocado para o usuário \textit{debian} (enquanto sob condições normais este processo seria automático). Isto foi feito por questões de segurança, uma vez que os módulos do Node são autocontidos no diretório do projeto, o que desencoraja a instalação global na maioria dos casos. O processo de criação do diretório é descrito no trecho de código \ref{create_node_modules}:
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Criação do diretório \textit{/var/www/node\_modules}, label=create_node_modules]
+cd /var/www
+sudo mkdir node_modules
+sudo chown debian:debian node_modules
+\end{lstlisting}
+
+Além disto, foi instalado o módulo \textit{Debug} do Node, que ajuda no desenvolvimento da aplicação da seguinte maneira: ele encapsula a função \texit{console.log}, análoga ao \texit{printf} da linguagem C, de tal maneira que as mensagens só são impressas na tela se uma variável do terminal estiver configurada durante a execução do código. Além disto, diferentes grupos de mensagens de \textit{debug} podem ser configurados, permitindo flexibilidade e também é adotado um esquema de cores que facilita a compreensão das mensagens de \textit{debug}. Para ilustrar o uso deste módulo, na caixa \ref{install_debug} é descrita a instalação do módulo; o trecho de código-fonte \ref{debug_example} descreve como usar o módulo em uma aplicação de Node e a figura \ref{debug_complex} apresenta o resultado do uso do módulo no exemplo, para as seguintes situações: não imprime mensagens de debug; imprime grupos de mensagens de debug e; imprime todas as mensagens de debug disponíveis.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do módulo \textit{Debug}, label=install_debug]
+npm install debug
+\end{lstlisting}
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Exemplo de uso do módulo \textit{Debug}, label=debug_example]
+"use strict";
+
+var dbg_gpio = require('debug')('gpio');
+var dbg_pwm = require('debug')('pwm');
+
+console.log("Inicio exemplo:");
+for(var i = 0; i < 3; i++){
+	switch(i){
+	case 0:
+		dbg_gpio("Debug situacao gpio");
+		break;
+	case 1:
+		dbg_pwm("Debug situacao pwm");
+		break;
+	case 2:
+		dbg_gpio("Debug ambos gpio");
+		dbg_pwm("Debug ambos pwm");
+		break;
+	}
+}
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{./Resources/debug.jpg}
+	\captionsetup{justification=centering}
+	\caption[Exemplo de uso do módulo \textit{Debug}]{Exemplo de uso do módulo \textit{Debug}}
+	\label{debug_complex}
+\end{figure}
+
+Neste capítulo deve-se assumir que todas as operações foram realizadas no diretório \textit{/var/www}, salvo indicações em contrário. Note-se também que, no início de todos os códigos-fonte completos, presentes no apêndice \ref{codigos_nodejs}, é usada a delcaração \textbf{"use-strict"}, que evita o uso de potenciais armadilhas do Javascript, como usar inadvertidamente uma variável global sem delcará-la, dentre outras armadilhas.
+
+\subsection{Acesso a GPIO e PWM}
+
+O acesso às características de \textit{hardware} da BBB necessárias para o controle das válvulas, bombas, resistores de potência e servo-motor do sistema é feito por meio do módulo de código-aberto \textit{Octalbonescript}, que consiste de um \textit{fork} (ou derivação) do módulo oficial da BBB de acesso a hardware \textit{Bonescript}. Sua escolha se deve ao fato de que esta biblioteca era mais completa e estável durante o desenvolvimento deste projeto. A instalação desta biblioteca está descrita na caixa \ref{install_octalbonescript}. A documentação da API deste módulo foi obtida em \url{https://github.com/theoctal/octalbonescript/wiki}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do Octalbonescript, label=install_octalbonescript]
+npm install octalbonescript
+\end{lstlisting}
+
+Uma vez que este módulo compila uma sobreposição de \textit{device tree} a partir de um template fornecido junto com a instalação, foi necessário modificá-lo para acomodar a descrição de hardware do sensor DS18B20. Para tal, foi investigado que o comportamento da biblioteca \textit{Octalbonescript} com relação à \textit{device tree} é o seguinte: se a sobreposição já está carregada não é feita nova compilação do fragmento nem tentativa de carregar a sobreposição, portanto foi necessário resetar a BBB toda vez que novos testes eram realizados. O template fica no diretório \textit{node\_modules/octalbonescript/dts/} e o nome do arquivo modificado é \textit{OBS\_UNIV\_template.dts}. As modificações realizadas, assim como as linhas do código modificadas estão descritas na caixa de código-fonte \ref{octal_dts}. Linhas que começam com "X" foram apagadas, as outras foram adicionadas.
+
+\lstset{language=dtc}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Modificações feitas ao template de \textit{device tree} do Octalbonescript, label=octal_dts]
+[389]        /* P9_11 (THE ONE-WIRE DS18B20) */
+[390]        bb_w1_pins: pinmux_bb_w1_pins {
+[391]           pinctrl-single,pins = <0x070  0x37>; };     /* Mode 7, Pull-Up, RxActive */
+X[392]        P9_11_gpio_pin: pinmux_P9_11_gpio_pin {
+X[393]           pinctrl-single,pins = <0x070  0x2F>; };     /* Mode 7, RxActive */
+X[394]        P9_11_gpio_pu_pin: pinmux_P9_11_gpio_pu_pin {
+X[395]           pinctrl-single,pins = <0x070  0x37>; };     /* Mode 7, Pull-Up, RxActive */
+X[396]        P9_11_gpio_pd_pin: pinmux_P9_11_gpio_pd_pin {
+X[397]           pinctrl-single,pins = <0x070  0x27>; };     /* Mode 7, Pull-Down, RxActive */
+X[398]        P9_11_uart_pin: pinmux_P9_11_uart_pin {
+X[399]           pinctrl-single,pins = <0x070  0x36>; };     /* Mode 6, Pull-Up, RxActive */
+[879]        onewire@0 {
+[880]           compatible = "w1-gpio";
+[881]           status = "okay";
+[882]           pinctrl-names = "default";
+[883]           pinctrl-0 = <&bb_w1_pins>;
+X[884]           pinctrl-1 = <&P9_11_gpio_pin>;   gpios = <&gpio1 30 0>;
+X[885]           pinctrl-2 = <&P9_11_gpio_pu_pin>;
+X[886]           pinctrl-3 = <&P9_11_gpio_pd_pin>;
+X[887]           pinctrl-4 = <&P9_11_uart_pin>;
+[888]        };
+X[1232]        P9_11 {
+X[1233]           gpio-name = "P9_11";
+X[1234]           gpio = <&gpio1 30 0>;
+X[1235]           input;
+X[1236]           dir-changeable;
+X[1237]        };
+\end{lstlisting}
+
+Com esta configuração da \textit{device tree}, foi preciso parar de carregar o fragmento descrito na seção \ref{ds18b20_dev_tree}, pois ao tentar usar o \textit{Octalbonescript} passou a ocorrer um erro do tipo \textbf{EEXIST: file already exists}, que indica em um âmbito geral que um arquivo que deveria ser criado já existe.
+
+A partir deste ponto, foi desenvolvido um módulo nomeado \textit{gpio\_config} responsável pelo gerenciamento de GPIO e PWM, baseado no \texit{Octalbonescript}. Foram criados objetos para cada elemento do sistema, usados para guardar a identificação do pino de GPIO de cada objeto, o estado e a configuração de cada pino. Para isto, uma função auxiliar foi criada. Também foi criado um objeto que reúne todos os objetos dos pinos, para facilitar a configuração inicial e também manter controle sobre o status do sistema durante seu funcionamento. Uma vez que em Node as variáveis são todas ponteiros, ao atribuir uma variável a outra o que se está fazendo é apontar as duas variáveis para o mesmo endereço de memória. Na caixa de código-fonte \ref{gpio_variables} é apresentada a função de criação dos objetos, a declaração dos elementos aquecedores e a união destes elementos, a título de exemplo. A descrição completa das declarações de objetos pode ser encontrada no código-fonte \ref{gpio_cfg} no apêndice \ref{codigos_nodejs}.
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Criação de objetos para os elementos do sistema em Node, label=gpio_variables]
+var mash_heat = module.exports.mash_heat = new PinObjectIO("P8_13");
+var boil_heat = module.exports.boil_heat = new PinObjectIO("P8_14");
+var heaters = module.exports.heaters = collect(mash_heat, boil_heat);
+
+// I/O pins
+function PinObjectIO(pinId){//function to create pin object, should recieve pin ID
+	if(pinId){//if the variable is passed to function or not empty
+		this.id = pinId; this.state = b.LOW; this.cfg = b.OUTPUT;
+	}
+	else{//if no variable is passed or passed empty
+		debug("No variable passed to create pin object");
+	}
+}
+
+function collect() {//function concat objects
+	var ret = {};//the new object
+	var len = arguments.length;//the total number of objects passed to collect
+	for (var i=0; i<len; i++) {//do it for every object passed
+		for (var p in arguments[i]) {//iterate the i-eth object passed
+			if (arguments[i].hasOwnProperty(p)) {//whenever there is a property
+				ret[p] = arguments[i][p];//add the property to the new object
+			}
+		}
+	}
+	return ret;
+}
+\end{lstlisting}
+
+Além disto, foi criado um objeto que guarda o status do sistema: o número total de pinos a serem configurados, o número de pinos configurados corretamente, o número de pinos como GPIO, PWM, analógicos e interrupções. Quanto às funcões do módulo, estas são:
+
+\begin{itemize}
+	\item \textbf{changeStatusIO(pin, val)} --- recebe o nome do pino, e.g. \textit{mash\_heat}, e o valor (\textit{true} ou \textit{false} para GPIO e numérico para PWM). Ajusta o valor do pino conforme passado para a função, assim como trata de atualizar as variáveis de controle dos pinos.
+	\item \textbf{getSystemStatus()} --- retorna o valor/estado de todos os pinos do sistema, sendo 0 ou 1 para GPIO e numérico para PWM.
+	\item \textbf{pinsConfiguration()} --- configura todos os pinos declarados como entrada, saída ou PWM. Em caso de erro de configuração de algum pino é impressa uma mensagem com o auxílio do módulo \textit{debug}, portanto cabe ao administrador do sistema testar se a configuração está funcionando no momento da instalação do equipamento ou quando julgar necessário.
+	\item \textbf{ioTest()} --- função de teste. Implementa um algoritmo que seta os pinos de GPIO do sistema de tal forma sequencial, ou seja, chamando esta função em um \textit{loop} faz com que um efeito cascata seja produzido, caso os pinos estejam ligados a LEDs.
+\end{itemize}
+
+Na função \textit{pinsConfiguration}, é preciso notar que dentro do laço de repetição \textit{for} é chamada uma função anônima para a configuração de cada pino. Isto é necessário pois, se todas as operações fossem realizadas diretamente dentro do laço, o comportamento assíncrono do Node geraria inconsistências na execução do código. Assim sendo, o objetivo da função anônima é criar um escopo que permite a execução assíncrona do código sem que a referência passada para esta função anônima se degenere. Uma vez que esta função precisa receber o valor e não o ponteiro da variável de iteração do laço, tanto o pino a ser configurado quanto o seu índice (variável de iteração) no laço de repetição são passados com o auxílio do método \textit{call()}, que neste caso copia o pino como o elemento \texit{this} e o índice como o primeiro argumento da função, criando um novo escopo por meio de uma clausura. Sem isso, antes que a primeira invocação da função anônima acabasse, o valor de i, por exemplo, já seria \textit{all\_io\_objects.length} e não zero, que seria o valor esperado.
+
+Para tornar a compreensão desta necessidade mais clara, a caixa de código-fonte \ref{call_this} apresenta um exemplo no qual duas funções com um laço \textit{for} são chamadas: a primeira delas imprime o valor da variável de iteração para todas as chamadas do laço imediatamente e com um atraso de 100ms, mas sem precauções com relação ao comportamento assíncrono do Node; já a segunda função utiliza o método descrito no parágrafo anterior. Observa-se na figura \ref{res_call_this} que sem tomar precauções, na chamada com atraso, é impresso o último valor da variável de iteração do laço em todas as iterações. Isto deixa claro a necessidade de criar um novo escopo, assim como demonstra que esta é uma fonte de erros para programadores inexperientes e/ou descuidados.
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Uso de clausura para criação de escopo, label=call_this]
+'use-strict';
+var debug1 = require('debug')('debug1');
+var debug2 = require('debug')('debug2');
+
+function pinConfiguration() {
+        for(var i = 0; i < 3; i++){
+                setTimeout(function() { debug1('atraso: ' + i); }, 100);
+                debug1('imediato: ' + i);
+        }
+}
+
+function pinConfiguration2() {
+        for(var i = 0; i < 3; i++){
+                (function () {
+                        var i2 = this;
+                        setTimeout(function() { debug2('atraso: ' + i2);}, 100);
+                }).call(i);
+                debug2('imediato: ' + i);
+        }
+}
+
+pinConfiguration2();
+pinConfiguration();
+\end{lstlisting}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{./Resources/call_this.jpg}
+	\captionsetup{justification=centering}
+	\caption[Resultado de chamada de função sem criação de escopo x com criação de escopo]{Resultado de chamada de função sem criação de escopo x com criação de escopo}
+	\label{res_call_this}
+\end{figure}
+
+
+
+\subsection{Servidor Express.js}
+
+Mesmo com o servidor Apache já configurado na BBB, quando foi decidido o uso de Node.js como linguagem do servidor o Apache foi substituído pelo \textit{Framework} Express 
+
+\subsection{Projeto do controle do sistema}
+
+\subsection{Simulação do controle do sistema}
+\label{simulacao_controle}
