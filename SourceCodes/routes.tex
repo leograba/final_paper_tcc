@@ -1,0 +1,132 @@
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Módulo de roteamento do servidor web, label=rotas_js]
+'use strict';
+
+var debug = require('debug')('routes');
+var exec = require('child_process').exec;
+var fs = require('fs');
+var gpioCfg = require('./gpio_cfg.js');
+var log = require('./log_check_misc.js');
+var ctrl = require('./ctrl.js');
+
+module.exports.controleRoute = function (req, res) {
+	var serverResponse = {command:req.body.command, btn:req.body.btn, val:req.body.val};
+	var command = req.body.command, pin = req.body.btn, val = req.body.val;
+	
+	if(command == "pinSwitch"){//if command passed by client is to switch a pin configuration
+		gpioCfg.changeStatusIO(pin, val);//change the IO status according to the data recieved
+		res.send(serverResponse);//echo the recieved data to the server
+	}
+	else if(command == "getStatus"){
+		global.environmentVariables.ioStatus = gpioCfg.all_io;//all of the pins status
+		res.send(global.environmentVariables);
+	}
+};
+
+module.exports.startrecipeRoute = function (req, res) {
+	var serverResponse = {resp:"success"};
+	var command = req.body.command;
+	debug("Command: " + command);
+	var recipesPath = "./recipes";//path to the recipes directory
+	var bkpFile = "./datalog/backup.log";//path to the backup logs file 
+	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
+	var recipeName ;
+	if(command == "getRecipes"){//if command passed by client is to get the recipe names
+		log.sendRecipeNames(recipesPath, res);//get it and return to the client
+	}
+	else if(command == "startRequest"){//if the client wants to start a recipe
+		recipeName = req.body.recipe + ".recipe";//get the recipe name
+		log.checkRecipeIntegrity(recipeName, recipesPath, res);
+	}
+	else if(command == "startRecipe"){//start the recipe; should only be requested after the "startRequest" command
+		recipeName = req.body.recipe + ".recipe";//recipe name sent from the client
+		ctrl.startMashingProcess(recipeName, res, lockFile, recipesPath, function(err, nextStep){
+			if(err){
+				debug("Ops, something wrong. It's so annoying that the error isn't explained here, isn't it?");
+				return;
+			}
+			debug(nextStep);//here the next step, i.e. controlling the mash steps, should be called
+		});//start the production
+	}
+	else if(command == "inProgress"){//checks if there is a recipe running
+		fs.readFile(lockFile, function(err, data){
+			if(err){
+				serverResponse.resp = "false";//assumes the error means no recipe is in progress
+				res.send(serverResponse);
+			}
+			else{
+				if(+data == 1){//if there is a recipe in progress
+					serverResponse.resp = "true";
+					fs.readFile(bkpFile, "utf-8", function(err, data){
+						if(err){//if contents of log could not be retrieved
+							serverResponse.recipe = "unknown";//not the best thing to do
+							res.send(serverResponse);
+						}
+						else{
+							var lines = data.trim().split('\n');//separate line by line
+							debug(lines.slice(-1)[0]);
+							var lastLine = lines.slice(-1)[0];//get the last log line
+							var properties = JSON.parse(lastLine);//JSON to object
+							properties.recipe = properties.recipe.replace(".recipe", "");//remove the file extension
+							properties.recipe = properties.recipe.replace(/_/g, " ");//replace underlines with spaces
+							serverResponse.recipe = properties.recipe;//send recipe name to the client
+							debug(serverResponse);
+							res.send(serverResponse);
+						}
+					});
+				}
+				else{
+					serverResponse.resp = "false";
+					res.send(serverResponse);
+				}
+			}
+		});
+	}
+	else{
+		debug("command not found, doing nothing");
+		serverResponse.resp = "fail";
+		res.send(serverResponse);
+	}
+};
+
+module.exports.configRoute = function (req, res) {
+	var request = req.body.request;
+	var nd = req.body.newdate;
+	var serverResponse = {datetime:""};
+	if(request == "datetime"){//send the system time/date to the client
+		serverResponse.datetime = Date();
+		res.send(serverResponse);
+	}
+	else if(request == "setdatetime"){//change the system time/date
+		exec('sudo date -s ' + nd + ' | hwclock -w',//execute shell command
+		function(error, stdout, stderr) {
+			debug('stdout: ' + stdout);
+			debug('stderr: ' + stderr);
+			if (error !== null) {//if new date wasn't correctly set
+				debug('exec error: ' + error);//print error
+				serverResponse.datetime = "error";//send fail to client
+				res.send(serverResponse);
+			}
+			else{//if date was correctly set, send ok to client
+				debug("date changed to: " + Date(nd));//print
+				serverResponse.datetime = "ok";
+				res.send(serverResponse);
+			}
+		});
+	}
+};
+
+module.exports.clientrequestRoute = function(req, res){
+	var command = req.body.command;
+	var serverResponse = {resp:"success"};
+	debug("Client request: " + command);
+	if(command == "startMashRamp"){//set flag to tell ctrl.startMashingProcess() to go to the next step
+		global.environmentVariables.readyForNextStep = true;
+		res.send(serverResponse);
+	}
+	else{
+		serverResponse.resp = "fail";
+		res.send(serverResponse);
+	}
+};
+\end{lstlisting}
