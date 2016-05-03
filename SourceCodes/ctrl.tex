@@ -1,0 +1,432 @@
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Código-fonte raiz da aplicação em Node.js, label=ctrl_js]
+'use strict';
+
+var debug = require('debug')('ctrl');
+var fs = require('fs');
+var b = require('octalbonescript');
+var gpioCfg = require('./gpio_cfg.js');
+var log = require('./log_check_misc.js');
+
+module.exports.startMashingProcess = function (recipe, res, lockFile, recipesPath, callback){
+	/*Starts the mashing process, checking if everything is in order, starting
+	the temperature logging and the heating of the mash water.
+	The callback function is passed as callback to the heatMashWater function*/
+	var serverResponse = {resp:"success"};
+	var recipeContents ;
+	if(global.environmentVariables.okToStart){//first check is if the recipe is ok to start
+		if(recipe == global.environmentVariables.recipe){//recipe name should match also
+			fs.writeFile(lockFile, 1, function(err){//write to lockfile telling there is a recipe in progress
+				if(err){
+					serverResponse.resp = "could not write to lockfile";
+					res.send(serverResponse);
+					callback(serverResponse.resp,null);
+					return;
+				}
+				log.logToFile("production starting", 1);//log to file
+				fs.readFile(recipesPath + "/" + global.environmentVariables.recipe, function(err, data){
+					if(err){//if file contents could not be retrieved
+						serverResponse.resp = "couldn't read recipe file";//tells the client
+						res.send(serverResponse);
+						callback(serverResponse.resp,null);
+						return;
+					}//if file was successfully read
+					log.startTemperatureLogging();
+					recipeContents = data.toString("UTF8").split("\n");//split contents to array
+					for(var i = 0; i < recipeContents.length; i++){//get only the relevant data
+						recipeContents[i] = recipeContents[i].split('"')[1];
+					}
+					serverResponse.resp = "success";//tells the client everything went alright
+					res.send(serverResponse);
+					heatMashWater(recipeContents);//start to heat the mash water
+					//The callback is called when the heat starts, not after it finishes
+					callback(null,"Started to heat mash water");
+				});
+			});
+		}
+		else{//if recipe name doesn't match the one from "startRequest"
+			serverResponse.resp = "failed";
+			res.send(serverResponse);
+			callback(serverResponse.resp,null);
+		}
+	}
+	else{//if recipe isn't ok to start
+		serverResponse.resp = "failed";
+		res.send(serverResponse);
+		callback(serverResponse.resp,null);
+	}
+};
+
+function heatMashWater(recipeContents){
+	//heats the mashing water to the starting setpoint
+	var mashSetpoint = recipeContents[7];
+	var instantPath = "./datalog/instant.csv";
+	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
+	var reachedSetpoint = false;//var set to true the first time the checkpoint is reached
+	var logReadHandler = {
+		lastValidTemperature: 0,//the last valid temperature reading (defaults to zero, not the better solution)
+		lastReadingsTimestamp: [0, 0, 0, 0, 0],//last 5 timestamps, to check if readings are going ok
+		errorCount: 0//counts the file reading errors
+	};
+	global.heatingPower = 2;
+	global.environmentVariables.tmpMTsetp = mashSetpoint;//stores the setpoints
+	gpioCfg.changeStatusIO("mash_pump", "true");//turn the recirculation pump on
+	log.logToFile("heating mash water", 2, "startHeating");//log to file, first time get notable timestamp
+	var logTimer = setInterval(function(){//logs the heating process every ~5s
+		log.logToFile("heating mash water", 2);//log to file
+	}, 5000);
+	var readTmpTimer = setInterval(function(){//read temperature every second
+		debug("Executing temperature control loop[1]");
+		log.getTemperatureReading(instantPath, logReadHandler, function(err, temperature){
+			if(err){
+				debug("something went wrong");
+				return;
+			}
+			updateHeatingConditions("MT", mashSetpoint, temperature, function(){
+				if(!reachedSetpoint){//if it is the first time the setpoint is reached
+					debug('Heating of the mash water finished. Now the user must add the grains.');
+					debug(	"            Current temperature = " + temperature + "\n"
+							+ "            Reading errors = " + logReadHandler.errorCount);
+					reachedSetpoint = true;//holds this information
+					clearInterval(logTimer);//stop the logging
+					log.logToFile("waiting for grains", 3, "finishHeating");//log to file at least once
+					logTimer = setInterval(function(){//logs that system is waiting for user input
+						log.logToFile("waiting for grains", 3);//log to file
+					}, 5000);
+				}
+				//while the temperature is above the setpoint, do nothing - just wait for the user
+			});
+		});
+		//this if must be outside the updateHeatingConditions() call, otherwise recursive behavior mess it up
+		if(global.environmentVariables.readyForNextStep){//wait for the temperature reach setpoint and user add grains
+			global.environmentVariables.readyForNextStep = false;//prepare the flag for the next step request
+			clearInterval(logTimer);//stop the "waiting for grains" logging
+			clearInterval(readTmpTimer);//stop the temperature adjusting loop
+			rampControl(recipeContents);
+		}
+	},1000);
+	//just do the next things after the user added the grains
+}
+
+function rampControl(recipeContents){
+	var lockFile = "./datalog/lockfile";//file that tells if recipe is running
+	var instantPath = "./datalog/instant.csv";
+	var instantBK = "./datalog/instant_bk.csv";
+	var currentSetpointPointer = 1;
+	var finishedRamp = false;
+	var mashSetpoint = recipeContents[8];//get the first setpoint
+	var spargeSetpoint = recipeContents[5];
+	var spargeSet = false;// only set this if the sparge temperature is set
+	var stepTime = 60*1000*recipeContents[9];//get the first step rest time in ms
+	global.environmentVariables.tmpMTsetp = mashSetpoint;//stores the setpoints
+	global.environmentVariables.tmpBKsetp = spargeSetpoint;
+	var logReadHandler = {
+		lastValidTemperature: 0,//the last valid temperature reading (defaults to zero, not the better solution)
+		lastReadingsTimestamp: [0, 0, 0, 0, 0],//last 5 timestamps, to check if readings are going ok
+		errorCount: 0//counts the file reading errors
+	};
+	var logReadHandlerBK = {
+		lastValidTemperature: 0,//the last valid temperature reading (defaults to zero, not the better solution)
+		lastReadingsTimestamp: [0, 0, 0, 0, 0],//last 5 timestamps, to check if readings are going ok
+		errorCount: 0//counts the file reading errors
+	};
+	if(spargeSetpoint){//if there is a sparge temperature
+		spargeSet = true;//then assumes there will be sparging water to heat
+	}
+	fs.writeFile(lockFile, 0, function(err){//release system to start new production (for testing purpose only)
+		if(err) return;
+	});
+	debug("Ramp control started!");
+	log.logToFile("mash ramp in progress", 4, "sRamp0");//log immediately and hold notable timestamp
+	var logTimer = setInterval(function(){//logs that the mash ramp is in progress
+		log.logToFile("mash ramp[" + currentSetpointPointer + "] in progress", 4);//log to file
+	}, 5000);
+	var readTmpTimer = setInterval(function (){//read temperature every second
+		debug("Executing temperature control loop[2]");
+		if(global.environmentVariables.readyForNextStep && currentSetpointPointer < 8){//if there are still mashing steps
+			debug("setpoint pointer: " + currentSetpointPointer);//cannot enter here when currentSetpointPointer == 1
+			global.environmentVariables.readyForNextStep = false;//wait for the step to finish before checking next step
+			if(recipeContents[8 + 2*currentSetpointPointer]){//and the value is not empty
+				mashSetpoint = recipeContents[8 + 2*currentSetpointPointer];//get the new setpoint
+				stepTime = 60*1000*recipeContents[9 + 2*currentSetpointPointer];//get the next step rest time in ms
+				global.environmentVariables.tmpMTsetp = mashSetpoint;//stores the setpoints
+				debug("Starting next ramp");
+				clearInterval(logTimer);//stop logging step to log ramp
+				log.logToFile("mash ramp in progress", 4, "sRamp" + currentSetpointPointer);//log immediately and hold notable timestamp
+				logTimer = setInterval(function(){//logs that the mash ramp is in progress
+					log.logToFile("mash ramp[" + currentSetpointPointer + "] in progress", 4);//log to file
+				}, 5000);
+			}
+			else{
+				//gets here for all the lasting setpoints (currentSetpointPointer <= 7)
+				global.environmentVariables.readyForNextStep = true;//ready for the sparging/boil
+				debug("End of the mash ramps/steps process " + currentSetpointPointer);
+			}
+			currentSetpointPointer++;//increment to point to the next setpoint
+		}
+		else if(global.environmentVariables.readyForNextStep){//start the next step, which is sparging or boil
+			global.environmentVariables.readyForNextStep = false;//prepare for the next step
+			gpioCfg.changeStatusIO("mash_heat", "false");//just to make sure, turn off heating elements
+			gpioCfg.changeStatusIO("boil_heat", "false");//just to make sure, turn off heating elements
+			gpioCfg.changeStatusIO("mash_pump", "false");//also shutdown the recirculation pump
+			clearInterval(readTmpTimer);//stop everything, for now at least
+			clearInterval(logTimer);
+			if(spargeSet){//if there will be sparging, then start it
+				spargingControl(recipeContents);//start the sparging process
+			}
+			else{//goes straight to the boil, without sparging
+				debug("No sparging: starting the boil process.");
+				theBoil(recipeContents);
+			}
+		}
+		else{//temperature control code, no need to execute when it is getting the next setpoint
+			log.getTemperatureReading(instantPath, logReadHandler, function(err, temperature){//read current temperature
+				if(err){
+					debug("something went wrong");
+					return;
+				}
+				updateHeatingConditions("MT", mashSetpoint, temperature, function(){//control temperature for current setpoint
+					if(!finishedRamp){//if the ramp just reached its setpoint
+						//log and save the notable timestamp fRamp
+						finishedRamp = true;
+						clearInterval(logTimer);//stop logging ramp to log step
+						log.logToFile("mash step[" + currentSetpointPointer + "] in progress", 5, "fRamp" + currentSetpointPointer);
+						logTimer = setInterval(function(){//logs that the mash ramp is in progress
+							log.logToFile("mash step[" + currentSetpointPointer + "] in progress", 5);//log to file
+						}, 5000);
+						debug('Ramp finished, keeping temperature for the duration of the step.');
+						debug(	"            Current temperature = " + temperature + "\n"
+								+ "            Reading errors = " + logReadHandler.errorCount);
+					}
+					if((global.environmentVariables.timestamps.curr - global.environmentVariables.timestamps["fRamp" + currentSetpointPointer]) > stepTime){
+						//if the step rest is finished
+						finishedRamp = false;
+						global.environmentVariables.readyForNextStep = true;//if setpoint is reached
+						debug('Step finished, starting next ramp or going to sparging.');
+						debug(	"            Current temperature = " + temperature + "\n"
+								+ "            Reading errors = " + logReadHandler.errorCount);
+					}
+					else{//if it is in the middle of a step, heat the sparging water and tell the user the step time left
+						global.environmentVariables.timeLeft = //in minutes (not round) = total time - elapsed time
+						(stepTime - (global.environmentVariables.timestamps.curr - global.environmentVariables.timestamps["fRamp" + currentSetpointPointer]))/60000;
+						if(spargeSet){//only heat sparging water if there is sparging water to heat
+							log.getTemperatureReading(instantBK, logReadHandlerBK, function(err, temperature){//read current temperature
+								if(err){
+									debug("something went wrong");
+									return;
+								}
+								updateHeatingConditions("BK", spargeSetpoint, temperature, function(){//heat the sparging water
+								});
+							});
+						}
+					}
+				});
+			});
+		}
+	},1000);
+}
+
+function spargingControl(recipeContents){
+	//function heavily based in timing. The time it takes for the water to flow is pretty predictable.
+	//The time for the mash to drain depends on the recipe, hence the mash tun overflow watching device.
+	//Because the pump flow is higher then the drain flow, the pump must be controlled to adjust.
+	//The pump must start some time after the drain, so the grain bed is almost uncovered by the mash.
+	//Also, in case of overflow, there must be a predefined time or time function to wait until the recirculation restarts.
+	var logMsg = {	notableTimestamp:"startDrain",//if there is the need to log a notable timestamp, put its name here
+					message:"sparging in progress",//log message must be put here
+					code:6//code identifier
+	};
+	var mashTunOverflow = false;
+	var finishedFirstDrain = false;//should modify to use setTimeout instead of setInterval
+	var finishedSpargeTime = false;//should modify to use setTimeout instead of setInterval
+	var justAnotherFlag = false;//terrible thing to name a flag like this! Hue Hue BR trolling myself from the future
+	//the time setpoints are based on the volume of water used in mashing and sparging
+	var drainTimeSetp = 500*recipeContents[3];//time in ms that should wait before showering with sparge water
+	var spargeTimeSetp = 3000*recipeContents[4];//time in ms that should wait before finishing the process
+	var overflowTimeSetp = 30000;//time to wait before pumping the sparge water again
+	var realSpargeTime = 0;//approximately the time that the recirculation pump is working in ms
+	
+	debug("Starting the sparging process");
+	log.logToFile(logMsg.message, logMsg.code, logMsg.notableTimestamp);//log the startDrain notable timestamp
+	var logTimer = setInterval(function(){//log periodically
+		if(logMsg.notableTimestamp){//if a notable timestamp is set
+			log.logToFile(logMsg.message, logMsg.code, logMsg.notableTimestamp);//log with notable timestamp
+			logMsg.notableTimestamp = "";//clear the notable timestamp so it doesn't overwrite
+		}
+		else{
+			log.logToFile(logMsg.message, logMsg.code);//log without notable timestamp
+		}
+	},5000);//every half second? really? it can be done every 5s without major concerns!
+	
+	var overflowTimer = setInterval(function(){//watch periodically for MT overflow
+		if(!mashTunOverflow && global.environmentVariables.ioStatus["led"].state == b.HIGH){//if MT is about to overflow
+			debug("Overflow detected, pumping on hold");
+			mashTunOverflow = true;//set overflow flag
+			gpioCfg.changeStatusIO("boil_pump", "false");//stop pumping
+			logMsg.message = "mash tun overflow"; logMsg.code = 7;//log to file that the mash tun is almost overflowing
+			setTimeout(function(){//wait some time before turning the recirculation pump on again
+				mashTunOverflow = false;
+				//gpioCfg.changeStatusIO("boil_pump", "true");//this is risky since the pump could be already off before overflow
+				debug("Fake overflow OFF for testing purposes");
+				gpioCfg.changeStatusIO("led", "false");//fake overflow for testing purposes
+			},overflowTimeSetp);
+		}
+	},500);
+	
+	gpioCfg.changeStatusIO("mash_valve", "true");//open the drain valve
+	var spargeTimer = setTimeout(function(){//wait until the first mash drain is finished before spraying sparge water
+		debug("Finished the first drain");
+		logMsg.message = "sparging in progress"; logMsg.code = 6;//log the notable startSparge timestamp
+		logMsg.notableTimestamp = "startSparge";
+		gpioCfg.changeStatusIO("boil_valve", "true");//open the recirculation valve
+		gpioCfg.changeStatusIO("boil_pump", "true");//get the pump to run, consider some method to control the flow rate
+		spargeTimer = setInterval(function(){//must wait for the sparge time in a loop because of the overflow check
+			if(!mashTunOverflow){//if there is no overflow
+				logMsg.message = "sparging in progress"; logMsg.code = 6;//this is just needed after an overflow
+				gpioCfg.changeStatusIO("boil_pump", "true");////this is just needed after an overflow
+				realSpargeTime += 500;//add approximately the loop time
+				if(realSpargeTime == 500){//fake an overflow to check code
+					debug("Fake overflow ON for testing purposes : " + realSpargeTime);
+					gpioCfg.changeStatusIO("led", "true");//fake overflow for testing purposes
+				}
+				if(realSpargeTime > spargeTimeSetp){//if the running time is enough
+					debug("Stopping the sparging process. Waiting for the mash to completely drain");
+					gpioCfg.changeStatusIO("boil_valve", "false");//close the recirculation valve
+					gpioCfg.changeStatusIO("boil_pump", "false");//stop pumping
+					clearInterval(overflowTimer);//from now on there is no more overflow risk
+					clearInterval(spargeTimer);//also stop the time increment loop
+					setTimeout(function(){//wait for all the mash to drain to the BK
+						debug("mash drained, sparging process finished");
+						gpioCfg.changeStatusIO("mash_valve", "false");//close the drain valve
+						gpioCfg.changeStatusIO("boil_valve", "false");//for security check
+						gpioCfg.changeStatusIO("boil_pump", "false");//for security check
+						clearInterval(logTimer);//stop periodic logging
+						//for now, I think there is no problem to call the boil here cause the only nested
+						//functions are setInterval and setTimeout
+						theBoil(recipeContents);//maybe it is better to call this outside the loops?
+					},2.5*spargeTimeSetp);
+				}
+			}			
+		},500);
+	},drainTimeSetp);
+}
+
+function theBoil(recipeContents){
+	//Straightforward part of the process, no need to do a lot of checks, etc
+	//something important is remember the user to remove the grains from the MT
+	//because the chill water will be stored there
+	var boilFlag = false;//set when the boil starts
+	var endBoilTime;//hold the timestamp of when the boil must end
+	var instantBK = "./datalog/instant_bk.csv";
+	var logReadHandlerBK = {
+		lastValidTemperature: 0,//the last valid temperature reading (defaults to zero, not the better solution)
+		lastReadingsTimestamp: [0, 0, 0, 0, 0],//last 5 timestamps, to check if readings are going ok
+		errorCount: 0//counts the file reading errors
+	};
+	debug("Heating wort until it boils");
+	log.logToFile("heating wort to boil", 8, "heatingBoil");//log the process start
+	var logTimer = setInterval(function(){//log while waiting for the boil
+		log.logToFile("heating wort to boil", 8);//log periodically
+	},5000);
+	gpioCfg.changeStatusIO("boil_heat","true");//full power
+	var readTmpTimer = setInterval(function(){//read temperature every second
+		var hopAddSetp;//timestamp of when to add the next hop
+		log.getTemperatureReading(instantBK, logReadHandlerBK, function(err, temperature){
+			if(err){
+				debug("something went wrong");
+				return;
+			}
+			if(temperature > 96 && !boilFlag){//if it is near enough boiling
+				debug("boiling started! Burn, baby, burn!");
+				clearInterval(logTimer);//stop logging code 7
+				log.logToFile("boiling wort", 9, "boilStart");//log the process start
+				logTimer = setInterval(function(){//log the boil
+					log.logToFile("boiling wort", 9);//log periodically
+				},5000);
+				endBoilTime = 60*1000*recipeContents[6] + global.environmentVariables.timestamps.curr;//end of boiling
+				global.environmentVariables.timestamps.boilFinishScheduled = endBoilTime;
+				for(var hopPointer = 0; hopPointer < 8; hopPointer++){//check all possible hop addition times
+					hopAddSetp = 60*1000*recipeContents[42 + 3*hopPointer];//time from the beggining in ms
+					if(hopAddSetp){//if there is a next hop to add
+					//this way, if the hops are out of order of addition, it doesn't matter
+						debug("Hop " + recipeContents[40 + 3*hopPointer] + "scheduled to be added in " + hopAddSetp + "ms");
+						setTimeout(function(){//then add it when it is time
+							debug("Adding hop " + recipeContents[40 + 3*hopPointer]);
+							controlHopCompartment(hopPointer + 1);
+							log.logToFile("added hop [" + hopPointer + "]", 10);//log periodically
+						},hopAddSetp);
+					}
+				}
+			}
+		});
+		if(global.environmentVariables.timestamps.curr > endBoilTime){//end of the boil
+			debug("end of the boil");
+			gpioCfg.changeStatusIO("boil_heat", "false");//shutdown the BK heater
+			controlHopCompartment(0);//close the hops compartment
+			log.stopTemperatureLogging();//for testing purposes
+		}
+	},1000);
+}
+
+function controlHopCompartment(pos){//control the servo to open the hops compartment until requested position
+	//maybe it's better to close everytime a hop is added, think about it!
+	var angle = pos*11.25;//11.25 degree per compartment, if pos=0, close everything
+	gpioCfg.changeStatusIO("servo_pwm", angle);//change the compartment opening
+}
+
+function updateHeatingConditions(vessel, setp, temperature, callback){
+	//This function must be called in a loop, every loop interation
+	if(vessel == "mash_heat" || vessel == "MT" || vessel == "mash tun"){
+		vessel = "mash_heat";//if wants to heat the mash tun
+		global.environmentVariables.tmpMT = temperature;//update the mash tun temperature
+		if(global.environmentVariables.ioStatus["boil_heat"].state == b.HIGH){//security check
+			gpioCfg.changeStatusIO("boil_heat", "false");//turn off the other heating element
+			debug("Security shutdown of the BK heater");
+		}
+	}
+	else if(vessel == "boil_heat" || vessel == "BK" || vessel == "brewing kettle" || vessel == "copper"){
+		vessel = "boil_heat";//if wants to heat the brewing kettle
+		global.environmentVariables.tmpBK = temperature;//update the brewing kettle temperature
+		if(global.environmentVariables.ioStatus["mash_heat"].state == b.HIGH){//security check
+			gpioCfg.changeStatusIO("mash_heat", "false");//turn off the other heating element
+			debug("Security shutdown of the MT heater");
+		}
+	}
+	else{//if vessel is unknown
+		callback("unknown vessel");
+		return;//don't even try to heat
+	}
+	debug("Heating power variable: " + global.heatingPower);
+	if(temperature < 0.7*setp){//if temperature is less then 0.7 of the setpoint
+		debug(vessel + ": 100% heating power");
+		gpioCfg.changeStatusIO(vessel, "true");//give 100% power to the heating resistor
+	}
+	else if(temperature < 0.9*setp){//if temperature between 0.7 and 0.9 of the setpoint 
+		debug(vessel + ": 66% heating power");
+		if(global.heatingPower == 0){//give 66% power to the heating resistor
+			gpioCfg.changeStatusIO(vessel, "false");// 1/3 of the time off
+			global.heatingPower = 2;// heatingPower goes from 0 to 2
+		}
+		else{
+			gpioCfg.changeStatusIO(vessel, "true");// 2/3 of the time on
+			global.heatingPower--;
+		}
+	}
+	else if(temperature < setp){//if temperature between 0.9 and 1.0 of the setpoint 
+		debug(vessel + ": 33% heating power");
+		if(global.heatingPower == 0){//give 33% power to the heating resistor
+			gpioCfg.changeStatusIO(vessel, "true");// 1/3 of the time on
+			global.heatingPower = 2;// heatingPower goes from 0 to 2
+		}
+		else{
+			gpioCfg.changeStatusIO(vessel, "false");// 2/3 of the time off
+			global.heatingPower--;
+		}
+	}
+	else{//in this case, the temperature got to the setpoint
+		debug(vessel + ": 0% heating power");
+		gpioCfg.changeStatusIO(vessel, "false");// turn the heating element off
+		callback(null);//choose what to do
+	}
+}
+\end{lstlisting}

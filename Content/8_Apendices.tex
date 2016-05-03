@@ -31,6 +31,9 @@ Códigos em elaboração.
 \section{Módulo de registros e verificações em geral}
 \input{./SourceCodes/log_check_misc.tex}
 
+\section{Módulo de controle do processo de brassagem}
+\input{./SourceCodes/ctrl.tex}
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 \chapter{Arquivos de configuração do sistema}
@@ -56,7 +59,7 @@ Primeiramente é preciso calcular as unidades de ácidos alfa, que é um meio para 
 	AAU = w\cdot aa
 \end{equation}
 
-Outro parâmetro de padronização de uma cerveja é a gravidade original, que nada mais é do que a densidade do mosto após o cozimento dos grãos. Ela é baseada nos pontos de contribuição ($pts$) de cada malte, ou seja, uma transformação numérica da gravidade original do malte, que quantifica a contribuição de açúcares do malte em questão para o mosto e indicada em g/cm³. O valor da gravidade original do malte é fornecido pelo fabricante geralmente em pontos, mas a equação \ref{eq_pontos} expressa o cálculo a partir do valor da densidade. Com isso é possível calcular a gravidade original do mosto, conforme descrito na equação \ref{eq_ograv}, na qual $n$ é o número de maltes empregados na receita, $\eta$ é a eficiência do equipamento, ou capacidade de extração de açúcares fermentáveis dos grãos para o mosto e V é o volume final de cerveja. Observe-se que o volume é expresso em galões e a massa em onças.
+Outro parâmetro de padronização de uma cerveja é a gravidade original, que nada mais é do que a densidade do mosto após o cozimento dos grãos. Ela é baseada nos pontos de contribuição ($pts$) de cada malte, ou seja, uma transformação numérica da gravidade original do malte, que quantifica a contribuição de açúcares do malte em questão para o mosto e indicada em $g/cm^3$. O valor da gravidade original do malte é fornecido pelo fabricante geralmente em pontos, mas a equação \ref{eq_pontos} expressa o cálculo a partir do valor da densidade. Com isso é possível calcular a gravidade original do mosto, conforme descrito na equação \ref{eq_ograv}, na qual $n$ é o número de maltes empregados na receita, $\eta$ é a eficiência do equipamento, ou capacidade de extração de açúcares fermentáveis dos grãos para o mosto e V é o volume final de cerveja. Observe-se que o volume é expresso em galões e a massa em onças.
 
 \begin{equation}
 	\label{eq_pontos}

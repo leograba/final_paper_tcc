@@ -325,7 +325,7 @@ Para as funções de registro, ou \textit{log}, e de verificações, além de eventua
 \begin{itemize}
 	\item \textbf{logToFile(message, code, notableTimestamp)} --- função que realiza registro do status da brassagem sempre que invocada. Basicamente, ela salva a variável global \textit{environmentVariables} em um arquivo de texto.
 	\begin{itemize}
-		\item O argumento \textit{message} pode conter uma string com uma mensagem explicativa com, por exemplo, a situação ou estágio da brassagem em que ocorreu o registro, mas pode também ser deixado em branco. O argumento \textit{code} tem basicamente o mesmo propósito, mas é um número predefinido para cada situação possível da brassagem, que permite que o arquivo de registro possa ser interpretado com maior facilidade; por este motivo, recomenda-se veementemente que não seja deixado em branco. 
+		\item O argumento \textit{message} pode conter uma string com uma mensagem explicativa com, por exemplo, a situação ou estágio da brassagem em que ocorreu o registro, mas pode também ser deixado em branco. O argumento \textit{code} tem basicamente o mesmo propósito, mas é um número predefinido para cada situação possível da brassagem, que permite que o arquivo de registro possa ser interpretado com maior facilidade; por este motivo, recomenda-se veementemente que não seja deixado em branco. A tabela \ref{significados_log} apresenta a correspondência entre os valores do argumento \textit{code} e seus significados.
 		\item O argumento \textit{notableTimestamp} é usado para indicar quando uma situação notável ocorreu, como por exemplo o início da brassagem, o final de uma rampa ou degrau de temperatura, o início da fervura, etc. Para todas as outras situações deve ser deixado em branco, sendo que as situações notáveis são predefinidas.
 		\item O objeto \textit{environmentVariables}, declarado no código-fonte raiz da aplicação em Node, que foi abordado na seção \ref{servidor_sec} e pode ser obtido no apêndice \ref{codigos_nodejs}, também é descrito na caixa \ref{environment_code}. Ele é salvo no arquivo de \textit{log} no formato JSON e para isto é empregada a função \textit{JSON.stringify} conforme descrito na linha de código-fonte exibida na caixa \ref{json_stringify}.
 	\end{itemize}
@@ -376,11 +376,56 @@ global.environmentVariables = {
 dataToSave = JSON.stringify(global.environmentVariables) + "\n";
 \end{lstlisting}
 
-\subsection{Controle do sistema}
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Correspondência entre o valor numérico e o significado dos códigos usados para registro da brassagem]{Correspondência entre o valor numérico e o significado dos códigos usados para registro da brassagem}
+		\label{significados_log}
+		\begin{tabular}{ | M{2cm} | M{13cm} |}
+			\hline
+			\textbf{Valor} & \textbf{Significado} \\ \hline
+			
+			0 & requisição para início da brassagem \\ \hline
+			1 & produção iniciada \\ \hline
+			2 & esquentando água da mostura \\ \hline
+			3 & esperando adição dos grãos \\ \hline
+			4 & rampa da mostura em execução \\ \hline
+			5 & degrau da mostura em execução \\ \hline
+			6 & \textit{sparging} em execução \\ \hline
+			7 & transbordamento da MT \\ \hline
+			8 & esquentando mosto para a fervura \\ \hline
+			9 & fervendo o mosto \\ \hline
+			10 & lúpulo adicionado \\ \hline
+			11 & \\ \hline
+			11 & \\ \hline
+			11 & \\ \hline
+			11 & \\ \hline
+			11 & \\ \hline
+
+		\end{tabular}
+	\end{table}
+\end{center}
+
+\subsection{Controle do processo de brassagem}
+
+O módulo responsável pelo controle do processo de brassagem é o \textit{ctrl.js}, cujo código-fonte está disponível no apêndice \ref{codigos_nodejs}, na caixa de código-fonte \ref{ctrl_js}. É importante ressaltar que, embora o comportamento do Node.js seja assíncrono o processo de brassagem é sequencial, o que implica no uso de diversas funções de \textit{callback} aninhadas. No intuito de evitar o \textit{inferno de callbacks}, apresentado na seção \ref{node_js_sec}, este processo sequencial foi quebrado em algumas funções que implementam a funcionalidade do módulo e outras auxiliares. Seu funcionamento e aspectos chave são discutidos na presente seção.
+
+A primeira função do processo de controle é a \textit{startMashingProcess(recipe, res, lockFile, recipesPath, callback)}, invocada a partir de uma requisição do cliente e, portanto, sua chamada está presente no módulo referente às rotas do Express, discutido na seção \ref{servidor_sec}. Ela recebe como parâmetros o nome da receita iniciada, o objeto de resposta da requisição AJAX, o caminho para o arquivo \textit{lockfile}, o caminho para o diretório das receitas e uma função de \textit{callback}. Em primeiro lugar é verificada a flag global \textit{global.environmentVariables.okToStart} que indica se a receita está pronta para ser executada --- esta flag é setada previamente pela função \textit{checkRecipeIntegrity}, descrita na seção \ref{registros_sec} e chamada durante o processo de interação pré-brassagem do usuário com o sistema. Depois disto, também é verificado se o nome da receita passado como argumento é idêntico ao da variável global de controle \textit{global.environmentVariables.recipe}.
+
+Caso as verificações iniciais sejam positivas, é escrito o valor "1" no arquivo \textit{lockfile}, indicando daqui para a frente que há uma brassagem em andamento. O conteúdo da receita é lido em uma variável e o \textit{log} de temperatura é iniciado, ou seja, o script Python é invocado como um processo filho do Node. Também é feito o \textit{log} inicial do processo de brassagem. Se tudo ocorreu sem erros, o servidor envia uma resposta para o cliente indicando sucesso, chama a função de \textit{callback} com a variável erro nula e invoca a função \textit{heatMashWater}, que dá prosseguimento ao controle do processo. Em caso de erro em alguma das situações descritas, é enviada uma resposta de erro para o cliente e a função de \textit{callback} é invocada com a variável erro indicando o erro ocorrido. Note-se que a função de \textit{callback} não tem importância no que diz respeito ao controle, mas serve somente para retornar o status da tentativa de início da produção.
+
+A função \textit{heatMashWater(recipeContents)} recém chamada, dá prosseguimento ao controle da brassagem. Como o seu nome sugere, ela é resposável pelo aquecimento da água da brassagem até que ela atinja a temperatura inicial, mantendo este \textit{setpoint} até que o usuário adicione os maltes à MT. O único argumento que a função recebe é o conteúdo da receita, a partir do qual é obtido o \textit{setpoint}. Inicialmente a bomba de recirculação é ligada e é feito um \textit{log} da brassagem que anota a timestamp notável de inicio de aquecimento.
+
+São iniciados dois laços de repetição: um que faz um \textit{log} da situação da brassagem a cada 5 segundos e outro que é repetido a cada 1 segundo e que lê a temperatura da água e chama a função auxiliar \textit{updateHeatingConditions} para controlar o elemento aquecedor da MT. No \textit{callback} da \textit{updateHeatingConditions} fica definido que, se esta é a primeira vez que a temperatura desejada é atingida, o laço de repetição do \textit{log} é atualizado para refletir a mudança de situação de "esquentado água da brassagem" para "esperando adição dos maltes". Se não é a primeira vez que é atingido o \textit{setpoint}, a \textit{callback} não faz nada. Em resumo, após a temperatura atingir o valor desejado, ela é mantida até que o usuário adicione os maltes.
+
+Concomitantemente, o laço de controle de temperatura da função \textit{heatMashWater} verifica a \textit{flag} global \textit{global.environmentVariables.readyForNextStep} que só é setada após o usuário indicar, por meio da GUI, que ele adicionou os maltes. Quando isto acontece, a flag é zerada e os laços de \textit{log} e de controle são interrompidos. Por fim é chamada a função de controle de rampas e degraus de temperatura, mas antes de entrar nos seus detalhes de funcionamento, será explicada a função auxiliar \textit{updateHeatingConditions(vessel, setp, temperature, callback)}, uma vez que já foi feito uso dela.
+
+Os argumentos que ela recebe possuem uma interpretação bem direta: \textit{vessel} é o recipiente a ser controlado, ou seja, pode ser a MT ou o BK; \textit{setp} e \textit{temperature} são respectivamente a temperatura desejada e a atual e; \textit{callback} é a função executada sempre que a temperatura é maior ou igual ao valor do setpoint, e cujo argumento passado para ela é nulo. O controle do elemento aquecedor é implementado da seguinte forma: quando a temperatura está abaixo de 70\% do \textit{setpoint}, o aquecimento fica ligado 100\% do tempo; quando a temperatura está entre 70\% e 90\% do \textit{setpoint}, o aquecimento fica ligado 66\% do tempo; quando a temperatura está entre 90\% e 100\% do \textit{setpoint}, o aquecimento fica ligado 33\% do tempo e; acima disto o aquecimento fica desligado. Cabe ressaltar que a vantagem desta função auxiliar não é o sistema de controle de aquecimento, mas sim o fato de que este é auto-contido, ou seja, para quaisquer implementações de controle de temperatura (PID, histerese, direto), basta modificar esta função, sem alteração do resto do código. Outra condição que deve ser atendida é que esta função precisa ser chamada periodicamente dentro de um laço de repetição, uma vez que ela somente atualiza o valore da saída (elemento aquecedor) baseada nas entradas (temperatura e \textit{setpoint}).
 
 
 
-\subsection{Simulação do controle do sistema}
+\subsection{Simulação do controle do processo de brassagem}
 \label{simulacao_controle}
 
 

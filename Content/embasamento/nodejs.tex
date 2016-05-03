@@ -15,7 +15,7 @@ var botaoStatus = leBotao();
 imprimeValorBotao(botaoStatus); //nao ha garantia de que leBotao ja acabou de ser executada
 \end{lstlisting}
 
-A maneira correta para executar este tipo de código seria usando uma função de callback, como descrito no trecho de código abaixo, embora esta não seja a única maneira de fazê-lo. Observe-se que a função é declarada como um parâmetro de \textit{leBotao} e não tem nome --- é uma função anônima. Embora isto seja prático, do ponto de vista de manutenção de código e \textit{debug} é uma prática que deve ser evitada \cite{callback_hell, avoid_hell}.
+A maneira correta para executar este tipo de código seria usando uma função de callback, como descrito no trecho de código abaixo, embora esta não seja a única maneira de fazê-lo. Observe-se que a função é declarada como um parâmetro de \textit{leBotao} e não tem nome --- é uma função anônima. Embora isto seja prático, do ponto de vista de manutenção de código e \textit{debug} é uma prática que deve ser evitada, uma vez que pode originar uma situação de dificuldade de manutenção de código conhecida como \textit{callback hell}, ou \textit{inferno de callbacks} \cite{callback_hell, avoid_hell}.
 
 \lstset{language=javascript}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
