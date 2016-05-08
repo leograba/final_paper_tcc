@@ -13,7 +13,7 @@
 		<script>
 			checkRecipeInProgress(recipeInProgress);//it may be done before page is loaded, no worries
             $(function main(){//when document is fully loaded
-                gambiarraHeaderPHP("./lib/header.php");
+                headerPHP("./lib/header.php");
             	getAvailableRecipes("#recipeSel");
     			
     			$("input[type='button'][value='iniciar']").click(startRecipeRequest);

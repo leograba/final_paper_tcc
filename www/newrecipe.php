@@ -10,7 +10,7 @@
   <script type="text/javascript" src="./lib/header.js"></script>
   <script>
     $(function(){//wait for the page to load
-      gambiarraHeaderPHP("./lib/header.php");//add the header
+      headerPHP("./lib/header.php");//add the header
     
       rearrangeAll();//show all filled fields
       $("#name").val(getNameFromURL().replace(/_/g, " "));//set the recipe name got from GET

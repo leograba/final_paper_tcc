@@ -59,7 +59,7 @@
 				$("#preview").hide();
 			});
 			
-			gambiarraHeaderPHP("./lib/header.php");//add header
+			headerPHP("./lib/header.php");//add header
 		});
 		</script>
 	</head>

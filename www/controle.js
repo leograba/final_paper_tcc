@@ -1,4 +1,4 @@
-"use strict"; 
+"use strict";
 //load modules
 var bodyParser = require('body-parser');
 var express = require("express");
@@ -27,7 +27,7 @@ global.environmentVariables = {
 	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
 	timeLeft: "",//helping variable to tell the client the time left for the step rests or the boil, etc
 	readyForNextStep: false,//set whenever the system is ready for the next step
-	auto: true, //whether the process is running automatically or there is human intervention
+	auto: true, //whether the process control is running automatically or there is human intervention
 	processFail: false,//flag is set if the process fails irreversibly
 	msg: "",//holds some explanatory message
 	timestamps:{//notable timestamps

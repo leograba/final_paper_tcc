@@ -10,7 +10,7 @@
 	<script type="text/javascript" src="./lib/header.js"></script>
 	<script>
 	    $(function(){
-	    	gambiarraHeaderPHP("./lib/header.php");//first thing is to add the header
+	    	headerPHP("./lib/header.php");//first thing is to add the header
 	    	
 	        setInterval(refreshDate,1000);//get the server date/time every 1s
 	        

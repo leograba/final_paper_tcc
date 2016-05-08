@@ -9,11 +9,12 @@
 		<script type="text/javascript" src="./lib/header.js"></script>
 		<script>
 			$(function(){//when document is fully loaded
-				gambiarraHeaderPHP("./lib/header.php");//add the header
+				headerPHP("./lib/header.php");//add the header
 				refreshSystemStatus();//get the status fo the GPIO, PWM, etc
 				var refreshHandler = setInterval(refreshSystemStatus, 500);//and then do it periodically
 				
-				$(".btn").click(valveToggle);
+				$(".btn").click(console.log($(this).attr("id")));
+					//valveToggle);
 				
 				$("#confirmStartNextStep").click(function startMashRamp(){//whenever button is clicked
 					$.post("/clientrequest", {command:"startMashRamp"}, function(data, status){
