@@ -70,6 +70,7 @@
 						}
 						else{//automatic mode turned off
 							$("#auto").prop("checked", false);
+							$(".btn").off("click");//does it otherwise many click events are set per button
 							$(".btn").on("click", valveToggle);
 						}
 					}
@@ -99,11 +100,13 @@
 								$("#current_status").text("Degrau de repouso: ");
 								if(data.tmpBKsetp){//if sparging is set
 									if(data.timeLeft >= 1){
+										console.log("minutos");
 										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
 											Math.floor(data.timeLeft) + ":" + (data.timeLeft % 1)*60 + 
 											" minutos restantes. Temperatura de sparging: " + data.tmpBK + "°C");
 									}
 									else{
+										console.log("segundos");
 										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
 											Math.round((data.timeLeft % 1)*60) + " segundos restantes. " +
 											"Temperatura de sparging: " + data.tmpBK + "°C");
