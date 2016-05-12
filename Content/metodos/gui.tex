@@ -1,24 +1,134 @@
-\subsection{Tratamento de formulário em PHP}
+A interface de usuário foi desenvolvida para acesso via navegador da internet. As linguagens utilizadas para a implementação da aplicação foram: a linguagem de marcação HTML, a linguagem de folhas de estilo CSS, a linguagem de programação \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o método AJAX, a linguagem de programação \textit{server-side} interpretada PHP e, a linguagem de programação \textit{server-side} Javascript interpretada pela aplicação \textit{Node.js}.
 
-A interface de usuário foi desenvolvida para acesso via navegador da internet. Dois servidores foram utilizados em conjunto: o servidor Apache, que é um servidor \textit{web} robusto e de fácil implementação e o \textit{framework Express.js}, para \textit{Node.js}. As linguagens utilizadas para a implementação da aplicação foram: a linguagem de marcação HTML, a linguagem de folhas de estilo CSS, a linguagem de programação \textit{client-side} interpretada Javascript em conjunto com a biblioteca \textit{crossbrowser} jQuery e o método AJAX, a linguagem de programação \textit{server-side} interpretada PHP e, a linguagem de programação \textit{server-side} Javascript interpretada pela aplicação \textit{Node.js}.
+\subsection{Aspectos gerais da GUI}
 
-Parte da implementação foi feita por meio de acesso ao terminal via SSH e parte via \textit{Cloud9}, que é uma IDE online. A estrutura da aplicação desenvolvida é apresentada:
+A estrutura da aplicação foi desenvolvida de forma que o operador do sistema conseguisse tanto gerenciar suas receitas de cerveja e analisar dados estatísticos de maneira fácil, quanto para promover a comunicação eficiente entre o cliente e o servidor, implementado em Node.js e discutido na seção \ref{nodectrl_sec}. A estrutura da aplicação do cliente é apresentada:
 
 \begin{itemize}
 	\item Página inicial
-	\item Página de apresentação
-	\item Gráficos de temperatura dinâmico e estático (página somente para versão de demonstração)
-	\item Menu de seleção de tarefas
+	\item Sobre
+	\item Configurações
+	\item Estatísticas
+	\item Iniciar brassagem
 	\begin{itemize}
-		\item Gerenciador de receitas de cerveja
-		\begin{itemize}
-			\item Editor de receitas
-		\end{itemize}
-		\item Gerenciador de início da produção (em desenvolvimento)
-		\item Acompanhamento e possibilidade de ajustes da brassagem (em desenvolvimento)
-		\item Estatísticas (a ser desenvolvida)
-		\item Opções e ajuste de configurações do sistema (a ser desenvolvida)
+		\item Controle de brassagem
+	\end{itemize}
+	\item Gerenciador de receitas
+	\begin{itemize}
+		\item Editor de receitas
 	\end{itemize}
 \end{itemize}
 
-Os códigos desenvolvidos e comentados podem ser consultados no apêndice \ref{Apêndice B} e os resultados são descritos na seção \ref{resIntUser}.
+Um ponto em comum para esta estrutura foi o desenvolvimento de uma barra de navegação em PHP, cujo código-fonte está documentado na caixa \ref{header_php} do apêndice \ref{codigos_web}, de tal modo que o mesmo código-fonte pudesse ser incluído em todas as páginas web sem a necessidade de repetição. A implementação consiste na criação de uma estrutura de \textit{divs} e \textit{links} em HTML, sendo que a função detecta a página atual e realça este link, para dar ao usuário um efeito visual de que certo botão da barra de navegação está pressionado. 
+
+É usada uma função em javascript, descrita na caixa de código-fonte \ref{js_php_header} e também no apêndice \ref{codigos_web}, que faz a ponte entre PHP e javascript, já que o servidor Express não foi configurado para suportar as variáveis \textit{http\_host} e \textit{request\_uri} --- assim sendo, a função faz um POST HTTP em AJAX para o PHP, passando para este a URL da página atual.
+
+\lstset{language=javascript}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Função que passa a URL da página atual para um módulo em PHP, label=js_php_header]
+function headerPHP(pathToHeader){//create the header of the page
+    $.post(pathToHeader, {url:document.URL} , function(data, status){//send the page URL to PHP
+        if(status == "success"){//if POST is successfull
+            $('body').prepend($(data));//add the received header to the top of the page
+            $('body').show();//and displays the hidden page afterwards
+        }
+    });
+}
+\end{lstlisting}
+
+\subsection{Boas vindas e informações do projeto}
+
+A \textit{página inicial} contém somente uma mensagem de boas vindas clicável, que leva para a página \textit{sobre}. Esta por sua vez, contém informações sobre o projeto: objetivo, local, autor, professor orientador e contato. Ambos os códigos-fonte estão inclusos respectivamente nas caixas \ref{index_html} e \ref{about_php} do apêndice \ref{codigos_web}.
+
+\subsection{Configurações gerais da BBB}
+
+A página \textit{configurações} apresenta a data/hora da BBB com taxa de atualização de 1 segundo e permite o seu ajuste, para que o usuário tenha uma alternativa caso a configuração de data/hora automática falhe ou não exista acesso à internet naquele momento. A obtenção de data/hora utiliza o campo de formulário \textit{datetime-local} do padrão HTML5, que implementa automaticamente um calendário para escolha da data e devolve a entrada do usuário de acordo com o padrão ISO 8601, cujo formato é apresentado na tabela \ref{iso_8601}. A letra T da string delimita a separação entre data e hora e a letra Z indica que o fuso horário é o UTC 0, também conhecido como GMT. 
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Parâmetros de receita de cerveja utilizados para \textit{debug}]{Parâmetros de receita de cerveja utilizados para \textit{debug}}
+		\label{iso_8601}
+		\begin{tabular}{ | M{15cm}|}
+			\hline
+			2016-05-07T18:31:53Z \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+Tanto a obtenção da data da BBB quanto a requisição para sua mudança são feitas por meio de requisições AJAX para a rota \textit{config} do servidor.
+
+\subsection{Estatísticas e gráfico dinâmico}
+
+A página \textit{estatísticas} apresenta a temperatura instantânea da MT, um gráfico dinâmico da temperatura da MT e do BK que é atualizado automaticamente e um gráfico do histórico de temperatura, plotado usando o script Python desenvolvido na seção \ref{python_graph}. O gráfico dinâmico foi desenvolvido em uma página separada e posteriormente adicionado como um \textit{iframe}, ou seja, uma página HTML dentro de outra página HTML. Seu código-fonte está disponível na caixa \ref{stats_php} do anexo \ref{codigos_web}.
+
+O gráfico dinâmico foi baseado na biblioteca D3.js, escrita em Javascript e voltada para a manipulação de documentos baseados em dados, em conjunto com o framework Rickshaw para plotagem de gráficos. A instalação da biblioteca D3.js consiste no download do arquivo compactado e posterior extração, enquanto para o Rickshaw basta clonar o repositório do Github. Os passos executados estão descritos na caixa \ref{install_d3}.
+
+\lstset{language=bash}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação da biblioteca D3.js e do framework Rickshaw, label=install_d3]
+cd /var/www
+https://github.com/mbostock/d3/archive/v3.5.10.zip
+sudo tar -zxvf v3.5.10.tar.gz
+sudo rm v3.5.10.tar.gz
+sudo git clone https://github.com/shutterstock/rickshaw.git
+\end{lstlisting}
+
+O gráfico implementado é baseado em um exemplo disponível em \url{https://github.com/shutterstock/rickshaw/blob/master/examples/extensions.html} e o código-fonte empregado neste projeto está disponível na caixa \ref{dyn_html} do anexo \ref{codigos_web}. Suas configurações consistem em possibilitar a seleção de quais conjuntos de dados plotar; as opções de plotagem em área empilhada/sobreposta ou em linha; a ligação dos pontos de maneira interpolada, que suaviza transições bruscas e descontinuidades, linear, que liga os pontos e em degrau, que traça uma linha horizontal e outra vertical entre dois pontos; a possibilidade de aplicar um filtro de suavização; a escolha do número máximo de pontos plotados na tela e uma barra de zoom. As características de plotagem dos gráficos consistema na escala e numeração automática dos eixos, incluindo escala baseada no tempo Epoch, e na possibilidade de obter informações detalhadas sobre um ponto do gráfico ao posicionar o \textit{mouse} sobre ele, como o valor do ponto e sua data/hora.
+
+Exceptuando-se o controle do número máximo de pontos, que foi implementado para limitar a 300, 1800 e 3600 pontos, e a atualização constante do gráfico, implementados separadamente para este projeto, todas as outras funcionalidades são baseadas nas funções do Rickshaw. Um ponto importante da implementação do gráfico é que, ao carregar a página web, é feita a leitura do arquivo CSV com o registro do histórico de temperatura, porém quando é feita a atualização deste, é lido o arquivo CSV que contém somente a última leitura de temperatura. Com relação à temperatura instantânea, é este gráfico dinâmico que a fornece para a página mãe \textit{estatísticas} a cada 1 segundo, que por sua vez repassa para o elemento HTML correspondente.
+
+\subsection{Gerenciador de receitas}
+\label{gerenciador_sec}
+
+A interface do gerenciador de receitas apresenta as seguintes opções e funcionalidades: criar uma nova receita, editar ou apagar uma receita já cadastrada, além de obter uma prévia de determinada receita ao repousar o mouse sobre seu nome. 
+
+Para listar as receitas do diretório \textit{www/recipes} é usada uma função em PHP escrita diretamente no código-fonte da página web, que está disponível na caixa \ref{listrecipe_php} do apêndice \ref{codigos_web}. Deve-se notar que esta função, além de excluir a extensão \textit{.recipe} do nome, substitui todos os caracteres \textit{underline} por espaços, uma vez que ao salvar a receita o processo inverso é realizado. Ela adiciona as receitas à lista no formato de link, o que redireciona o usuário para a página de edição quando o nome é clicado. Ao lado de cada link, também é criado um botão para deletar a receita correspondente.
+
+Em javascript, são implementadas as funcionalidades de prévia de determinada receita a partir das funções \textit{mouseover} e \textit{mouseout} da biblioteca jQuery. Além disto, também são implementadas as funções para deletar e criar receitas. Note-se que as funções que deletam receitas e geram prévia foram implementadas em um arquivo separado do HTML, presente na caixa de código-fonte \ref{listrecipe_js} do apêndice \ref{codigos_web}, e o arquivo adicionado com a tag HTML \textit{script}.
+
+Ambas as funções do módulo adicional usam o método HTTP POST para comunicação com o servidor. Especificamente para a função que deleta receitas, sua implementação possibilita ao usuário desfazer, assim como não deleta realmente a receita da BBB, mas somente adiciona a extensão \textit{.del} ao nome do arquivo.
+
+\subsection{Editor de receitas}
+
+O editor de receitas foi uma das primeiras páginas acresentadas à GUI, portanto grande parte do gerenciamento do formulário HTML é realizado em PHP. Dentre as funcionalidades, estão a adição de novos campos de maltes, lúpulos e temperaturas à medida que o usuário preenche a receita; a verificação dos dados inseridos para que o usuário não adicione entradas erradas; a verificação e aviso ao usuário de que há campos importantes não preenchidos; a ordenação dos campos quando o usuário apaga um malte, lúpulo ou temperatura e; o salvamento automático da receita na BBB.
+
+O editor de receitas está dividido em três códigos-fonte disponíveis no apêndice \ref{codigos_web}: o código HTML, que só implementa o esqueleto da página e chama as funções dos outros arquivos, apresentado na caixa \ref{newrecipe_code}; um módulo com funções implementadas em javascript, apresentado na caixa \ref{newrecipe_code_js}; e um módulo com funções implementadas em PHP, apresentado na caixa \ref{newrecipe_code_php}.
+
+No código HTML, ao carregar a página web, é incluído o módulo PHP e é chamada uma função que verifica se foi recebida uma receita pela URL, por meio do método GET. Somente em caso afirmativo é que uma função lê o conteúdo da receita em um arranjo e a retorna para a página HTML, que por sua vez carrega os dados no formulário. Após isto, é implementado código javascript que organiza os campos da receita caso existam buracos, por exemplo: o malte 1 e o malte 3 estão cadastrados mas não há malte 2. Em seguida é obtido o nome da receita a partir da URL, e por fim é chamada uma função toda vez que algum campo do formulário perde o foco, que implementa o rearranjo dos campos da receita se necessário e o \textit{autosave}.
+
+No módulo escrito em javascript, é interessante o funcionamento da função que reorganiza os campos cuja assinatura é \textit{rearrange(catg, line)}, sendo o argumento \textit{catg} o indicador de quais campos devem ser reorganizados (maltes, lúpulos ou degraus de temperatura) e \textit{line} o argumento que indica a partir de qual linha deve ser feita a ordenação. O parâmetro line deve ser zero ou omitido na primeira vez que a função é invocada, já que ela atribui o valor zero no caso de este parâmetro ser indefinido. O algoritmo de implementação está descrito no fluxograma da figura \ref{rearrange}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/rearrange.png}
+	\captionsetup{justification=centering}
+	\caption[Representação em fluxograma do algoritmo de implementação da função \textit{rearrange}]{Representação em fluxograma do algoritmo de implementação da função \textit{rearrange}}
+	\label{rearrange}
+\end{figure}
+
+\subsection{Gerenciador de brassagem}
+
+A interface que controla o andamento de uma produção, cujo código-fonte está descrito na caixa \ref{startrecipe_code} do anexo \ref{codigos_web} apresenta uma interface inicial que permite ao usuário do sistema selecionar a receita alvo da produção e iniciá-la. É preciso notar, porém, que a primeira função executada faz uma requisição para o servidor perguntando se há uma receita já em andamento: em caso positivo, a página é redirecionada para o painel de controle das receitas, descrito na seção \ref{painel_sec}.
+
+Ao carregar a página, é feita uma requisição das receitas disponíveis para o servidor e, quando uma receita é selecionada para produção, é gerada uma prévia desta usando os mesmos recursos descritos na seção \ref{gerenciador_sec}. Quando o usuário clica no botão de iniciar uma produção, é feita uma requisição para o servidor para que a receita possa ser iniciada e, após a resposta, se tudo estiver certo a produção é iniciada. Se existirem pontos de atenção para o usuário, ele deverá responder a uma mensagem indicando estar ciente das possíveis situações de risco e, se algo estiver errado, o usuário é avisado que correções na receita devem ser realizadas antes que esta possa ser iniciada. O fluxograma da função de checagem de erros é apresentado na figura \ref{recipe_error_checking}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/recipe_error_handling.png}
+	\captionsetup{justification=centering}
+	\caption[Representação em fluxograma do algoritmo de implementação da função \textit{errorWarningHandler}]{Representação em fluxograma do algoritmo de implementação da função \textit{errorWarningHandler}}
+	\label{recipe_error_checking}
+\end{figure}
+
+\subsection{Painel de controle de brassagem}
+\label{painel_sec}
+
+O painel de controle de brassagem é uma interface composta de botões para o controle de válvulas, bombas e aquecedores e uma barra deslizante para o controle do servo-motor da estrutura de adição de lúpulos. Além destes, há um botão que indica se o modo automático está ativado, o que impede o usuário de fazer modificações. Também é impressa uma mensagem que indica o status atual do sistema tanto quando ele está ocioso quanto durante as várias fases do processo de brassagem. O código-fonte está disponível na caixa \ref{painel_code} do anexo \ref{codigos_web}.
+
+Esta página específica da GUI está intrinsecamente relacionada com o código do servidor, abordado na seção \ref{nodectrl_sec}. A função \textit{refreshSystemStatus}, cujo objetivo é requisitar ao servidor o status de GPIO e PWM, atualiza a página web a cada 0,5 segundos. Já a função \textit{updateStatusMessage}, baseada na resposta do servidor, atualiza a mensagem de status conforme a etapa da produção de cerveja:
+
+\begin{itemize}
+	\item Se o sistema está ocioso, é impressa a mensagem "Sistema parado".
+	\item Se foi detectado um erro irreversível, é impresso "Erro no sistema. Algo impediu que esta receita continue".
+	\item No caso da brassagem, há diversas mensagens para cada situação. As mensagens estão disponíveis no código-fonte \ref{painel_code}.
+\end{itemize}
