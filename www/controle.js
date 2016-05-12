@@ -27,10 +27,11 @@ global.environmentVariables = {
 	tmpBKsetp: "",//brewing kettle/hot liquor tank current setpoint
 	timeLeft: "",//helping variable to tell the client the time left for the step rests or the boil, etc
 	readyForNextStep: false,//set whenever the system is ready for the next step
-	auto: true, //whether the process control is running automatically or there is human intervention
+	auto: false, //whether the process control is running automatically or there is human intervention
 	processFail: false,//flag is set if the process fails irreversibly
 	msg: "",//holds some explanatory message
 	timestamps:{//notable timestamps
+		curr: "",//epoch time of the current variables state
 		start: "",//epoch time of the first request to start a recipe
 		startHeating: "",//epoch time of the start to heat the mash water
 		finishHeating: "",//epoch for the finish of the heating of mash water
@@ -43,7 +44,6 @@ global.environmentVariables = {
 		heatingBoil: "",//started to heat the wort after sparging
 		boilStart: "",//time when temperature is near enough boiling (>96°C)
 		boilFinishScheduled: "",//time when the boil is scheduled to finish
-		curr: "", //epoch time of the current variables state
 	},
 	ioStatus: gpioCfg.all_io,//also records the IO status
 	okToStart: false, //true if a recipe is ok enough to start a production
