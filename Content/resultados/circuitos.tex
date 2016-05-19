@@ -1,0 +1,349 @@
+Esta seção apresenta os resultados de simulação e de testes de bancada referentes aos circuitos de acionamento, assim como considerações acerca destes resultados.
+
+\subsection{Acionamentos de potência}
+\label{aciona_results}
+
+O módulo de acionamentos de potência foi simulado no software LTSpice. Para simular uma bomba como carga, foi utilizado um resistor de 7,5\si{\ohm} em série com um indutor de 30mH. O valor do resistor foi calculado com base nos parâmetros de tensão e corrente do atuador e o valor do indutor foi escolhido para que a carga não fosse puramente resistiva --- a impossibilidade de determinar a indutância na prática se deve ao fato de que a bomba já possui algum circuito de controle, o que significa que o modelo de simulação empregado foi genérico. O sinal de entrada foi uma onda quadrada de período 100ms, valor alto o suficiente para excluir transitórios e válido uma vez que o chaveamento na prática é esporádico. A figura \ref{switch_pump} apresenta o resultado da simulação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/spice/sim_pump.png}
+	\captionsetup{justification=centering}
+	\caption[Resultado da simulação do módulo de acionamentos de potência com carga simulando a bomba de recirculação]{Resultado da simulação do módulo de acionamentos de potência com carga simulando a bomba de recirculação}
+	\label{switch_pump}
+\end{figure}
+
+A simulação da válvula utilizou o valor calculado de 9,6\si{\ohm} para o resistor e 300mH para o indutor. Neste caso, o valor do indutor também foi assumido para que a carga simulada não fosse puramente resistiva. O sinal de entrada foi uma onda quadrada de período 100ms, valor alto o suficiente para excluir transitórios e válido uma vez que o chaveamento na prática terá um período muito mais alto. A figura \ref{switch_valve} apresenta o resultado da simulação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/spice/sim_valve.png}
+	\captionsetup{justification=centering}
+	\caption[Resultado da simulação do módulo de acionamentos de potência com carga simulando uma válvula solenóide]{Resultado da simulação do módulo de acionamentos de potência com carga simulando uma válvula solenóide}
+	\label{switch_valve}
+\end{figure}
+
+O SSR foi simulado como uma carga puramente resistiva de 1600\si{\ohm} e o sinal de entrada foi uma onda quadrada de 20ms de período, suficiente para excluir transientes de chaveamento. A figura \ref{switch_ssr} apresenta o resultado da simulação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/spice/sim_ssr.png}
+	\captionsetup{justification=centering}
+	\caption[Resultado da simulação do módulo de acionamentos de potência com carga simulando o SSR]{Resultado da simulação do módulo de acionamentos de potência com carga simulando o SSR}
+	\label{switch_ssr}
+\end{figure}
+
+Com relação aos ensaios de bancada do módulo de acionamento das bombas, SSR e válvulas, o primeiro ensaio foi realizado com a saída em aberto e para valores de resistor de porta do MOSFET de 10k\si{\ohm}, cujo resultado é apresentado na figura \ref{acionamento10k}, e 22k\si{\ohm}, cujo resultado é apresentado na figura \ref{acionamento22k}. Foram registradas com o osciloscópio as formas de onda no pino da BBB, em verde, e na porta do MOSFET, em amarelo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{./Resources/BonescriptIO/TesteInterfacePotencia/2k2_10k.png}
+	\captionsetup{justification=centering}
+	\caption[Ensaio do módulo de acionamentos de potência com Rporta = 10k\si{\ohm}]{Ensaio do módulo de acionamentos de potência com Rporta = 10k\si{\ohm}}
+	\label{acionamento10k}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{./Resources/BonescriptIO/TesteInterfacePotencia/2k2_22k.png}
+	\captionsetup{justification=centering}
+	\caption[Ensaio do módulo de acionamentos de potência com Rporta = 22k\si{\ohm}]{Ensaio do módulo de acionamentos de potência com Rporta = 22k\si{\ohm}}
+	\label{acionamento22k}
+\end{figure}
+
+Em seguida, foram ligados como carga o SSR e posteriormente a válvula solenóide, cujos resultados estão descritos nas figuras \ref{acionamento_ssr} e \ref{acionamento_solenoide}. Foram registradas as formas de onda na porta (em verde) e no dreno (em amarelo) do MOSFET.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{./Resources/BonescriptIO/TesteInterfacePotencia/gate_drain_SSR.png}
+	\captionsetup{justification=centering}
+	\caption[Ensaio do módulo de acionamentos de potência com SSR ligado à saída]{Ensaio do módulo de acionamentos de potência com SSR ligado à saída}
+	\label{acionamento_ssr}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{./Resources/BonescriptIO/TesteInterfacePotencia/gate_drain_valve.png}
+	\captionsetup{justification=centering}
+	\caption[Ensaio do módulo de acionamentos de potência com válvula solenóide ligada à saída]{Ensaio do módulo de acionamentos de potência com válvula solenóide ligada à saída}
+	\label{acionamento_solenoide}
+\end{figure}
+
+Com relação ao solenóide, ao variar a tensão aplicada sobre os seus terminais foram determinados os valores de tensão mínima de acionamento e máxima antes do desligamento da válvula, apresentados na tabela \ref{acoplamentos}.
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Tensões de operação da válvula solenóide]{Tensões de operação da válvula solenóide}
+		\label{acoplamentos}
+		\begin{tabular}{ | M{7.5cm} | M{7.5cm} |}
+			\hline
+			\textbf{Acionamento (V)} & \textbf{Desligamento (V)} \\ \hline
+			$\geq$ 7,0 & $\leq$ 1,5 \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+Outra medição realizada foi a resposta de tensão da válvula ao ser energizada, descrita nas figuras \ref{step_soleiod_close} e \ref{step_solenoid}. Para realizar tais medições, foi colocado um resistor de 1,17\si{\ohm} em série com a válvula e medida a tensão sobre esta (em verde) e também foi monitorada a tensão da fonte de alimentação (em amarelo). O circuito montado em placa de protótipo está ilustrado na figura \ref{proto_solenoid}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.11]{./Resources/ensaiosBancada/Solenoide/ensaio-valvula.jpg}
+	\captionsetup{justification=centering}
+	\caption[Implementação do módulo de acionamentos de potência em placa de protótipo]{Implementação do módulo de acionamentos de potência em placa de protótipo}
+	\label{proto_solenoid}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{./Resources/ensaiosBancada/Solenoide/rise_solenoid.png}
+	\captionsetup{justification=centering}
+	\caption[Resposta ao degrau do acionamento da válvula solenóide]{Resposta ao degrau do acionamento da válvula solenóide}
+	\label{step_solenoid}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.48]{./Resources/ensaiosBancada/Solenoide/close_rise.png}
+	\captionsetup{justification=centering}
+	\caption[Resposta ao degrau do acionamento da válvula solenóide, em close]{Resposta ao degrau do acionamento da válvula solenóide, em close}
+	\label{step_soleiod_close}
+\end{figure}
+
+No que diz respeito ao funcionamento do SSR, foi adicionada uma carga puramente resistiva de 470k\si{\ohm} à sua saída e ligado um sinal gerado pelo PWM da BBB, com frequência de 60Hz e período em alta de 1ms. Observando as forma de onda do PWM e da senóide da rede aplicada sobre o SSR em série com o resistor em função do tempo, foi constatado que a frequência da rede não é estável em 60Hz, uma vez que seu valor varia com o tempo. Este comportamento está ilustrado na figura \ref{rede_pwm_deriva}, na qual a forma de onda amarela representa o PWM e a verde é a senóide da rede; observa-se que em instantes de tempo distintos, a fase entre o PWM e a senóide é diferente.
+
+Observa-se que no estudo da estabilidade da frequência da rede, em nenhum momento a saída do SSR esteve ligada, apesar dos pulsos gerados pelo PWM na entrada. Isto se deve ao fato de este modelo específico de SSR possuir um controle interno que permite somente o acionamento durante a passagem da senóide por zero, também conhecido como \textit{zero-crossing}. Isto fez com que a deriva da frequência da rede se tornasse um problema para o acionamento do SSR. A figura \ref{diversos_ssr} ilustra o acionamento do SSR em diversos instantes da senóide da rede.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssrfreq0.png}
+		\caption{$t=t_0$}
+		\label{rede_pwm_deriva:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssrfreq1.png}
+		\caption{$t=t_1$}
+		\label{rede_pwm_deriva:2}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssrfreq2.png}
+		\caption{$t=t_2$}
+		\label{rede_pwm_deriva:3}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssrfreq3.png}
+		\caption{$t=t_3$}
+		\label{rede_pwm_deriva:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Instabilidade da frequência da rede em função do tempo]{Instabilidade da frequência da rede em função do tempo}
+	\label{rede_pwm_deriva}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssropen4.png}
+		\caption{Acionamento em t=0}
+		\label{diversos_ssr:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssropen2.png}
+		\caption{Acionamento em t=\pi}
+		\label{diversos_ssr:2}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssropen5.png}
+		\caption{Acionamento em t=0 e t=\pi}
+		\label{diversos_ssr:3}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/SSR/ssropen1.png}
+		\caption{Acionamento em t$\neq$0 e t$\neq$\pi}
+		\label{diversos_ssr:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Acionamento do SSR em diferentes instantes da senóide da rede]{Acionamento do SSR em diferentes instantes da senóide da rede}
+	\label{diversos_ssr}
+\end{figure}
+
+\subsection{Servo-motor}
+\label{servo_aciona_results}
+
+A simualação do circuito de acionamento do servo-motor foi realizada com a saída em aberto ou seja, sem carga, tendo em vista que na prática foi ligado somente o terminal de controle do atuador, que deve apresentar alta impedância. O sinal de entrada empregado foi uma onda retangular com período de 20ms e \textit{duty-cycle} de 10\%. A figura \ref{switch_servo} apresenta o resultado da simulação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/spice/sim_servo.png}
+	\captionsetup{justification=centering}
+	\caption[Resultado da simulação do módulo de acionamentos de potência com carga simulando o servo-motor]{Resultado da simulação do módulo de acionamentos de potência com carga simulando o servo-motor}
+	\label{switch_servo}
+\end{figure}
+
+Quanto aos ensaios de bancada, foi ligado um resistor de 1,17\si{\ohm} em série com a alimentação do servo-motor e foi observado indiretamente o comportamento da corrente de alimentação deste por meio do uso de um osciloscópio, medindo a tensão sobre o resistor. Em todas as medições, foi registrado o comportamento do servo no período de transição em que o ângulo deste era variado de 90\si{\degree}. Na figura \ref{servo_angle_noload} é apresentado o resultado sem carga e na figura \ref{servo_angle_withload} é apresentado o comportamento com uma carga. O esquema para ensaios com carga está ilustrado na figura \ref{servo_load}. 
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/Servo/noload0.png}
+		\caption{Visão em close}
+		\label{servo_angle_noload:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/Servo/noload4.png}
+		\caption{Visão ampla}
+		\label{servo_angle_noload:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Comportamento da corrente de alimentação do servo-motor durante operação sem carga]{Comportamento da corrente de alimentação do servo-motor durante operação sem carga}
+	\label{servo_angle_noload}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/ensaiosBancada/Servo/y_load0.png}
+	\captionsetup{justification=centering}
+	\caption[Comportamento da corrente de alimentação do servo-motor durante operação com carga]{Comportamento da corrente de alimentação do servo-motor durante operação com carga}
+	\label{servo_angle_withload}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.11]{./Resources/ensaiosBancada/Servo/ensaio-servo2.jpg}
+	\captionsetup{justification=centering}
+	\caption[Teste do servo-motor com carga]{Teste do servo-motor com carga}
+	\label{servo_load}
+\end{figure}
+
+Também foi testado o comportamento da alimentação do servo quando ele está fixo em uma posição e é aplicado um torque mecânico ao seu eixo, conforme o esquema ilustrado na figura \ref{servo_load}. O resultado é apresentado na figura \ref{servo_angle_lock}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/ensaiosBancada/Servo/y_load1.png}
+	\captionsetup{justification=centering}
+	\caption[Comportamento da corrente de alimentação do servo-motor ao aplicar um torque ao seu eixo]{Comportamento da corrente de alimentação do servo-motor ao aplicar um torque ao seu eixo}
+	\label{servo_angle_lock}
+\end{figure}
+
+Com base nos resultados encontrados, enfatiza-se o uso de uma fonte de tensão separada para a fonte do servo-motor, no lugar da fonte da BBB. Isto se deve aos pulsos de corrente do servo, que podem exigir mais corrente do que a fonte da BBB pode fornecer e, consequentemente, reiniciar a BBB durante seu funcionamento.
+
+\subsection{Detector de \textit{zero-crossing}}
+\label{zero_results}
+
+A primeira simulação do circuito da figura \ref{zero_sch} foi realizada com o objetivo de comprovar o seu funcionamento para dois valores de R2: 10k\si{\ohm} e 22k\si{\ohm}. O circuito simulado é descrito na figura \ref{sch_sim_zero} e o resultado está expresso na figura \ref{sim_zero}, na qual a forma de onda em preto representa a saída do circuito; em vermelho a forma de onda sobre o coletor do transistor e; em azul a forma de onda aplicada à base do transistor.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/spice/circuito_sim.png}
+	\captionsetup{justification=centering}
+	\caption[Descrição da simulação do circuito detector de \textit{zero-crossing}]{Descrição da simulação do circuito detector de \textit{zero-crossing}}
+	\label{sch_sim_zero}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.8cm]{./Resources/spice/zero_R510k_1_42ms.png}
+		\caption{$R_{2}=10k\si{\ohm}$}
+		\label{sim_zero:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.8cm]{./Resources/spice/zero_R522k_750ms.png}
+		\caption{$R_{2}=22k\si{\ohm}$}
+		\label{sim_zero:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Comportamento do circuito detector de \textit{zero-crossing} para diferentes valores de atenuação da senóide retificada]{Comportamento do circuito detector de \textit{zero-crossing} para diferentes valores de atenuação da senóide retificada}
+	\label{sim_zero}
+\end{figure}
+
+Para ambos os valores do resistor, foi comprovado o funcionamento do circuito, porém observou-se que à medida que seu valor aumenta, a largura do pulso de saída se estreita. Isto se deve ao fato de que, quanto mais atenuado o sinal retificado, maior a sua porção que fica abaixo de 0,7V e, por conseguinte, maior o tempo que o transistor permanece em corte. Este comportamento observado foi comprovado com a simulação do circuito para diversos valores de R2, desde 1k\si{\ohm} até 50k\si{\ohm}. O resultado da simulação está descrito nas figuras \ref{zero_sim_tempo} (a) e (b), que mostra a forma de onda sobre o coletor e aplicada à base do transistor. A tabela \ref{tempos_zero} apresenta a largura do pulso que indica passagem por zero em função dos valores de R2 simulados.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.8cm]{./Resources/spice/multi_r_time.png}
+		\caption{Coletor}
+		\label{zero_sim_tempo:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.8cm]{./Resources/spice/multi_r_base.png}
+		\caption{Base}
+		\label{zero_sim_tempo:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Verificação do comportamento do circuito detector de \textit{zero-crossing} para diferentes valores de R2]{Verificação do comportamento do circuito detector de \textit{zero-crossing} para diferentes valores de R2}
+	\label{zero_sim_tempo}
+\end{figure}
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Largura do pulso que indica passagem por zero em função do valor de R2]{Largura do pulso que indica passagem por zero em função do valor de R2}
+		\label{tempos_zero}
+		\begin{tabular}{ | M{3cm} | M{5cm} |}
+			\hline
+			\textbf{R2 (k\si{\ohm})} & \textbf{largura do pulso (ms)} \\ \hline
+			1 & - \\ \hline
+			5 & 2,47 \\ \hline
+			10 & 1,38 \\ \hline
+			22 & 0,81 \\ \hline
+			33 & 0,66 \\ \hline
+			50 & 0,56 \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+É possível observar que o circuito não funciona corretamente para R2=1k\si{\ohm} (forma de onda preta), uma vez que o potencial $V_{be}$ não é suficiente para que o transistor passe a conduzir. Por outro lado, observa-se que quanto maior o valor de R2, menor é a largura do pulso que indica a passagem por zero. Também é interessante notar que a senóide da figura (b) é ceifada quando o transistor entra em condução, pois a junção base-emissor tem o comportamento de um diodo.
+
+Foi decidido o uso de R2=10k\si{\ohm} por ser um valor que traz uma largura de pulso suficiente para a aplicação proposta.
+
+Quanto à saída do optoacoplador, foi notado que o circuito simulado não fornece corrente suficiente para que a incidência luminosa sobre a base do fototransistor seja suficientemente intensa para permitir a condução plena deste dispositivo, conforme indicado na figura \ref{conducao_plena}. Isto não é um problema para a fonte de alimentação de 3,3V que será utilizada no projeto, conforme indicado em (a), já que a condução do circuito foi suficiente para fornecer um nível lógico baixo na saída, porém observou-se o comportamento mais acentuado quando a fonte foi substituída por uma de 12V, como ilustrado em (b).
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.8cm]{./Resources/spice/source_3v3.png}
+		\caption{Fonte de tensão de 3,3V}
+		\label{conducao_plena:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.8cm]{./Resources/spice/source_12v.png}
+		\caption{Fonte de tensão de 12V}
+		\label{conducao_plena:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação]{Saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação}
+	\label{conducao_plena}
+\end{figure}
+
+Outra preocupação com relação ao circuito foi o fato de que a queda de tensão sobre o resistor R3 é elevada e, portanto, a potência que este deve suportar não é desprezível. Seu valor é de 1,32W e foi obtido a partir da simulação realizada no LTSpice. A figura \ref{pot_res_cross} apresenta os valores de tensão (em preto), corrente (em azul) e potência (em vermelho) sobre o resistor, em função do tempo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/spice/zero_pot_1ponto32w.png}
+	\captionsetup{justification=centering}
+	\caption[Curvas de tensão, corrente e potência sobre o resistor de potência do circuito detector de \textit{zero-crossing}]{Curvas de tensão, corrente e potência sobre o resistor de potência do circuito detector de \textit{zero-crossing}}
+	\label{pot_res_cross}
+\end{figure}
+
+%\subsection{Detector de nível de líquido}

@@ -106,3 +106,42 @@ Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao 
 	\caption[Estrutura de adição de lúpulos]{Estrutura de adição de lúpulos}
 	\label{completa_hopbox}
 \end{figure}
+
+\subsection{Controle do servo-motor}
+
+Servomotor é um dispositivo de conversão eletromecânica que surgiu da necessidade de controle de posição angular de um motor de corrente contínua --- tanto é que um servomotor é um motor DC com controle e realimentação, ou seja, um dispositivo de malha fechada. Além da tensão de alimentação, o servomotor recebe um sinal de controle proporcional à posição desejada do eixo e atua no motor DC até que, através do ramo de realimentação, atinja-se a posição angular de entrada. A Figura \ref{servo_desmontado} apresenta um servomotor desmontado e a identificação de suas partes principais.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/servo/partes.png}
+	\captionsetup{justification=centering}
+	\caption[Servo-motor desmontado]{Servo-motor desmontado}
+	\label{servo_desmontado}
+\end{figure}
+
+Observa-se que o circuito de controle é um circuito integrado, porém não há ampla documentação acerca de sua arquitetura interna --- ele é o elemento do sistema de controle que atua no motor; já o potenciômentro é o elemento sensor do conjunto, cujo objetivo é fornecer a posição angular do eixo através da variação de sua resistência. O motor é a planta do sistema de controle, convertendo energia elétrica em rotação do eixo. O conjunto de engrenagens é responsável por aumentar o torque do mesmo, com a diminuição da velocidade de rotação.
+
+A caracterização do servomotor foi realizada em 4 partes: elaboração do código de controle para 8051; simulação no software Proteus ISIS; ensaio para determinar os valores práticos de operação do servomotor e; nova simulação no software Proteus ISIS. O código para AT89S52 --- compatível com 8051 --- é apresentado na caixa \ref{at_servo_code} do apêndice \ref{apendice_servo} e o diagrama esquemático do circuito de teste e simulação na figura \ref{circuito_servo}. O uso do AT89S52 se deve ao fato de que o uso do PWM com a BBB ainda não estivesse desenvolvido neste ponto do projeto, porém posteriormente a interface entre servo-motor e BBB foi realizada --- e os resultados estão descritos na seção \ref{aciona_results}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.23]{./Resources/servo/diagrama_esquematico.png}
+	\captionsetup{justification=centering}
+	\caption[Circuito de caracterização do servo-motor]{Circuito de caracterização do servo-motor}
+	\label{circuito_servo}
+\end{figure}
+
+Observa-se a necessidade de um buffer entre o microcontrolador AT89S52 e o servomotor, pois a corrente requisitada pelo pino de controle do servo é maior que a corrente máxima fornecida pelo \si{\micro}C. 
+
+Os resultados da caracterização do funcionamento do servo-motor estão documentados no apêndice \ref{apendice_servo}.
+
+
+
+
+
+
+
+
+
+
+

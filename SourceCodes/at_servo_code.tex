@@ -1,0 +1,160 @@
+\lstset{language=C}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Código-fonte de caracterização do funcionamento do servo-motor com AT89S52, label=at_servo_code]
+#include <at89s8252.h>
+/*********DEFINIÇÃO DOS PORTS E CONSTANTES**************/
+#define	RS		P1_0
+#define	RW		P1_1
+#define	E		P1_2
+#define	LCD		P1
+#define	LINE0		0x80
+#define	LINE1		0xC0
+#define 	SERVO		P2_0
+/********************************************************/
+
+/*************** VARIÁVEIS EXTERNAS*********************/
+volatile unsigned int estouro=0;
+volatile unsigned char ciclo=25;
+/********************************************************/
+
+/**************funções de main.c*******************/
+void config();
+void tmr0() __interrupt 1;
+void tmr1() __interrupt 3;
+void ext_int0() __interrupt 0;
+void ext_int1() __interrupt 2;
+void inicia_lcd();
+void envia_lcd(unsigned char);
+void envia_str_lcd(unsigned char [],unsigned char);
+void reset_lcd();
+void atraso(unsigned char);
+/****************fim das funções*******************/
+void config(){
+	TMOD=0x12;//timer 1 como timer(16b)) e timer 0 como timer(8b auto reload))
+	IE=0x8A;//interrupção geral e por timer 0 e 1 ativadas
+	TL0=TH0=0xCE;//preset para 50us
+	TH1=0xB1;//prepara para 20ms
+	TL1=0xDF;
+	EX0=EX1=1;	//habilita interrupção externa
+	TR1=1;//liga ambos os timers
+	TR0=1;
+	PT0=PT1=1;//prioridade de interrupção maior para os timers
+}
+
+void tmr0() __interrupt 1{
+	estouro++;
+	if(estouro==ciclo){//se deu a largura de pulso
+		estouro=0;//zera o controle
+		SERVO=0;
+		TR0=0;//desliga o timer
+	}
+}
+
+void tmr1() __interrupt 3{
+	TH1=0xB1;//prepara para 20ms
+	TL1=0xDF;
+	TL0=TH0=0xD8;//preset para 40us(12MHz) ou 20us(24MHz)
+	TR0=1;//liga o timer 0
+	SERVO=1;
+}
+
+void ext_int0() __interrupt 0{
+	unsigned int atraso;
+	//if(ciclo<126){//valor prático para 24MHz -> 2,5ms
+		ciclo++;
+	//}
+	for(atraso=0;atraso!=0xffff;atraso++);
+}
+
+void ext_int1() __interrupt 2{
+	unsigned int atraso;
+	//if(ciclo>24){//valor prático para 24MHz -> 0,5ms
+		ciclo--;
+	//}
+	for(atraso=0;atraso!=0xffff;atraso++);
+}
+
+void inicia_lcd(){
+	const unsigned char instr[]={0x06,0x0C,0x28,0x01};
+	unsigned char colorado,invicta;
+	RS=RW=E=0;
+	for(colorado=0;colorado!=60;colorado++){//gera um atraso de 15ms de inicialização
+		atraso(250);
+	}
+	E=1;
+	LCD=0x24;			//envia comando para operação em 4 bits
+	E=0;
+	for(invicta=0;invicta!=20;invicta++){		//gera um atraso de 5ms de inicialização
+		atraso(250);
+	}
+	for(colorado=0;colorado!=4;colorado++){	//envia as instruções de inicialização
+		envia_lcd(instr[colorado]);
+		for(invicta=0;invicta!=20;invicta++){	//gera um atraso de 5ms de inicialização
+			atraso(250);
+		}
+	}
+}
+
+void envia_lcd(unsigned char letra){
+	E=1;
+	LCD=(0x0f&LCD)|(letra&0xf0);//máscara para os bits de controle
+	E=0;
+	letra<<=4;//faz o swap dos nibbles
+	E=1;
+	LCD=(0x0f&LCD)|(letra&0xf0);//máscara para os bits de controle
+	E=0;
+	atraso(250);//espera enviar o dado
+}
+
+void envia_str_lcd(unsigned char string[],unsigned char pos){
+	unsigned char way;
+	RS=0;
+	envia_lcd(pos);
+	RS=1;
+	for(way=0;string[way]!='\0';way++){
+		envia_lcd(string[way]);
+	}
+}
+
+void reset_lcd(){
+	unsigned char coruja;
+	RS=RW=0;
+	E=1;
+	LCD=0x04;
+	E=0;
+	E=1;
+	LCD=0x14;
+	E=0;
+	for(coruja=0;coruja!=8;coruja++){	//gera um atraso de 2ms de inicialização
+		atraso(250);
+	}
+}
+
+void atraso(unsigned char tempo){
+	//essa rotina não é recomendada para tempos de menos que 30us(22us na verdade, massss....)
+	//as instruções a seguir corrigem o offset da função
+	tempo-=15;	//1us
+	tempo/=6;	//8us
+	//cada laço while demora 6us
+	while(tempo){	//enquanto o tempo em us não for zero
+		--tempo;//decrementa a cada ciclo do laço while
+	}
+}
+
+void main(){
+	unsigned char temp;
+	inicia_lcd();
+	envia_str_lcd("Ciclo:",0x80);
+	config();
+	while(1){
+		RS=0;
+		envia_lcd(0x86);
+		RS=1;
+		temp=ciclo/100;
+		envia_lcd(temp+'0');
+		temp=ciclo-temp*100;
+		envia_lcd((temp/10)+'0');
+		temp-=(temp/10)*10;
+		envia_lcd(temp+'0');
+	}
+}
+\end{lstlisting}

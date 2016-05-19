@@ -78,6 +78,15 @@ Códigos em elaboração.
 \section{Painel de controle de brassagem}
 \input{./SourceCodes/control_php.tex}
 
+\section{CSS do formulário}
+\input{./SourceCodes/form.tex}
+
+\section{CSS específico para alguns botões}
+\input{./SourceCodes/buttons.tex}
+
+\section{CSS do template da aplicação web}
+\input{./SourceCodes/config.tex}
+
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 \chapter{Arquivos de configuração do sistema}
@@ -89,6 +98,110 @@ Códigos em elaboração.
 \section{Device Tree para o DS18B20}
 \label{ap3ds18b20}
 \input{./SourceCodes/w1.dts.tex}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\chapter{Caracterização do funcionamento do servo-motor com AT89S52}
+\label{apendice_servo}
+
+\section{Simulação e ensaio em bancada}
+
+O "ciclo" referido a seguir é o mínimo incremento do tempo em alto do sinal de controle --- baseado em simulação, o código utilizado para gerar o pulso em nível alto apresentou uma limitação de período/incremento de 20\si{\micro}s para f=12MHz, portanto o código trabalha com resolução de 20us/incremento em 12MHz. Na figura \ref{servo_wave} é apresentada a forma de onda necessária para controlar o servo motor.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.30]{./Resources/servo/wave.png}
+	\captionsetup{justification=centering}
+	\caption[Forma de onda de acionamento do servo-motor]{Forma de onda de acionamento do servo-motor}
+	\label{servo_wave}
+\end{figure}
+
+O período T é fixo, com valor de 20ms, e o tempo em nível alto $\Delta$t é de, aprioximadamente $0,5ms < \Delta t < 2,5ms$. O objetivo da caracterização do servomotor em questão foi definir com precisão os limites de $\Delta$t. Após a simulação bem-sucedida do controle do servo motor incluso na bibloteca padrão do Proteus, o código foi efetivamente gravado no \si{\micro}C AT89S52, com f=24MHz e o motor foi excursionado até seus limites --- e além deles --- e seu comportamento foi observado e documentado, conforme é apresentado na figura \ref{excursao_servo}. O led vermelho ligado mecanicamente ao braço do servo é somente uma referência visual para a posição angular deste.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=5.5cm]{./Resources/servo/ciclo_26.jpg}
+		\caption{Limite físico inferior}
+		\label{excursao_servo:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=5.5cm]{./Resources/servo/ciclo_30.jpg}
+		\caption{Limite de operação inferior}
+		\label{excursao_servo:2}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=5.5cm]{./Resources/servo/ciclo_110.jpg}
+		\caption{Limite de operação superior}
+		\label{excursao_servo:3}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=5.5cm]{./Resources/servo/ciclo_114.jpg}
+		\caption{Limite físico superior}
+		\label{excursao_servo:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Limites de excursão do servo-motor]{Limites de excursão do servo-motor}
+	\label{excursao_servo}
+\end{figure}
+
+A partir do ensaio realizado, pôde ser observado que quando funcionando muito próximo dos limites de excursão, o motor gera vibração mecânica e calor excessivos. Como a excursão máxima, em graus, é maior do que 180\si{\degree}, a faixa segura de operação foi definina para $30 < ciclo < 110$, tendo em vista que essa faixa tem uma excursão aproximada de 180\si{\degree} e está distante dos valores mínimo e máximo de excursão.
+
+Voltando ao Proteus, ao simular o circuito, foi adicionado um osciloscópio ao pino de controle do servo motor, possibilitando a predição do tempo em alta do sinal. Três simulações para valores notáveis de "ciclo", i.e. incremento mínimo de $\Delta$t, foram feitas: para ciclo=1, determinando o offset da temporização, pois há atrasos de chamada de rotina de configuração dos temporizadores; ciclo=25, determinando o valor mínimo de operação e; ciclo=114, determinando o valor máximo de operação. Os resultados são mostrados na Figura \ref{sim_proteus}, onde é observado no osciloscópio o sinal para ciclo=1 e diversas marcações de temporização para outros valores de ciclo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/servo/limite_menor_pulso.png}
+	\captionsetup{justification=centering}
+	\caption[Simulação para obtenção do valor mínimo de incremento $\Delta$t]{Simulação para obtenção do valor mínimo de incremento $\Delta$t}
+	\label{sim_proteus}
+\end{figure}
+
+Diversas outras amostras de $\Delta$t foram registradas e seus valores interpolados de maneira a observar a linearidade tmin com a qual $\Delta$t é incrementado. O gráfico da Figura \ref{graph_servo_incr} apresenta os resultados.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/servo/grafico_linear.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico de $\Delta$t em função de \textit{ciclo}]{Gráfico de $\Delta$t em função de \textit{ciclo}}
+	\label{graph_servo_incr}
+\end{figure}
+
+A partir do ensaio e da simulação aqui descritos, foram obtidos os limites de operação do servomotor TowerPro MG995 e a fórmula de $\Delta$t em função do valor do seu incremento mínimo (ciclo). A tabela \ref{limites_servo} resume os limites de temporização do servo-motor MG995.
+
+\begin{align}
+	\label{eq_varetas}
+	\Delta t = (ciclo-1) \cdot t_min + offset \\
+	t_min = 20\si{\micro}s \nonumber \\
+	offset = 35\si{\micro}s \nonumber
+\end{align}
+
+\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Limites de temporização do servo-motor TowerPro MG995]{Limites de temporização do servo-motor TowerPro MG995}
+		\label{limites_servo}
+		\begin{tabular}{ | M{10cm} | M{5cm} |}
+			\hline
+			\textbf{Limite} & \textbf{Valor (ms)} \\ \hline
+			período mínimo & 10 \\ \hline
+			excursão mínima & 0,515 \\ \hline
+			excursão mínima ideal & 0,615 \\ \hline
+			excursão máxima & 2,295 \\ \hline
+			excursão máxima ideal & 2,215 \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+É importante que os limites de temporização sejam respeitados, uma vez que o motor, cuja excursão máxima é limitada mecânicamente, tenta compensá-la requisitando cada vez mais corrente da fonte, até queimar. Geralmente quando os limites são excedidos ou chegam próximos do máximo, o motor começa a vibrar e aquecer, indicando ao projetista atento que há algo errado.
+
+\section{Código-fonte}
+\input{./SourceCodes/at_servo_code.tex}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \chapter{Cálculo de OG e IBU de uma receita de cerveja}
@@ -153,3 +266,24 @@ Considerando o guia do BJCP (Beer Judge Certification Program), que é adotado po
 
 \chapter{Análise do tempo de leitura do sensor DS18B20 em Python}
 \label{analise_tread_temp}
+
+\chapter{Diagrama esquemático do circuito de acionamentos de potência}
+\label{esquematico_acionamentos}
+
+\newpage
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/proteus/potenciaFolha1_menor.png}
+	%\captionsetup{justification=centering}
+	%\caption[Módulo do circuito de acionamentos de potência]{Módulo do circuito de acionamentos de potência}
+	%\label{pot_one_module}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/proteus/potenciaFolha2_menor.png}
+	%\captionsetup{justification=centering}
+	%\caption[Módulo do circuito de acionamentos de potência]{Módulo do circuito de acionamentos de potência}
+	%\label{pot_one_module}
+\end{figure}
