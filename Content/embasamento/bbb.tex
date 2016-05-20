@@ -191,6 +191,7 @@ No que diz respeito ao desenvolvimento de \textit{firmware} para a PRU, há um co
 \end{figure}
 
 \subsection{\textit{Device Tree}}
+\label{dt_section}
 
 A \textit{Device Tree} ou DT é basicamente uma estrutura de dados utilizada para descrever \textit{hardware}, cujo objetivo é possibilitar que as características de \textit{hardware} de um sistema específico sejam passadas para o SO durante o \textit{boot}, ao invés de estas informações ficarem gravadas no SO \cite{devicetree}, o que possibilita que um \textit{driver} do Kernel seja usado em configurações diferentes de \textit{hardware} sem a necessidade de modificações em seu código-fonte. Com relação aos sistemas equipados com processadores ARM, a necessidade de uso da DT surgiu devido ao grande número de novas placas, que tornou muito difícil manter uma versão do Kernel para cada sistema. Seu objetivo não é modificar o sistema em tempo de execução, porém no caso da BBB, foi criada uma solução chamada \textit{Device Tree Overlay} (ou sobreposição) para executar esta função, facilitando a configuração de GPIO, dentre outras funções, e uso da DT pelo usuário final \cite{bbb_devicetree}, fatores que são do interesse de aprendizes da área.
 

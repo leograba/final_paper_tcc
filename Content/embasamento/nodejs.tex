@@ -26,17 +26,17 @@ leBotao(function(botaoStatus){
 
 \subsection{\textit{Node Package Manager - NPM}}
 
-O \textit{Node Package Manager}, ou simplesmente NPM, é não somente um gerenciador de pacotes como também é um repositório de pacotes de terceiros e um padrão para definição de dependências. Os pacotes ficam em um registro público e podem ser gerenciados por uma ferramenta própria por linha de comando. O uso do NPM não é obrigatório, mas à medida que aplicações mais complexas são desenvolvidas é quase mandatório seu uso, pois assim é possível usar módulos prontos para executar diversas tarefas com facilidade. Uma vantagem do NPM é que os módulos podem ser instalados localmente, restringindo-os ao diretório do projeto e, portanto, garantindo certo nível de segurança. \cite{node_book}. Abaixo é apresentado um exemplo no qual o pacote fictício \textit{meuPacote} é instalado para a versão mais recente adicionada ao repositório do NPM:
+O \textit{Node Package Manager}, ou simplesmente NPM, é não somente um gerenciador de pacotes como também é um repositório de pacotes de terceiros e um padrão para definição de dependências. Seu uso não é obrigatório, mas à medida que aplicações mais complexas são desenvolvidas se torna quase mandatório, pois assim é possível usar módulos prontos para executar diversas tarefas com facilidade. Uma vantagem do NPM é que os módulos podem ser instalados localmente, restringindo-os ao diretório do projeto e, portanto, garantindo certo nível de segurança. \cite{node_book}. Na caixa \ref{install_npm_specific} é apresentado um exemplo no qual o pacote fictício \textit{meuPacote} é instalado para a versão mais recente adicionada ao repositório do NPM:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação de pacote usando o NPM, label=install_npm_specific]
 npm install meuPacote@latest
 \end{lstlisting}
 
-Outro exemplo de uso do NPM é a definição de dependências de um projeto e posterior possibilidade de instalação de todas elas de uma só vez. Para isto, um arquivo no formato JSON descreve estas dependências e outras informações do projeto:
+Outro exemplo de uso do NPM é a definição de dependências de um projeto e posterior possibilidade de instalação de todas elas de uma só vez. Para isto, um arquivo no formato JSON descreve estas dependências e outras informações do projeto, conforme ilustrado no exemplo da caixa \ref{describe_npm}:
 
 \lstset{language=javascript}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Descrição e dependências de um projeto usando NPM, label=describe_npm]
 {
 	"name" : "meuPacote",
 	"version" : "1.0.0",
@@ -48,16 +48,16 @@ Outro exemplo de uso do NPM é a definição de dependências de um projeto e poster
 }
 \end{lstlisting}
 
-E a instalação das dependências se dá da seguinte maneira, assumindo que o presente diretório de trabalho é o mesmo do projeto:
+E a instalação das dependências é executada conforme descrito na caixa \ref{install_npm_prj}, assumindo que o presente diretório de trabalho é o mesmo do projeto:
 
 \lstset{language=bash}
-\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily]
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação de dependências usando o NPM, label=install_npm_prj]
 npm install
 \end{lstlisting}
 
 \subsection{\textit{MEAN Stack}}
 
-MEAN é uma pilha de desenvolvimento, de código aberto, para aplicações web e provê um conjunto de quatro ferramentas que, juntas, são a base necessária para a criação de aplicações tanto de servidor quanto do cliente. Um exemplo de pilha de desenvolvimento para aplicações web muito disseminado é a pilha LAMP. Voltando à MEAN, cada uma das 4 letras deste acrônimo representa uma das ferramentas \cite{node_mean}:
+MEAN é uma pilha de desenvolvimento (similar à amplamente difundida pilha LAMP) de código aberto, voltada para o desenvolvimento de aplicações web e que provê um conjunto de quatro ferramentas. Juntas, estas são a base necessária para a criação de aplicações tanto de servidor quanto do cliente. Cada uma das 4 letras deste acrônimo representa uma das ferramentas \cite{node_mean}:
 
 \begin{itemize}
 	\item \textbf{MongoDB} - banco de dados orientado a objetos
@@ -66,13 +66,13 @@ MEAN é uma pilha de desenvolvimento, de código aberto, para aplicações web e pro
 	\item \textbf{Node.js} - base da aplicação do servidor
 \end{itemize}
 
-Note-se que toda a pilha é baseada na linguagem Javascript, o que permite ao desenvolvedor de uma solução completa uma curva de aprendizado mais rápida, pois menos tempo é empregado aprendendo a sintaxe e o paradigma de programação e mais tempo dedicado à funcionalidade da aplicação em si \cite{node_mean}.
+Note-se que toda a pilha é baseada na linguagem Javascript, o que permite ao desenvolvedor de uma solução completa uma curva de aprendizado mais rápida, pois menos tempo é empregado aprendendo a sintaxe e o paradigma de programação e mais tempo dedicado à funcionalidade da aplicação em si \cite{node_mean}. Dois casos de aplicações web desenvolvidas em Node são o serviço de streaming de vídeo Netflix, que inclusive encontrou alguns problemas relacionados ao uso do framework Express \cite{node_in_flames}, e a empresa de transporte Uber \cite{uber_node}.
 
 \subsection{Servidor Express.js}
 
 Express é um framework de \textit{middleware} para implementação de aplicações web no servidor, incluindo mas não limitado a roteamento e operações HTTP, a exemplo dos métodos GET e POST. Embora o Node apresente um módulo dedicado a HTTP, a proposta do Express é simplificar seu uso e evitar que o mesmo trabalho seja realizado múltiplas vezes e por várias pessoas diferentes \cite{node_mean}.
 
-Dentre as facilidades proporcionadas pelo node está a fácil implementação de diferentes respostas para diferentes tipos de requisições baseadas no método HTTP e a renderização dinâmica de documentos HTML \cite{node_book}. O tratamento de requisições baseadas no método HTTP, possibilitado pelo Express, também é conhecido como RESTful API, que é uma API baseada no REST (\textit{Representational State Transfer}). Este por sua vez é um modelo para serviços web que implementa as operações HTTP POST, GET, PUT e DELETE, que são mapeadas como operações básicas de banco de dados: criar, ler, atualizar e deletar \cite{node_mean}.
+Dentre as facilidades proporcionadas pelo Node está a fácil implementação de diferentes respostas para diferentes tipos de requisições baseadas no método HTTP e a renderização dinâmica de documentos HTML \cite{node_book}. O tratamento de requisições baseadas no método HTTP, possibilitado pelo Express, também é conhecido como RESTful API, que é uma API baseada no REST (\textit{Representational State Transfer}). Este por sua vez é um modelo para serviços web que implementa as operações HTTP POST, GET, PUT e DELETE, que são mapeadas como operações básicas de banco de dados: criar, ler, atualizar e deletar \cite{node_mean}.
 
 %\subsection{Performance do Node.js}
 
