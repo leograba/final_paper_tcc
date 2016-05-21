@@ -30,29 +30,34 @@ body{
 
 h1{
     font-family:"Arial", Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size:2.5em;
     color:#FFD633;
 }
 
 h2{
     font-family:"Arial", Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size:2.0em;
     color:#FFD633;
 }
 
 p{
     font-family:"Arial", Helvetica, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size:1.15em;
     color:#494949;
 }
 
 li{
+    font-family: 'Roboto', sans-serif;
     font-family:"Arial", Helvetica, sans-serif;
     font-size:1.15em;
     color:#494949;
 }
 
 .prevhead{
+    font-family: 'Roboto', sans-serif;
     font-family:"Arial", Helvetica, sans-serif;
     font-size:13px;
     color:#FFD633;
@@ -63,6 +68,7 @@ li{
 }
 
 .prev{
+    font-family: 'Roboto', sans-serif;
     font-family:"Arial", Helvetica, sans-serif;
     font-size:13px;
     color:#FFFFFF;
@@ -72,6 +78,7 @@ li{
 }
 
 a:link, a:visited{
+    font-family: 'Roboto', sans-serif;
     font-family:"Arial", Helvetica, sans-serif;
     font-size:1.15em;
     text-decoration:none;
@@ -84,12 +91,14 @@ a:hover, a:active{
 }
 
 ol{
+    font-family: 'Roboto', sans-serif;
     font-family:"Arial", Helvetica, sans-serif;
     font-size:1.15em;
     color:#FFD633;
 }
 
 .enter, .del{
+    font-family: 'Roboto', sans-serif;
     font-family:"Arial", Helvetica, sans-serif;
     font-weight:bolder;
     font-size:10px;
@@ -111,6 +120,7 @@ ol{
     width:30%;
     background:#33282C;
     color:#f5cc7a;
+    font-family: 'Roboto', sans-serif;
     font-family: Tahoma, Geneva, sans-serif;
     height:30px;
     -webkit-border-radius: 15px;
@@ -131,6 +141,7 @@ input[type=text]
     box-sizing: border-box;
     display:inline-block;
     vertical-align: middle;
+    font-family: 'Roboto', sans-serif;
     font-family: Tahoma, Geneva, sans-serif;
     font-style: normal;
     font-weight: bold;
@@ -148,6 +159,7 @@ select
    box-sizing: border-box;
    display:inline-block;
    vertical-align: middle;
+   font-family: 'Roboto', sans-serif;
    font-family: Arial, Helvetica, Sans-Serif;
    font-style: normal;
    font-weight: bold;
@@ -175,6 +187,7 @@ form.myform
    
    margin:auto;
    position:relative;
+   font-family: 'Roboto', sans-serif;
    font-family: Tahoma, Geneva, sans-serif;
    font-size: 14px;
    line-height: 24px;
@@ -201,6 +214,7 @@ label.myform
 input.myform, select.myform, textarea.myform
 {
    vertical-align: middle;
+   font-family: 'Roboto', sans-serif;
    font-family: Arial, Helvetica, Sans-Serif;
    font-style: normal;
    font-weight: bold;
@@ -215,6 +229,7 @@ input[type=number].myform
    box-sizing: border-box;
    display:inline-block;
    vertical-align: middle;
+   font-family: 'Roboto', sans-serif;
    font-family: Arial, Helvetica, Sans-Serif;
    font-style: normal;
    font-weight: bold;
@@ -232,6 +247,7 @@ input[type=text].myform
    box-sizing: border-box;
    display:inline-block;
    vertical-align: middle;
+   font-family: 'Roboto', sans-serif;
    font-family: Arial, Helvetica, Sans-Serif;
    font-style: normal;
    font-weight: bold;
@@ -249,6 +265,7 @@ input[type=datetime-local].myform
    box-sizing: border-box;
    display:inline-block;
    vertical-align: middle;
+   font-family: 'Roboto', sans-serif;
    font-family: Arial, Helvetica, Sans-Serif;
    font-style: normal;
    font-weight: bold;
@@ -267,6 +284,7 @@ input[type=submit].myform
    float:right;
    background:#33282C;
    color:#f5cc7a;
+   font-family: 'Roboto', sans-serif;
    font-family: Tahoma, Geneva, sans-serif;
    height:30px;
    -webkit-border-radius: 15px;
@@ -287,6 +305,7 @@ input[type=reset].myform
    float:right;
    background:#33282C;
    color:#f5cc7a;
+   font-family: 'Roboto', sans-serif;
    font-family: Tahoma, Geneva, sans-serif;
    height:30px;
    -webkit-border-radius: 15px;
@@ -307,6 +326,7 @@ input[type=button].myform
    float:right;
    background:#33282C;
    color:#f5cc7a;
+   font-family: 'Roboto', sans-serif;
    font-family: Tahoma, Geneva, sans-serif;
    height:30px;
    -webkit-border-radius: 15px;
@@ -556,6 +576,7 @@ a.headerlink{
     text-align:center;
     line-height: 40px;
     color:#f5cc7a;
+    font-family: 'Roboto', sans-serif;
     font-family: Tahoma, Geneva, sans-serif;
     font-weight:bold;
     width:100%;

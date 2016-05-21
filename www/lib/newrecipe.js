@@ -42,11 +42,14 @@ function rearrange(catg, line){//rearrange from LINE passed to the last line
   if(!nextLineEmpty){//if all next lines are empty
     if(!firstLineEmpty){//if a line that wasn't the last filled line is deleted
       line--;//correct the index, so it points to the last filled line
+      console.log("égua doido1: " + $(catg + (line+1)).children().length/2);
     }
     else if(firstLineEmpty != $(catg + (line+1)).children().length/2){//if last filled line is incomplete
+      console.log("égua doido2: " + $(catg + (line+1)).children().length/2);
       $(catg + (line+1)).hide();//do not show the next empty line
     }
     else{//but if last filled line is fully filled
+      console.log("égua doido3: " + $(catg + (line+1)).children().length/2);
       $(catg + (line+1)).show();//show the next line to the user
     }
     for(i = 1; i <= line; i++){//show the non-empty lines

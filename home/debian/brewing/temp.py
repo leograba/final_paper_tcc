@@ -8,9 +8,13 @@ import os.path
 #import datetime
 #import wiringpi2 as wpi 
 
+#Sensors ID x resistor
+#28-031553afe2ff -> 6k8 (azul-cinza-vermelho)
+#28-0315539a4cff -> 15 (marrom-verde-preto)
+
 def tread():
 	"""lê temperatura do DS18B20 e retorna em celsius"""
-	tfile = open("/sys/bus/w1/devices/28-000004ee8ded/w1_slave")
+	tfile = open("/sys/bus/w1/devices/28-031553afe2ff/w1_slave")
 	tfile.readline()
 	temp_raw = tfile.readline()
 	tfile.close()

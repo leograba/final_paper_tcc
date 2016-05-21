@@ -31,6 +31,15 @@
 	                $.post("/config", {request:"setdatetime", newdate:newdateval}, function(data, status){
 	                	if(status == "success" && data.datetime == "ok"){//if server responds ok
 	                		console.log($("#get_time_date").val());
+	                		$("#errorMsg").hide();
+	                	}
+	                	else if(status == "success" && data.datetime == "denied"){
+	                		console.log('user cannot change date');
+	                		$("#errorMsg").text("Operação não permitida devido a ajuste automático de data/hora.").show();
+	                	}
+	                	else{
+	                		console.log('some error on the server');
+	                		$("#errorMsg").text("Erro inesperado, tente novamente.").show();
 	                	}
 	                },"json");
 	            }
@@ -46,6 +55,7 @@
 
 <body style="display:none;">
     <h1>Configurações e ajustes</h1>
+    <p id="errorMsg" style="display:none;"></p>
     <form class="myform" id="form" name="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
         <h3 id="datahora"></h3>
         <div>
