@@ -17,9 +17,9 @@
 					//valveToggle);
 				
 				$("#confirmStartNextStep").click(function startMashRamp(){//whenever button is clicked
-					$.post("/clientrequest", {command:"startMashRamp"}, function(data, status){
+					$.post("/clientrequest", {command:"ready"}, function(data, status){
 						if(status == "success"){//if server responds ok
-							console.log("Starting the ramp control process");
+							console.log(data.resp);
 						}
 					},"json");
 				});
@@ -100,13 +100,13 @@
 								$("#current_status").text("Degrau de repouso: ");
 								if(data.tmpBKsetp){//if sparging is set
 									if(data.timeLeft >= 1){
-										console.log("minutos");
+										//console.log("minutos");
 										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
 											Math.floor(data.timeLeft) + ":" + (data.timeLeft % 1)*60 + 
 											" minutos restantes. Temperatura de sparging: " + data.tmpBK + "°C");
 									}
 									else{
-										console.log("segundos");
+										//console.log("segundos");
 										$("#current_status_helper").html(data.tmpMT + "°C &rarr; " + 
 											Math.round((data.timeLeft % 1)*60) + " segundos restantes. " +
 											"Temperatura de sparging: " + data.tmpBK + "°C");
@@ -137,12 +137,37 @@
 								$("#current_status_helper").html(data.tmpBK + "°C");
 								break;
 							case 9://boiling the wort
+								var tleft = (data.timestamps.boilFinishScheduled - data.timestamps.curr)/60000;
 								$("#current_status").text("Fervura em andamento. ");
-								$("#current_status_helper").html((data.timestamps.boilFinishScheduled - data.timestamps.curr)/60000 + " minutos restantes");
+								//$("#current_status_helper").html((data.timestamps.boilFinishScheduled - data.timestamps.curr)/60000 + " minutos restantes");
+								if(tleft >= 1){
+									//console.log("minutos");
+									$("#current_status_helper").html(Math.floor(tleft) + ":" + Math.ceil((tleft % 1)*60) + 
+										" minutos restantes.");
+								}
+								else{
+									//console.log("segundos");
+									$("#current_status_helper").html(Math.round((tleft % 1)*60) + " segundos restantes.");
+								}
 								break;
 							case 10://hop added
 								$("#current_status").text("Fervura em andamento. ");
 								$("#current_status_helper").text("Lúpulo adicionado!");
+								break;
+							case 11://chilling the wort
+								$("#current_status").text("Esfriando o mosto.");
+								$("#current_status_helper").text("");
+								break;
+							case 12://waiting for the user ok to start cleaning process
+								$("#current_status").text("Prepare a limpeza e clique em prosseguir!");
+								$("#current_status_helper").text("");
+								$("#confirmationButton").prop("checked", false);
+								$("#confirmationButton").show();//wait for the user to click this button to continue
+								break;
+							case 13://if the cleaning control is going on
+								$("#confirmationButton").hide();
+								$("#current_status").text("Limpeza em andamento ");
+								$("#current_status_helper").text("");
 								break;
 						}
 						$("h2").show();//show some information/status message

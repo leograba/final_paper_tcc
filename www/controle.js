@@ -43,7 +43,12 @@ global.environmentVariables = {
 		startSparge: "",//here the recirculation pump starts working
 		heatingBoil: "",//started to heat the wort after sparging
 		boilStart: "",//time when temperature is near enough boiling (>96°C)
+		//hop additions
+		hAdd0: "", hAdd1: "", hAdd2: "", hAdd3: "", hAdd4: "", hAdd5: "", hAdd6: "", hAdd7: "", 
 		boilFinishScheduled: "",//time when the boil is scheduled to finish
+		chillStart: "",//time when the the boil really finishes and the chilling starts
+		end: "",//epoch time of the end of the brewing (there is cleaning after it)
+		cleaningStart: "",//when the cleaning recirculation process starts
 	},
 	ioStatus: gpioCfg.all_io,//also records the IO status
 	okToStart: false, //true if a recipe is ok enough to start a production
