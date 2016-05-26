@@ -30,82 +30,28 @@ A motivação para este trabalho, portanto, surgiu a partir da constatação de que 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section{Objetivos}
 
-Para melhor entender os objetivos propostos, uma breve introdução ao processo de produção de cerveja é necessária, visando a identificação dos processos que podem ser automatizados. As principais etapas são: moagem dos maltes - moagem dos grãos maltados de cevada; mostura - cozimento dos maltes seguindo rampas e patamares específicos de temperatura; filtragem do mosto - recirculação do líquido (mosto) por um filtro, com o objetivo de evitar que ele apresente material particulado e em suspensão; lavagem dos grãos - processo opcional no qual, após separar o mosto dos grãos, estes são lavados para extrair o máximo possível dos seus açúcares fermentáveis; fervura do mosto - processo de fervura do mosto por um tempo predeterminado e adição dos lúpulos ao longo do processo; \textit{whirlpool} - separação das proteínas coaguladas e material particulado do líquido, geralmente feito por centrifugação; resfriamento - diminuição abrupta da temperatura do mosto a fim de evitar sua contaminação por bactérias, utilizando um \textit{chiller}, também conhecido como trocador de calor; adição das leveduras e fermentação - processo que transforma os açúcares fermentáveis da cerveja em álcool e gás carbônico; maturação - processo de envase ou consumo do barril - o envase seguido de uma refermentação da garrafa serve para carbonatar a cerveja, enquanto ao consumir diretamente do barril, é preciso ter um equipamento que possibilite a carbonatação forçada da mesma \cite{palmer}.
-
-Conhecido o processo de produção, é possível entender o que se esperava obter do trabalho: projeto de um sistema embarcado multiprocessado que automatiza o processo de produção de cerveja desde o cozimento do mosto até seu resfriamento. A moagem dos grãos e as etapas subsequentes ao resfriamento não foram inclusas no escopo deste projeto, uma vez que a soma de toda a automação seria impraticável em função do orçamento e do tempo disponíveis. Com relação ao controle e monitoramento, o microcontrolador ARM do sistema executou uma distribuição de Linux embarcado, sobre a qual foi implementado um servidor web que hospedou a interface de usuário e também o código de controle do sistema. A interface possibilitou ao usuário adicionar, editar e excluir receitas; iniciar, monitorar e modificar \textit{on-the-fly} o processo automático de produção de cerveja; apresentou estatísticas do sistema e; ofereceu opções de configuração geral do sistema embarcado. 
+A descrição do objetivo do projeto é: um sistema de Linux embarcado que automatiza o processo de produção de cerveja desde o cozimento do mosto até seu resfriamento. Com relação ao controle e monitoramento, no sistema embarcado deve rodar um servidor web em conjunto com um algoritmo de controle automático da brassagem, que forneça ao operador do sistema uma interface web para gerenciamento de receitas e controle e monitoramento do sistema. O projeto da mecânica do sistema também deve ser contemplado, focando em uma configuração que permita a automação proposta.
 
 Os objetivos gerais e específicos do projeto foram:
 
 \begin{itemize}
 	\item Implantação de distribuição Debian do Linux no sistema BeagleBone Black
-	\item Projeto de interfaceamento entre sensores diversos e o sistema BeagleBone Black
+	\item Interfaceamento entre o sensor DS18B20 e o sistema BeagleBone Black
 	\item Projeto, aquisição dos componentes e montagem do sistema mecânico
-	\item Levantamento das plantas térmicas a serem controladas
-	\item Projeto dos controladores do sistema de temperatura e implementação no subsistema PRU-ICSS
 	\item Projeto do acionamento dos resistores de potência
 	\item Projeto e implementação do programa de controle de acionamento de válvulas e bombas, e adição de ingradientes
 	\item Desenvolvimento da interface web do sistema
-	\item Detecção e tomada de decisões em caso de interrupção no fornecimento de energia
 	\item Teste e validação do funcionamento do sistema completo
-	\item Verificação organoléptica subjetiva da qualidade da cerveja, objetivando a comprovação do funcionamento do sistema 
 \end{itemize}
-
-\subsection{Cronograma}
-\label{cronograma}
-
-O cronograma previsto para a realização deste projeto contém as atividades e suas respectivas alocações de tempo. As atividadas são listadas na tabela \ref{objTCC} e o cronograma é exposto na figura \ref{cronogramaPrev}.
-
-\begin{center}
-	\begin{table}[H]
-		\captionsetup{justification=centering}
-		\caption{Atividades propostas do Trabalho de Conclusão de Curso}
-		\label{objTCC}
-		\begin{tabular}{ | P{3cm} | p{12cm} |}
-			\hline
-			\textbf{Atividade} & \multicolumn{1}{|c|}{\textbf{Descrição}} \\ \hline
-			1 & Instalação do Debian na memória eMMC da BeagleBone Black\\
-			2 & Acesso aos terminais de E/S da BeagleBone Black \\
-			3 & Instalação e uso de módulo WI-FI USB \\
-			4 & Interfaceamento e uso de sensores de temperatura DS18B20 \\
-			5 & Projeto da parte mecânica \\
-			6 & Aquisição das peças e montagem da parte mecânica \\
-			7 & Dimensionamento e aquisição dos resistores de aquecimento \\
-			8 & Projeto, teste e interfaceamento do circuito de acionamento das bombas de recirculação e válvulas solenóide \\
-			9 & Teste de funcionamento da parte mecânica, com controle manual \\
-			10 & Projeto do acionamento dos resistores de potência, utilizando relé de estado sólido \\
-			11 & Projeto, teste e interfaceamento de sistema de detecção de vazão \\
-			12 & Projeto dos sistemas de adição controlada de insumos \\
-			13 & Levantamento das plantas térmicas do sistema \\
-			14 & Projeto dos controladores PID digitais e implementação no subsistema PRU-ICSS \\
-			15 & Desenvolvimento da interface web para cadastro de receitas de cerveja \\
-			16 & Desenvolvimento da interface web para acompanhamento do processo de brassagem \\
-			17 & Desenvolvimento da interface web para controle e ajustes do processo de brassagem \textit{on-the-fly} \\
-			18 & Desenvolvimento da interface web para acesso a estatísticas das produções anteriores \\
-			19 & Teste completo do sistema \\
-			20 & Pesquisa de avaliação organoléptica da cerveja produzida, para validação do sistema \\
-			21 & Redação da monografia \\
-			\hline
-		\end{tabular}
-	\end{table}
-\end{center}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.57]{./Resources/CronogramaTCC.pdf}
-	\captionsetup{justification=centering}
-	\caption{Cronograma do Trabalho de Conclusão de Curso}
-	\label{cronogramaPrev}
-\end{figure}
-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 \section {Justificativas/relevância}
 
 Este trabalho objetivou a aplicação de conhecimentos e técnicas -- além da busca pelo estado da arte -- nas áreas de sistemas de controle, circuitos elétricos e eletrônicos, instrumentação, microcontroladores e sistemas digitais. Conhecimentos estes obtidos durante o curso de graduação em Engenharia Elétrica - Ênfase em Eletrônica.
 
-Outro foco foi o aprendizado de novos conhecimentos, majoritariamente nas áreas de Linux embarcado, que compreende computadores em módulo e computadores de placa única, desenvolvimento de aplicações \textit{web} e engenharia mecânica.
+Outro foco foi o aprendizado de novos conhecimentos, majoritariamente nas áreas de Linux embarcado, que compreende computadores em módulo e SBC (\textit{single board computers} ou computadores de placa única), desenvolvimento de aplicações \textit{web} e engenharia mecânica.
 
-Este trabalho foi importante uma vez que se propôs a resolver problemas e criar métodos de automação para uma indústria representativa no mercado nacional, além de empregar tecnologias de ponta da área de sistemas embarcados a uma aplicação, fomentando o seu uso no Brasil. Do ponto de vista de criação de um produto, a contribuição deixada foi o incentivo da população ao \textbf{consumo consciente} de cervejas --- bandeira levantada pelas microcervejarias artesanais nacionais, com o lema "beba menos, beba melhor", e que é de interesse da saúde pública.
+Este trabalho foi importante uma vez que se propôs a resolver problemas e criar métodos de automação para uma indústria representativa no mercado nacional, além de empregar tecnologias de ponta da área de sistemas embarcados a uma aplicação, fomentando o seu uso no Brasil. Do ponto de vista de criação de um produto, a contribuição deixada foi o incentivo da população ao \textbf{consumo consciente} de cervejas, por meio do fomento da cultura cervejeira --- bandeira levantada pelas microcervejarias artesanais nacionais, com o lema "beba menos, beba melhor", e que é de interesse da saúde pública.
 
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
