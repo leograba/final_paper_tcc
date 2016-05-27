@@ -1,0 +1,114 @@
+A \textit{Device Tree} ou DT é basicamente uma estrutura de dados utilizada para descrever \textit{hardware}, cujo objetivo é possibilitar que as características de \textit{hardware} de um sistema específico sejam passadas para o SO durante o \textit{boot}, ao invés de estas informações ficarem gravadas no SO \cite{devicetree}, o que possibilita que um \textit{driver} do Kernel seja usado em configurações diferentes de \textit{hardware} sem a necessidade de modificações em seu código-fonte. Com relação aos sistemas equipados com processadores ARM, a necessidade de uso da DT surgiu devido ao grande número de novas placas, que tornou muito difícil manter uma versão do Kernel para cada sistema. Seu objetivo não é modificar o sistema em tempo de execução, porém no caso da BBB, foi criada uma solução chamada \textit{Device Tree Overlay} (ou sobreposição) para executar esta função, facilitando a configuração de GPIO, dentre outras funções, e uso da DT pelo usuário final \cite{bbb_devicetree}, fatores que são do interesse de aprendizes da área.
+
+Uma DT é uma estrutura em árvore, composta de nós e propriedades. Uma abordagem para entender o seu funcionamento é por meio de um exemplo de sobreposição específico para a BBB. Na caixa de código-fonte \ref{dt_example} é apresentado um exemplo de sobreposição de DT específico da BBB que apresenta os principais conceitos para o uso desta ferramenta.
+
+Neste código, na linha 14 é definida a plataforma à qual esta DT se refere. Com isso, ficam declaradas as funcionalidades de \textit{hardware} do sistema. Na sequência, a identificação mostra quais sobreposições de DT estão carregadas e o nome do arquivo compilado deve ser igual ao nome nela atribuído; a versão deve ser 00A0 para a BBB. Entre as linhas 20 e 26 são listados os recursos de \textit{hardware} utilizados por esta sobreposição, que impedem que outras sobreposições que usem os mesmos recursos sejam carregadas; no caso deste exemplo, os pinos referentes à UART1, assim como o próprio dispositivo UART1 são utilizados. A seguir, os fragmentos descrevem qual dispositivo terá suas configurações sobrepostas. No fragmento 0, é o multiplexador dos pinos da BBB, compatível com o \textit{driver} \textit{pinctrl-single} - os dois valores hexadecimais utilizados para cada pino são o \textit{offset} do pino com relação ao seu registrador e a configuração do pino. Já no fragmento 1 é configurada a interface UART1. Por enquanto, serão introduzidas somente as questões referentes à configuração do multiplexador, uma vez que seu conhecimento foi necessário para o uso dos pinos no modo GPIO.
+
+Para determinar o valor hexadecimal de \textit{offset} do pino ao qual se deseja aplicar uma configuração, primeiro é preciso obter seu nome a partir do seu número na barra de pinos, conforme ilustrado na figura \ref{bbb_pins_def}, consultando as tabelas \ref{p8-header} e \ref{p9-header}, nas quais o nome do pino é referente ao \textbf{modo 0}, que também é o nome do pino no manual do SoC \cite{bbb_srm, soc_manual}. A seguir, obtém-se o valor hexadecimal do registrador referente ao pino, na tabela \ref{dt_offset} presente no anexo \ref{Anexo2}, adaptada do manual do SoC, e subtrai-se 0x800 de seu valor original.
+
+\newpage
+
+\lstset{language=dtc}
+\begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Sobreposição de \textit{device tree}, label=dt_example]
+/* Copyright (C) 2013 CircuitCo */
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "ti,beaglebone", "ti,beaglebone-black";
+
+	/* identification */
+	part-number = "BB-UART1";
+	version = "00A0";
+	
+	/* state the resources this cape uses */
+	exclusive-use =
+		/* the pin header uses */
+		"P9.24",        /* uart1_txd */
+		"P9.26",        /* uart1_rxd */
+		/* the hardware ip uses */
+		"uart1";
+	
+	fragment@0 {
+		target = <&am33xx_pinmux>;
+		__overlay__ {
+			bb_uart1_pins: pinmux_bb_uart1_pins {
+				pinctrl-single,pins = <
+		/* P9.24 uart1_txd.uart1_txd MODE0 OUTPUT (TX) */
+					0x184 0x20
+		/* P9.26 uart1_rxd.uart1_rxd MODE0 INPUT (RX) */ 
+					0x180 0x20
+				>;
+			};
+		};
+	};
+	
+	fragment@1 {
+		target = <&uart2>;	/* really uart1 */
+		__overlay__ {
+			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&bb_uart1_pins>;
+		};
+	};
+};
+\end{lstlisting}
+
+%\newpage
+
+Com relação à configuração do pino, este aceita os parâmetros de ajuste de \textit{slew-rate}, ativação do \textit{buffer} de entrada, ajuste e ativação do \textit{pull-up/pull-down} interno e seleção do modo de operação do pino. Note-se que, com relação ao buffer de entrada, ao menos um blog da internet refere-se a este bit como sendo um bit de seleção para entrada \textbf{ou} saída \cite{derek_devtree}, porém o manual indica que quando o bit está setado, o pino pode ser usado tanto como entrada quanto saída \cite{soc_manual}. A tabela \ref{pad_cfg} apresenta os campos do registrador de controle de E/S, assim como a descrição de cada campo e os valores aceitos.
+
+\begin{center}
+	\begin{table}[H]
+		\captionsetup{justification=centering}
+		\caption[Descrição dos campos do registrador de controle de \textit{pads}]{Descrição dos campos do registrador de controle de \textit{pads}. \\Fonte: adaptado de TEXAS INSTRUMENTS(2014)}
+		\label{pad_cfg}
+		\begin{tabular}{ | M{1cm} | M{3cm} | M{1cm} | M{10cm} |}
+			\hline
+			\textbf{Bit} & \textbf{Campo} & \textbf{Valor} & \textbf{Descrição} \\ \hline
+			31-7 & Reservado &  & Reservado. Leitura retorna 0 \\ \hline
+			6 & SLEWCTRL & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Seleciona entre \textit{slew-rate} rápido ou lento \\ 0 - rápido \\ 1 - lento} \\ \hline
+			5 & RXACTIVE & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Ativa modo de entrada para o pino \\ 0 - somente saída \\ 1 - Receptor ativado. Entrada ou saída}. \\ \hline
+			4 & PULLTYPESEL & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Seleção de pull-up/pull-down \\ 0 - pull-down \\ 1 - pull-up} \\ \hline
+			3 & PULLUDEN & \shortstack{ \quad \\ 0 \\ 1} & \shortstack{Habilita pull-up/pull-down \\ 0 - habilitado \\ 1 - desabilitado} \\ \hline
+			2-0 & MUXMODE & 0-7 & Seleção de funcionalidade do pino multiplexado \\ \hline
+		\end{tabular}
+	\end{table}
+\end{center}
+
+%\newpage
+
+%tabela do header 8
+\begin{minipage}[t][.49\textheight]{1\textwidth}
+	\begin{center}
+		\begin{table}[H]
+			\captionsetup{justification=centering}
+			\caption[Lista de pinos do \textit{header} P8 e seus respectivos modos de funcionamento]{Lista de pinos do \textit{header} P8 e seus respectivos modos de funcionamento \\ Fonte: COLEY (2014)}
+			\label{p8-header}
+			\begin{center}
+				\includegraphics[page=1, height=0.5\textheight]{./Resources/tabela_pinos_SRM.pdf}
+			\end{center}
+		\end{table}
+		%\includegraphics[page=3, scale=0.5]{./Resources/BBB_SCH.pdf}
+	\end{center}
+\end{minipage}
+
+\newpage
+
+%tabela do header 9
+\begin{minipage}[b][.49\textheight]{1\textwidth}
+	\begin{center}
+		\begin{table}[H]
+			\captionsetup{justification=centering}
+			\caption[Lista de pinos do \textit{header} P9 e seus respectivos modos de funcionamento]{Lista de pinos do \textit{header} P9 e seus respectivos modos de funcionamento \\ Fonte: COLEY (2014)}
+			\label{p9-header}
+			\begin{center}
+				\includegraphics[page=2, height=0.5\textheight]{./Resources/tabela_pinos_SRM.pdf}
+			\end{center}
+		\end{table}
+		%\includegraphics[page=3, scale=0.5]{./Resources/BBB_SCH.pdf}
+	\end{center}
+\end{minipage}
+
+%Páginas relevantes do manual do SoC
+%1356 - pullup, RXactive, etc e 1365 - registers offset, 1422 - registrador

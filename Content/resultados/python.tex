@@ -1,0 +1,84 @@
+Nesta seção são apresentados os resultados e discussões referentes ao registro de temperatura em arquivo CSV e ao gráfico gerado em Python.
+
+\subsection{Registro de temperatura}
+
+Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado pelo script \ref{tlog_log}, e que valida o funcionamento da aplicação.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/csv_log_example.jpg}
+	\captionsetup{justification=centering}
+	\caption[Arquivo CSV com registro de temperaturas gerado em Python]{Arquivo CSV com registro de temperaturas gerado em Python}
+	\label{csv_log_example}
+\end{figure}
+
+Observa-se a partir deste que o tempo de amostragem, mesmo após o estudo do apêndice \ref{analise_tread_temp}, tem média cujo valor foi de 1,008s, diferente dos 1s desejados. Ainda assim, é preciso ressaltar que este valor está sujeito a mudanças em função da carga do sistema, o que significa que a diferença de 8ms do tempo médio não seria eliminada durante a execução da aplicação de controle do processo de produção de cerveja. Caso seja estritamente necessário para uma aplicação que o tempo de amostragem não sofra variações, deve ser cogitado o uso de um sistema operacional de tempo real, do subsistema PRU-ICSS da BBB ou de um microcontrolador auxiliar que se comunique com a BBB por meio de um barramento de comunicação.
+
+Para confirmar o funcionamento da função que faz o registro da última temperatura lida em um arquivo separado, o comando \textit{tail} do Linux foi empregado. Na figura \ref{log_funciona} é apresentado o resultado prático desta abordagem.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=2.2cm]{./Resources/logpy.png}
+		\caption{Script python em execução}
+		\label{log_funciona:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.2cm]{./Resources/log_tailpy.png}
+		\caption{Arquivo de registro da última temperatura}
+		\label{log_funciona:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Conformidade da atualização do arquivo de registro da última temperatura capturada pelo script Python]{Conformidade da atualização do arquivo de registro da última temperatura capturada pelo script Python}
+	\label{log_funciona}
+\end{figure}
+
+\subsection{Gráfico de temperatura}
+
+Na figura \ref{py_graph_7200p} é apresentado um gráfico que foi gerado na BBB a partir de 7200 pontos amostrados, ou seja, aproximadamente 120 minutos. Este tempo foi escolhido uma vez que dificilmente o cozimento do mosto ou a fervura dura mais do que isso, portanto provando que a implementação é factível para o uso a que se destina. A tabela  \ref{tabela_tempo_graph_python} apresenta informações estatísticas sobre o tempo de computação necessário para a geração do gráfico. A figura \ref{amostras_graph} apresenta o processo de verificação do número de pontos registrados e o posterior processo de coleta dos dados que deram origem à tabela \ref{tabela_tempo_graph_python}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{./Resources/py_graph_7200p.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico com 7200 pontos gerado em Python]{Gráfico com 7200 pontos gerado em Python}
+	\label{py_graph_7200p}
+\end{figure}
+
+%\begin{center}
+	\begin{table}[H]
+		\centering
+		\captionsetup{justification=centering}
+		\caption[Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python]{Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python}
+		\label{tabela_tempo_graph_python}
+		\begin{tabular}{ | M{5cm} | M{2cm} |}
+			\hline
+			\textbf{Descrição} & \textbf{Valor} \\ \hline
+			N.\si{\degree} de amostras & 30\\ \hline
+			Média (s) & 2,106\\ \hline
+			Máximo (s) & 2,068\\ \hline
+			Mínimo (s) & 2,149\\ \hline
+			Desvio padrão (s) & 0,023\\ \hline
+		\end{tabular}
+	\end{table}
+%\end{center}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/log_py_graph_7200p.jpg}
+	\captionsetup{justification=centering}
+	\caption[Geração de gráfico em Python múltiplas vezes para obter o tempo médio]{Geração de gráfico em Python múltiplas vezes para obter o tempo médio}
+	\label{amostras_graph}
+\end{figure}
+
+Também foi realizado um registro de temperatura durante 38 dias ininterruptos, para comprovar a robustez da aplicação de registro de temperatura, a capacidade de geração de gráfico para um número de pontos muito superior ao de uma produção de cerveja e também para comprovação do funcionamento da escala ajustável em função da logevidade do arquivo de registros. O gráfico gerado a partir deste registro é apresentado na figura \ref{graph_long} e indica a temperatura da saída de ventilação de um notebook com problemas de resfriamento.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.60]{./Resources/tplot.png}
+	\captionsetup{justification=centering}
+	\caption[Geração de gráfico em Python a partir de um volume elevado de dados]{Geração de gráfico em Python a partir de um volume elevado de dados}
+	\label{graph_long}
+\end{figure}

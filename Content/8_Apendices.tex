@@ -278,10 +278,10 @@ Diversas outras amostras de $\Delta$t foram registradas e seus valores interpola
 	\label{graph_servo_incr}
 \end{figure}
 
-A partir do ensaio e da simulação aqui descritos, foram obtidos os limites de operação do servomotor TowerPro MG995 e a fórmula de $\Delta$t em função do valor do seu incremento mínimo (ciclo). A tabela \ref{limites_servo} resume os limites de temporização do servo-motor MG995.
+A partir do ensaio e da simulação aqui descritos, foram obtidos os limites de operação do servomotor TowerPro MG995 e a fórmula de $\Delta$t, demonstrada na equação \ref{eq_delta} em função do valor do seu incremento mínimo (ciclo). A tabela \ref{limites_servo} resume os limites de temporização do servo-motor MG995.
 
 \begin{align}
-	\label{eq_varetas}
+	\label{eq_delta}
 	\Delta t = (ciclo-1) \cdot t_min + offset \\
 	t_min = 20\si{\micro}s \nonumber \\
 	offset = 35\si{\micro}s \nonumber
@@ -373,6 +373,41 @@ Considerando o guia do BJCP (Beer Judge Certification Program), que é adotado po
 
 \chapter{Análise do tempo de leitura do sensor DS18B20 em Python}
 \label{analise_tread_temp}
+
+Uma vez que o sistema operacional Linux não é de tempo real, é sensato concluir que um laço de repetição que gera um registro não terá um tempo de amostragem fixo, mas sim um valor médio, e este foi o caso do presente projeto. A confirmação se deu a partir de um estudo do tempo de amostragem de temperatura do DS18B20, sob as seguintes condições: o \textit{log} de temperaturas foi executado independente do script que gera os gráficos em Python. O servidor em Node.js estava sendo executado porém inativo, o que significa que nenhum tipo de requisição foi feita por meio da interface web.
+
+Foram realizadas amostragens com a prioridade de processo do Linux definida como padrão (nice=0) e máxima (nice=-20). O script Python foi modificado para que o número de pontos de amostragem fosse definido como 500 pontos, sendo os resultados estatísticos da amostragem descritos na tabela \ref{amostragem_py} e no histograma de distribuição dos tempos de amostragem, exposto na figura \ref{histograma_py}.
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Estatísticas referentes ao tempo de amostragem de temperatura na BBB, para 500 pontos em Python]{Estatísticas referentes ao tempo de amostragem de temperatura na BBB, para 500 pontos em Python}
+	\label{amostragem_py}
+	\begin{tabular}{ | M{5cm} | M{2.5cm} | M{2.5cm} |}
+		\hline
+		 & \textbf{Sem prioridade (s)} & \textbf{Com prioridade (s)} \\ \hline
+		Média & 1,7798 & 1,7785\\ \hline
+		Desvio padrão & 2,5481e-3 & 2,2893e-3\\ \hline
+		Máximo & 1,7891 & 1,7907\\ \hline
+		Mínimo & 1,7773 & 1,7754\\ \hline
+		Mediana & 1,7793 & 1,7774\\ \hline
+		Moda/ocorrências & 1,7773 / 6 & 1,7773 / 8\\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.47]{./Resources/histograma1.png}
+	\captionsetup{justification=centering}
+	\caption[Histograma de distribuição do tempo de amostragem de temperatura]{Histograma de distribuição do tempo de amostragem de temperatura}
+	\label{histograma_py}
+\end{figure}
+
+Observando e comparando as estatísticas, é possível observar uma redução de 10\% na variância, indicando que a maioria das medidas está mais próxima do valor médio --- que também ficou um pouco mais próximo do valor esperado --- no caso com prioridade. Este fato já era esperado, pois com a prioridade, maior tempo do processador é alocado ao processo e, por conseguinte, menor é a probabilidade de que ele seja interrompido. A amplitude dos valores foi de 11,8ms sem prioridade contra 15,3ms com prioridade. No código, embora tenha sido introduzido um atraso de somente 1s, o tempo médio entre amostras de cerca de 1,77s ocorreu pois cada leitura do sensor de temperatura leva 750ms, de acordo com a documentação do \textit{driver} do Kernel.
+
+Observa-se que, pela quantidade de ocorrências da moda, ela representou 1,6\% do total de medidas no melhor caso. Assim sendo, foi decidido recorrer ao histograma, que apresenta o local de uma faixa de valores. A maior concentração de dados no experimento com prioridade de processo, reafirma seu comportamento mais desejável. Nos dois casos, a maior concentração de valores está próxima da moda, rebatendo a hipótese de que ele é um valor de pouca significância se observado que representa somente 1,6\% do total. Por fim, observando o histograma, não foi possível obter uma distribuição de probabilidade conhecida.
+
+Tendo em vista o tempo de amostragem, levado em consideração o tempo de leitura do sensor pelo driver do Kernel, decidiu-se por usar um tempo de amostragem de 0,75s (módulo) + 0,25s (script Python) - 0,0298s (tempo médio de amostragem - tempo esperado de amostragem) = 0,2202s.
 
 \chapter{Diagrama esquemático do circuito de acionamentos de potência}
 \label{esquematico_acionamentos}

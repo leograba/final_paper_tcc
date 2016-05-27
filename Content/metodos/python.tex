@@ -1,4 +1,4 @@
-Para o armazenamento da temperatura do sensor em função do tempo, assim como a geração de um gráfico com o histórico de temperaturas para o usuário do sistema, foram escritos dois \textit{scripts} em Python, sendo a saída do \textit{script} de \textit{log} a entrada do \textit{script} de geração do gráfico --- embora ambos possam ser executados independentemente, a geração do gráfico precisa de um arquivo contendo o histórico de temperaturas.
+Para o armazenamento da temperatura do sensor DS18B20 em função do tempo, assim como a geração de um gráfico com o histórico de temperaturas para o usuário do sistema, foram escritos dois \textit{scripts} em Python, sendo a saída do \textit{script} de \textit{log} a entrada do \textit{script} de geração do gráfico --- embora ambos possam ser executados independentemente, a geração do gráfico precisa de um arquivo contendo o histórico de temperaturas.
 
 \subsection{Registro de temperatura}
 \label{python_sec}
@@ -45,22 +45,12 @@ temp.tlog()
 # sudo python log.py
 \end{lstlisting}
 
-Na figura \ref{csv_log_example} é apresentada uma amostra de arquivo CSV gerado pelo script \ref{tlog_log}, e que valida o funcionamento da aplicação.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.50]{./Resources/csv_log_example.jpg}
-	\captionsetup{justification=centering}
-	\caption[Arquivo CSV com registro de temperaturas gerado em Python]{Arquivo CSV com registro de temperaturas gerado em Python}
-	\label{csv_log_example}
-\end{figure}
-
 \subsection{Gráfico de temperatura}
 \label{python_graph}
 
-Com o script que gera um registro da temperatura medida pelo sensor DS18B20 em função do tempo, o próximo passo é a análise dos dados coletados. Uma forma fazê-lo é plotando um gráfico. Para fazê-lo em Python, foi decido usar as bibliotecas \textit{Matplotlib} e \textit{NumPy}, integrantes do ecossistema \textit{SciPy}.
+Com o script que gera um registro da temperatura medida pelo sensor DS18B20 em função do tempo, o próximo passo é a análise dos dados coletados, sendo uma das ferramentas de análise a plotagem de um gráfico. Para fazê-lo em Python, foi decido usar as bibliotecas \textit{Matplotlib} e \textit{NumPy}, integrantes do ecossistema \textit{SciPy}.
 
-\textit{Matplotlib} é uma biblioteca desenvolvida especificamente para a plotagem 2D de figuras estáticas em scripts Python, no Python shell (similar ao ambiente interpretador de \textit{softwares} proprietários como MATLAB e Mathematica), em aplicações de servidores e \textit{toolkits} com GUI \cite{matplotlib}. Para instalar esta biblioteca, basta executar o comando descrito na caixa de código-fonte \ref{install_matplotlib}.
+\textit{Matplotlib} é uma biblioteca desenvolvida especificamente para a plotagem 2D de figuras estáticas em scripts Python, no Python shell (similar ao ambiente interpretador de \textit{softwares} proprietários como MATLAB e Mathematica), em aplicações de servidores e \textit{toolkits} com GUI \cite{matplotlib}. Para instalar esta biblioteca, bastou executar o comando descrito na caixa de código-fonte \ref{install_matplotlib}.
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação da biblioteca Matplotlib, label=install_matplotlib]
@@ -78,7 +68,7 @@ sudo apt-get install python-scipy
 
 Com todas as ferramentas necessárias instaladas, pôde ser iniciado o desenvolvimento do script que gera o gráfico da temperatura em função do tempo. A abordagem inicial foi criar um script que gera um arquivo PDF do gráfico a partir do exemplo encontrado na página \url{http://matplotlib.org/examples/pylab_examples/multipage_pdf.html} , modificando este script para as necessidades do projeto.
 
-Como o desenvolvimento foi realizado sem uma interface gráfica, referida como \textit{backend}, foi preciso explicitar a saída como um renderizador no lugar deste, conforme indicado no código-fonte \ref{import_py}, que documenta a importação das bibliotecas/funções utilizadas no script. Note-se que a mudança da saída deve ocorrer antes da importação da biblioteca \textit{numpy} para que não ocorra erro.
+Como o desenvolvimento foi realizado sem uma interface gráfica, referida como \textit{backend}, foi preciso explicitar a saída como um renderizador, conforme indicado no código-fonte \ref{import_py}, que documenta a importação das bibliotecas/funções utilizadas no script. Note-se que a mudança da saída ocorreu necessariamente antes da importação da biblioteca \textit{numpy} para que não ocorresse erro.
 
 \lstset{language=Python}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Importação das bibliotecas para geração de gráfico em Python, label=import_py]
@@ -90,44 +80,8 @@ import matplotlib.pyplot as plt
 from scipy import interpolate
 \end{lstlisting}
 
-Na única função do script, \textit{graph\_gen(file = '/var/www/default.csv', graph = '/var/www/tplot.png')}, é explicitado que a entrada é um arquivo CSV e a saída um arquivo PNG. Nesta função o arquivo CSV é lido linha por linha em um \textit{loop}, sendo a primeira linha do arquivo ignorada em função de ela não conter dados, conforme ilustrado na figura \ref{csv_log_example}. Ao longo das iterações deste \textit{loop}, a data/hora do primeiro e último registro de temperatura são usadas para gerar um título para o gráfico e, a cada iteração os dados são decodificados, o que se resume basicamente a separar o que há antes e depois da vírgula presente na linha lida do arquivo CSV.
+Na única função do script, \textit{graph\_gen(file = '/var/www/default.csv', graph = '/var/www/tplot.png')}, foi explicitado que a entrada é um arquivo CSV e a saída um arquivo PNG. Nesta função o arquivo CSV foi lido linha por linha em um \textit{loop}, sendo a primeira linha do arquivo ignorada em função de ela não conter dados, conforme ilustrado na figura \ref{csv_log_example}. Ao longo das iterações deste \textit{loop}, a data/hora do primeiro e último registro de temperatura foram usadas para gerar um título para o gráfico e, a cada iteração os dados são decodificados, o que se resume basicamente a separar o que há antes e depois da vírgula presente na linha lida do arquivo CSV.
 
-Na parte da função referente à plotagem do gráfico, além de configurações triviais como cor de fundo, tamanho de fontes e legendas, dentre outros, é notável o ajuste da escala do tempo, para o qual foi pensado um registro de temperatura contínuo e não somente o registro de uma produção de cerveja: para até duas horas de registro a escala é impressa em minutos; entre duas horas e um dia e meio de registros, em horas; entre um dia e meio e três meses de registros, em dias; e acima disto em meses. Após isto, o gráfico é plotado, salvo no formato PNG com densidade de pontos por polegada de 150dpi, e fechado para liberar a memória do sistema.
+Na parte da função referente à plotagem do gráfico, além de configurações triviais como cor de fundo, tamanho de fontes e legendas, dentre outras, é notável o ajuste da escala do tempo, para o qual foi pensado um registro de temperatura contínuo e não somente o registro de uma produção de cerveja: para até duas horas de registro a escala é impressa em minutos; entre duas horas e um dia e meio de registros, em horas; entre um dia e meio e três meses de registros, em dias; e acima disto em meses. Após isto, o gráfico é plotado, salvo no formato PNG com densidade de pontos por polegada de 150dpi, e fechado para liberar a memória do sistema.
 
 O script que chama a função \textit{graph\_gen} é descrito no código-fonte \ref{gen_graph}, presente no mesmo arquivo em que está a função. Note-se que o gráfico é gerado periodicamente a cada 300 segundos e o tempo necessário para executar tal tarefa é computado e impresso na saída padrão do Python. O arquivo completo que contém a função \textit{graph\_gen} está documentado no código-fonte \ref{python_graph_script} do apêndice \ref{codigos_python}.
-
-Na figura \ref{py_graph_7200p} é apresentado um gráfico gerado na BBB a partir de 7200 pontos amostrados, ou seja, 120 minutos. Este tempo foi escolhido uma vez que dificilmente o cozimento do mosto ou a fervura dura mais do que isso, portanto provando que a implementação é factível para o uso a que se destina. A tabela  \ref{tabela_tempo_graph_python} apresenta informações estatísticas sobre o tempo de computação necessário para a geração do gráfico. A figura \ref{amostras_graph} apresenta o processo de verificação do número de pontos registrados e o posterior processo de coleta dos dados que deram origem à tabela \ref{tabela_tempo_graph_python}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.65]{./Resources/py_graph_7200p.png}
-	\captionsetup{justification=centering}
-	\caption[Gráfico com 7200 pontos gerado em Python]{Gráfico com 7200 pontos gerado em Python}
-	\label{py_graph_7200p}
-\end{figure}
-
-%\begin{center}
-	\begin{table}[H]
-		\centering
-		\captionsetup{justification=centering}
-		\caption[Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python]{Estatísticas referentes ao tempo de geração de gráfico na BBB, para 7200 pontos em Python}
-		\label{tabela_tempo_graph_python}
-		\begin{tabular}{ | M{5cm} | M{2cm} |}
-			\hline
-			\textbf{Descrição} & \textbf{Valor} \\ \hline
-			N.\si{\degree} de amostras & 30\\ \hline
-			Média (s) & 2,106\\ \hline
-			Máximo (s) & 2,068\\ \hline
-			Mínimo (s) & 2,149\\ \hline
-			Desvio padrão (s) & 0,023\\ \hline
-		\end{tabular}
-	\end{table}
-%\end{center}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.50]{./Resources/log_py_graph_7200p.jpg}
-	\captionsetup{justification=centering}
-	\caption[Geração de gráfico em Python múltiplas vezes para obter o tempo médio]{Geração de gráfico em Python múltiplas vezes para obter o tempo médio}
-	\label{amostras_graph}
-\end{figure}

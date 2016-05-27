@@ -1,0 +1,112 @@
+Nesta seção serão apresentados os resultados referentes à implementação \textit{server-side} em Node.js. Serão apresentados desde resultados simples, como a verificação da instalação do Node, até o resultado da simulação do processo de controle automático da brassagem.
+
+O primeiro teste realizado, descrito na figura \ref{node_working}, demonstra que o Node.js foi corretamente instalado.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.65]{./Resources/node_working.png}
+	\captionsetup{justification=centering}
+	\caption[Teste de funcionamento do Node.js]{Teste de funcionamento do Node.js}
+	\label{node_working}
+\end{figure}
+
+\subsection{Acesso a GPIO e PWM}
+
+O teste de funcionamento do acesso a GPIO foi realizado por meio de chamadas periódicas à função \textit{testIO} descrita na seção \ref{gpio_sec}. Uma vez que esta função chaveia 9 pinos, sendo que somente um deles fica em nível alto por vez, as observações em bancada foram realizadas com dois pinos consecutivos, dada a limitação de 2 canais do osciloscópio. 
+
+O resultado de um teste preliminar, resultante da observação em bancada para o chaveamento destes pinos, é apresentado na figura \ref{gpio_sw}. Neste teste preliminar, foram coletados dados relativos somente a uma amostra.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/BonescriptIO/high-10ms-9bits/scope_1.png}
+		\caption{Tempo em nível alto do canal 1 (amarelo)}
+		\label{gpio_sw:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/BonescriptIO/high-10ms-9bits/scope_2.png}
+		\caption{Tempo em nível alto do canal 2 (verde)}
+		\label{gpio_sw:2}
+	\end{subfigure}
+	\begin{subfigure}{.65\textwidth}
+		\centering
+		\includegraphics[height=6cm]{./Resources/BonescriptIO/high-10ms-9bits/scope_0.png}
+		\caption{Tempo total de chaveamento}
+		\label{gpio_sw:3}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Observação do chaveamento de dois pinos de GPIO consecutivos com tempo em nível alto esperado de 10ms]{Observação do chaveamento de dois pinos de GPIO consecutivos com tempo em nível alto esperado de 10ms}
+	\label{gpio_sw}
+\end{figure}
+
+A partir desta coleta de dados, obtém-se os valores de tempo médio em nível alto, tempo inativo entre chaveamentos e erro de tempo em nível alto, todos para somente um ciclo de amostragem. Os valores estão descritos na tabela \ref{um_ciclo_gpio}.
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Estatísticas referentes ao tempo de um único chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js]{Estatísticas referentes ao tempo de um único chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js}
+	\label{um_ciclo_gpio}
+	\begin{tabular}{ | M{5cm} | M{2cm} |}
+		\hline
+		\textbf{Descrição} & \textbf{Valor (ms)} \\ \hline
+		Tempo médio esperado em nível alto & 10,0\\ \hline
+		Tempo médio medido em nível alto & 11,3\\ \hline
+		Tempo inativo entre chaveamentos & 1,1\\ \hline
+		Erro de tempo em nível alto (\%) & 13,0\\ \hline
+	\end{tabular}
+\end{table}
+
+Foi notado também que a carga de processamento exigida da CPU é de 20\%, valor não desprezível. Este resultado está documentado na figura \ref{cpu_intensive}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/BonescriptIO/high-10ms-9bits/Carga_processo.png}
+	\captionsetup{justification=centering}
+	\caption[Carga da CPU dedicada ao chaveamento de GPIO em Node.js com tempo de chaveamento de 10ms]{Carga da CPU dedicada ao chaveamento de GPIO em Node.js com tempo de chaveamento de 10ms}
+	\label{cpu_intensive}
+\end{figure}
+
+Observados os valores do teste preliminar, nos quais tanto o tempo de chaveamento, que idealmente deveria ser nulo, quanto o tempo em nível alto, que apresentou erro de 13\% não foram desprezíveis, foi decidido realizar um estudo mais completo do acesso a GPIO, medindo não somente temporização quanto uso de CPU pelo processo. Para isto foram definidos tempos em nível alto desde 0,1ms até 500ms e foram coletadas 30 amostras para cada situação. Os dados consolidados são apresentados na tabela \ref{gpio_consolidados}.
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Estatísticas referentes ao chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js]{Estatísticas referentes ao chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js}
+	\label{gpio_consolidados}
+	\begin{tabular}{ | M{2cm} | M{2cm} | M{2cm} | M{2cm} | M{2cm} | M{2cm} | M{2cm} |}
+		\hline
+		\textbf{Tempo esperado em nível alto(ms)} & \textbf{Tempo médio em nível alto (ms)} & \textbf{Tempo mínimo em nível alto} & \textbf{Tempo máximo em nível alto} & \textbf{Desvio padrão (ms)} & \textbf{Erro (\%)} & \textbf{Carga da CPU (\%)}\\ \hline
+		0,1 & 1,89 & 1,69 & 3,83 & 0,40 & 1793,21 & 56 \\ \hline
+		0,2 & 1,81 & 1,57 & 2,73 & 0,22 & 806,71 & 56\\ \hline
+		0,5 & 1,84 & 1,68 & 3,62 & 0,34 & 268,09 & 56\\ \hline
+		1,0 & 1,85 & 0,45 & 3,79 & 0,51 & 85,10 & 56\\ \hline
+		1,5 & 2,69 & 2,16 & 4,69 & 0,49 & 79,40 & 60\\ \hline
+		2,0 & 2,77 & 1,88 & 3,81 & 0,26 & 38,45 & 38\\ \hline
+		2,5 & 3,51 & 2,92 & 3,85 & 0,17 & 40,34 & 46\\ \hline
+		3,0 & 4,29 & 3,50 & 6,00 & 0,44 & 43,08 & 43\\ \hline
+		4,9 & 5,80 & 4,58 & 6,80 & 0,50 & 18,28 & 43\\ \hline
+		5,0 & 6,37 & 5,53 & 8,13 & 0,44 & 27,36 & 31\\ \hline
+		5,1 & 6,68 & 5,60 & 8,33 & 0,63 & 30,94 & 33\\ \hline
+		10,0 & 11,46 & 10,55 & 12,51 & 0,37 & 14,58 & 21\\ \hline
+		20,0 & 21,71 & 21,34 & 23,07 & 0,38 & 8,57 & 12\\ \hline
+		50,0 & 51,74 & 50,62 & 54,68 & 0,71 & 3,47 & 10\\ \hline
+		100,0 & 102,08 & 100,76 & 104,04 & 0,57 & 2,08 & 10\\ \hline
+		500,0 & 502,41 & 501,40 & 503,40 & 0,37 & 0,50 & 10\\ \hline
+	\end{tabular}
+\end{table}
+
+A partir destes dados, foi observado que a técnica de chaveamento de GPIO em Node.js apresentou erro acima de 5\% até para valores entre 20ms e 50ms, o que desqualifica o uso desta técnica em situações nas quais temporização é crítica. Para valores abaixo de 10ms, o erro superior a 30\% torna esta técnica inviável mesmo para aplicações nas quais a tolerância é alta. Observou-se que o limite médio inferior de chaveamento ficou na ordem de 1,8ms e foi alcançado somente para tempos esperados iguais ou menores do que 1,0ms.
+
+Outra informação obtida a partir da tabela \ref{gpio_consolidados} é o fato de que o tempo de chaveamento não foi limitado pelo uso da CPU. Da figura \ref{cpu_intensive} nota-se que 18\% da carga da CPU estava sendo requisitada pelas outras tarefas da BBB e, portanto, mesmo para o pior caso de chaveamento observado, com uso de 60\%, ainda assim, havia poder de processamento ocioso.
+
+Quanto ao PWM, foi verificado o seu funcionamento para a frequência de f=50Hz, ou seja, a mesma frequência necessária para operação do servo-motor, e ciclo de trabalho de 50\%. O resultado está exposto na figura \ref{pwm_teste}. Resultados complementares a este são apresentados na seção \ref{circuitos_res}, que aborda especificamente os resultados do servo-motor, mas que está intrínsecamente ligada ao bom funcionamento do PWM.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/PWM-servo-motor/pwm__________1.png}
+	\captionsetup{justification=centering}
+	\caption[Verificação de funcionamento do PWM configurado por meio do Node.js, com f=50Hz e \textit{duty-cycle}=50\%]{Verificação de funcionamento do PWM configurado por meio do Node.js, com f=50Hz e \textit{duty-cycle}=50\%}
+	\label{pwm_teste}
+\end{figure}

@@ -5,7 +5,7 @@ Nesta seção será detalhado o uso da linguagem de programação Javascript no ambie
 sudo apt-get install nodejs
 \end{lstlisting}
 
-Com isto, o gerenciador de pacotes do Node chamado NPM (Node Package Manager) também é instalado no sistema. Neste projeto, o desenvolvimento em Node foi legado do desenvolvimento prévio em PHP e, por isto, tudo foi realizado no diretório \textit{/var/www}, cujo dono é o usuário \textit{www-data}. Em função disto, foi criada manualmente a pasta \textit{/var/www/node\_modules} e o dono foi trocado para o usuário \textit{debian} (enquanto sob condições normais este processo seria automático). Isto foi feito por questões de segurança, uma vez que os módulos do Node são autocontidos no diretório do projeto, o que desencoraja a instalação global na maioria dos casos. O processo de criação do diretório é descrito no trecho de código \ref{create_node_modules}:
+Com isto, o gerenciador de pacotes do Node chamado NPM (Node Package Manager) também é instalado no sistema. Neste projeto, o desenvolvimento em Node foi legado do desenvolvimento prévio em PHP e, por isto, tudo foi realizado no diretório \textit{/var/www}, cujo dono é o usuário \textit{www-data}. Em função disto, foi criada manualmente a pasta \textit{/var/www/node\_modules} e o dono foi trocado para o usuário \textit{debian} (enquanto sob condições normais este processo seria automático). Para evitar este problema, os módulos poderiam ser instalados globalmente, porém por questões de segurança, esta foi a abordagem realizada, uma vez que os módulos do Node ficam autocontidos no diretório do projeto. O processo de criação do diretório \textit{/var/www/node\_modules} é descrito no trecho de código \ref{create_node_modules}:
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Criação do diretório \textit{/var/www/node\_modules}, label=create_node_modules]
@@ -14,7 +14,9 @@ sudo mkdir node_modules
 sudo chown debian:debian node_modules
 \end{lstlisting}
 
-Além disto, foi instalado o módulo \textit{Debug} do Node, que ajuda no desenvolvimento da aplicação da seguinte maneira: ele encapsula a função \texit{console.log}, análoga ao \texit{printf} da linguagem C, de tal maneira que as mensagens só são impressas na tela se uma variável do terminal estiver configurada durante a execução do código. Além disto, diferentes grupos de mensagens de \textit{debug} podem ser configurados, permitindo flexibilidade e também é adotado um esquema de cores que facilita a compreensão das mensagens de \textit{debug}. Para ilustrar o uso deste módulo, na caixa \ref{install_debug} é descrita a instalação do módulo; o trecho de código-fonte \ref{debug_example} descreve como usar o módulo em uma aplicação de Node e a figura \ref{debug_complex} apresenta o resultado do uso do módulo no exemplo, para as seguintes situações: não imprime mensagens de debug; imprime grupos de mensagens de debug e; imprime todas as mensagens de debug disponíveis.
+Além disto, foi instalado o módulo \textit{Debug} do Node, que ajuda no desenvolvimento da aplicação da seguinte maneira: ele encapsula a função nativa do Javascript \textit{console.log}, análoga ao \textit{printf} da linguagem C, de tal maneira que as mensagens só são impressas na tela se a variável \textit{DEBUG} estiver configurada no terminal durante a execução da aplicação. Além disto, diferentes grupos de mensagens de \textit{debug} podem ser configurados, permitindo flexibilidade. Para diferenciar estes grupos, o módulo adota um esquema de cores que facilita a compreensão das mensagens de \textit{debug}. 
+
+Para ilustrar seu uso, na caixa \ref{install_debug} é descrita a instalação do módulo; o trecho de código-fonte \ref{debug_example} descreve como usar o módulo em uma aplicação de Node e a figura \ref{debug_complex} apresenta o resultado do exemplo, para as seguintes situações: não imprime mensagens de debug; imprime grupos de mensagens de debug e; imprime todas as mensagens de debug disponíveis.
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do módulo \textit{Debug}, label=install_debug]
@@ -53,19 +55,21 @@ for(var i = 0; i < 3; i++){
 	\label{debug_complex}
 \end{figure}
 
-Neste capítulo deve-se assumir que todas as operações foram realizadas no diretório \textit{/var/www}, salvo indicações em contrário. Note-se também que, no início de todos os códigos-fonte completos, presentes no apêndice \ref{codigos_nodejs}, é usada a delcaração \textbf{"use-strict"}, que evita o uso de potenciais armadilhas do Javascript, como usar inadvertidamente uma variável global sem delcará-la, dentre outras armadilhas.
+Neste capítulo deve-se assumir que todas as operações realizadas e arquivos referidos estão no diretório \textit{/var/www}, salvo indicações em contrário. Note-se também que, no início dos códigos-fonte completos, presentes no apêndice \ref{codigos_nodejs}, é usada a delcaração \textbf{"use-strict"}, que evita o uso de potenciais armadilhas do Javascript, e.g. usar inadvertidamente uma variável global sem delcará-la.
 
 \subsection{Acesso a GPIO e PWM}
 \label{gpio_sec}
 
-O acesso às características de \textit{hardware} da BBB necessárias para o controle das válvulas, bombas, resistores de potência e servo-motor do sistema é feito por meio do módulo de código-aberto \textit{Octalbonescript}, que consiste de um \textit{fork} (ou derivação) do módulo oficial da BBB de acesso a hardware \textit{Bonescript}. Sua escolha se deve ao fato de que esta biblioteca era mais completa e estável durante o desenvolvimento deste projeto. A instalação desta biblioteca está descrita na caixa \ref{install_octalbonescript}. A documentação da API deste módulo foi obtida em \url{https://github.com/theoctal/octalbonescript/wiki}.
+O acesso às características de \textit{hardware} da BBB necessárias para o controle das válvulas, bombas, resistores de potência e servo-motor do sistema é feito por meio do módulo de código-aberto \textit{Octalbonescript}, que consiste de um \textit{fork} (ou derivação) do módulo oficial da BBB de acesso a hardware, chamado \textit{Bonescript}. Sua escolha se deve ao fato de que esta biblioteca era mais completa e estável durante o desenvolvimento deste projeto do que aquela que lhe deu origem. Sua instalação está descrita na caixa \ref{install_octalbonescript}. A documentação da API deste módulo foi obtida em \url{https://github.com/theoctal/octalbonescript/wiki}.
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do Octalbonescript, label=install_octalbonescript]
 npm install octalbonescript
 \end{lstlisting}
 
-Uma vez que este módulo compila uma sobreposição de \textit{device tree} a partir de um template fornecido junto com a instalação, foi necessário modificá-lo para acomodar a descrição de hardware do sensor DS18B20. Para tal, foi investigado que o comportamento da biblioteca \textit{Octalbonescript} com relação à \textit{device tree} é o seguinte: se a sobreposição já está carregada não é feita nova compilação do fragmento nem tentativa de carregar a sobreposição, portanto foi necessário resetar a BBB toda vez que novos testes eram realizados. O template fica no diretório \textit{node\_modules/octalbonescript/dts/} e o nome do arquivo modificado é \textit{OBS\_UNIV\_template.dts}. As modificações realizadas, assim como as linhas do código modificadas estão descritas na caixa de código-fonte \ref{octal_dts}. Linhas que começam com "X" foram apagadas, as outras foram adicionadas.
+Uma vez que este módulo compila uma sobreposição de \textit{device tree} a partir de um template fornecido junto com a instalação, foi necessário modificá-lo para acomodar a descrição de hardware do sensor DS18B20. Para tal, foi investigado que o comportamento da biblioteca \textit{Octalbonescript} com relação à \textit{device tree} é o seguinte: se a sobreposição já está carregada não é feita nova compilação do fragmento nem tentativa de carregá-la novamente, portanto foi necessário resetar a BBB toda vez que novos testes eram realizados.
+
+O template editado fica no diretório \textit{node\_modules/octalbonescript/dts/} e o nome do arquivo modificado é \textit{OBS\_UNIV\_template.dts}. As modificações realizadas, assim como as linhas do código modificadas estão descritas na caixa de código-fonte \ref{octal_dts}. Linhas que começam com "X" foram apagadas, as outras foram adicionadas.
 
 \lstset{language=dtc}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Modificações feitas ao template de \textit{device tree} do Octalbonescript, label=octal_dts]
@@ -98,9 +102,13 @@ X[1236]           dir-changeable;
 X[1237]        };
 \end{lstlisting}
 
-Com esta configuração da \textit{device tree}, foi preciso parar de carregar o fragmento descrito na seção \ref{ds18b20_dev_tree}, pois ao tentar usar o \textit{Octalbonescript} passou a ocorrer um erro do tipo \textbf{EEXIST: file already exists}, que indica em um âmbito geral que um arquivo que deveria ser criado já existe.
+Com esta configuração da \textit{device tree}, foi preciso parar de carregar o fragmento descrito na seção \ref{ds18b20_dev_tree}, pois ao tentar usar o \textit{Octalbonescript}, passou a ocorrer um erro do tipo \textbf{EEXIST: file already exists}, que indica em um âmbito geral que um arquivo que deveria ser criado já existe.
 
-A partir deste ponto, foi desenvolvido um módulo nomeado \textit{gpio\_config} responsável pelo gerenciamento de GPIO e PWM, baseado no \texit{Octalbonescript}. Foram criados objetos para cada elemento do sistema, usados para guardar a identificação do pino de GPIO de cada objeto, o estado e a configuração de cada pino. Para isto, uma função auxiliar foi criada. Também foi criado um objeto que reúne todos os objetos dos pinos, para facilitar a configuração inicial e também manter controle sobre o status do sistema durante seu funcionamento. Uma vez que em Node as variáveis são todas ponteiros, ao atribuir uma variável a outra o que se está fazendo é apontar as duas variáveis para o mesmo endereço de memória. Na caixa de código-fonte \ref{gpio_variables} é apresentada a função de criação dos objetos, a declaração dos elementos aquecedores e a união destes elementos, a título de exemplo. A descrição completa das declarações de objetos pode ser encontrada no código-fonte \ref{gpio_cfg} no apêndice \ref{codigos_nodejs}.
+A partir deste ponto, foi desenvolvido um módulo em Node nomeado \textit{gpio\_config} responsável pelo gerenciamento de GPIO e PWM, baseado no \texit{Octalbonescript}. Foram criados objetos para cada elemento do sistema, usados para guardar a identificação do pino de GPIO de cada objeto, o estado e a configuração de cada pino. Para isto, uma função auxiliar foi criada.
+
+Também foi criado um objeto que reúne todos os objetos dos pinos, para facilitar a configuração inicial e também manter controle sobre o status do sistema durante seu funcionamento. Uma vez que em Node os objetos são todos ponteiros, ao atribuir um objeto a outro, o que se está fazendo é apontar os dois objetos para o mesmo endereço de memória.
+
+Na caixa de código-fonte \ref{gpio_variables} é apresentada a função de criação dos objetos, a declaração dos elementos aquecedores e a união destes elementos, a título de exemplo. A descrição completa das declarações de objetos pode ser encontrada no código-fonte \ref{gpio_cfg} no apêndice \ref{codigos_nodejs}.
 
 \lstset{language=javascript}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Criação de objetos para os elementos do sistema em Node, label=gpio_variables]
@@ -135,13 +143,15 @@ function collect() {//function concat objects
 Além disto, foi criado um objeto que guarda o status do sistema: o número total de pinos a serem configurados, o número de pinos configurados corretamente, o número de pinos como GPIO, PWM, analógicos e interrupções. Quanto às funcões do módulo, estas são:
 
 \begin{itemize}
-	\item \textbf{changeStatusIO(pin, val)} --- recebe o nome do pino, e.g. \textit{mash\_heat}, e o valor (\textit{true} ou \textit{false} para GPIO e numérico para PWM). Ajusta o valor do pino conforme passado para a função, assim como trata de atualizar as variáveis de controle dos pinos.
+	\item \textbf{changeStatusIO(pin, val)} --- recebe o nome do pino, e.g. \textit{mash\_heat}, e o valor (\textit{true} ou \textit{false} caso GPIO; numérico caso PWM). Ajusta o valor do pino conforme passado para a função, assim como trata de atualizar as variáveis de controle dos pinos.
 	\item \textbf{getSystemStatus()} --- retorna o valor/estado de todos os pinos do sistema, sendo 0 ou 1 para GPIO e numérico para PWM.
-	\item \textbf{pinsConfiguration()} --- configura todos os pinos declarados como entrada, saída ou PWM. Em caso de erro de configuração de algum pino é impressa uma mensagem com o auxílio do módulo \textit{debug}, portanto cabe ao administrador do sistema testar se a configuração está funcionando no momento da instalação do equipamento ou quando julgar necessário.
-	\item \textbf{ioTest()} --- função de teste. Implementa um algoritmo que seta os pinos de GPIO do sistema de tal forma sequencial, ou seja, chamando esta função em um \textit{loop} faz com que um efeito cascata seja produzido, caso os pinos estejam ligados a LEDs.
+	\item \textbf{pinsConfiguration()} --- configura todos os pinos declarados como entrada, saída ou PWM. Em caso de erro de configuração de algum pino é impressa uma mensagem com o auxílio do módulo \textit{debug}, portanto cabe ao administrador do sistema testar se a configuração está funcionando no momento da instalação do equipamento ou quando julgar necessário (o programa não pára de funcionar em caso de erro do programador).
+	\item \textbf{ioTest()} --- função de teste. Implementa um algoritmo que chaveia os pinos de GPIO do sistema de tal forma sequencial, ou seja, chamar esta função periodicamente em um \textit{loop} faz com que um efeito cascata seja produzido, caso os pinos estejam ligados a LEDs.
 \end{itemize}
 
-Na função \textit{pinsConfiguration}, é preciso notar que dentro do laço de repetição \textit{for} é chamada uma função anônima para a configuração de cada pino. Isto é necessário pois, se todas as operações fossem realizadas diretamente dentro do laço, o comportamento assíncrono do Node geraria inconsistências na execução do código. Assim sendo, o objetivo da função anônima é criar um escopo que permite a execução assíncrona do código sem que a referência passada para esta função anônima se degenere. Uma vez que esta função precisa receber o valor e não o ponteiro da variável de iteração do laço, tanto o pino a ser configurado quanto o seu índice (variável de iteração) no laço de repetição são passados com o auxílio do método \textit{call()}, que neste caso copia o pino como o elemento \texit{this} e o índice como o primeiro argumento da função, criando um novo escopo por meio de uma clausura. Sem isso, antes que a primeira invocação da função anônima acabasse, o valor de i, por exemplo, já seria \textit{all\_io\_objects.length} e não zero, que seria o valor esperado.
+Na função \textit{pinsConfiguration}, é preciso notar que dentro do laço de repetição \textit{for} é chamada uma função anônima para a configuração de cada pino. Isto é necessário pois, se todas as operações fossem realizadas diretamente dentro do laço, o comportamento assíncrono do Node geraria inconsistências na execução do código. Assim sendo, o objetivo da função anônima é criar um escopo que permite a execução assíncrona do código sem que a referência passada para esta função anônima se degenere.
+
+Uma vez que esta função precisa receber o valor e não o ponteiro da variável de iteração do laço, tanto o pino a ser configurado quanto o seu índice (variável de iteração) no laço de repetição são passados com o auxílio do método \textit{call()}, que neste caso copia o pino como o elemento \texit{this} e o índice como o primeiro argumento da função, criando um novo escopo por meio de uma clausura. Sem isso, antes que a primeira invocação da função anônima acabasse, o valor de i, por exemplo, já seria \textit{all\_io\_objects.length} e não zero, que seria o valor esperado.
 
 Para tornar a compreensão desta necessidade mais clara, a caixa de código-fonte \ref{call_this} apresenta um exemplo no qual duas funções com um laço \textit{for} são chamadas: a primeira delas imprime o valor da variável de iteração para todas as chamadas do laço imediatamente e com um atraso de 100ms, mas sem precauções com relação ao comportamento assíncrono do Node; já a segunda função utiliza o método descrito no parágrafo anterior. Observa-se na figura \ref{res_call_this} que sem tomar precauções, na chamada com atraso, é impresso o último valor da variável de iteração do laço em todas as iterações. Isto deixa claro a necessidade de criar um novo escopo, assim como demonstra que esta é uma fonte de erros para programadores inexperientes e/ou descuidados.
 
@@ -183,9 +193,9 @@ pinConfiguration();
 \subsection{Servidor Express.js}
 \label{servidor_sec}
 
-Mesmo com o servidor Apache já configurado na BBB, quando foi decidido o uso de Node.js como linguagem do servidor o Apache foi substituído pelo \textit{Framework} Express, dados os benefícios apontados na seção \ref{node_js_sec}. Para isto, a consulta à documentação da API deste framework (\url{http://expressjs.com/pt-br/4x/api.html}) foi a base de desenvolvimento do servidor. 
+Mesmo com o servidor Apache configurado por padrão na BBB, quando foi decidido o uso de Node.js como linguagem do servidor o Apache foi substituído pelo \textit{framework} Express, dados os benefícios apontados na seção \ref{node_js_sec}. Para isto, a consulta à documentação da API deste \textit{framework} (\url{http://expressjs.com/pt-br/4x/api.html}) foi a base de desenvolvimento do servidor. 
 
-Outros dois módulos auxiliares foram empregados em conjunto com o Express: o módulo \textit{Body-parser}, cuja função é a interpretação de dados codificados em JSON pelo cliente; e o módulo \textit{PHP-express}, que permite a interpretação de arquivos PHP pelo servidor. Este último módulo foi empregado devido a algumas funcionalidades desenvolvidas em PHP em uma fase inicial do projeto, portanto suportando a aplicação legada. Reescrever os códigos PHP é uma opção, porém em função do tempo necessário para tal tarefa, esta foi a solução adotada. Na caixa \ref{install_express} é documentada a instalação dos módulos.
+Outros dois módulos auxiliares foram empregados em conjunto com o Express: o módulo \textit{Body-parser}, cuja função neste projeto é a interpretação de dados codificados em JSON pelo cliente; e o módulo \textit{PHP-express}, que permite a interpretação de arquivos PHP pelo servidor. Este último módulo foi empregado devido a algumas funcionalidades desenvolvidas em PHP em uma fase inicial do projeto, portanto suportando a aplicação legada. Reescrever os códigos PHP em Javascript é uma opção, porém em função do tempo necessário para tal tarefa, a solução adotada foi executar os códigos legados. Na caixa \ref{install_express} é documentada a instalação dos módulos Express, \textit{Body-parser} e \textit{PHP-express}.
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação dos módulos necessários para implementar o servidor web em Node.js, label=install_express]
@@ -194,7 +204,7 @@ npm install body-parser
 npm install php-express
 \end{lstlisting}
 
-O código-fonte no qual é configurado o servidor é o \textit{/var/www/controle.js}, que é também o arquivo raiz da aplicação em Node, e está disponível no apêndice \ref{controle_js}. É interessante observar a configuração do PHP-express, descrita no trecho de código-fonte \ref{php_express}, no qual observa-se que logo ao adicionar o módulo ao código é passado o caminho do PHP, que deve ser previamente instalado no sistema. Também é notável o fato de que os arquivos PHP são identificados por meio de uma expressão regular, cuja função à qual ela é aplicada direciona estes arquivos para o \textit{engine} do PHP.
+O código-fonte no qual é configurado o servidor é o \textit{/var/www/controle.js}, que é também o arquivo raiz da aplicação em Node, e está disponível no apêndice \ref{controle_js}. É interessante observar a configuração do PHP-express, descrita no trecho de código-fonte \ref{php_express}, no qual observa-se que logo ao adicionar o módulo ao código é passado o caminho do PHP, que deve estar previamente instalado no sistema. Também é notável o fato de que os arquivos PHP são identificados por meio de uma expressão regular, cuja função à qual ela é aplicada direciona estes arquivos para o \textit{engine} do PHP.
 
 \lstset{language=javascript}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Configuração do PHP-express, label=php_express]
@@ -211,7 +221,7 @@ app.set('view engine', 'php');
 app.all(/.+\.php$/, phpExpress.router);
 \end{lstlisting}
 
-Com relação à configuração do Express, três pontos devem ser notados: o diretório no qual é executada a aplicação é configurado como o diretório raiz do servidor, seja para servir arquivos HTML e CSS ou arquivos de mídia e apoio da aplicação; o endereço de IP e porta são especificados de modo a permitir acesso à BBB pela internet e; são configuradas rotas para diferentes categorias de requisições do cliente. O fragmento de código-fonte \ref{express_server} apresenta os três pontos discutidos neste parágrafo. Note-se que é adicionado o módulo \textit{routes}, que foi escrito separadamente somente para facilitar a compreensão do código. Ele define o comportamento das rotas.
+Com relação à configuração do Express, três pontos devem ser notados: o diretório no qual é executada a aplicação é configurado como o diretório raiz do servidor, seja para servir arquivos HTML e CSS ou arquivos de mídia e apoio da aplicação; o endereço de IP e porta são especificados de modo a permitir acesso à BBB pela internet e; são configuradas rotas para diferentes categorias de requisições do cliente. O fragmento de código-fonte \ref{express_server} apresenta os três pontos discutidos neste parágrafo.
 
 \lstset{language=javascript}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Configuração do servidor web com o \textit{framework} Express.js, label=express_server]
@@ -240,27 +250,29 @@ app.route('/clientrequest')//used to unite all the requst types for the same rou
 .post(routes.clientrequestRoute);
 \end{lstlisting}
 
-Quanto ao módulo que define o comportamento das rotas do servidor, seu código-fonte é apresentado na caixa de código-fonte do apêndice \ref{rotas_js}. Ele consiste de quatro funções --- uma para cada rota:
+Note-se que é adicionado o módulo \textit{routes}, que foi escrito separadamente, somente para facilitar a compreensão do código, embora seja ele que define o comportamento das rotas. Quanto a ele, seu código-fonte é apresentado na caixa de código-fonte do apêndice \ref{rotas_js}. Ele consiste de quatro funções --- uma para cada rota:
 
 \begin{itemize}
 	\item \textbf{controleRoute(req, res)} --- realiza o controle direto de GPIO e PWM. Faz uso do módulo \textit{gpio\_cfg}, descrito na seção \ref{gpio_sec}.
 	\begin{itemize}
-		\item Muda o valor de um terminal, conforme especificado pelo cliente.
+		\item Muda o valor de um terminal de GPIO ou PWM, conforme especificado pelo cliente.
 		\item Retorna para o cliente o status de todos os pinos da aplicação, independente da sua configuração.
 	\end{itemize}
 	\item \textbf{startRecipeRoute(req, res)} --- executa diversas funções relacionadas à produção de cerveja, inclusive iniciar o processo de controle da mesma, conforme a requisição enviada pelo cliente.
 	\begin{itemize}
 		\item Retorna a lista de receitas cadastradas no servidor.
-		\item Verifica integridade da receita, ou seja, se ela contém informações suficientes para que uma produção seja iniciada.
+		\item Verifica integridade de uma receita, ou seja, se ela contém informações suficientes para que uma produção de cerveja seja iniciada.
 		\item Realiza uma série de verificações e começa uma brassagem, se aprovado.
 		\item Verifica se já existe alguma receita em andamento.
 		\item Retorna erro para o cliente se nenhuma requisição é válida.
 	\end{itemize}
-	\item \textbf{configRoute(req, res)} --- ajusta ou responde com a data e hora da BBB, conforme a solicitação do cliente.
-	\item \textbf{clientrequestRoute(req, res)} --- função auxiliar do processo de mostura, usada para sinalizar que um novo degrau de temperatura deve começar.
+	\item \textbf{configRoute(req, res)} --- ajusta ou responde com a data e hora da BBB, conforme a solicitação do cliente. Só permite que este ajuste seja realizado se o serviço de ajuste automático de data/hora não estiver funcionando por algum motivo, e.g. problema de conexão com a internet.
+	\item \textbf{clientrequestRoute(req, res)} --- função auxiliar do processo de brassagem, usada para sinalizar que uma nova fase do processo deve começar, após autorização do operador/usuário.
 \end{itemize}
 
-Dentre as particularidades de implementação deste módulo, observa-se o uso dos argumentos \textit{req} e \textit{res} em todas as funções, uma vez que estes são padronizado pela API do Express para requisições do tipo POST feitas pelo cliente. O argumento \textit{req} contém todos os dados enviados pelo cliente no padrão HTTP POST, que é parte da transferência de estado representacional, conhecida como REST. Uma vez que o módulo Express está em conformidade com as restrições REST, ele é considerado um serviço \textit{RESTful}. Quanto ao argumento \textit{res}, este contém o objeto responsável por enviar a resposta do servidor para o cliente após o processamento da requisição, que é conseguida por meio método \textit{send}. É importante observar que, neste projeto, todas as requisições do cliente e respostas do servidor são feitas usando a codificação de dados JSON. 
+Dentre as particularidades de implementação deste módulo, observa-se o uso dos argumentos \textit{req} e \textit{res} em todas as funções, uma vez que estes são padronizado pela API do Express para requisições do tipo POST feitas pelo cliente. O argumento \textit{req} contém todos os dados enviados pelo cliente no padrão HTTP POST, que é parte da transferência de estado representacional, conhecida como REST. Poderia ser o padrão HTTP GET, por exemplo, porém neste projeto o POST foi escolhido para que o usuário não possa adicionar parâmetros por meio da URL.
+
+Uma vez que o módulo Express está em conformidade com as restrições REST, ele é considerado um serviço \textit{RESTful}. Quanto ao argumento \textit{res}, este contém o objeto responsável por enviar a resposta do servidor para o cliente após o processamento da requisição, que é conseguida por meio método \textit{send}. É importante observar que, neste projeto, todas as requisições do cliente e respostas do servidor foram feitas usando a codificação de dados JSON. 
 
 O exemplo expresso na caixa de código-fonte \ref{exemplo_reqres} demonstra o uso dos argumentos \textit{req} e \textit{res} descritos nesta seção. Foi assumido que são recebidos os dados \textit{comando} e \textit{valor}. Se o comando for "inverter", é chamada a função que inverte um botão, cuja resposta pode ser \textit{erro1} ou \textit{sucesso}. Ainda, se o comando for diferente de "inverter", a resposta é \textit{erro2}.
 
@@ -280,14 +292,14 @@ function processaRequisicaoPost(req, res) {
 };
 \end{lstlisting}
 
-Também é importante entender o uso dos módulos \textit{fs} e \textit{child\_process} incluídos por padrão no Node.js e cuja documentação da API pode ser obtida no site do Node.js (\url{https://nodejs.org/dist/latest-v4.x/docs/api/}). O módulo \textit{fs} implementa o acesso ao sistema de arquivos, com funções de leitura e escrita a arquivos, mudança de dono ou modo de execução, criação e leitura de diretórios, dentre outras. Quanto à leitura e escrita de arquivos, esta pode ser realizada de forma assíncrona ou síncrona --- usuários que ainda estão no processo de aprendizado de orientação a eventos tendem a usar a versão síncrona, porém isto deve ser evitado, uma vez que faz o bloqueio da execução da aplicação enquanto o arquivo não acabar de ser acessado.
+Também é importante entender o uso dos módulos \textit{fs} e \textit{child\_process} incluídos por padrão no Node.js e cuja documentação da API pode ser obtida no site do Node.js (\url{https://nodejs.org/dist/latest-v4.x/docs/api/}). O módulo \textit{fs} implementa o acesso ao sistema de arquivos, com funções de leitura e escrita a arquivos, mudança de dono ou modo de execução de arquivos e diretórios, criação e leitura de diretórios, dentre outras. Quanto à leitura e escrita de arquivos, esta pode ser realizada de forma assíncrona ou síncrona --- usuários que ainda estão no processo de aprendizado de orientação a eventos tendem a usar a versão síncrona, porém isto deve ser evitado, uma vez que faz o bloqueio da execução da aplicação enquanto o arquivo não acabar de ser acessado.
 
-Já o módulo \textit{child\_process} permite a criação de processos filhos do Node, que são executados independentemente deste: basicamente é possível executar uma linha de comando ou script do \textit{shell} independente do Node. Neste módulo, foi utilizada a função \textit{exec} para ajustar a data e hora da BBB após receber uma requisição do cliente, por meio dos comandos \textbf{date -s} e \textbf{hwclock -w}, que ajusta a data e hora do sistema e sincroniza com o RTC do sistema, respectivamente. A implementação desta funcionalidade pode ser verificada na função \textit{configRoute} do código-fonte \ref{rotas_js}, encontrado no apêndice \ref{codigos_nodejs}.
+Já o módulo \textit{child\_process} permite a criação de processos filhos do Node, que são executados independentemente deste: basicamente é possível executar uma linha de comando ou script do \textit{shell} independente do Node. Neste módulo, foi utilizada a função \textit{exec} para ajustar a data e hora da BBB após receber uma requisição do cliente, por meio dos comandos \textbf{date -s} e \textbf{hwclock -w}, que ajusta a data e hora do sistema e sincroniza com o RTC, respectivamente. A implementação desta funcionalidade pode ser verificada na função \textit{configRoute} do código-fonte \ref{rotas_js}, encontrado no apêndice \ref{codigos_nodejs}.
 
 \subsection{Registros e verificações em geral}
 \label{registros_sec}
 
-Para as funções de registro, ou \textit{log}, e de verificações, além de eventuais funções de miscelânea, foi escrito um módulo separado, cujo código-fonte está documentado na caixa \ref{log_check_misc_js} do apêndice \ref{codigos_nodejs}. AS funções e suas respectivas descrições são apresentadas:
+Para as funções de registro, ou \textit{log}, e de verificações, além de eventuais funções de miscelânea, foi escrito um módulo separado, cujo código-fonte está documentado na caixa \ref{log_check_misc_js} do apêndice \ref{codigos_nodejs}. As funções e suas respectivas descrições são apresentadas:
 
 \begin{itemize}
 	\item \textbf{startTemperatureLogging()} --- inicia o script Python descrito na seção \ref{python_sec}, por meio de um processo filho do Node.
@@ -300,16 +312,17 @@ Para as funções de registro, ou \textit{log}, e de verificações, além de eventua
 	\begin{itemize}
 		\item Recebe como argumento uma função de callback padrão, ou seja, cujo primeiro argumento é o possível erro e o segundo argumento é o valor de temperatura obtido em caso de sucesso.
 		\item O argumento \textit{logReadHandler} é um objeto externo à função e que deve guardar o valor da última leitura de temperatura, as últimas 5 \textit{timestamps} (registros de data/hora) e a contagem de erros de leitura de temperatura referentes a um sensor específico.
-		\item Se há algum problema na leitura do arquivo que deve conter o registro da última temperatura lida, a variável de erro é incrementada e, se a contagem exceder 180 erros, a mensagem de erro da função de \textit{callback} indica que muitos erros foram detectados. Note-se que 180 é um valor quase que arbitrário que pode representar 3 minutos de leituras consecutivas erradas ou 180 erros esporádicos de leitura do arquivo e cuja escolha foi realizada pois representa 5\% das amostras contidas em uma hora e que, por sua vez, é aceito como o tempo mínimo de uma brassagem ou fervura. Os testes não foram levados à exaustão, mas há espaço para a realização de ensaios para determinação de um valor mais adequado. 
+		\item Se há algum problema na leitura do arquivo que deve conter o registro da última temperatura lida, a variável de erro é incrementada e, se a contagem exceder 180 erros, a mensagem de erro da função de \textit{callback} indica que muitos erros foram detectados. 
+		Note-se que 180 é um valor quase que arbitrário que pode representar 3 minutos de leituras consecutivas erradas ou 180 erros esporádicos de leitura do arquivo e cuja escolha foi realizada pois representa 5\% das amostras contidas em uma hora. Esta por sua vez, é aceita como o tempo mínimo de uma brassagem ou fervura. Testes práticos com relação a este aspecto não foram realizados, portanto há espaço para a realização de ensaios para determinação de um valor mais adequado.
 		\item Em caso de leitura do arquivo com sucesso, se a formatação do valor lido estiver errada, imprime erro, incrementa a variável de erro e, no caso de a contagem exceder 180, seta a mensagem de erro da função de \textit{callback} indicando que muitos erros foram detectados.
-		\item Se o valor lido for consistente, atualiza o objeto \textit{logReadHandler}. Compara as últimas 5 \textit{timestamps} obtidas e incrementa a variável de erro se todas elas forem coincidentes --- isto indica primariamente que o sensor de temperatura está mal conectado, ou mesmo desconectado em caso de erros consecutivos. Por isto a mensagem de erro da \textit{callback} retorna a possibilidade de problemas com o sensor. No caso de a contagem de erros exceder 180, a mensagem de erro da função de \textit{callback} indican que muitos erros foram detectados ao invés de avisar sobre o sensor.
-		\item Por fim, se a leitura do registro de temperatura passar por todas as checagens, é retornado nulo na mensagem de erro e o valor de temperatura como segundo argumento. 
+		\item Se o valor lido for consistente, atualiza o objeto \textit{logReadHandler}. Compara as últimas 5 \textit{timestamps} obtidas e incrementa a variável de erro se todas elas forem coincidentes --- isto indica primariamente que o sensor de temperatura está mal conectado, ou mesmo desconectado em caso de erros consecutivos. Por isto a mensagem de erro da \textit{callback} retorna a possibilidade de problemas com o sensor. No caso de a contagem de erros exceder 180, a mensagem de erro da função de \textit{callback} indica que muitos erros foram detectados, ao invés de avisar sobre o sensor.
+		\item Por fim, se a leitura do registro de temperatura passar por todas as checagens, é retornado nulo na mensagem de erro e o valor de temperatura como segundo argumento.
 	\end{itemize}
 	\item \textbf{checkRecipeIntegrity(recipe, path, res)} --- Verifica a integridade da receita selecionada pelo usuário antes de permitir o início de uma brassagem. Os argumentos recebidos pela função são o nome da receita, o diretório de receitas a ser verificado e o objeto que contém a resposta da requisição AJAX feita pelo cliente, respectivamente.
 	\begin{itemize}
 		\item Se não consegue ler o arquivo da receita, responde com erro ao cliente.
 		\item Caso contrário, lê o arquivo \textit{lockfile} para verificar se já existe uma brassagem em andamento. Se não consegue ler o \textit{lockfile} ou ele indica que há uma brassagem em andamento, também responde com erro.
-		\item Verifica a consistência da receita com o seguinte critério: há campos estritamente necessários para a produção e que impedem o início da receita se estiverem em branco, campos que geram avisos mas permitem o início de uma receita após o usuário se declarar ciente e campos indiferentes para o sistema. São os campos estritamente necessários: água de brassagem, tempo da fervura, temperatura inicial de brassagem, primeiro degrau de temperatura, tempo do primeiro degrau, malte 1, quantidade do malte 1, lúpulo 1, quantidade do lúpulo 1 e tempo de adição do lúpulo 1. Os campos que geram avisos são: nome da receita, estilo, levedura, água de sparging e temperatura de sparging. Todos os outros campos são indiferentes à verificação de consistência da receita.
+		\item Verifica a consistência da receita com o seguinte critério: há campos estritamente necessários para a produção e que impedem o início da receita se estiverem em branco, campos que geram avisos mas permitem o início de uma receita após o usuário se declarar ciente e campos indiferentes para o sistema. São os campos estritamente necessários: água de brassagem, tempo da fervura, temperatura inicial de brassagem, primeiro degrau de temperatura, tempo do primeiro degrau, malte 1, quantidade do malte 1, lúpulo 1, quantidade do lúpulo 1 e tempo de adição do lúpulo 1. Os campos que geram avisos são: nome da receita, estilo, levedura, água de sparging e temperatura de sparging. Todos os outros campos são indiferentes à verificação de consistência.
 		\item Se tudo deu certo, uma variável global é setada para registro e uso posterior.
 	\end{itemize}
 \end{itemize}
@@ -325,13 +338,13 @@ Para as funções de registro, ou \textit{log}, e de verificações, além de eventua
 \begin{itemize}
 	\item \textbf{logToFile(message, code, notableTimestamp)} --- função que realiza registro do status da brassagem sempre que invocada. Basicamente, ela salva a variável global \textit{environmentVariables} em um arquivo de texto.
 	\begin{itemize}
-		\item O argumento \textit{message} pode conter uma string com uma mensagem explicativa com, por exemplo, a situação ou estágio da brassagem em que ocorreu o registro, mas pode também ser deixado em branco. O argumento \textit{code} tem basicamente o mesmo propósito, mas é um número predefinido para cada situação possível da brassagem, que permite que o arquivo de registro possa ser interpretado com maior facilidade; por este motivo, recomenda-se veementemente que não seja deixado em branco. A tabela \ref{significados_log} apresenta a correspondência entre os valores do argumento \textit{code} e seus significados.
+		\item O argumento \textit{message} pode conter uma string com uma mensagem explicativa contendo, por exemplo, a situação ou estágio da brassagem em que ocorreu o registro, mas pode também ser deixado em branco. O argumento \textit{code} tem basicamente o mesmo propósito, mas é um número predefinido para cada situação possível da brassagem, que permite que o arquivo de registro possa ser interpretado com maior facilidade; por este motivo, recomenda-se veementemente que não seja deixado em branco. A tabela \ref{significados_log} apresenta a correspondência entre os valores do argumento \textit{code} e seus significados.
 		\item O argumento \textit{notableTimestamp} é usado para indicar quando uma situação notável ocorreu, como por exemplo o início da brassagem, o final de uma rampa ou degrau de temperatura, o início da fervura, etc. Para todas as outras situações deve ser deixado em branco, sendo que as situações notáveis são predefinidas.
 		\item O objeto \textit{environmentVariables}, declarado no código-fonte raiz da aplicação em Node, que foi abordado na seção \ref{servidor_sec} e pode ser obtido no apêndice \ref{codigos_nodejs}, também é descrito na caixa \ref{environment_code}. Ele é salvo no arquivo de \textit{log} no formato JSON e para isto é empregada a função \textit{JSON.stringify} conforme descrito na linha de código-fonte exibida na caixa \ref{json_stringify}.
 	\end{itemize}
 	\item \textbf{sendRecipeNames(path, res)} --- responde para o cliente usando o objeto \textit{res} com todas as receitas disponíveis no diretório passado como argumento \textit{path} para a função.
 	\begin{itemize}
-		\item É preciso notar que, quando uma receita é deletada, a única modificação realizada é que a extensão do arquivo \textit{.recipe} é modificada para \textit{.recipe.del}, assim é fácil recuperar a receita caso o usuário a tenha deletado por engano. Por isso nesta função, além de ler os nomes dos arquivos presentes no diretório e excluir a extensão, foi preciso excluir os arquivos deletados.
+		\item É preciso notar que, quando uma receita é deletada, a única modificação realizada é que a extensão do arquivo \textit{.recipe} é modificada para \textit{.recipe.del}, assim é fácil recuperar a receita caso o usuário a tenha deletado por engano. Por isso nesta função, além de ler os nomes dos arquivos presentes no diretório e excluir a extensão, foi preciso ignorar os arquivos deletados.
 	\end{itemize}
 \end{itemize}
 
@@ -351,6 +364,7 @@ global.environmentVariables = {
 	processFail: false,//flag is set if the process fails irreversibly
 	msg: "",//holds some explanatory message
 	timestamps:{//notable timestamps
+		curr: "",//epoch time of the current variables state
 		start: "",//epoch time of the first request to start a recipe
 		startHeating: "",//epoch time of the start to heat the mash water
 		finishHeating: "",//epoch for the finish of the heating of mash water
@@ -362,8 +376,12 @@ global.environmentVariables = {
 		startSparge: "",//here the recirculation pump starts working
 		heatingBoil: "",//started to heat the wort after sparging
 		boilStart: "",//time when temperature is near enough boiling (>96°C)
+		//hop additions
+		hAdd0: "", hAdd1: "", hAdd2: "", hAdd3: "", hAdd4: "", hAdd5: "", hAdd6: "", hAdd7: "", 
 		boilFinishScheduled: "",//time when the boil is scheduled to finish
-		curr: "", //epoch time of the current variables state
+		chillStart: "",//time when the the boil really finishes and the chilling starts
+		end: "",//epoch time of the end of the brewing (there is cleaning after it)
+		cleaningStart: "",//when the cleaning recirculation process starts
 	},
 	ioStatus: gpioCfg.all_io,//also records the IO status
 	okToStart: false, //true if a recipe is ok enough to start a production
@@ -397,11 +415,9 @@ dataToSave = JSON.stringify(global.environmentVariables) + "\n";
 			8 & esquentando mosto para a fervura \\ \hline
 			9 & fervendo o mosto \\ \hline
 			10 & lúpulo adicionado \\ \hline
-			11 & \\ \hline
-			11 & \\ \hline
-			11 & \\ \hline
-			11 & \\ \hline
-			11 & \\ \hline
+			11 & resfriando o mosto\\ \hline
+			12 & fim do resfriamento, esperando OK do operador para limpeza\\ \hline
+			13 & recirculação de água para limpeza\\ \hline
 
 		\end{tabular}
 	\end{table}
@@ -413,9 +429,9 @@ O módulo responsável pelo controle do processo de brassagem é o \textit{ctrl.js}
 
 \subsubsection{Início do processo}
 
-A primeira função do processo de controle é a \textit{startMashingProcess(recipe, res, lockFile, recipesPath, callback)}, invocada a partir de uma requisição do cliente e, portanto, sua chamada está presente no módulo referente às rotas do Express, discutido na seção \ref{servidor_sec}. Ela recebe como parâmetros o nome da receita iniciada, o objeto de resposta da requisição AJAX, o caminho para o arquivo \textit{lockfile}, o caminho para o diretório das receitas e uma função de \textit{callback}. Em primeiro lugar é verificada a flag global \textit{global.environmentVariables.okToStart} que indica se a receita está pronta para ser executada --- esta flag é setada previamente pela função \textit{checkRecipeIntegrity}, descrita na seção \ref{registros_sec} e chamada durante o processo de interação pré-brassagem do usuário com o sistema. Depois disto, também é verificado se o nome da receita passado como argumento é idêntico ao da variável global de controle \textit{global.environmentVariables.recipe}.
+A primeira função do processo de controle é a \textit{startMashingProcess(recipe, res, lockFile, recipesPath, callback)}, invocada a partir de uma requisição do cliente e, portanto, sua chamada está presente no módulo referente às rotas do Express, discutido na seção \ref{servidor_sec}. Ela recebe como parâmetros o nome da receita a ser iniciada, o objeto de resposta da requisição AJAX, o caminho para o arquivo \textit{lockfile}, o caminho para o diretório das receitas e uma função de \textit{callback}. Em primeiro lugar é verificada a flag global \textit{global.environmentVariables.okToStart} que indica se a receita está pronta para ser executada --- esta flag é setada previamente pela função \textit{checkRecipeIntegrity}, descrita na seção \ref{registros_sec} e chamada durante o processo de interação pré-brassagem do usuário com o sistema. Depois disto, também é verificado se o nome da receita passado como argumento é idêntico ao da variável global de controle \textit{global.environmentVariables.recipe}.
 
-Caso as verificações iniciais sejam positivas, é escrito o valor "1" no arquivo \textit{lockfile}, indicando daqui para a frente que há uma brassagem em andamento. O conteúdo da receita é lido em uma variável e o \textit{log} de temperatura é iniciado, ou seja, o script Python é invocado como um processo filho do Node. Também é feito o \textit{log} inicial do processo de brassagem. Se tudo ocorreu sem erros, o servidor envia uma resposta para o cliente indicando sucesso, chama a função de \textit{callback} com a variável erro nula e invoca a função \textit{heatMashWater}, que dá prosseguimento ao controle do processo. Em caso de erro em alguma das situações descritas, é enviada uma resposta de erro para o cliente e a função de \textit{callback} é invocada com a variável erro indicando o erro ocorrido. Note-se que a função de \textit{callback} não tem importância no que diz respeito ao controle, mas serve somente para retornar o status da tentativa de início da produção.
+Caso as verificações iniciais sejam positivas, é escrito o valor "1" no arquivo \textit{lockfile}, indicando daqui para a frente que há uma brassagem em andamento. O conteúdo da receita é lido em uma variável e o \textit{log} de temperatura é iniciado, ou seja, o script Python é invocado como um processo filho do Node. Também é feito o \textit{log} inicial do processo de brassagem. Se tudo ocorreu sem erros, o servidor envia uma resposta para o cliente indicando sucesso, chama a função de \textit{callback} com a variável \textit{erro} nula e invoca a função \textit{heatMashWater}, que dá prosseguimento ao controle do processo. Em caso de erro em alguma das situações descritas, é enviada uma resposta de erro para o cliente e a função de \textit{callback} é invocada com a variável erro indicando o erro ocorrido. Note-se que a função de \textit{callback} não tem importância no que diz respeito ao controle, mas serve somente para retornar o status da tentativa de início da produção.
 
 \subsubsection{Aquecimento da água da mostura}
 
@@ -423,11 +439,13 @@ A função \textit{heatMashWater(recipeContents)} recém chamada, dá prosseguimento
 
 São iniciados dois laços de repetição: um que faz um \textit{log} da situação da brassagem a cada 5 segundos e outro que é repetido a cada 1 segundo e que lê a temperatura da água e chama a função auxiliar \textit{updateHeatingConditions} para controlar o elemento aquecedor da MT. No \textit{callback} da \textit{updateHeatingConditions} fica definido que, se esta é a primeira vez que a temperatura desejada é atingida, o laço de repetição do \textit{log} é atualizado para refletir a mudança de situação de "esquentado água da brassagem" para "esperando adição dos maltes". Se não é a primeira vez que é atingido o \textit{setpoint}, a \textit{callback} não faz nada. Em resumo, após a temperatura atingir o valor desejado, ela é mantida até que o usuário adicione os maltes.
 
-Concomitantemente, o laço de controle de temperatura da função \textit{heatMashWater} verifica a \textit{flag} global \textit{global.environmentVariables.readyForNextStep} que só é setada após o usuário indicar, por meio da GUI, que ele adicionou os maltes. Quando isto acontece, a flag é zerada e os laços de \textit{log} e de controle são interrompidos. Por fim é chamada a função de controle de rampas e degraus de temperatura, mas antes de entrar nos seus detalhes de funcionamento, será explicada a função auxiliar \textit{updateHeatingConditions(vessel, setp, temperature, callback)}, uma vez que já foi feito uso dela.
+Concomitantemente, o laço de controle de temperatura da função \textit{heatMashWater} verifica a \textit{flag} global \textit{global.environmentVariables.readyForNextStep} que só é setada após o usuário indicar, por meio da GUI, que ele adicionou os maltes. Quando isto acontece, a flag é zerada e os laços de \textit{log} e de controle são interrompidos. Por fim é chamada a função de controle de rampas e degraus de temperatura, mas antes de entrar nos seus detalhes de funcionamento, será explicada a função auxiliar \textit{updateHeatingConditions(vessel, setp, temperature, callback)}.
 
 \subsubsection{Função de controle de temperatura}
 
-Os argumentos que ela recebe possuem uma interpretação bem direta: \textit{vessel} é o recipiente a ser controlado, ou seja, pode ser a MT ou o BK; \textit{setp} e \textit{temperature} são respectivamente a temperatura desejada e a atual e; \textit{callback} é a função executada sempre que a temperatura é maior ou igual ao valor do setpoint, e cujo argumento passado para ela é nulo. O controle do elemento aquecedor é implementado da seguinte forma: quando a temperatura está abaixo de 70\% do \textit{setpoint}, o aquecimento fica ligado 100\% do tempo; quando a temperatura está entre 70\% e 90\% do \textit{setpoint}, o aquecimento fica ligado 66\% do tempo; quando a temperatura está entre 90\% e 100\% do \textit{setpoint}, o aquecimento fica ligado 33\% do tempo e; acima disto o aquecimento fica desligado. Cabe ressaltar que a vantagem desta função auxiliar não é o sistema de controle de aquecimento, mas sim o fato de que este é auto-contido, ou seja, para quaisquer implementações de controle de temperatura (PID, histerese, direto), basta modificar esta função, sem alteração do resto do código. Outra condição que deve ser atendida é que esta função precisa ser chamada periodicamente dentro de um laço de repetição, uma vez que ela somente atualiza o valor da saída (elemento aquecedor) baseada nas entradas (temperatura e \textit{setpoint}).
+Os argumentos que ela recebe possuem uma interpretação bem direta: \textit{vessel} é o recipiente a ser controlado, ou seja, pode ser a MT ou o BK; \textit{setp} e \textit{temperature} são respectivamente a temperatura desejada e a atual e; \textit{callback} é a função executada sempre que a temperatura é maior ou igual ao valor do setpoint, e cujo argumento passado para ela é nulo. O controle do elemento aquecedor é implementado da seguinte forma: quando a temperatura está abaixo de 70\% do \textit{setpoint}, o aquecimento fica ligado 100\% do tempo; quando a temperatura está entre 70\% e 90\% do \textit{setpoint}, o aquecimento fica ligado 66\% do tempo; quando a temperatura está entre 90\% e 100\% do \textit{setpoint}, o aquecimento fica ligado 33\% do tempo e; acima disto o aquecimento fica desligado.
+
+Cabe ressaltar que a vantagem desta função auxiliar não é o sistema de controle de aquecimento, mas sim o fato de que este é auto-contido, ou seja, para quaisquer implementações de controle de temperatura (PID, histerese, direto), basta modificar esta função, sem alteração do resto do código. Outra condição que deve ser atendida é que esta função precisa ser chamada periodicamente dentro de um laço de repetição, uma vez que ela somente atualiza o valor da saída (elemento aquecedor) baseada nas entradas (temperatura e \textit{setpoint}).
 
 \subsubsection{Controle de rampas e degraus de temperatura}
 
@@ -446,7 +464,7 @@ Se a etapa de rampas e degraus ainda não acabou, a temperatura da MT é lida e o 
 
 \subsubsection{Lavagem dos grãos}
 
-A função de controle da lavagem dos grãos é fortemente baseada em temporização: o fluxo de vazão da MT para o BK e o fluxo de bombeamento de líquido do BK para a MT devem ser iguais para que não ocorra transbordamento de nenhum dos recipientes, mas como na prática estes fluxos são muito diferentes e variam conforme a receita, foram projetados dispositivos de verificação de transbordamento da panela.
+A função de controle da lavagem dos grãos é fortemente baseada em temporização: o fluxo de vazão da MT para o BK e o fluxo de bombeamento de líquido do BK para a MT devem ser iguais para que não ocorra transbordamento de nenhum dos recipientes, mas como na prática estes fluxos são muito diferentes e variam conforme a receita, o ideal seria o projeto de dispositivos de verificação de transbordamento da panela.
 
 É iniciado um laço de registro da situação da brassagem a cada 5 segundos e, em paralelo, outro laço executado a cada 0,5 segundos verifica se há transbordamento da MT. Em caso afirmativo, a bomba do BK é desligada e um tempo predefinido é esperado até que o bombeamento seja retomado. Em paralelo aos dois laços de repetição, a válvula de drenagem da MT é inicialmente aberta por um tempo determinado em função do volume inicial da água de brassagem, definido como $0,5 segundos \cdot volume(l)$. Somente quando este tempo acaba é que é a valvula de drenagem e a bomba de recirculação do BK são ativadas, para iniciar a lavagem dos grãos; também é neste momento que é iniciado um terceiro \textit{loop}.
 
@@ -454,7 +472,7 @@ Neste, executado a cada 0,5 segundos, nada acontece em caso de transbordamento. 
 
 \subsubsection{Fervura}
 
-A função \textit{theBoil(recipeContents)} recebe somente o conteúdo da receita. É iniciado um laço de registro da brassagem a cada 5 segundos e em paralelo, após ligar o resistor de aquecimento do BK, é iniciado um laço supervisor da fervura executado a cada 1 segundo e no qual são controladas as adições de lúpulos. Neste laço, só é iniciada a contagem do tempo de fervura depois que a temperatura do mosto passa de 96\si{\degree}C, momento no qual também é atualizado o laço de registro e são agendadas para execução as adições dos lúpulos por meio da função \textit{setTimeout}. Quando a fervura acaba, é desligado o resistor de aquecimento do BK, fechado o compartimento de adição de lúpulos e interrompidos os laços de registro e supervisão da fervura.
+A função \textit{theBoil(recipeContents)} recebe somente o conteúdo da receita. É iniciado um laço de registro da brassagem a cada 5 segundos e em paralelo, após ligar o resistor de aquecimento do BK, é iniciado um laço supervisor da fervura executado a cada 1 segundo e no qual são controladas as adições de lúpulos. Neste laço, só é iniciada a contagem do tempo de fervura depois que a temperatura do mosto sobe além dos 96\si{\degree}C, momento no qual também é atualizado o laço de registro e são agendadas para execução as adições dos lúpulos por meio da função \textit{setTimeout}. Quando a fervura acaba, é desligado o resistor de aquecimento do BK, fechado o compartimento de adição de lúpulos e interrompidos os laços de registro e supervisão da fervura.
 
 \subsection{Simulação do controle do processo de brassagem}
 \label{simulacao_controle}

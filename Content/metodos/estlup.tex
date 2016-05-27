@@ -1,4 +1,4 @@
-Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados para adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
+Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados, que permite a adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
 
 Fixando a altura do compartimento em 10,0cm foram escolhidos valores de comprimento e largura de 16,0cm e 8,0cm respectivamente, assumindo inicialmente que as paredes das divisórias tem espessura desprezível. A equação para volume de um prisma e a escolha das dimensões são demonstradas em \ref{eq_hop_vini}:
 
@@ -42,7 +42,7 @@ Posteriormente aos cálculos de \ref{eq_hop_vini}, durante o projeto no software 
 	\label{corpo_hopbox}
 \end{figure}
 
-Foram projetadas duas portinholas: uma na face superior da caixa, para reabastecimento manual dos lúpulos, com uma alça e fixada na caixa por dois pinos, de modo que a abertura desta tampa é um movimento de rotação e; uma na face inferior, para adição automática, de correr, de modo que a abertura é um movimento de translação; ambas estão ilustradas na figura \ref{tampas_hopbox}.
+Foram projetadas duas portinholas: uma na face superior da caixa, para reabastecimento manual dos lúpulos, com uma alça e fixada na caixa por dois pinos, de modo que a abertura desta tampa é um movimento de rotação e; uma na face inferior para adição automática, de correr, de modo que a abertura é um movimento de translação; ambas estão ilustradas na figura \ref{tampas_hopbox}.
 
 \begin{figure}[H]
 	\centering
@@ -63,7 +63,7 @@ Foram projetadas duas portinholas: uma na face superior da caixa, para reabastec
 	\label{tampas_hopbox}
 \end{figure}
 
-Duas varetas de comprimento $l_1$ e $l_2$ são ligadas ao encaixa da tampa de correr, representada em azul na figura \ref{tampas_hopbox:2}, e a elas é acoplado um servo-motor cujo ângulo de operação $\theta$ define a abertura --- ou deslocamento --- da tampa, definido por $d$. A figura \ref{varetas} esquematiza as ligações.
+Duas varetas de comprimento $l_1$ e $l_2$ são ligadas ao encaixa da tampa de correr, representada em azul na figura \ref{tampas_hopbox} (b), e a elas é acoplado um servo-motor cujo ângulo de operação $\theta$ define a abertura --- ou deslocamento --- da tampa, definido por $d$. A figura \ref{varetas} esquematiza as ligações.
 
 \begin{figure}[H]
 	\centering
@@ -73,7 +73,7 @@ Duas varetas de comprimento $l_1$ e $l_2$ são ligadas ao encaixa da tampa de cor
 	\label{varetas}
 \end{figure}
 
-Sendo o comprimento da tampa igual a $l_3$, a condição em \ref{eq_varetas} deve ser satisfeita para que a excursão máxima de abertura da caixa possa ser atingida. É possível demonstrar com o auxílio da Lei dos Cossenos, em \ref{eq_cossenos} que $l_1 = l_2 = l$ para que a mínima abertura da caixa possa ser atingida.
+Sendo o comprimento da tampa igual a $l_3$, a condição na equação \ref{eq_varetas} deve ser satisfeita para que a excursão máxima de abertura da caixa possa ser atingida. É possível demonstrar com o auxílio da Lei dos Cossenos, em \ref{eq_cossenos} que $l_1 = l_2 = l$ para que a mínima abertura da caixa possa ser atingida.
 
 \begin{align}
 	\label{eq_varetas}
@@ -95,9 +95,9 @@ A taxa máxima de deslocamento em função do ângulo do servo motor é expressa em \
 	\frac{dl_3}{d\theta} = \frac{2l}{90\si{\degree}}
 \end{align}
 
-Entretanto, quanto maior o valor desta taxa, menor é a resolução de abertura da caixa, portanto obtem-se que o menor valor possível de $l$, a partir de \ref{eq_varetas} é $l = l_3/2$. Assim sendo, a taxa de deslocamento calculada a partir de \ref{eq_desl} é de $2mm/\si{\degree}$.
+Entretanto, quanto maior o valor desta taxa, menor é a resolução de abertura da caixa, portanto obtem-se que o menor valor possível de $l$, a partir da equação \ref{eq_varetas} é $l = l_3/2$. Assim sendo, a taxa de deslocamento calculada a partir da equação \ref{eq_desl} é de $2mm/\si{\degree}$.
 
-Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao encaixe entre tampa e vareta não ser na extremidade, este valor é reduzido. Tal fato não deve ser negligenciado, uma vez que isto pode forçar a operação do servo-motor. Sabe-se pelo projeto executado no FreeCAD que a distância da borda ao encaixe da tampa é de 2,3cm portanto, com o auxílio da Lei dos Cossenos, obtém-se que $\theta_{max} = 82\si{\degree}$. Quanto ao valor mínimo não há preocupação , já que a abertura da caixa terá uma excursão reduzida em 2,3cm com relação ao seu comprimento. As varetas não foram calculadas novamente pois julgou-se uma boa prática essa redução, que evita que a tampa caia da caixa quando em máxima excursão. A figura \ref{completa_hopbox} apresenta o esquema completo de construção da estrutura de adição de lúpulos.
+Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao encaixe entre tampa e vareta não ser na extremidade, este valor é reduzido. Tal fato não deve ser negligenciado, uma vez que isto pode forçar a operação do servo-motor ou quebrar alguma das peças do sistema. Sabe-se pelo projeto executado no FreeCAD que a distância da borda ao encaixe da tampa é de 2,3cm e portanto, com o auxílio da Lei dos Cossenos, obtém-se que $\theta_{max} = 82\si{\degree}$. Quanto ao valor mínimo não há preocupação, já que a abertura da caixa terá uma excursão reduzida em 2,3cm com relação ao seu comprimento. As varetas não foram calculadas novamente para corrigir esta excursão pois a redução foi considerada uma boa prática, que evita que a tampa se desacople da caixa. A figura \ref{completa_hopbox} apresenta o esquema completo de construção da estrutura de adição de lúpulos.
 
 \begin{figure}[H]
 	\centering
@@ -119,9 +119,9 @@ Servomotor é um dispositivo de conversão eletromecânica que surgiu da necessidad
 	\label{servo_desmontado}
 \end{figure}
 
-Observa-se que o circuito de controle é um circuito integrado, porém não há ampla documentação acerca de sua arquitetura interna --- ele é o elemento do sistema de controle que atua no motor; já o potenciômentro é o elemento sensor do conjunto, cujo objetivo é fornecer a posição angular do eixo através da variação de sua resistência. O motor é a planta do sistema de controle, convertendo energia elétrica em rotação do eixo. O conjunto de engrenagens é responsável por aumentar o torque do mesmo, com a diminuição da velocidade de rotação.
+Observa-se que o circuito de controle é um circuito integrado, porém não há ampla documentação acerca de sua arquitetura interna; já o potenciômentro é o elemento sensor do conjunto, cujo objetivo é fornecer a posição angular do eixo através da variação de sua resistência. O motor é a planta do sistema de controle, convertendo energia elétrica em rotação do eixo. O conjunto de engrenagens é responsável por aumentar o torque do mesmo, com a diminuição da velocidade de rotação.
 
-A caracterização do servomotor foi realizada em 4 partes: elaboração do código de controle para 8051; simulação no software Proteus ISIS; ensaio para determinar os valores práticos de operação do servomotor e; nova simulação no software Proteus ISIS. O código para AT89S52 --- compatível com 8051 --- é apresentado na caixa \ref{at_servo_code} do apêndice \ref{apendice_servo} e o diagrama esquemático do circuito de teste e simulação na figura \ref{circuito_servo}. O uso do AT89S52 se deve ao fato de que o uso do PWM com a BBB ainda não estivesse desenvolvido neste ponto do projeto, porém posteriormente a interface entre servo-motor e BBB foi realizada --- e os resultados estão descritos na seção \ref{aciona_results}.
+A caracterização funcionamento do servomotor foi realizada em 4 partes: elaboração do código de controle para 8051; simulação no software Proteus ISIS; ensaio para determinar os valores práticos de operação do servomotor e; nova simulação no software Proteus ISIS. O código para AT89S52 --- compatível com 8051 --- é apresentado na caixa \ref{at_servo_code} do apêndice \ref{apendice_servo} e o diagrama esquemático do circuito de teste e simulação na figura \ref{circuito_servo}. O uso do AT89S52 se deve ao fato de que o uso do PWM com a BBB ainda não estava desenvolvido neste ponto do projeto, porém posteriormente a interface entre servo-motor e BBB foi realizada --- e os resultados estão descritos na seção \ref{aciona_results}.
 
 \begin{figure}[H]
 	\centering
@@ -131,7 +131,7 @@ A caracterização do servomotor foi realizada em 4 partes: elaboração do código d
 	\label{circuito_servo}
 \end{figure}
 
-Observa-se a necessidade de um buffer entre o microcontrolador AT89S52 e o servomotor, pois a corrente requisitada pelo pino de controle do servo é maior que a corrente máxima fornecida pelo \si{\micro}C. 
+Observa-se a necessidade de um buffer entre o microcontrolador AT89S52 e o servomotor, pois a corrente requisitada pelo pino de controle do servo é maior do que a corrente máxima fornecida pelo \si{\micro}C. 
 
 Os resultados da caracterização do funcionamento do servo-motor estão documentados no apêndice \ref{apendice_servo}.
 

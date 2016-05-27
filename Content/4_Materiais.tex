@@ -1,6 +1,8 @@
 \chapter{Materiais}
 
-Este capítulo lista os materiais empregados no desenvolvimento deste projeto. 
+Este capítulo lista os materiais empregados no desenvolvimento deste projeto e, para sua melhor organização, os diversos materiais estão divididos nos seguintes capítulos: \textbf{núcleo do projeto} --- que compreende principalmente a BBB; \textbf{sistema mecânico} --- onde são listadas as peças empregadas na construção tanto da estrutura de suporte do sistema quanto do sistema de panelas e tubulações; \textbf{componentes eletrônicos} --- lista os componentes utilizados para a confecção dos circuitos de acionamentos de potência, dentre outros; \textbf{equipamentos, instrumentos, \textit{softwares} e miscelânea} --- apresenta os materiais de apoio ao projeto ou aqueles que não se encaixam em outras categorias, assim como os softwares utilizados para desenvolvimento.
+
+Também há uma seção dedicada à BBB e sua configuração, já que esta foi peça fundamental do trabalho proposto.
 
 \section{Núcleo do projeto}
 
@@ -74,7 +76,10 @@ Os materiais utilizados na construção da parte mecânica do sistema estão listado
 			Cotovelo M/F 90\si{\degree} 1/2" aço inoxidável & 1\\ \hline
 			Tee fêmea 90\si{\degree} 1/2" aço inoxidável & 4\\ \hline
 			Niple duplo sextavado 1/2" aço inoxidável & 9\\ \hline
-			Espigão sextavado 1/2" aço inoxidável & 4\\ \hline 
+			Espigão sextavado 1/2" aço inoxidável & 4\\ \hline
+
+			\textbf{Estrutura metálica} & \\ \hline
+			Cantoneira de ferro 2" x 1/8" (metros) & 18 \\ \hline
 		\end{tabular}
 	\end{table}
 \end{center}
@@ -145,10 +150,12 @@ Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares
 			Multímetro Minipa ET-2110 & \\ \hline
 			
 			\textbf{\textit{Softwares}} & \\ \hline
-			MATLAB & versão\\ \hline
 			FreeCAD & v. 0.15\\ \hline
 			MatterControl & v. 1.3.0 + plugin CNCBrasil\\ \hline
 			Cura & v. 15.06.03\\ \hline
+			LTSpice & \\ \hline
+			Proteus Schematic Capture & \\ \hline
+			MCU 8051 IDE & \\ \hline
 			Putty & \\ \hline
 			
 			
@@ -158,32 +165,12 @@ Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares
 
 			\textbf{Controle de versão} & \\ \hline
 			GitHub & \url{https://github.com/leograba/final_paper_tcc}\\ \hline
-			Filamento para impressão 3D & ABS 1,75mm\\ \hline
 			
 		\end{tabular}
 	\end{table}
 \end{center}
 
-\section{Insumos cervejeiros}
-
-A descrição dos insumos cervejeiros utilizados para confecção da receita e posterior teste do sistema pode ser encontrada na tabela \ref{bom_recipe}.
-
-\begin{center}
-	\begin{table}[H]
-		\centering
-		\captionsetup{justification=centering}
-		\caption[Lista insumos cervejeiros para produção de cerveja do tipo \textit{Blond Ale}]{Lista insumos cervejeiros para produção de cerveja do tipo \textit{Blond Ale}}
-		\label{bom_recipe}
-		\begin{tabular}{ | M{13cm} | M{2cm} |}
-			\hline
-			\textbf{Descrição} & \textbf{Quantidade} \\ \hline
-			Malte Pilsen (kg) & 4,5\\ \hline
-			Malte Munich (kg) & 0,5\\ \hline
-			Lúpulo Hallertauer Tradition (g) & 50\\ \hline
-			Levedura desidratada Safale S-04 (Tipo Ale inglesa) sachê & 1\\ \hline
-			Sanitizante Iodophor diluído em água (ml/l) & 0,8\\ \hline
-		\end{tabular}
-	\end{table}
-\end{center}
+\section{BeagleBone Black}
+\input{./Content/materiais/bbb.tex}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
