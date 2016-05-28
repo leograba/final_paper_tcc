@@ -48,7 +48,7 @@ A partir desta coleta de dados, obtém-se os valores de tempo médio em nível alto
 	\captionsetup{justification=centering}
 	\caption[Estatísticas referentes ao tempo de um único chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js]{Estatísticas referentes ao tempo de um único chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js}
 	\label{um_ciclo_gpio}
-	\begin{tabular}{ | M{5cm} | M{2cm} |}
+	\begin{tabular}{ | M{7.5cm} | M{2cm} |}
 		\hline
 		\textbf{Descrição} & \textbf{Valor (ms)} \\ \hline
 		Tempo médio esperado em nível alto & 10,0\\ \hline
@@ -62,7 +62,7 @@ Foi notado também que a carga de processamento exigida da CPU é de 20\%, valor n
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/BonescriptIO/high-10ms-9bits/Carga_processo.png}
+	\includegraphics[scale=0.40]{./Resources/BonescriptIO/high-10ms-9bits/Carga_processo.png}
 	\captionsetup{justification=centering}
 	\caption[Carga da CPU dedicada ao chaveamento de GPIO em Node.js com tempo de chaveamento de 10ms]{Carga da CPU dedicada ao chaveamento de GPIO em Node.js com tempo de chaveamento de 10ms}
 	\label{cpu_intensive}
@@ -75,7 +75,7 @@ Observados os valores do teste preliminar, nos quais tanto o tempo de chaveament
 	\captionsetup{justification=centering}
 	\caption[Estatísticas referentes ao chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js]{Estatísticas referentes ao chaveamento de GPIO usando o módulo \textit{gpio\_config} em Node.js}
 	\label{gpio_consolidados}
-	\begin{tabular}{ | M{2cm} | M{2cm} | M{2cm} | M{2cm} | M{2cm} | M{2cm} | M{2cm} |}
+	\begin{tabular}{ | M{1.9cm} | M{1.9cm} | M{1.9cm} | M{1.9cm} | M{1.9cm} | M{1.9cm} | M{1.9cm} |}
 		\hline
 		\textbf{Tempo esperado em nível alto(ms)} & \textbf{Tempo médio em nível alto (ms)} & \textbf{Tempo mínimo em nível alto} & \textbf{Tempo máximo em nível alto} & \textbf{Desvio padrão (ms)} & \textbf{Erro (\%)} & \textbf{Carga da CPU (\%)}\\ \hline
 		0,1 & 1,89 & 1,69 & 3,83 & 0,40 & 1793,21 & 56 \\ \hline
@@ -105,8 +105,238 @@ Quanto ao PWM, foi verificado o seu funcionamento para a frequência de f=50Hz, o
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.50]{./Resources/PWM-servo-motor/pwm__________1.png}
+	\includegraphics[scale=0.45]{./Resources/BonescriptIO/PWM-servo-motor/pwm__________1.png}
 	\captionsetup{justification=centering}
 	\caption[Verificação de funcionamento do PWM configurado por meio do Node.js, com f=50Hz e \textit{duty-cycle}=50\%]{Verificação de funcionamento do PWM configurado por meio do Node.js, com f=50Hz e \textit{duty-cycle}=50\%}
 	\label{pwm_teste}
 \end{figure}
+
+\subsection{Servidor Express}
+
+Como o objetivo do servidor implementado neste trabalho foi exclusivamente o de servir conteúdo via web e proporcinar a base para a interface de usuário, o capítulo de resultados \ref{resIntUser}, que apresenta os resultados referentes à interface gráfica de usuário, é um resultado direto do sucesso da implementação utilizando o \textit{framework} Express.
+
+Não obstante, foi observado que a execução da aplicação completa em Node.js, quando o sistema fica ocioso, ocupa 8,1\% dos recursos de memória da BBB, ou seja 40Mb de um total de 496Mb. Quanto aos recursos de processamento, o \textit{software} de monitoramento de recursos \textit{htop} oscila entre 0\% e 1\% de uso da CPU para esta tarefa.
+
+Para observar a carga do sistema e comprovar o embasamento teórico exposto no capítulo \ref{node_js_sec}, que indica que o uso de Node.js é apropriado para operações de I/O intensivo, foi observado o consumo de recursos da aplicação com um número variado de abas de internet abertas ao mesmo tempo na interface de controle manual do sistema. A escolha desta página como \textit{benchmark} deriva-se do fato de que ela se comunica com o servidor a cada 0,5s. Os resultados do teste se encontram na tabela \ref{bench_server}.
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Consumo de recursos de memória e processamento em função do número de clientes conectados à BBB]{Consumo de recursos de memória e processamento em função do número de clientes conectados à BBB}
+	\label{bench_server}
+	\begin{tabular}{ | M{5cm} | M{3cm} | M{3cm} |}
+		\hline
+		\textbf{$N^o$ de abas} & \textbf{Memória RAM (\%)} & \textbf{Faixa de consumo da CPU (\%)}\\ \hline
+		1 & 8,7 & 2 - 6 \\ \hline
+		2 & 8,8 &  4 - 7\\ \hline
+		5 & 9,0 & 6 - 12 \\ \hline
+		10 & 9,9 & 11 - 32 \\ \hline
+		25 & 10,1 & 21 - 54 \\ \hline
+		50 & 10,1 & 34 - 68 \\ \hline
+		75 & 10,1 & 52 - 93 \\ \hline
+		100 & 10,2 & 38 - 91 \\ \hline
+		125 & 10,3 & 58 - 91 \\ \hline
+		200 & 10,3 & 45 - 91 \\ \hline
+	\end{tabular}
+\end{table}
+
+É importante notar que, após fechar todas as abas, o consumo de recursos do sistema voltou às condições iniciais, além de que o desempenho do computador do cliente foi monitorado e, em nenhum momento, o consumo de recursos dos núcleos de CPU ficou travado em 100\%. Outro teste realizado quando as 200 abas foram abertas, foi usar a interface de usuário em diversas abas aleatórias para comprovar que esta continuava funcional, mesmo com muitas conexões concorrentes: foi notada lentidão em comparação à operação com somente uma aba aberta, porém a interface continuou funcional. A figura \ref{pczao_abas} apresenta o gerenciador de recursos do navegador Google Chrome e, por conseguinte, a quantidade de recursos de CPU, memória RAM e rede demandados do computador do cliente com 200 abas da aplicação abertas.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.50]{./Resources/200_tabs_chrome.png}
+	\captionsetup{justification=centering}
+	\caption[Consumo de recursos do computador do cliente para 200 abas abertas no navegador Google Chrome]{Consumo de recursos do computador do cliente para 200 abas abertas no navegador Google Chrome}
+	\label{pczao_abas}
+\end{figure}
+
+Quanto aos resultados expressos na tabela \ref{bench_server}, é importante salientar que, mesmo que o consumo mínimo da CPU não tenha crescido proporcionalmente com o aumento do número de abas, ainda assim à medida que este (número de abas) crescia, era notável que a CPU passava cada vez mais tempo em níveis mais elevados de processamento.
+
+É importante salientar que testes no âmbito de segurança não foram conduzidos, embora este seja um tópico de grande interesse na área de IoT (internet das coisas). Nota-se também que nenhuma restrição de acesso à interface gráfica de usuário foi implementada neste projeto.
+
+\subsection{Registros e verificações em geral}
+
+O módulo de registros e verificações em geral, conforme descrito na seção \ref{registros_sec}, tem funções para controlar o registro de temperatura, ler o último valor registrado de temperatura, verificar a integridade de uma receita, responder para o cliente o nome de todas as receitas cadastradas no servidor e registrar o processo de brassagem. Esta seção é dedicada a apresentar somente resultados parciais do controle do registro de brassagem e resultados do registro do processo de brassagem, uma vez que a grande maioria destas funções tem seus resultados descritos nas seções \ref{temp_py_res} (registro de temperatura em Python) e \ref{resIntUser} (interface gráfica de usuário).
+
+Com relação ao controle do registro de temperaturas, a única observação aqui apresentada é que o arquivo de registros foi corretamente criado tanto durante as simulações do controle da brassagem quanto durante os testes de automação da parte mecânica. Isto implica que as funções que iniciam e param o script Python a partir do Node cumprem o seu objetivo.
+
+Quanto ao registro do processo de brassagem, guardado no arquivo \textit{backup.log}, após a simulação da receita descrita na seção \ref{simulacao_controle}, verificou-se que foi gerado um arquivo com 249 registros e que neste todos os códigos de brassagem da tabela \ref{significados_log} foram encontrados ao menos em uma linha de registro. A figura \ref{registro_c9} apresenta o início e o final do arquivo, acessado por meio da IDE online \textit{Cloud9}, tanto para motivo de ilustração quanto comprovação da criação bem sucedida do registro. A tabela \ref{linhas_importantes} apresenta os campos \textit{código, msg} e  \textit{timestamps:curr)} dos registros de situações notáveis, conforme descrito na seção \ref{registros_sec}, e importantes da brassagem.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/inicio_log.png}
+		\caption{Registros iniciais}
+		\label{registro_c9:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/final_log.png}
+		\caption{Registros finais}
+		\label{registro_c9:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Arquivo de registro do processo de brassagem]{Arquivo de registro do processo de brassagem}
+	\label{registro_c9}
+\end{figure}
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Apresentação dos campos \textit{código, msg} e  \textit{timestamps:curr)} convertida de \textit{epoch time} para data/hora, das situações notáveis e importantes da brassagem]{Apresentação dos campos \textit{código, msg} e  \textit{timestamps:curr)} (timestamp no momento do log) convertida de \textit{epoch time} para data/hora, das situações notáveis e importantes da brassagem}
+	\label{linhas_importantes}
+	\begin{tabular}{ | M{1.5cm} | M{1.5cm} | M{5cm} | M{4cm} | M{1.5cm} |}
+		\hline
+		\textbf{Linha} & \textbf{Código} & \textbf{Mensagem} & \textbf{Timestamp (UTC-3)} & Notável\\ \hline
+		1 & 0 & request to start production & 23-05-2016 20:21:26 & sim \\ \hline
+		2 & 1 & production starting & 23-05-2016 20:21:32 & não \\ \hline
+		3 & 2 & heating mash water & 23-05-2016 20:21:32 & sim \\ \hline
+		9 & 3 & waiting for grains & 23-05-2016 20:22:01 & sim \\ \hline
+		12 & 4 & mash ramp in progress & 23-05-2016 20:22:13 & sim \\ \hline
+		19 & 5 & mash step[1] in progress & 23-05-2016 20:22:44 & sim \\ \hline
+		32 & 4 & mash ramp in progress & 23-05-2016 20:23:46 & sim \\ \hline 
+		60 & 5 & mash step[2] in progress & 23-05-2016 20:26:03 & sim \\ \hline
+		74 & 6 & sparging in progress & 23-05-2016 20:27:11 & sim \\ \hline
+		78 & 7 & mash tun overflow & 23-05-2016 20:27:31 & não\\ \hline 
+		84 & 6 & sparging in progress & 23-05-2016 20:28:01 & não \\ \hline
+		126 & 8 & heating wort to boil & 23-05-2016 20:31:29 & sim \\ \hline
+		127 & 9 & boiling wort & 23-05-2016 20:31:30 & sim \\ \hline
+		139 & 10 & added hop [0] & 23-05-2016 20:32:30 & sim \\ \hline
+		152 & 10 & added hop [2] & 23-05-2016 20:33:30 & sim \\ \hline
+		165 & 10 & added hop [1] & 23-05-2016 20:34:30 & sim \\ \hline
+		179 & 11 & chilling the wort & 23-05-2016 20:35:31 & sim \\ \hline
+		203 & 12 & chill finished - brewing finished & 23-05-2016 20:37:32 & sim \\ \hline
+		207 & 13 & cleaning recirculation & 23-05-2016 20:37:47 & sim \\ \hline
+		254 & 13 & cleaning recirculation & 23-05-2016 20:41:42 & não \\ \hline
+	\end{tabular}
+\end{table}
+
+\subsection{Simulação do controle do processo de brassagem}
+
+Para simular o controle do processo de brassagem, foi iniciada a receita de \textit{debug} descrita na seção \ref{simulacao_controle} a partir da GUI e observado o comportamento tanto desta quanto das mensagens de \textit{debug} impressas pela aplicação no terminal. A depuração de todos os módulos escritos para esta aplicação foi ativada e, inicialmente, nenhum \textit{hardware} foi ligado à BBB. As figuras \ref{console_sim_1} e \ref{console_sim_2} apresentam excertos relevantes do conjunto de mensagens impresso no terminal.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=8cm]{./Resources/simBrewing/simlog1.png}
+		\caption{Acesso à GUI e início da brassagem}
+		\label{console_sim_1:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=8cm]{./Resources/simBrewing/simlog2.png}
+		\caption{Início do controle de temperatura}
+		\label{console_sim_1:2}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=8cm]{./Resources/simBrewing/simlog3.png}
+		\caption{Final do controle de temperatura}
+		\label{console_sim_1:3}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=8cm]{./Resources/simBrewing/simlog4.png}
+		\caption{Início da lavagem dos grãos (\textit{sparging})}
+		\label{console_sim_1:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Excertos relevantes das mensagens de depuração do processo de simulação da brassagem (parte 1)]{Excertos relevantes das mensagens de depuração do processo de simulação da brassagem (parte 1)}
+	\label{console_sim_1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=7.5cm]{./Resources/simBrewing/simlog5.png}
+		\caption{Início da fervura do mosto}
+		\label{console_sim_2:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5.2cm]{./Resources/simBrewing/simlog6.png}
+		\caption{Adição de lúpulo à panela de fervura}
+		\label{console_sim_2:2}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5.0cm]{./Resources/simBrewing/simlog7.png}
+		\caption{Início do resfriamento do mosto}
+		\label{console_sim_2:3}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5.0cm]{./Resources/simBrewing/simlog8.png}
+		\caption{Recirculação de água para limpeza preliminar}
+		\label{console_sim_2:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Excertos relevantes das mensagens de depuração do processo de simulação da brassagem (parte 2)]{Excertos relevantes das mensagens de depuração do processo de simulação da brassagem (parte 2)}
+	\label{console_sim_2}
+\end{figure}
+
+Em seguida, após a certificação de que o processo de automação estava coerente com o processo de produção de cerveja e com as especificações do equipamento, por meio de ajustes incrementais nos códigos-fonte do projeto, foram ligados à BBB: interfaces de potência aos pinos de GPIO, com LEDs ligados às suas saídas para inspeção visual; relés de estado sólido ligados diretamente aos pinos de GPIO da BBB respectivos ao controle dos resistores de potência --- à saída destes nada foi adicionado, uma vez que possuem LED indicador do estado da saída; e interface de potência ligada ao PWM, com o servo-motor acoplado à sua saída. O resultado desta simulação é apresentado na figura \ref{proto_sim_1}, na qual o esforço de equiparar as fases documentadas com as das figuras \ref{console_sim_1} e \ref{console_sim_2} foi parcialmente efetivo: em função do fato de que algumas partes de transição são rápidas, não foi prático documentar o equivalente ao \textit{log} do terminal em imagens estáticas.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto1.jpg}
+		\caption{Acesso à GUI e início da brassagem}
+		\label{proto_sim_1:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto2.jpg}
+		\caption{Início do controle de temperatura}
+		\label{proto_sim_1:2}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto3.jpg}
+		\caption{Final do controle de temperatura}
+		\label{proto_sim_1:3}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto4.jpg}
+		\caption{Início da lavagem dos grãos (\textit{sparging})}
+		\label{proto_sim_1:4}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto5.jpg}
+		\caption{Início da fervura do mosto}
+		\label{proto_sim_1:5}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto6.jpg}
+		\caption{Início do resfriamento do mosto}
+		\label{proto_sim_1:6}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/simBrewing/sim_proto7.jpg}
+		\caption{Recirculação de água para limpeza preliminar}
+		\label{proto_sim_1:7}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Momentos relevantes da simulação observados na GUI e nos circuitos de interface de potência]{Momentos relevantes da simulação observados na GUI e nos circuitos de interface de potência}
+	\label{proto_sim_1}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
