@@ -1,77 +1,214 @@
 \label{resIntUser}
 
-Nesta seção são apresentados os resultados do desenvolvimento da interface de usuário. 
+Nesta seção são apresentados os resultados obtidos a partir do teste prático da interface de usuário, por meio de um computador com tela de resolução WXGA (1766 x 768 pixels).
 
-A página inicial é composta de uma imagem com uma área clicável no centro, sobre a etiqueta \textit{Start Here}, que leva à página de apresentação. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-ini}.
+\subsection{Página inicial}
+
+A página inicial foi composta de uma imagem clicável com uma mensagem de boas vindas parodiando o uso do compilador Gcc como se estivesse sendo compilada a receita de uma cerveja. O clique nesta imagem leva à página de apresentação. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-ini}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/inipg.jpg}
+	\includegraphics[scale=0.30]{./Resources/uips/inipg.png}
 	\captionsetup{justification=centering}
-	\caption{Página inicial da UI}
+	\caption{Página inicial da GUI}
 	\label{ui-ini}
 \end{figure}
 
-A página de apresentação contém uma breve descrição do projeto e de seu objetivo, além dos botões que levam: à interface onde estão os gráficos de temperatura e; ao menu de seleção de tarefas. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-present}.
+\subsection{Página de apresentação}
+
+A página de apresentação contém uma breve descrição do projeto, cujo nome fantasia adotado foi \textit{Cervejaria do futuro}, em alusão à automação e ao acesso pela internet. Foi adicionado um aviso indicando que a interface pode apresentar problemas de design em resoluções diferentes da WXGA, e também uma seção com vídeos de testes preliminares do sistema. O resultado visual do desenvolvimento desta página pode ser verificado na figura \ref{ui-present}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/presentpg.jpg}
+	\includegraphics[scale=0.30]{./Resources/uips/presentation.png}
 	\captionsetup{justification=centering}
-	\caption{Página de apresentação da UI}
+	\caption{Página de apresentação do trabalho}
 	\label{ui-present}
 \end{figure}
 
-Na página que plota os gráficos de temperatura em função do tempo é possível ler o valor atual da temperatura do sensor DS18B20. Também é nesta página que encontra-se o gráfico dinâmico e interativo, que é atualizado a cada aproximadamente 1 segundo -- o tempo de atualização não é fixo em função da natureza de operação do interpretador do Javascript e o tempo de amostragem da temperatura não é fixo em função do sistema operacional escolhido não ser de tempo real. Neste gráfico, apresentado na figura \ref{ui-graph1} é possível:
+Também é importante notar, na parte superior da imagem, a implementação da barra de navegação documentada na seção \ref{aspectos_sec} e o funcionamento adequado da detecção da presente página, com o intuito de ressaltar o link (ou botão) desta --- que no caso é o link \textit{sobre}.
+
+\subsection{Interface de configurações}
+
+Para mudar para a interface de configurações, o botão correspondente da barra de navegação foi clicado e a página resultante é apresentada na figura \ref{ui-config}. Para verificar a consistência da configuração de data e hora do sistema embarcado, foi aberta uma aba do navegador na página web \url{http://ntp.br}, comentada na seção \ref{ntp_sec}. Simultâneamente, foi realizada uma tentativa de reconfiguração da data/hora por meio da GUI, sendo os resultados apresentados na figura \ref{ntp_cfg_not_perm}. Posteriormente, o serviço do \textit{ntp} foi desligado na BBB e nova tentativa de reconfiguração da data/hora foi realizada, cujo resultado está expresso na figura \ref{ntp_cfg_perm}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.30]{./Resources/uips/config.png}
+	\captionsetup{justification=centering}
+	\caption{Página de configuração de data/hora}
+	\label{ui-config}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.30]{./Resources/uips/config_not_permitted2.png}
+	\captionsetup{justification=centering}
+	\caption{Tentativa de configuração de data/hora negada}
+	\label{ntp_cfg_not_perm}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.30]{./Resources/uips/config_permitted.png}
+	\captionsetup{justification=centering}
+	\caption{Tentativa de configuração de data/hora aceita}
+	\label{ntp_cfg_perm}
+\end{figure}
+
+\subsection{Página de estatísticas}
+
+Apesar do nome sugestivo, conforme aboradado no capítulo \ref{metodosec}, a página apresenta o gráfico de temperatura em função do tempo gerado a partir do script em Python e também gera e atualiza o gráfico dinâmico e interativo por meio do \textit{framework} Rickshaw. O gráfico gerado em Python e apresentado nesta página é o mesmo da figura \ref{graph_long} e, como seus resultados estão comentados na seção \ref{res_graph_py} estes serão omitidos aqui. Já com relação ao gráfico dinâmico, este é apresentado na figura \ref{ui-graph1} sob as seguintes condições:
 
 \begin{itemize}
-	\item Selecionar as variáveis plotadas
-	\item Escolher a plotagem do gráfico em linha ou área
-	\item Empilhar ou sobrepor os gráficos (no caso da plotagem em área)
-	\item Unir os pontos amostrados em degrau, linha ou realizar uma interpolação cardinal
-	\item Suavizar a plotagem empregando um filtro de média móvel
-	\item Escolher o número de pontos plotados, de maneira a obter o registro dos últimos: 5 minutos, 30 minutos ou 1 hora de amostragens
-	\item Ajuste fino do número de pontos plotados, por meio da escolha dos limites inicial e final, utilizando a barra sob o gráfico
-	\item Leitura precisa do valor de qualquer ponto plotado e da data/hora da amostragem, colocando o cursor sobre o local do gráfico no qual se deseja realizar a leitura
+	\item Registro de temperatura do DS18B20 gerado a partir do script em Python.
+	\item Aquecimento de um volume aleatório de água e retirada da sonda deste volume por um período de tempo aleatório.
+	\item Ajuste dos pontos inicial e final da plotagem, por meio da barra deslizante sob o gráfico.
+	\item Informação detalhada de um ponto do gráfico a partir do posicionamento do cursor sobre ele.
+	\item Seleção de somente um conjunto de dados para plotagem em área e com ligação de pontos interpolada.
 \end{itemize}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.90]{./Resources/uips/graphpg1.jpg}
 	\captionsetup{justification=centering}
-	\caption[Gráfico dinâmico de temperatura em função do tempo]{Gráfico dinâmico de temperatura em função do tempo \\ Ajuste fino e cursor sobre o gráfico sendo aplicados}
+	\caption[Gráfico dinâmico de temperatura em função do tempo]{Gráfico dinâmico de temperatura em função do tempo}
 	\label{ui-graph1}
 \end{figure}
 
-Ainda na página que plota os gráficos de temperatura, é plotado um gráfico estático do histórico de todos os pontos registrados no arquivo de \textit{log}. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-graph2}.
+A figura \ref{smoothing} documenta o uso do filtro de médias móveis para quatro situações distintas: sem aplicação de filtro --- 373 pontos plotados; 40 pontos plotados; 16 pontos plotados e; 4 pontos plotados.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/graphpg2.jpg}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=3.2cm]{./Resources/uips/mavg373ptx.png}
+		\caption{sem filtro --- 373 pontos plotados}
+		\label{smoothing:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=3.2cm]{./Resources/uips/mavg40ptx.png}
+		\caption{40 pontos plotados}
+		\label{smoothing:2}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=3.2cm]{./Resources/uips/mavg16ptx.png}
+		\caption{16 pontos plotados}
+		\label{smoothing:3}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=3.2cm]{./Resources/uips/mavg4ptx.png}
+		\caption{4 pontos plotados}
+		\label{smoothing:4}
+	\end{subfigure}
 	\captionsetup{justification=centering}
-	\caption{Gráfico estático do histórico de temperaturas registradas}
-	\label{ui-graph2}
+	\caption[Aplicação do filtro de médias móveis com diferentes intensidades]{Aplicação do filtro de médias móveis com diferentes intensidades}
+	\label{smoothing}
+\end{figure}  
+
+Por \textit{pontos plotados}, entende-se que após os 373 pontos do registro de temperatura passarem pelo filtro de médias móveis sob determinada configuração de intensidade, estes são reduzidos aos números citados --- 40, 16 e 4 pontos. Como o ajuste do filtro é feito por meio de uma barra sem graduação, não há informações quantitativas sobre este senão a realimentação visual da barra provida na figura \ref{smoothing}.
+
+A partir da realimentação visual promovida pela figura \ref{smoothing}, é possível notar que é melhor o usuário não aplicar o filtro, uma vez que este promove distorção da curva original se configurado com intensidade inadequada, como observado nas situações (b), (c) e (d).
+
+\subsection{Interface de brassagem}
+
+A interface de brassagem possibilita ao operador do sistema atuar neste, seja manualmente quando não há produção em andamento, ou automaticamente ao iniciar uma brassagem. Embora todas as situações possíveis desta interface, assim como a comprovação da sua efetividade, estejam documentadas na seção \ref{protosim_sec}, em especial na figura \ref{proto_sim_1}, ainda assim são apresentadas duas amostras em melhor resolução, obtidas por meio de captura de tela e não fotos. Na figura \ref{start_recipe_gui} é apresentada a interface que permite o início de uma receita ou ir para o controle manual do sistema; na figura \ref{manual_ctrl_gui} é apresentado o painel de controle do sistema, que fica travado durante a produção automática de cerveja, servindo somente para propósitos de monitoramento neste caso.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.30]{./Resources/uips/startBrewing.png}
+	\captionsetup{justification=centering}
+	\caption[Interface gráfica para configuração de início da brassagem]{Interface gráfica para configuração de início da brassagem}
+	\label{start_recipe_gui}
 \end{figure}
 
-O menu de tarefas, ilustrado na figura \ref{ui-task} é basicamente uma página com links para o gerenciador de receitas, o gerenciador de início da produção, o acompanhamento e ajustes da brassagem e as estatísticas. A página de configurações e opções não foi implementada em tempo.
-
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/taskmenupg.jpg}
+	\includegraphics[scale=0.30]{./Resources/uips/controlPanel.png}
 	\captionsetup{justification=centering}
-	\caption{Menu de tarefas da UI}
-	\label{ui-task}
+	\caption[Interface gráfica do painel de controle do sistema mecânico]{Interface gráfica do painel de controle do sistema mecânico}
+	\label{manual_ctrl_gui}
 \end{figure}
 
-O gerenciador de receitas lista e permite acesso a todas as receitas cadastradas no sistema, possibilita exclusão (com a opção de desfazer para exclusão acidental) e criação de nova receita. Quando o cursor é colocado sobre uma receita cadastrada, é apresentado um \textit{preview} para que o usuário tenha uma realimentação rápida de seu conteúdo. A figura \ref{ui-manager} ilustra esta interface em uso, com o cursor sobre a receita \textit{TheMightyMightyIPA} e seu \textit{preview}, além da receita \textit{Exemplo Kolsch} excluída e com possibilidade de recuperação.
+Com o sistema parado, o arquivo \textit{lockfile} foi editado para simular que havia uma receita em produção. Isto foi feito com o objetivo de verificar que não é possível acessar a interface da figura \ref{start_recipe_gui} nesta situação, e o resultado foi positivo: ao tentar o acesso, a página foi redirecionada para o painel de controle da figura \ref{manual_ctrl_gui}. 
+
+Observações do painel de controle decorrentes da simulação em bancada documentada na seção \ref{protosim_sec}, mostraram que por vezes o estado do sistema na GUI fica defasado com relação ao estado do sistema na BBB e no hardware de interface. No modo manual, \textit{glitches} na GUI foram observados com frequência ao mudar o estado dos pinos de GPIO ou do PWM. Ambas as situações se devem ao fato de que a taxa de atualização do painel de controle é de 0,5 segundos --- comprovada quando a taxa de atualização foi modificada temporariamente para 0,1 segundos e os atrasos e \textit{glitches} cessaram.
+
+\subsection{Gerenciador e editor de receitas}
+
+A figura \ref{ui-manager} apresenta como resultado a interface gráfica do gerenciador de receitas, para o caso da receita \textit{Exemplo Kolsch} deletada, porém com possibilidade de recuperação, e também com a prévia da receita \textit{TheMightyMightyIPA} carregada, devido ao fato de o cursor estar posicionado sobre o seu nome na lista. Ao recarregar a página, foi notado que a receita \textit{Exemplo Kolsch} não foi listada, comprovando a funcionalidade de deletar receita.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/managerpg.jpg}
+	\includegraphics[scale=0.30]{./Resources/uips/manager.png}
 	\captionsetup{justification=centering}
 	\caption[Gerenciador de receitas da UI]{Gerenciador de receitas da UI \\ Cursor sobre a receita \textit{TheMightyMightyIPA} e receita \textit{Exemplo Kolsch} excluída}
 	\label{ui-manager}
 \end{figure}
+
+Foi observado que, ao correr o cursor pela lista de receitas, diversas prévias destas receitas eram carregadas sequencialmente e posteriormente, quando o cursor se fixava sobre uma receita específica, havia um atraso até que a sua prévia fosse carregada. Tal comportamento levou à observação de recursos de CPU e memória RAM da BBB na seguinte condição de estresse: foi movido aleatóriamente o cursor sobre a lista de receitas por 60 segundos e, após isto, ele foi fixado sobre uma receita específica e esperou-se que a prévia se estabilizasse nesta receita. Os resultados estão contidos na figura \ref{resources_manager}, cujos instantes notáveis estão descritos na tabela \ref{resources_manager_moments}. Para relacionar corretamente os momentos das ações executadas, foi gravado um vídeo de captura de tela enquanto o procedimento era realizado, com um relógio aberto para garantir os instantes de transição.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/uips/recipe_manager_resources.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico de consumo de recursos de CPU e memória RAM da BBB em função do tempo, durante estresse do gerenciador de receitas]{Gráfico de consumo de recursos de CPU e memória RAM da BBB em função do tempo, durante estresse do gerenciador de receitas}
+	\label{resources_manager}
+\end{figure}
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Instantes notáveis do estresse do gerenciador de receitas]{Instantes notáveis do estresse do gerenciador de receitas}
+	\label{resources_manager_moments}
+	\begin{tabular}{ | M{10cm} | M{3cm} |}
+		\hline
+		\textbf{Descrição} & \textbf{Tempo (s)}\\ \hline
+		Início do monitoramento dos recursos da BBB & 0 \\ \hline
+		Início da movimentação do cursor (estresse) & 14 \\ \hline
+		Final da movimentação do cursor (estresse) & 75 \\ \hline
+		Estabilização da prévia & 161 \\ \hline
+		Fim do monitoramento dos recursos da BBB & 193 \\ \hline
+	\end{tabular}
+\end{table}
+
+A partir dos resultados apresentados, observa-se que mesmo com o gerenciador de receitas cumprindo sua função, a função de prévia da GUI consumiu 100\% dos recursos de CPU da BBB desde o instante em que foi iniciado o estresse do gerenciador até 1 minuto e 26 segundos após este. Também é possível observar a partir do gráfico da figura \ref{resources_manager} que houve um aumento da demanda do sistema por memória RAM durante o período de estresse --- esta demanda se estabilizou, porém durante os 22 segundos nos quais a demanda por processamento esteve na faixa de grandeza das condições iniciais, a demanda por memória RAM não foi reduzida.
+
+Para testar a criação de uma nova receita, foi escolhido o nome "\textit{Nov@? Re\$\$eita\#}", que é um nome inválido. O resultado é apresentado na figura \ref{nome_invalido}. A partir destes resultados, percebe-se que o esforço de proteção aplicado ao servidor descrito na seção \ref{recipe_editor_howto} não foi correspondido do lado do cliente, permitindo a este realizar uma operação ilegal --- o que o impede de salvar a receita. Nota-se também na figura \ref{nome_invalido} (d) que caracteres especiais foram passados para a URL do editor de receitas.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=1.74cm]{./Resources/uips/recipe_creation1.png}
+		\caption{Botão para criar nova receita}
+		\label{nome_invalido:1}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=1.47cm]{./Resources/uips/recipe_creation2.png}
+		\caption{Caixa de entrada auto-explicativa para o usuário}
+		\label{nome_invalido:2}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=1.5cm]{./Resources/uips/recipe_creation3.png}
+		\caption{Tentativa de criar receita com nome inválido}
+		\label{nome_invalido:3}
+	\end{subfigure}
+	\begin{subfigure}{1.0\textwidth}
+		\centering
+		\includegraphics[height=3.2cm]{./Resources/uips/recipe_creation4.png}
+		\caption{Nome inválido aceito}
+		\label{nome_invalido:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Teste de criação de receita com nome inválido]{Teste de criação de receita com nome inválido}
+	\label{nome_invalido}
+\end{figure}  
 
 O editor de receitas apresenta caixas de entrada para o usuário adicionar as características desejadas da cerveja, sendo que a cada malte, lúpulo e temperatura adicionado, aparece automaticamente um campo extra para estes itens, limitado a 8 entradas para cada. Só foi implementado um botão de voltar pois há uma funcionalidade de salvamento automático -- o aviso no canto superior direito da tela mostra o status do salvamento da receita: no caso da figura \ref{ui-editor}, que ilustra a implementação do editor, nota-se que a mensagem de status avisa o usuário que há um campo essencial para a produção da cerveja que não foi preenchido.
 
@@ -81,35 +218,4 @@ O editor de receitas apresenta caixas de entrada para o usuário adicionar as car
 	\captionsetup{justification=centering}
 	\caption[Editor de receitas da UI]{Editor de receitas da UI \\ Receita \textit{bla} parcialmente preenchida com aviso de campos essenciais em branco}
 	\label{ui-editor}
-\end{figure}
-
-O gerenciador de início da produção apresenta ao usuário um aviso sinalizando de que tudo deve estar devidamente verificado antes do início da produção. Também apresenta uma caixa de seleção da receita a ser produzida. O resultado visual de seu desenvolvimento pode ser verificado na figura \ref{ui-start}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/startbrewingpg.jpg}
-	\captionsetup{justification=centering}
-	\caption{Gerenciador de início da produção}
-	\label{ui-start}
-\end{figure}
-
-O acompanhamento e possibilidade de ajustes da brassagem implementa um controle manual do LED1 da BBB, bombas, válvulas, resistores de potência e servo-motor do sistema, com \textit{feedback} visual para o usuário. Na figura \ref{ui-ctrl} é apresentada a UI e o console do Javascript, no qual aparecem as respostas do servidor para a seguinte sequência de comandos: ativação da bomba do mosto, ativação da válvula da água, valor do ângulo do servo-motor setado para 87\si{\degree} e, ativação seguida desligamento do aquecedor de fervura.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/manualctrlpg.jpg}
-	\captionsetup{justification=centering}
-	\caption{Interface de acompanhamento e ajustes da brassagem - console Javascript com \textit{feedback} do servidor para uma sequência de comandos executados}
-	\label{ui-ctrl}
-\end{figure}
-
-
-A página de estatísticas apresenta somente um aviso de página em desenvolvimento, conforme ilustrado na figura \ref{ui-dev}.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/developg.jpg}
-	\captionsetup{justification=centering}
-	\caption{Aviso de página em desenvolvimento}
-	\label{ui-dev}
 \end{figure}

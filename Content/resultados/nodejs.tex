@@ -213,6 +213,7 @@ Quanto ao registro do processo de brassagem, guardado no arquivo \textit{backup.
 \end{table}
 
 \subsection{Simulação do controle do processo de brassagem}
+\label{protosim_sec}
 
 Para simular o controle do processo de brassagem, foi iniciada a receita de \textit{debug} descrita na seção \ref{simulacao_controle} a partir da GUI e observado o comportamento tanto desta quanto das mensagens de \textit{debug} impressas pela aplicação no terminal. A depuração de todos os módulos escritos para esta aplicação foi ativada e, inicialmente, nenhum \textit{hardware} foi ligado à BBB. As figuras \ref{console_sim_1} e \ref{console_sim_2} apresentam excertos relevantes do conjunto de mensagens impresso no terminal.
 
@@ -374,7 +375,7 @@ Também foi usado o comando \textit{sar} do pacote \textit{sysstat} para gerar um
 	\label{sar_network}
 \end{figure}
 
-A partir dos dados obtidos, constatou-se que os recursos de processamento (CPU) ficaram abaixo de 40\%, salvo em um único ponto do gráfico da figura \ref{sar_performance}, indicando que a BBB trabalhou muito abaixo do seu limite de processamento. Com relação à memória RAM, foi observado que seu uso está entre 55\% e 60\%. É notável a partir da observação do gráfico que, após o fim do processo de fervura, a quantidade de processamento demandada pela BBB foi reduzida pela metade.
+A partir dos dados obtidos, constatou-se que os recursos de processamento (CPU) ficaram abaixo de 40\%, salvo em um único ponto do gráfico da figura \ref{sar_performance}, indicando que a BBB trabalhou muito abaixo do seu limite de processamento. Com relação à memória RAM, foi observado que seu uso está entre 55\% e 60\%. É notável a partir da observação do gráfico que, após o fim do processo de fervura, a quantidade de processamento demandada da BBB foi reduzida pela metade.
 
 
 

@@ -90,6 +90,7 @@ sudo ./install.sh #executa o script
 \end{figure}
 
 \subsection{Data/hora}
+\label{ntp_sec}
 
 Para a configuração automática de data e hora da BBB, foi escolhido o uso do protocolo NTP -- \textit{Network Time Protocol} ou Protocolo de Tempo para Redes -- cujo objetivo é sincronizar os relógios de dispositivos conectados a uma rede a partir de fontes precisas \cite{ntp}. No Brasil, a confiabilidade deste protocolo é responsabilidade do Observatório Nacional (ON), responsável legal por garantir a Hora Legal Brasileira, em conjunto com o Núcleo de Informação e Coordenação do Ponto BR, administrador e operador do domínio ".br"  \cite{nic,dsho}.
 
@@ -103,7 +104,15 @@ sudo mv /etc/localtime /etc/localtime-old #backup do arquivo antigo da timezone
 sudo ln -s /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime #cria link simbólico para arquivo da nova timezone
 \end{lstlisting}
 
-Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita é a substituição dos servidores de hora padrão para os servidores brasileiros, listados no endereço \url{http://www.pool.ntp.org/zone/br} -- no final de cada endereço foi adicionada a instrução \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora não esteja claro seu funcionamento, é essencial para que o horário seja corretamente configurado a cada \textit{reboot}. O trecho de código-fonte \ref{ntp_br} indica as modificações no arquivo \textit{/etc/ntp.conf} adequando aos servidores brasileiros:
+Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita foi a substituição dos servidores de hora padrão para os servidores brasileiros, listados no endereço \url{http://ntp.br}, responsável pelo oferecimento da \textbf{Hora Legal Brasileira} e cuja estrutura de oferecimento do serviço está apresentada na figura \ref{ntp_stratos}. No final de cada endereço foi adicionada a instrução \textit{iburst}, conforme descrito no website oficial do protocolo (\url{http://support.ntp.org/bin/view/Support/ConfiguringNTP}) e que, embora não esteja claro seu funcionamento, foi essencial para que o horário fosse corretamente configurado a cada \textit{reboot}. O trecho de código-fonte \ref{ntp_br} indica as modificações no arquivo \textit{/etc/ntp.conf} adequando aos servidores brasileiros:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.75]{./Resources/ntp-estrutura.png}
+	\captionsetup{justification=centering}
+	\caption[Estrutura do serviço de data e hora do Ntp.br]{Estrutura do serviço de data e hora do Ntp.br\\ Disponível em \url{http://ntp.br/img-ntp/ntp-estrutura.png}}
+	\label{ntp_stratos}
+\end{figure}
 
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Servidores brasileiros do NTP, label=ntp_br]
@@ -113,10 +122,15 @@ Na edição do arquivo \textit{/etc/ntp.conf}, a única modificação feita é a subst
 # pool.ntp.org maps to about 1000 low-stratum NTP servers. Your server will
 # pick a different set every time it starts up. Please consider joining the
 # pool: <http://www.pool.ntp.org/join.html>
-server 0.br.pool.ntp.org iburst
-server 1.br.pool.ntp.org iburst
-server 2.br.pool.ntp.org iburst
-server 3.br.pool.ntp.org iburst
+server a.st1.ntp.br iburst
+server b.st1.ntp.br iburst
+server c.st1.ntp.br iburst
+server d.st1.ntp.br iburst
+server a.ntp.br iburst
+server b.ntp.br iburst
+server c.ntp.br iburst
+server d.ntp.br iburst
+server gps.ntp.br iburst
 \end{lstlisting}
 
 \subsection{Sensor DS18B20}
