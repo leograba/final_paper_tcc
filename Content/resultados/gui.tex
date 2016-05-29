@@ -177,7 +177,7 @@ Foi observado que, ao correr o cursor pela lista de receitas, diversas prévias d
 
 A partir dos resultados apresentados, observa-se que mesmo com o gerenciador de receitas cumprindo sua função, a função de prévia da GUI consumiu 100\% dos recursos de CPU da BBB desde o instante em que foi iniciado o estresse do gerenciador até 1 minuto e 26 segundos após este. Também é possível observar a partir do gráfico da figura \ref{resources_manager} que houve um aumento da demanda do sistema por memória RAM durante o período de estresse --- esta demanda se estabilizou, porém durante os 22 segundos nos quais a demanda por processamento esteve na faixa de grandeza das condições iniciais, a demanda por memória RAM não foi reduzida.
 
-Para testar a criação de uma nova receita, foi escolhido o nome "\textit{Nov@? Re\$\$eita\#}", que é um nome inválido. O resultado é apresentado na figura \ref{nome_invalido}. A partir destes resultados, percebe-se que o esforço de proteção aplicado ao servidor descrito na seção \ref{recipe_editor_howto} não foi correspondido do lado do cliente, permitindo a este realizar uma operação ilegal --- o que o impede de salvar a receita. Nota-se também na figura \ref{nome_invalido} (d) que caracteres especiais foram passados para a URL do editor de receitas.
+Para testar a criação de uma nova receita, foi escolhido o nome "\textit{Nov@? Re\$\$eita\#}", que é um nome inválido dado o uso de caracteres especiais. O resultado é apresentado na figura \ref{nome_invalido}. A partir destes resultados, percebe-se que o esforço de proteção aplicado ao servidor descrito na seção \ref{recipe_editor_howto} e impediu esta receita de ser salva, não foi correspondido do lado do cliente, permitindo a este realizar uma operação ilegal. Nota-se também na figura \ref{nome_invalido} (d) que caracteres especiais foram passados para a URL do editor de receitas.
 
 \begin{figure}[H]
 	\centering
@@ -209,6 +209,71 @@ Para testar a criação de uma nova receita, foi escolhido o nome "\textit{Nov@? R
 	\caption[Teste de criação de receita com nome inválido]{Teste de criação de receita com nome inválido}
 	\label{nome_invalido}
 \end{figure}  
+
+Após a verificação de que foi possível a edição de uma receita com nome inválido, mas sem a possibilidade de salvá-la, foram executados testes para uma receita cujo nome escolhido foi "\textit{Exemplo American Stout}" e cujo conteúdo inserido apresentou parâmetros compatíveis com uma receita real. Do ponto de vista do cliente, foi comprovado o funcionamento da função recursiva que adiciona campos novos à medida que a receita é preenchida, conforme explicado na seção \ref{recipe_editor_howto} e ilustrado na figura \ref{new_fields}, que compara uma receita vazia à "\textit{Exemplo American Stout}".
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/uips/empty_recipe.png}
+		\caption{Todos os campos em branco}
+		\label{new_fields:1}
+	\end{subfigure}
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/uips/full_recipe.png}
+		\caption{Após preenchimento de uma receita real}
+		\label{new_fields:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Editor de receitas]{Editor de receitas}
+	\label{new_fields}
+\end{figure}  
+
+Uma vez que a função recursiva é executada na máquina do cliente, a partir das ferramentas de desenvolvedor do navegador Google Chrome foi observado o comportamento da execução do código javascript durante o evento de perda de foco de um campo da seção maltes do formulário. Esta seção foi escolhida devido ao fato de ela ter 7 linhas de ingredientes preenchidas no momento do teste e, portanto, apresentar a condição que demanda o maior número de chamadas possível da função recursiva \textit{rearrange}. O resultado é apresentado na figura \ref{client_rearrange}. A máquina que foi utilizada para este teste possui 4 núcleos Intel Core i5 M 580 @ 2,67GHz e dois pentes de memória RAM SODIMM DDR3 4GB @ 1066MHz.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/uips/rearrange_client.png}
+	\captionsetup{justification=centering}
+	\caption[Análise de execução do código Javascript da interface de edição de receitas]{Análise de execução do código Javascript da interface de edição de receitas}
+	\label{client_rearrange}
+\end{figure}
+
+Este teste foi repetido para obter um número de 10 amostras dos tempos de execução total do frame, de cada iteração da função \textit{rearrange} e do tempo necessário para salvar a receita, por meio da função \textit{saveOnDemand}. Os resultados são apresentados na tabela \ref{rearrange_on_demand}.
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Tempos relativos a processamento do editor de receitas, no cliente]{Tempos relativos a processamento do editor de receitas, no cliente}
+	\label{rearrange_on_demand}
+	\begin{tabular}{ | M{4.5cm} | M{1.75cm} | M{1.75cm} | M{1.75cm} | M{1.75cm} | M{1.75cm} |}
+		\hline
+		\textbf{Descrição} & \textbf{Média (ms)} & \textbf{Máximo (ms)} & \textbf{Mínimo (ms)} & \textbf{Desvio padrão (ms)} & \textbf{Coef. de variação (\%)}\\ \hline
+		Tempo do frame & 64,00 & 78,30 & 47,10 & 9,46 & 14,78\\ \hline
+		Tempo total \textit{rearrange} 1$^a$ iteração & 18,78 & 25,09 & 14,15 & 3,78 & 20,13\\ \hline
+		Tempo de processamento \textit{rearrange} 1$^a$ iteração & 0,64 & 1,52 & 0,16 & 0,41 & 64,06\\ \hline
+		Tempo total \textit{rearrange} 2$^a$ iteração & 14,95 & 19,91 & 10,54 & 3,30 & 22,07\\ \hline
+		Tempo de processamento \textit{rearrange} 2$^a$ iteração & 0,57 & 1,1 & 0,17 & 0,30 & 52,63\\ \hline
+		Tempo total \textit{rearrange} 3$^a$ iteração & 11,85 & 15,22 & 8,41 & 2,10 & 17,72\\ \hline
+		Tempo de processamento \textit{rearrange} 3$^a$ iteração & 0,56 & 0,76 & 0,18 & 0,20 & 35,71\\ \hline
+		Tempo total \textit{rearrange} 4$^a$ iteração & 9,35 & 12,05 & 7,17 & 1,61 & 17,22\\ \hline
+		Tempo de processamento \textit{rearrange} 4$^a$ iteração & 0,58 & 1,00 & 0,16 & 0,24 & 41,38\\ \hline
+		Tempo total \textit{rearrange} 5$^a$ iteração & 7,44 & 9,48 & 5,59 & 1,23 & 16,53\\ \hline
+		Tempo de processamento \textit{rearrange} 5$^a$ iteração & 0,65 & 0,98 & 0,33 & 0,24 & 36,92\\ \hline
+		Tempo total \textit{rearrange} 6$^a$ iteração & 5,39 & 6,85 & 4,03 & 0,88 & 16,33\\ \hline
+		Tempo de processamento \textit{rearrange} 6$^a$ iteração & 0,59 & 0,98 & 0,29 & 0,21 & 35,59\\ \hline
+		Tempo total \textit{rearrange} 7$^a$ iteração & 3,12 & 3,96 & 2,20 & 0,61 & 19,55\\ \hline
+		Tempo de processamento \textit{rearrange} 7$^a$ iteração & 0,76 & 1,95 & 0,32 & 0,45 & 59,21\\ \hline
+		Tempo total \textit{saveOnDemand} & 5,01 & 7,16 & 3,85 & 1,11 & 22,16\\ \hline
+		Tempo de processamento \textit{saveOnDemand} & 0,23 & 0,54 & 0,14 & 0,13 & 56,52\\ \hline
+	\end{tabular}
+\end{table}
+
+A partir dos resultados apresentados, foi notado que tanto a função \textit{rearrange} quanto \textit{saveOnDemand} estavam sendo executadas duas vezes, impondo uma redundância não prevista à interface de edição de receitas e, por conseguinte, consumindo recursos em dobro desta --- além de isto significar o dobro de operações de escrita na memória eMMC da BBB.
+
+Quanto ao tempo médio total de execução da função \textit{rearrange}, foi notado que este é diminuído para cada iteração: tal resultado era esperado, já que o tempo total da n-ésima iteração é o somatório do tempo de execução desta e de todas as iterações subsequentes. Já o tempo de processamento para cada iteração não diminuiu, o que também é esperado, uma vez que a função \textit{rearrange} não tem laços de repetição internos que dependam do valor n da n-ésima iteração. Ainda assim, para todos os valores médios da tabela \ref{rearrange_on_demand}, percebeu-se que estes apresentam baixa confiaça estatística, dados os valores dos coeficientes de variação não desprezíveis.
 
 O editor de receitas apresenta caixas de entrada para o usuário adicionar as características desejadas da cerveja, sendo que a cada malte, lúpulo e temperatura adicionado, aparece automaticamente um campo extra para estes itens, limitado a 8 entradas para cada. Só foi implementado um botão de voltar pois há uma funcionalidade de salvamento automático -- o aviso no canto superior direito da tela mostra o status do salvamento da receita: no caso da figura \ref{ui-editor}, que ilustra a implementação do editor, nota-se que a mensagem de status avisa o usuário que há um campo essencial para a produção da cerveja que não foi preenchido.
 
