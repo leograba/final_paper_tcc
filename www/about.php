@@ -32,7 +32,11 @@
     , fácil de usar, divertido, confiável e disponível em qualquer lugar</p>
     <br>
     
-    <p style="font-size:0.75em;">Esta interface foi desenvolvida para ser visualizada em desktop, com o navegador Google Chrome.
-    Outros navegadores e/ou dispositivos móveis podem apresentar problemas de design ou funcionalidade</p>
+    <p style="font-size:0.75em;">Esta interface foi desenvolvida para ser visualizada em desktop (1366x768 - resolução WXGA), com o navegador Google Chrome.
+    Outros navegadores, resoluções e/ou dispositivos móveis <i>podem</i> apresentar problemas de design</p>
+    
+    <h2>Testes preliminares</h2>
+    <iframe width="420" height="315" src="https://www.youtube.com/embed/9UafTnT6YmY" frameborder="0" allowfullscreen></iframe>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/LiZ8gi9YoFU" frameborder="0" allowfullscreen></iframe>
 </body>
 </html>
