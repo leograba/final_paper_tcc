@@ -122,7 +122,7 @@ Para observar a carga do sistema e comprovar o embasamento teórico exposto no ca
 \begin{table}[H]
 	\centering
 	\captionsetup{justification=centering}
-	\caption[Consumo de recursos de memória e processamento em função do número de clientes conectados à BBB]{Consumo de recursos de memória e processamento em função do número de clientes conectados à BBB}
+	\caption[Consumo de recursos de memória e CPU da aplicação em função do número de clientes conectados à BBB]{Consumo de recursos de memória e CPU da aplicação em função do número de clientes conectados à BBB}
 	\label{bench_server}
 	\begin{tabular}{ | M{5cm} | M{3cm} | M{3cm} |}
 		\hline
@@ -327,15 +327,54 @@ Em seguida, após a certificação de que o processo de automação estava coerente c
 	\captionsetup{justification=centering}
 	\caption[Momentos relevantes da simulação observados na GUI e nos circuitos de interface de potência]{Momentos relevantes da simulação observados na GUI e nos circuitos de interface de potência}
 	\label{proto_sim_1}
+\end{figure}  
+
+Quanto aos recursos de hardware consumidos durante o processo de brassagem, foi gravado um vídeo da tela do computador usando o software de captura de tela \textit{SimpleScreenRecorder} e, posteriormente, o consumo de memória e CPU do sistema foi sintetizado na tabela \ref{sim_res_cpu}. É importante notar que o uso de recursos do comando \textit{htop}, usado como monitor de recursos para este caso, é da ordem de 10\% e portanto não é desprezível, e também os dados da tabela \ref{sim_res_cpu} são valores instantâneos e não representam nenhum tipo de inferência estatística.
+
+Também foi usado o comando \textit{sar} do pacote \textit{sysstat} para gerar um arquivo de \textit{log} de performance da CPU, memória RAM e volume de tráfego de rede IPv4, a partir do qual foram gerados os gráficos apresentados nas figuras \ref{sar_performance} e \ref{sar_network}, que apresentam o uso de CPU e memória RAM; e recursos de rede utilizados em função do tempo, respectivamente.
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Consumo de recursos de memória e processamento da BBB ao longo do processo de brassagem]{Consumo de recursos de memória e processamento da BBB ao longo do processo de brassagem}
+	\label{sim_res_cpu}
+	\begin{tabular}{ | M{7.5cm} | M{3cm} | M{3cm} |}
+		\hline
+		\textbf{Fase da brassagem} & \textbf{Memória RAM (Mb)} & \textbf{Consumo da CPU (\%)}\\ \hline
+		Seleção da receita & 138 & 10 \\ \hline
+		Autorização do início de produção & 138 & 22 \\ \hline
+		Aquecimento da água da brassagem & 140 & 28 \\ \hline
+		Transição de início do controle de temperatura & 140 & 34 \\ \hline
+		Controle de rampa & 140 & 20 \\ \hline
+		Controle de degrau & 140 & 35 \\ \hline
+		Fim do controle de temperatura & 141 & 28 \\ \hline
+		Detecção de transbordamento & 141 & 24 \\ \hline
+		Lavagem dos grãos & 141 & 29 \\ \hline
+		Fim da lavagem & 142 & 34 \\ \hline
+		Fervura & 143 & 31 \\ \hline
+		Resfriamento do mosto & 139 & 14 \\ \hline
+		Começo da recirculação de limpeza & 139 & 27 \\ \hline
+		Fim do processo --- ocioso & 139 & 15 \\ \hline
+	\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/sar_cpu_ram_sim.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico de consumo de recursos de CPU e memória RAM da BBB em função do tempo, durante uma simulação de brassagem]{Gráfico de consumo de recursos de CPU e memória RAM da BBB em função do tempo, durante uma simulação de brassagem}
+	\label{sar_performance}
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.25]{./Resources/sar_net_sim.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico de consumo de recursos de rede da BBB em função do tempo, durante uma simulação de brassagem]{Gráfico de consumo de recursos de rede da BBB em função do tempo, durante uma simulação de brassagem}
+	\label{sar_network}
+\end{figure}
 
-
-
-
-
-
-
+A partir dos dados obtidos, constatou-se que os recursos de processamento (CPU) ficaram abaixo de 40\%, salvo em um único ponto do gráfico da figura \ref{sar_performance}, indicando que a BBB trabalhou muito abaixo do seu limite de processamento. Com relação à memória RAM, foi observado que seu uso está entre 55\% e 60\%. É notável a partir da observação do gráfico que, após o fim do processo de fervura, a quantidade de processamento demandada pela BBB foi reduzida pela metade.
 
 
 
