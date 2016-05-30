@@ -160,22 +160,22 @@ O módulo de registros e verificações em geral, conforme descrito na seção \ref{r
 
 Com relação ao controle do registro de temperaturas, a única observação aqui apresentada é que o arquivo de registros foi corretamente criado tanto durante as simulações do controle da brassagem quanto durante os testes de automação da parte mecânica. Isto implica que as funções que iniciam e param o script Python a partir do Node cumprem o seu objetivo.
 
-Quanto ao registro do processo de brassagem, guardado no arquivo \textit{backup.log}, após a simulação da receita descrita na seção \ref{simulacao_controle}, verificou-se que foi gerado um arquivo com 249 registros e que neste todos os códigos de brassagem da tabela \ref{significados_log} foram encontrados ao menos em uma linha de registro. A figura \ref{registro_c9} apresenta o início e o final do arquivo, acessado por meio da IDE online \textit{Cloud9}, tanto para motivo de ilustração quanto comprovação da criação bem sucedida do registro. A tabela \ref{linhas_importantes} apresenta os campos \textit{código, msg} e  \textit{timestamps:curr)} dos registros de situações notáveis, conforme descrito na seção \ref{registros_sec}, e importantes da brassagem.
+Quanto ao registro do processo de brassagem, guardado no arquivo \textit{backup.log}, após a simulação da receita descrita na seção \ref{simulacao_controle}, verificou-se que foi gerado um arquivo com 249 registros e que neste todos os códigos de brassagem da tabela \ref{significados_log} foram encontrados ao menos em uma linha de registro. A figura \ref{registro_c9} apresenta o início do arquivo, acessado por meio da IDE online \textit{Cloud9}, tanto para motivo de ilustração quanto comprovação da criação bem sucedida do registro. A tabela \ref{linhas_importantes} apresenta os campos \textit{código, msg} e  \textit{timestamps:curr)} dos registros de situações notáveis, conforme descrito na seção \ref{registros_sec}, e importantes da brassagem.
 
 \begin{figure}[H]
-	\centering
-	\begin{subfigure}{.46\textwidth}
+	%\centering
+	%\begin{subfigure}{.46\textwidth}
 		\centering
-		\includegraphics[height=4.5cm]{./Resources/inicio_log.png}
-		\caption{Registros iniciais}
-		\label{registro_c9:1}
-	\end{subfigure}
-	\begin{subfigure}{.46\textwidth}
-		\centering
-		\includegraphics[height=4.5cm]{./Resources/final_log.png}
-		\caption{Registros finais}
-		\label{registro_c9:2}
-	\end{subfigure}
+		\includegraphics[height=6.5cm]{./Resources/inicio_log.png}
+	%	\caption{Registros iniciais}
+	%	\label{registro_c9:1}
+	%\end{subfigure}
+%	\begin{subfigure}{.46\textwidth}
+%		\centering
+%		\includegraphics[height=4cm]{./Resources/final_log.png}
+%		\caption{Registros finais}
+%		\label{registro_c9:2}
+%	\end{subfigure}
 	\captionsetup{justification=centering}
 	\caption[Arquivo de registro do processo de brassagem]{Arquivo de registro do processo de brassagem}
 	\label{registro_c9}

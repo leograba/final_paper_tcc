@@ -47,15 +47,41 @@ A simulação do controle do processo de brassagem se mostrou essencial para garan
 
 Quanto aos recursos computacionais demandados pelo processo de produção de cerveja, quando em modo automático, foi importante notar que não houve sobrecarga do sistema, uma vez que o usuário não é impedido de acessar nenhuma função da GUI neste período. Foi interessante notar que, após a fervura do mosto, o consumo de recursos de processamento caiu pela metade e este fator foi atribuído a princípio à parada de execução do script Python no final da função \textit{theBoil}. Cabe ressaltar que esta foi somente uma hipótese e precisa ser testada antes de ser tomada como verdade absoluta. No quesito de recursos de rede, o tráfego foi baixo mesmo com o \textit{overhead} gerado pelo envio de dados desnecessários do servidor para o cliente --- os mesmos dados discutidos com relação ao arquivo de registro da brassagem.
 
+\section{Interface de usuário}
 
+A interface de usuário foi projetada para apresentação em um display de resolução específico, muito embora testes em outras resoluções tenham mostrado que ela se ajustou sem perda de funcionalidades e, em certos casos, com poucas distorções de design. Este tópico é extremamente relevante quando se fala em controle via internet, já que a popularização dos \textit{smartphones} promoveu o acesso da população à internet por meio de displays dos mais variados tamanhos. Certamente seria de grande utilidade o desenvolvimento de aplicativos para celulares.
+
+No que diz respeito à barra de navegação, esta não foi inicialmente planejada, porém promoveu a navegabilidade da GUI, que antes era cansativa em função de uma estrutura com diversos botões de voltar e um menu que concentrava todas funcionalidades. Neste ponto, a barra de navegação foi um dos itens de sucesso da parte do projeto voltada ao usuário. A página de configurações trouxe conhecimento aplicado acerca do uso do protocolo NTP, porém a sensação que ela transparece é de que faltam opções de configuração e que, talvez esta página em específico nem devesse existir e a função de ajuste de hora deveria ser realocada.
+
+A página de estatísticas apresentou uma implementação interessante de gráfico dinâmico e configurável em diversos aspectos, o que trouxe à reflexão: o usuário final realmente precisa de todos estes recursos de configuração? Ele quer estes recursos à sua disposição? Ele se sente seguro diante de uma gama de recursos que não irão efetivamente melhorar sua experiência com o produto? Mesmo que a resposta para todas estas questões seja sim, ainda assim ficou claro, após a observação dos resultados, que ao menos o filtro de médias móveis deveria ser omitido, pois além de não trazer vantagem, pode distorcer o gráfico de temperatura.
+
+Quanto à interface de brassagem, sua implementação ficou limpa e funcional, ótima para controle tanto por meio da interface \textit{desktop} à qual ela foi projetada quanto por meio de um dispositivo móvel. Seu único problema --- a questão do \textit{glitch} --- foi solucionado ao mesmo tempo em que foi detectado. Obviamente a solução impacta em maior consumo de recursos computacionais da BBB, exigindo um novo estudo, porém é inegável sua eficácia.
+
+A exemplo dos \textit{glitches} da interface de brassagem, a interface de receitas também apresentou alguns problemas, porém a partir do momento que estes foram notados, sua solução é simples do ponto de vista do desenvolvedor desta GUI. A interface cumpriu seu propósito de maneira fluída e despreocupante do ponto de vista de usuário, sem impactar significativamente no consumo de recursos da máquina do cliente.
+
+\section{Circuitos de interface entre a BBB e sensores/atuadores}
+
+Com relação aos circuitos projetados, o que se observou foi que nos testes de bancada estes corresponderam ao comportamento obtido por meio de simulações e, portanto, suas funções foram atingidas com êxito. Em função do tempo impeditivo, não foi possível realizar uma implementação em PCB, porém este é um passo essencial no longo prazo, já que não é possível produzir um produto usando uma matriz de contatos.
+
+Foi interessante constatar que a frequência da rede é variável em torno 60Hz e também que o SSR só pode ser disparado quando a tensão passa por zero: ambos os fatores combinados foram os responsáveis pelo projeto do detector de passagem por zero, que permitiria o controle do número de semiciclos de senóide nos quais os resistores de potência estariam ativos e isto, por sua vez, poderia permitir um controle mais preciso da potência destes do que uma janela de tempo por si só. Mais uma vez, estas hipóteses só podem ser confirmadas com uma nova implementação e testes de comparação de janela de tempo versus controle do número de ciclos. O comportamento da alimentação do servo-motor também foi interessante do ponto de vista de conhecimento, mas não impactou diretamente no projeto proposto --- a propósito, seu funcionamento foi o único resultado relacionado à estrutura de adição de lúpulos, que não foi construída.
+
+Quanto ao detector de \textit{zero-crossing}, a única observação prática é o fato de que a saída do circuito começa a indicar passagem por zero meio período de duração do pulso antes da passagem efetiva por zero, portanto em usos posteriores este comportamento deve ser levado em conta.
+
+\section{Estrutura mecânica}
+
+A implementação da estrutura mecânica foi o ponto ao qual mais foram despendidos recursos, sejam eles financeiros ou de tempo. Não somente a complexidade deste projeto, mas também o pouco conhecimento de mecânica do projetista foram fatores que influenciaram neste alto custo. Por falta de experiência o equipamento projetado se mostrou desajeitado para manutenção e limpeza, portanto cabe ao usuário do sistema ser disciplinado ao utilizá-lo e realizar a limpeza o quanto antes possível, mesmo que seja uma tarefa complexa. Cabe notar que, na idealização do projeto, este seria equipado com um sistema CIP completo, o que não foi possível devido a custo de implementação e complexidade elevada que seria adicionada à proposta do projeto.
+
+O funcionamento da simulação de produção comprovou a capacidade do sistema de produzir uma receita de cerveja, porém a produção de uma receita em si requer que mais testes sejam realizados, para fazer ajustes finos do equipamento, das temporizações, adicionar os detectores de transbordamento das panelas, dentre outros tópicos que surgirem ao longo dos futuros testes. Após os testes preliminares descritos no capítulo de resultados, também é preciso modificar alguns aspectos da aplicação do servidor, de modo a impedir o usuário de ligar as válvulas e bombas em configurações que possam danificar ou sobrecarregar o sistema.
 
 \section{Considerações gerais}
 
-Além disto, notou-se que a integração entre os diversos aspectos do projeto --- parte mecânica, GUI, acionamentos de potência e algoritmo de automação --- foi descomplicada e não causou transtornos. Atribui-se a estas observações a dedicação com que cada ponto foi desenvolvido separadamente.
+Por fim, conclui-se que os pré-requisitos para o funcionamento do sistema automatizado de produção de cerveja com controle e monitoramento remoto foram implementados. Ainda assim, os resultados das implementações mostraram diversos pontos de melhoria até que um produto seja viável. Além disto, notou-se que a integração entre os diversos aspectos do projeto --- parte mecânica, GUI, acionamentos de potência e algoritmo de automação --- foi descomplicada e não causou transtornos. Atribui-se a estas observações o detalhamento com que cada ponto foi desenvolvido separadamente.
 
-\section*{Trabalhos futuros}
+\section{Trabalhos futuros}
 
-Isso é para o Relatório Final de defesa.....
+Como trabalhos futuros, ficam todas as correções expostas nas outras seções deste capítulo em primeiro lugar. Além disto, é interessante implementar um sistema de controle de temperatura por meio de um controlador PID, possivelmente mais adequado do que o método empregado neste trabalho --- para tal, pode-se fazer o uso do subsistema PRU presente na BBB e cujo apêndice \ref{apendice_pru} apresenta um estudo teórico.
+
+Outros aspectos do trabalho que devem ser melhorados em futuras ocasiões são o retrabalho do projeto do sistema mecânico com foco em ergonomia, simplificação da estrutura e certificação para que a produção de cerveja possa ser comercializada; um projeto mais detalhado do cabeamento que faz a interface entre o circuito de acionamentos de potência e os elementos de potência e; um bastidor para alojar o sistema embarcado de maneira protegida contra derramamento de líquidos. Também entra para a lista de trabalhos futuros a construção e teste da estrutura de adição de lúpulos e o projeto de uma estrutura de adição de grãos.
 
 
 

@@ -1,5 +1,7 @@
 Devido à necessidade de adicionar lúpulos à receita em proporções e tempos predefinidos, foi necessário o projeto de uma estrutura automática de adição de lúpulos. Em função das inúmeras possibilidades de combinações de lúpulos e temporizações, a escolha natural do projeto foi uma estrutura que permita esta flexibilidade --- uma caixa com oito compartimentos separados, que permite a adição sequencial destes insumos. Com base em um pacote de lúpulos em \textit{pellets} de 50g, estimou-se que seu volume é de $160cm^3$ e, sabendo-se que uma receita de 20l dificilmente utiliza uma quantidade maior do que 400g de lúpulos, a decisão tomada foi a de que cada um dos 8 compartimentos deveria ter os $160cm^3$ necessários para acomodar 50g. Para confirmar que 400g é uma quantidade razoável, foi seguido o cálculo de IBU de \cite{palmer}, detalhado no apêndice \ref{Apêndice C}.
 
+\newpage
+
 Fixando a altura do compartimento em 10,0cm foram escolhidos valores de comprimento e largura de 16,0cm e 8,0cm respectivamente, assumindo inicialmente que as paredes das divisórias tem espessura desprezível. A equação para volume de um prisma e a escolha das dimensões são demonstradas em \ref{eq_hop_vini}:
 
 \begin{subequations}
@@ -17,7 +19,7 @@ Posteriormente aos cálculos de \ref{eq_hop_vini}, durante o projeto no software 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.35]{./Resources/estLup/caixa_lupulos(1).pdf}
+	\includegraphics[scale=0.4]{./Resources/estLup/caixa_lupulos(1).pdf}
 	\captionsetup{justification=centering}
 	\caption[Dimensões da estrutura de adição de lúpulos]{Dimensões da estrutura de adição de lúpulos}
 	\label{caixa_cinza}
@@ -48,13 +50,13 @@ Foram projetadas duas portinholas: uma na face superior da caixa, para reabastec
 	\centering
 	\begin{subfigure}{.46\textwidth}
 		\centering
-		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(4).pdf}
+		\includegraphics[height=7.9cm]{./Resources/estLup/caixa_lupulos(4).pdf}
 		\caption{Tampa manual para reabastecimento}
 		\label{tampas_hopbox:1}
 	\end{subfigure}
 	\begin{subfigure}{.46\textwidth}
 		\centering
-		\includegraphics[height=7.5cm]{./Resources/estLup/caixa_lupulos(5).pdf}
+		\includegraphics[height=7.9cm]{./Resources/estLup/caixa_lupulos(5).pdf}
 		\caption{Tampa para adição automática dos lúpulos}
 		\label{tampas_hopbox:2}
 	\end{subfigure}
@@ -95,17 +97,21 @@ A taxa máxima de deslocamento em função do ângulo do servo motor é expressa em \
 	\frac{dl_3}{d\theta} = \frac{2l}{90\si{\degree}}
 \end{align}
 
+\newpage
+
 Entretanto, quanto maior o valor desta taxa, menor é a resolução de abertura da caixa, portanto obtem-se que o menor valor possível de $l$, a partir da equação \ref{eq_varetas} é $l = l_3/2$. Assim sendo, a taxa de deslocamento calculada a partir da equação \ref{eq_desl} é de $2mm/\si{\degree}$.
 
 Embora o valor teórico de $\theta$ seja $90\si{\degree}$, na prática, devido ao encaixe entre tampa e vareta não ser na extremidade, este valor é reduzido. Tal fato não deve ser negligenciado, uma vez que isto pode forçar a operação do servo-motor ou quebrar alguma das peças do sistema. Sabe-se pelo projeto executado no FreeCAD que a distância da borda ao encaixe da tampa é de 2,3cm e portanto, com o auxílio da Lei dos Cossenos, obtém-se que $\theta_{max} = 82\si{\degree}$. Quanto ao valor mínimo não há preocupação, já que a abertura da caixa terá uma excursão reduzida em 2,3cm com relação ao seu comprimento. As varetas não foram calculadas novamente para corrigir esta excursão pois a redução foi considerada uma boa prática, que evita que a tampa se desacople da caixa. A figura \ref{completa_hopbox} apresenta o esquema completo de construção da estrutura de adição de lúpulos.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.25]{./Resources/estLup/final.jpg}
+	\includegraphics[scale=0.35]{./Resources/estLup/final.jpg}
 	\captionsetup{justification=centering}
 	\caption[Estrutura de adição de lúpulos]{Estrutura de adição de lúpulos}
 	\label{completa_hopbox}
 \end{figure}
+
+\newpage
 
 \subsection{Controle do servo-motor}
 
@@ -135,7 +141,7 @@ Observa-se a necessidade de um buffer entre o microcontrolador AT89S52 e o servo
 
 Os resultados da caracterização do funcionamento do servo-motor estão documentados no apêndice \ref{apendice_servo}.
 
-
+\newpage
 
 
 
