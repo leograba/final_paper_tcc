@@ -115,7 +115,7 @@ A partir da realimentação visual promovida pela figura \ref{smoothing}, é possív
 
 \subsection{Interface de brassagem}
 
-A interface de brassagem possibilita ao operador do sistema atuar neste, seja manualmente quando não há produção em andamento, ou automaticamente ao iniciar uma brassagem. Embora todas as situações possíveis desta interface, assim como a comprovação da sua efetividade, estejam documentadas na seção \ref{protosim_sec}, em especial na figura \ref{proto_sim_1}, ainda assim são apresentadas duas amostras em melhor resolução, obtidas por meio de captura de tela e não fotos. Na figura \ref{start_recipe_gui} é apresentada a interface que permite o início de uma receita ou ir para o controle manual do sistema; na figura \ref{manual_ctrl_gui} é apresentado o painel de controle do sistema, que fica travado durante a produção automática de cerveja, servindo somente para propósitos de monitoramento neste caso.
+A interface de brassagem possibilitou ao operador do sistema atuar neste, fosse manualmente quando não havia produção em andamento, ou automaticamente ao iniciar uma brassagem. Embora todas as situações possíveis desta interface, assim como a comprovação da sua efetividade, estejam documentadas na seção \ref{protosim_sec}, em especial na figura \ref{proto_sim_1}, ainda assim são apresentadas duas amostras em melhor resolução, obtidas por meio de captura de tela e não fotos. Na figura \ref{start_recipe_gui} é apresentada a interface que permite o início de uma receita ou ir para o controle manual do sistema; na figura \ref{manual_ctrl_gui} é apresentado o painel de controle do sistema, que fica travado durante a produção automática de cerveja, servindo somente para propósitos de monitoramento neste caso.
 
 \begin{figure}[H]
 	\centering
@@ -135,7 +135,7 @@ A interface de brassagem possibilita ao operador do sistema atuar neste, seja ma
 
 Com o sistema parado, o arquivo \textit{lockfile} foi editado para simular que havia uma receita em produção. Isto foi feito com o objetivo de verificar que não é possível acessar a interface da figura \ref{start_recipe_gui} nesta situação, e o resultado foi positivo: ao tentar o acesso, a página foi redirecionada para o painel de controle da figura \ref{manual_ctrl_gui}. 
 
-Observações do painel de controle decorrentes da simulação em bancada documentada na seção \ref{protosim_sec}, mostraram que por vezes o estado do sistema na GUI fica defasado com relação ao estado do sistema na BBB e no hardware de interface. No modo manual, \textit{glitches} na GUI foram observados com frequência ao mudar o estado dos pinos de GPIO ou do PWM. Ambas as situações se devem ao fato de que a taxa de atualização do painel de controle é de 0,5 segundos --- comprovada quando a taxa de atualização foi modificada temporariamente para 0,1 segundos e os atrasos e \textit{glitches} cessaram.
+Observações do painel de controle decorrentes da simulação em bancada documentada na seção \ref{protosim_sec}, mostraram que por vezes o estado do sistema na GUI fica defasado com relação ao estado do sistema na BBB e no hardware de interface. No modo manual, \textit{glitches} na GUI foram observados com frequência ao mudar o estado dos pinos de GPIO ou do PWM. Ambas as situações se devem ao fato de que a taxa de atualização do painel de controle é de 0,5 segundos --- comprovada quando a taxa de atualização foi modificada temporariamente para 0,1 segundos e os atrasos e \textit{glitches} cessaram. Outro ponto notável do painel de controle do sistema é que não foi implementado nenhum tipo de restrição com relação a quem pode acessar este recurso --- com exceção do fato de que, se o serviço de \textit{no-ip} fosse desativado, somente usuários conectados na rede LAN poderiam acessar a GUI.
 
 \subsection{Gerenciador e editor de receitas}
 
@@ -274,13 +274,3 @@ Este teste foi repetido para obter um número de 10 amostras dos tempos de execuç
 A partir dos resultados apresentados, foi notado que tanto a função \textit{rearrange} quanto \textit{saveOnDemand} estavam sendo executadas duas vezes, impondo uma redundância não prevista à interface de edição de receitas e, por conseguinte, consumindo recursos em dobro desta --- além de isto significar o dobro de operações de escrita na memória eMMC da BBB.
 
 Quanto ao tempo médio total de execução da função \textit{rearrange}, foi notado que este é diminuído para cada iteração: tal resultado era esperado, já que o tempo total da n-ésima iteração é o somatório do tempo de execução desta e de todas as iterações subsequentes. Já o tempo de processamento para cada iteração não diminuiu, o que também é esperado, uma vez que a função \textit{rearrange} não tem laços de repetição internos que dependam do valor n da n-ésima iteração. Ainda assim, para todos os valores médios da tabela \ref{rearrange_on_demand}, percebeu-se que estes apresentam baixa confiaça estatística, dados os valores dos coeficientes de variação não desprezíveis.
-
-O editor de receitas apresenta caixas de entrada para o usuário adicionar as características desejadas da cerveja, sendo que a cada malte, lúpulo e temperatura adicionado, aparece automaticamente um campo extra para estes itens, limitado a 8 entradas para cada. Só foi implementado um botão de voltar pois há uma funcionalidade de salvamento automático -- o aviso no canto superior direito da tela mostra o status do salvamento da receita: no caso da figura \ref{ui-editor}, que ilustra a implementação do editor, nota-se que a mensagem de status avisa o usuário que há um campo essencial para a produção da cerveja que não foi preenchido.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.90]{./Resources/uips/editorpg.jpg}
-	\captionsetup{justification=centering}
-	\caption[Editor de receitas da UI]{Editor de receitas da UI \\ Receita \textit{bla} parcialmente preenchida com aviso de campos essenciais em branco}
-	\label{ui-editor}
-\end{figure}

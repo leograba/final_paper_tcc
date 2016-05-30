@@ -1,4 +1,12 @@
-Esta seção apresenta os resultados de simulação e de testes de bancada referentes aos circuitos de acionamento, assim como considerações acerca destes resultados.
+Esta seção apresenta os resultados de simulação e de testes de bancada referentes aos circuitos de acionamento, assim como considerações acerca destes resultados. A figura \ref{proto1} apresenta a implementação em matriz de conexões elétricas (\textit{protoboard}) dos circuitos ensaiados nesta seção.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.09]{./Resources/protoboard/proto1.jpg}
+	\captionsetup{justification=centering}
+	\caption[Implementação em \textit{protoboard} dos circuitos de interface de potência, servo-motor e detector de passagem por zero]{Implementação em \textit{protoboard} dos circuitos de interface de potência, servo-motor e detector de passagem por zero}
+	\label{proto1}
+\end{figure}
 
 \subsection{Acionamentos de potência}
 \label{aciona_results}
@@ -332,7 +340,7 @@ Quanto à saída do optoacoplador, foi notado que o circuito simulado não fornece 
 		\label{conducao_plena:2}
 	\end{subfigure}
 	\captionsetup{justification=centering}
-	\caption[Saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação]{Saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação}
+	\caption[Simulação da saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação]{Simulação da saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação}
 	\label{conducao_plena}
 \end{figure}
 
@@ -346,4 +354,44 @@ Outra preocupação com relação ao circuito foi o fato de que a queda de tensão so
 	\label{pot_res_cross}
 \end{figure}
 
-%\subsection{Detector de nível de líquido}
+Na implementação em bancada, foi utilizado o valor de R2=10k\si{\ohm}, conforme documentado no capítulo \ref{metodosec}. A figura \ref{col_base_res} apresenta as formas de onda sobre o coletor e a base do transistor, em amarelo e verde, respectivamente. Observou-se comportamento idêntico ao da simulação e tempo de condução de 1,54ms, correspondente a um erro de 11,6\% com relação ao valor da simulação.
+
+Também foram verificadas as formas de onda na entrada e saída do optoacoplador, em amarelo e verde respectivamente, para valores de alimentação de 5V e 12V. Os resultados são apresentados na figura \ref{opto_bancada}. Observou-se que o comportamento da simulação, exposto na figura \ref{conducao_plena}, foi comprovada. Também observou-se a redução da largura do pulso de saída e mudança de amplitude da forma de onda no coletor do transistor de detecção de passagem por zero, se comparado à figura \ref{col_base_res}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/ensaiosBancada/ZeroCrossing/col_base.png}
+	\captionsetup{justification=centering}
+	\caption[Formas de onda de tensão sobre a base (verde) e o coletor (amarelo) do transistor de detecção de passagem por zero]{Formas de onda de tensão sobre a base (verde) e o coletor (amarelo) do transistor de detecção de passagem por zero}
+	\label{col_base_res}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/ZeroCrossing/col_opt05v.png}
+		\caption{Fonte de tensão de 5V}
+		\label{opto_bancada:1}
+	\end{subfigure}
+	\begin{subfigure}{.48\textwidth}
+		\centering
+		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/ZeroCrossing/col_opt12v.png}
+		\caption{Fonte de tensão de 12V}
+		\label{opto_bancada:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Entrada e saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação]{Entrada e saída do circuito detector de \textit{zero-crossing} para diferentes valores de tensão de alimentação}
+	\label{opto_bancada}
+\end{figure}
+
+Por fim, foram capturadas as formas de onda da tensão sobre o resistor de potência e da saída do optoacoplador, que estão documentadas na figura \ref{res_por_bancada}. Com isto, foi observado que a tensão sobre este resistor é a tensão da rede retificada e também que o circuito funciona conforme o esperado, por meio da constatação de que as duas formas de onda registradas estavam sincronizadas.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45]{./Resources/ensaiosBancada/ZeroCrossing/redeopt05v1.png}
+	\captionsetup{justification=centering}
+	\caption[Forma de onda de tensão sobre o resistor de potência e a saída do optoacoplador do circuito detector de \textit{zero-crossing}]{Forma de onda de tensão sobre o resistor de potência e a saída do optoacoplador do circuito detector de \textit{zero-crossing}}
+	\label{res_por_bancada}
+\end{figure}
+

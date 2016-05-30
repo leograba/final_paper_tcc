@@ -1,0 +1,47 @@
+Nesta seção são descritos os resultados referentes ao uso da ferramenta de controle de versão distribuído, \textit{Git} em conjunto com a plataforma \textit{GitHub}, que se encontra disponível no endereço \url{https://github.com/leograba/final_paper_tcc}. A figura \ref{my_github} apresenta a página inicial do projeto no \textit{GitHub}, ou seja, o \textit{branch} \textbf{master}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/gitResults/branch_master.png}
+	\captionsetup{justification=centering}
+	\caption[Ramo \textit{master} do projeto no github]{Ramo \textit{master} do projeto no github}
+	\label{my_github}
+\end{figure}
+
+Observa-se que foram feitos 45 \textit{commits}, ou seja, foram submetidas 45 mudanças de algum aspecto do projeto, desde o início do uso da ferramenta \textit{Git}. A figura \ref{commit_detail} apresenta detalhes de 5 \textit{commits} realizados nos dias 26 e 27 de março de 2016. Também pode ser observado na figura \ref{my_github} que foram criados 5 \textit{branches} no total, sendo estes: 
+
+\begin{itemize}
+	\item \textbf{master} --- o ramo principal do projeto. Isto significou, para este projeto, que este ramo conteve sempre os últimos códigos testados e funcionando.
+	\item \textbf{develop} --- o ramo de desenvolvimento. Neste foi mantido o último status do projeto, ou seja, o mais avançado em termos de desenvolvimento, mas que por vezes estava incompleto ou sem ser testado.
+	\item \textbf{legacy} --- ramo no qual foi adicionado código legado de uma aplicação anterior desenvolvida para a plataforma Raspberry Pi.
+	\item \textbf{minimal} --- neste ramo foi adicionado somente o código essencial para o funcionamento da aplicação, com o objetivo de portá-la do SBC de desenvolvimento/aprendizado BBB para a solução de SBC industrial cuztomizada Toradex Colibri VF61 + placa base Viola. Esta portabilidade foi abandonada em sua fase inicial e, portanto, o ramo ficou inativo.
+	\item \textbf{monotex} --- ramo criado para conter somente arquivos utilizados para a construção da monografia, em sua maioria arquivos .tex e figuras.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.40]{./Resources/gitResults/commit_detail.png}
+	\captionsetup{justification=centering}
+	\caption[Registro de contribuições para o projeto na plataforma \textit{GitHub}]{Registro de contribuições para o projeto na plataforma \textit{GitHub}}
+	\label{commit_detail}
+\end{figure}
+
+Dentre os resultados específicos do uso da ferramenta \textit{GitHub} estão o gráfico do número de contribuições em função do tempo, apresentado na figura \ref{timeline_commit}. Outra estatística interessante é o gráfico de dispersão da densidade de contribuições em função de hora do dia e dia da semana, apresentado na figura \ref{punchcard} e referido como \textit{punchcard} (bater o cartão ou bater o ponto, em tradução livre). Este indicou em quais dias e horários da semana o ritmo de trabalho foi mais ou menos intenso: observou-se que desde sexta-feira à noite até segunda-feira à noite foram os dias da semana de desenvolvimento mais ativo e, também, que independente de dia da semana, os horários de maior ritmo de trabalho ficaram concentrados entre 17:00h e 01:00h.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/gitResults/stats_commits.png}
+	\captionsetup{justification=centering}
+	\caption[Gráfico das contribuições para o projeto na plataforma \textit{GitHub} em função do tempo]{Gráfico das contribuições para o projeto na plataforma \textit{GitHub} em função do tempo}
+	\label{timeline_commit}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.35]{./Resources/gitResults/stats_punchcard.png}
+	\captionsetup{justification=centering}
+	\caption[Distruibuição das contribuições para o projeto no \textit{GitHub} ao longo da semana]{Distruibuição das contribuições para o projeto no \textit{GitHub} ao longo da semana}
+	\label{punchcard}
+\end{figure}
+
+

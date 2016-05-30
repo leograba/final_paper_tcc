@@ -1,0 +1,225 @@
+Esta seção documenta a montagem da parte mecânica --- que compreende o sistema funcional e a estrutura de suporte --- além do cabeamento entre o sistema embarcado e os elementos de potência, e os testes de integração entre GUI, sistema embarcado, algortimo de automação e sistema mecânico realizados.
+
+\subsection{Montagem da mecânica e interface com o sistema embarcado}
+
+A montagem do equipamento foi realizada a partir do conteúdo descrito na seção \ref{estmec}, com a ajuda de um mecânico qualificado. A figura \ref{tubos} apresenta os tubos e conexões durante o seu processo de rosqueamento e vedação e a figura \ref{tudo_sem_fio} apresenta as panelas conectadas à tubulação e encaixadas na estrutura de suporte.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.075]{./Resources/equipamento/tubos.jpg}
+	\captionsetup{justification=centering}
+	\caption[Processo de rosqueamento e vedação da tubulação e elementos relacionados]{Processo de rosqueamento e vedação da tubulação e elementos relacionados}
+	\label{tubos}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.075]{./Resources/equipamento/antes_fios.jpg}
+	\captionsetup{justification=centering}
+	\caption[Panelas e tubos conectados repousando sobre a estrutura de suporte]{Panelas e tubos conectados repousando sobre a estrutura de suporte}
+	\label{tudo_sem_fio}
+\end{figure}
+
+A tubulação foi montada separada das panelas pois foi constatado durante o processo que, quando foi tentado montá-la a partir das panelas, se tornou impossível rosquear um dos tubos: ao girá-lo no sentido horário, uma das extremidades era afrouxada e, ao girá-lo no sentido anti-horário, o mesmo acontecia com a outra extremidade. Como a conexão entre as panelas e a tubulação foi feita empregando contra-porcas, a abordagem aqui descrita foi possível. A figura \ref{porcas} apresenta em detalhe o resultado da conexão entre as panelas e encanamento. Note-se que para o BK, a conexão foi feita na lateral da panela, de forma similar ao descrito na figura \ref{whirlpool} (b), enquanto a MT foi conectada por um furo no fundo da panela para aproveitamento do maior volume de mosto possível.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/tubos_mt.jpg}
+		\caption{Tina de mostura}
+		\label{porcas:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/tubos_bk.jpg}
+		\caption{Caldeirão de fervura}
+		\label{porcas:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Detalhe de conexão das panelas com a tubulação]{Detalhe de conexão das panelas com a tubulação}
+	\label{porcas}
+\end{figure}
+
+O próximo passo foi acomodar a BBB e a \textit{protoboard} na estrutura de suporte, ao lado da MT. Também foram feitos furos na estrutura para a fixação dos dois relés de estado sólido. A figura \ref{circuitos_na_panela} apresenta a acomodação e cabeamento dos circuitos, e fixação de um dos relés à estrutura de suporte. Como pode ser observado em (b), o SSR fixado à estrutura, ao qual é ligada a tensão da rede elétrica, ficou desprotegido no que diz respeito a contato incidental com o operador da máquina, o que é um risco de segurança do equipamento que poderia ter sido facilmente solucionado, mas que não foi notado durante o processo de cabeamento.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/circuits.jpg}
+		\caption{BBB e acionamentos de potência}
+		\label{circuitos_na_panela:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/circuits2.jpg}
+		\caption{SSR}
+		\label{circuitos_na_panela:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Acomodação do sistema embarcado e acionamentos de potência à estrutura de suporte]{Acomodação do sistema embarcado e acionamentos de potência à estrutura de suporte}
+	\label{circuitos_na_panela}
+\end{figure}
+
+Por fim, pode ser observado nas figuras \ref{cabeamento_det} e \ref{cabeamento_all}, respectivamente, os detalhes e a visão geral da estrutura cabeada e finalizada. Na figura que apresenta os detalhes, é possível perceber que as conexões elétricas foram instalas por meio de torção dos cabos aos terminais das bombas e válvulas. Isto pode ser adequado para testes, mas é inaceitável do ponto de vista de operação não supervisionada do produto por questões de segurança. Nota-se também, na figura que expõe a visão geral, que o cabeamento em si fica preso à estrutura mas ainda assim exposto a possíveis puxões inadvertidos e derramamento de líquido quente.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/wiring1.jpg}
+		\caption{Bomba, válvula e resistor da MT}
+		\label{cabeamento_det:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/wiring2.jpg}
+		\caption{Bomba e válvula do BK; válvula do \textit{chiller}}
+		\label{cabeamento_det:2}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Detalhes de ligações elétricas dos elementos de potência]{Detalhes de ligações elétricas dos elementos de potência}
+	\label{cabeamento_det}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.09]{./Resources/equipamento/depois_fios.jpg}
+	\captionsetup{justification=centering}
+	\caption[Estrutura mecânica finalizada e pronta para testes]{Estrutura mecânica finalizada e pronta para testes}
+	\label{cabeamento_all}
+\end{figure}
+
+\subsection{Integração entre GUI, sistema embarcado, algortimo de automação e sistema mecânico}
+
+Para testar os elementos do sistema mecânico, foi adicionado um volume de 20 litros de água na MT e 10 litros no BK. Após isto os elementos do sistema foram testados manualmente, ou seja, controlados por meio da GUI, em diferentes combinações:
+
+\begin{enumerate}
+	\item Bomba do mosto
+	\item Válvula do mosto
+	\item Bomba e válvula da fervura
+	\item Bombas do mosto e de fervura e válvula da fervura
+	\item Válvulas da fervura e do mosto e bomba da fervura
+	\item Válvulas da fervura e do chiller
+	\item Válvulas da fervura e do chiller e bomba da fervura
+\end{enumerate}
+
+Para todos os casos foi constatado por meio de comprovação visual que o sistema funcionou conforme o esperado. As figuras \ref{controle_manual_ok} (a), (b), (c) e (d) apresentam os resultados para as situações 1, 2, 4 e 5 respectivamente. Foi observado a partir destes resultados que a vazão de água para dentro da MT é menos intensa na situação 3 e mais intensa na situação 4, porém esta última merece uma observação: à medida que o volume de água na MT se aproximou do volume de água no BK, este laço de recirculação se estabilizou e o somatório dos fluxos de entrada e saída da tubulação foi nulo no longo prazo.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/teste1.jpg}
+		\caption{Bomba do mosto}
+		\label{controle_manual_ok:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/teste2.jpg}
+		\caption{Válvula do mosto}
+		\label{controle_manual_ok:2}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/teste3.jpg}
+		\caption{Válvulas da fervura e do mosto e bomba da fervura}
+		\label{controle_manual_ok:3}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=5cm]{./Resources/equipamento/teste4.jpg}
+		\caption{Bombas do mosto e de fervura e válvula da fervura}
+		\label{controle_manual_ok:4}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Testes do sistema mecânico com controle pela GUI]{Testes do sistema mecânico com controle pela GUI}
+	\label{controle_manual_ok}
+\end{figure}
+
+Outro teste de equipamento realizado foi a simulação descrita na seção \ref{simulacao_controle}. O sistema mecânico se comportou de acordo com a simulação, porém foi observado que as temporizações atribuídas no código, durante a lavagem dos grãos, não são adequadas para uma receita real, o que levou à cronometragem dos tempos necessários para drenar a MT e para bombear o conteúdo para ela novamente. Estes resultados são apresentados na tabela \ref{tempo_drenagem}.
+
+Para este teste foi gravado um vídeo no qual não só o equipamento foi monitorado por uma câmera, mas também foi gravado o comportamento da GUI e as mensagens impressas pela aplicação no terminal. O vídeo está disponível em \url{https://www.youtube.com/watch?v=LiZ8gi9YoFU} --- a figura \ref{video_snapshots} documenta alguns momentos deste vídeo.
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap1.png}
+		\caption{Pré-brassagem}
+		\label{video_snapshots:1}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap2.png}
+		\caption{Esperando adição dos grãos}
+		\label{video_snapshots:2}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap3.png}
+		\caption{Rampa de temperatura}
+		\label{video_snapshots:3}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap4.png}
+		\caption{Degrau de temperatura}
+		\label{video_snapshots:4}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap5.png}
+		\caption{Transbordamento da MT}
+		\label{video_snapshots:5}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap6.png}
+		\caption{Fervura do mosto}
+		\label{video_snapshots:6}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap7.png}
+		\caption{Recirculação de água para limpeza preliminar}
+		\label{video_snapshots:7}
+	\end{subfigure}
+	\begin{subfigure}{.46\textwidth}
+		\centering
+		\includegraphics[height=4cm]{./Resources/equipamento/snap8.png}
+		\caption{Recirculação de água para limpeza preliminar}
+		\label{video_snapshots:7}
+	\end{subfigure}
+	\captionsetup{justification=centering}
+	\caption[Simulação de produção para teste da parte mecânica]{Simulação de produção para teste da parte mecânica}
+	\label{video_snapshots}
+\end{figure}
+
+\begin{table}[H]
+	\centering
+	\captionsetup{justification=centering}
+	\caption[Tempos de de drenagem e bombeamento do sistema mecânico para 20 litros de água]{Tempos de de drenagem e bombeamento do sistema mecânico para 20 litros de água}
+	\label{tempo_drenagem}
+	\begin{tabular}{ | M{10cm} | M{3cm} |}
+		\hline
+		\textbf{Descrição} & \textbf{Tempo (s)}\\ \hline
+		Drenagem da MT para o BK & 145 \\ \hline
+		Bombeamento do BK para a MT & 190 \\ \hline
+	\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
