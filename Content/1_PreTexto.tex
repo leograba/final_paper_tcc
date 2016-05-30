@@ -23,7 +23,7 @@
 			\begin{center}
 				\vspace{0.09\textheight}
 				\Large{São Carlos}\\
-				\Large{2015}
+				\Large{2016}
 			\end{center}
 		}
 	
@@ -59,7 +59,7 @@
 			\begin{center}
 				\vspace{0.15\textheight}
 				\Large{São Carlos}\\
-				\Large{2015}
+				\Large{2016}
 			\end{center}
 		}
 
@@ -154,7 +154,7 @@ Winston Churchill
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESUMO - PORTUGUES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \
-\vspace{0.11\textheight} 
+\vspace{0.05\textheight} 
 
 \begin{center}
 \textbf{\Huge{Resumo}}
@@ -175,11 +175,7 @@ Winston Churchill
 %Como conclusão, foi observado que, embora o sistema desenvolvido cumpra às especificações do projeto, possibilitando o controle automático e supervisão de uma brassagem pela internet, diversos fatores não comtemplados neste projeto são essenciais para transformá-lo efetivamente em um produto. Dentre eles, estão a ergonomia, a facilidade de manutenção, a adição de sistemas supervisores de redundância, maior preocupação com segurança e eficiência energética, além da adequação da parte mecânica às normas sanitárias porventura exigidas pelas suas respectivas agências reguladoras. Apesar dos pontos de melhorias apontados para trabalhos futuros e, em função dos recursos disponíveis para a elaboração e execução do projeto, este foi considerado um sucesso dados os resultados apresentados.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Short version %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Este trabalho consistiu na implementação de um sistema elétrico automatizado de produção de cerveja, baseado na plataforma de Linux embarcado BeagleBone Black. Inicialmente foi realizado o estudo do processo produtivo da cerveja, com foco no cozimento do mosto, lavagem dos grãos, fervura e resfriamento do mosto. A BeagleBone Black foi escolhida para a implementação do controle do sistema, interface web de usuário e comunicação com a internet, em função do emprego do Linux embarcado e dos seus recursos de hardware: até 65 pinos de GPIO, 8 PWMs, 7 entradas analógicas e 1 unidade programável de tempo-real. Com relação à programação do servidor, foi empregada a linguagem de programação Javascript, interpretada pelo ambiente Node.js. Para a interface entre o sistema embarcado e a parte mecânica foi desenvolvido um circuito de acionamentos de potência com optoacopladores, transistores MOSFET e relés de estado sólido. Foram empregados sensores digitais DS18B20 para monitoramento e realimentação do sistema de controle de temperatura: um controle liga-desliga com quatro níveis de potência de saída (0\%, 33\%, 66\% e 100\%) e janela de tempo de 1 segundo de duração. Os elementos atuadores foram dois resistores específicos para esta função, cuja potência máxima projetada para cada um foi de 2200W em 110Vac.
-
-Como resultados, foram realizados testes da interface gráfica de usuário em um computador e em um smartphone, para os quais foi concluído que, embora a interface seja funcional para ambos os casos, o design somente mantém sua integridade na tela do computador. A comprovação do algoritmo de automação foi realizada por meio da interface de usuário, empregando uma receita de cerveja desenvolvida para propósito de simulação, e de um script em Python, simulando o sensor de temperatura. O funcionamento do circuito de acionamentos de potência foi comprovado visualmente em bancada, com o emprego de LEDs ligados às saídas e controle manual do sistema, com exceção do acionamento do servo-motor, para o qual foi usado um osciloscópio, no intuito de observar o sinal de controle PWM. O funcionamento da estrutura mecânica foi o último teste realizado --- um teste de integração, somente com água, no qual observou-se que este é capaz de cumprir os requisitos para produção de cerveja. Em síntese, este teste possibilitou a validação de todas as partes do projeto operando em conjunto.
-
-Pode-se concluir que, embora o sistema desenvolvido cumpra às especificações do projeto, possibilitando o controle automático e supervisão de uma brassagem pela internet, diversos fatores não comtemplados neste projeto são essenciais para transformá-lo efetivamente em um produto. Dentre eles a ergonomia, a facilidade de manutenção, a adição de sistemas supervisores de redundância, maior preocupação com segurança e eficiência energética, além da adequação da parte mecânica às normas sanitárias porventura exigidas pelas suas respectivas agências reguladoras. Apesar dos pontos de melhorias apontados para trabalhos futuros e, em função dos recursos disponíveis para a elaboração e execução do projeto, este foi considerado um sucesso dados os resultados apresentados.
+Este trabalho consistiu na implementação de um sistema elétrico automatizado de produção de cerveja, baseado na plataforma de Linux embarcado BeagleBone Black. Esta foi escolhida para a implementação do controle do sistema e interface gráfica de usuário. Com relação à programação do servidor, foi utilizado o ambiente Node.js. Para a interface entre o sistema embarcado e a parte mecânica foi desenvolvido um circuito com optoacopladores, transistores MOSFET e relés de estado sólido. Foram empregados sensores digitais DS18B20 para monitoramento e realimentação do sistema de controle de temperatura: um controle liga-desliga com quatro níveis de potência de saída (0\%, 33\%, 66\% e 100\%). Os elementos atuadores foram dois resistores de 2200W em 110Vac. Como resultados, foram realizados testes da interface gráfica de usuário para a qual foi observado que esta funcionou conforme o esperado. A comprovação do algoritmo de automação foi realizada para uma receita de cerveja desenvolvida para propósito de simulação. O circuito de acionamentos de potência foi comprovado visualmente em bancada, com LEDs ligados às saídas. O funcionamento da estrutura mecânica foi o último teste realizado, somente com água, no qual observou-se que este é capaz de cumprir os requisitos para produção de cerveja. Em síntese, este teste possibilitou a validação de todas as partes do projeto operando em conjunto. Pôde-se concluir que, embora o sistema desenvolvido cumpra às especificações do projeto, possibilitando o controle automático e supervisão de uma brassagem pela internet, diversos fatores não comtemplados são essenciais para transformá-lo efetivamente em um produto. Apesar dos pontos de melhorias apontados para trabalhos futuros e, em função dos recursos disponíveis para a elaboração e execução do projeto, este foi considerado um sucesso dados os resultados obtidos.
 
 \vspace{0.05\textheight}
 	
@@ -190,7 +186,7 @@ Palavras-Chave: BeagleBone, Black, Node.js, controlador, brassagem, cerveja, aut
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RESUMO - INGLÊS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \
-\vspace{0.11\textheight} 
+\vspace{0.05\textheight} 
 
 \begin{center}
 \textbf{\Huge{Abstract}}
@@ -199,11 +195,7 @@ Palavras-Chave: BeagleBone, Black, Node.js, controlador, brassagem, cerveja, aut
 \vspace{0.05\textheight}	
 		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Short version %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This work had consisted in the implementation of an automated electric brewing system, based on the BeagleBone Black embedded Linux platform. First, a study of the beer brewing process was made, focused in the mash, sparging, boil and chilling of the wort. The BeagleBone Black was chosen to implement the control system, web user interface and internet communication, due to the embedded Linux and its hardware resources: up to 65 GPIO pins, 8 PWMs, 7 analog inputs, 1 programmable realtime unit. For the server-side programming, the Javascript language was chosen, interpreted by the Node.js environment. For the interface between the embedded system and the mechanical structure, a power drive circuit was designed, by using optocouplers, MOSFET transistors and solid-state relays. Digital sensors DS18B20 were employed as monitoring and feedback devices to the temperature control system: an on-off control with four output power levels (0\%, 33\%, 66\% e 100\%) and a time window of 1 second. The actuators were two specific resistors, to which the maximum power was 2200W at 110Vac.
-
-As results, the graphical user interface was tested both on a computer and a smartphone screen, and it was concluded that although the interface is functional for both scenarios, the design only keeps its integrity on the computer screen. The automation algorith validation was tested by the user interface, while running a beer recipe tailored for simulation purposes and a Pyhton script to simulate the temperature sensor. The power drive circuit bench test was approved by means of a visual inspection, with LEDs coupled to the outputs and manual control of the system; altough for the servo-motor an oscilloscope was used to observe the PWM control signal. The mechanical structure operation was the last test --- an integration test, with water only, in which it was observed that the system is capable of fulfill the requisites to brew beer. In synthesis, this test allowed for the validation of all the project parts operating together.
-
-It can be concluded that, even though the developed system comply to the project specification by allowing the automatic brewing online control and supervision via web, there are still many factors not contemplated in this project that are essential to transform it into a product. Among them there are ergonomics, easiness of maintenance, redundancy supervisor systems, higher concerns regarding safety and energy efficiency, and the mechanincal system compliance to health standards possibly required by its respective regulatory agencies. Altough there are many improvements pointed out to future works and, because of the restricted resources available for the project design and execution, it was considered a success given the presented results.
+This work had consisted in the implementation of an automated electric brewing system, based on the BeagleBone Black embedded Linux platform. It was chosen to implement the control system and the graphical user interface. For the server-side programming, the Node.js environment was employed. For the interface between the embedded system and the mechanical structure, a power drive circuit was designed, by using optocouplers, MOSFET transistors and solid-state relays. Digital sensors DS18B20 were employed as monitoring and feedback devices to the temperature control system: an on-off control with four output power levels (0\%, 33\%, 66\% e 100\%). The actuators were two 2200W at 110Vac resistors. As results, the graphical user interface was tested and it was noticed that it worked as expected. The automation algorith validation was tested while running a beer recipe tailored for simulation purposes. The power drive circuit bench test was approved by means of a visual inspection, with LEDs coupled to the outputs. The mechanical structure operation was the last test, with water only, in which it was observed that the system is capable of fulfill the requisites to brew beer. In synthesis, this test allowed for the validation of all the project parts operating together. It was concluded that, even though the developed system comply to the project specification by allowing the automatic brewing online control and supervision via web, there are still many factors not contemplated in this project that are essential to transform it into a product. Altough there are many improvements pointed out to future works and, because of the restricted resources available for the project design and execution, it was considered a success given the presented results.
 
 \vspace{0.05\textheight}
 

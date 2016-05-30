@@ -2,7 +2,7 @@
 
 Este capítulo lista os materiais empregados no desenvolvimento deste projeto e, para sua melhor organização, os diversos materiais estão divididos nos seguintes capítulos: \textbf{núcleo do projeto} --- que compreende principalmente a BBB; \textbf{sistema mecânico} --- onde são listadas as peças empregadas na construção tanto da estrutura de suporte do sistema quanto do sistema de panelas e tubulações; \textbf{componentes eletrônicos} --- lista os componentes utilizados para a confecção dos circuitos de acionamentos de potência, dentre outros; \textbf{equipamentos, instrumentos, \textit{softwares} e miscelânea} --- apresenta os materiais de apoio ao projeto ou aqueles que não se encaixam em outras categorias, assim como os softwares utilizados para desenvolvimento.
 
-Também há uma seção dedicada à BBB e sua configuração, já que esta foi peça fundamental do trabalho proposto.
+Também há uma seção dedicada à BBB e sua configuração, já que esta foi peça fundamental do trabalho proposto e outra para o sensor de temperatura DS18B20.
 
 \section{Núcleo do projeto}
 
@@ -206,6 +206,49 @@ Os equipamentos, instrumentos de medição e demais objetos e/ou \textit{softwares
 		\end{tabular}
 	\end{table}
 \end{center}
+
+\section{Sensor de temperatura DS18B20}
+
+O sensor de temperatura DS18B20, projetado pela Maxim, é um sensor digital que utiliza somente um pino de dados para comunicação com o dispositivo \textit{master}, cujas regras são estabelecidas pelo protocolo proprietário de comunicação $\textit{1-Wire}^\textregistered$ \cite{ds18b20}.
+
+\textit{1-Wire} é um protocolo de comunicação serial \textit{half-duplex} que utiliza uma linha para transmissão de dados, além da referência. Ele é do tipo \textit{master/slave}, ou seja, um dispositivo \textit{master} inicia a comunicação e os dispositivos \textit{slave} somente respondem aos seus comandos. No caso deste protocolo específico, todo dispositivo possui um identificador de 64 bits único, dentro do qual um byte indica o tipo do dispositivo. Devido ao seu modo de funcionamento, quando a linha de dados é desconectada, os dispositivos \textit{slave} entram em estado de \textit{reset}, o que favorece seu uso em aplicações de contato. Enquanto a maioria destes dispositivos tem uma faixa de alimentação de 2,80-5,25V e não possui pino para alimentação \cite{onewire_ov} -- utilizando um sistema de alimentação parasita -- o sensor DS18B20 tem a possibilidade de alimentação parasita ou não e sua faixa tolerada para funcionamento é de 3-5,5V \cite{ds18b20}.
+
+Uma vez que este protocolo de comunicação foi concebido para operações nas quais os dispositivos \textit{master} e \textit{slave} estão fisicamente muito próximos, alguns cuidados devem ser observados ao utilizar linhas de transmissão de longas distâncias para manter a boa performance do sistema \cite{onewire_distance}. Como o estudo da Maxim acerca das implicações do uso de linhas de longa distância negligencia este aspecto para redes com poucos dispositivos e cabeamento curto (menor que 10m), os cuidados de projeto das redes \textit{1-wire} não serão aqui especificados, deixando um aviso para trabalhos futuros que visem aplicações de longas distâncias ou com número elevado de dispositivos, a exemplo de uma microcervejaria de porte industrial.
+
+Com relação a aspectos específicos do sensor de temperatura, este apresenta precisão de 0,5\si{\degree}C para a faixa de temperaturas de -10\si{\degree}C a +85\si{\degree}C, e de 2,0\si{\degree}C para a faixa completa de operação, de -55\si{\degree}C a +125\si{\degree}C. Quanto à resolução, esta pode ser programada de 9 a 12 bits, sendo 8 bits para a parte inteira e 1 a 4 bits decimais. O custo da melhor resolução é o aumento no tempo de conversão de uma leitura para valor digital, variando de 93,75ms a 750ms para os casos extremos \cite{ds18b20}.
+
+A arquitetura interna do CI é apresentada na figura \ref{18b_blocos}. Nota-se que o dispositivo, por utilizar o protocolo \textit{1-Wire}, tem uma ROM de 64 bits para identificação \cite{onewire_ov}, além de uma região de memória de rascunho, que consiste de uma memória SRAM de 64 bits, dividida em 8 regiões de 1 byte, para promover a interface com as funcionalidades do CI: sensor de temperatura, alarmes programáveis para estouro de valores mínimo e máximo das medições, registrador de configuração da resolução e gerador de código CRC de 8 bits \cite{ds18b20}. A figura \ref{18b_mmap} apresenta o mapa de memória do DS18B20 -- nota-se que os registradores de configuração e alarme são copiados para uma memória não volátil (EEPROM) após configurados pelo \textit{master}, retendo seus valores mesmo em caso de corte na alimentação. Outra informação útil obtida a partir da figura \ref{18b_mmap} é o valor da temperatura lido após uma queda de alimentação, que é de +85\si{\degree} C até que o dispositivo esteja pronto para uso \cite{ds18b20}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=12cm]{./Resources/ds18b20-blocos.png}
+	\captionsetup{justification=centering}
+	\caption[Arquitetura interna do DS18B20]{Arquitetura interna do DS18B20 \\Fonte: MAXIM INTEGRATED
+	}
+	\label{18b_blocos}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=11.83cm]{./Resources/ds18b20-mmap.png}
+	\captionsetup{justification=centering}
+	\caption[Mapa de memória do DS18B20]{Mapa de memória do DS18B20. \\Fonte: MAXIM INTEGRATED
+	}
+	\label{18b_mmap}
+\end{figure}
+
+As leituras de temperatura são feitas em dois bytes, LSB e MSB, representados na figura \ref{18b_formato}, e que juntos são uma representação em complemento de dois, sendo que os 5 bits mais significativos são redundantes e, para resoluções menores do que 12 bits, o valor dos bits menos significativos é indefinido (1 bit indefinido para 11 bits de resolução; 2 bits indefinidos para 10 bits de resolução, etc).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=11.83cm]{./Resources/ds18b20-formato.png}
+	\captionsetup{justification=centering}
+	\caption[Registradores de temperatura do DS18B20]{Registradores de temperatura do DS18B20. \\Fonte: MAXIM INTEGRATED
+	}
+	\label{18b_formato}
+\end{figure}
+
+O Kernel do Linux possui \textit{device drivers} que suportam parcialmente o uso do sensor DS18B20, portanto não há a necessidade de descrever em detalhes o protocolo \textit{1-Wire}. O \textit{device driver} \textit{w1-gpio} controla o barramento (\textit{master}) \textit{1-wire} utilizando a API GPIO para controlar a linha, sendo que a porta utilizada é especificada na descrição de hardware do sistema embarcado (\textit{device tree}) abordada na seção \ref{dt_section}. O \textit{device driver} \textit{w1-therm} suporta algumas famílias de sensores de temperatura da Maxim (\textit{slave}), dentre elas a DS18*20, fazendo conversões básicas de temperatura e fornecendo-as ao sistema por meio do FS (\textit{File System} ou Sistema de Arquivos). O resultado da abertura e leitura do arquivo correspondente a um sensor, é a conversão de temperatura pelo \textit{driver} e posterior fornecimento dos dados recebidos do sensor --- status da checagem do CRC e temperatura em \si{\degree}C/1000. Este driver não suporta conversão de temperatura simultânea de múltiplos sensores nem redução da precisão de conversão, portanto só são possíveis leituras de 12 bits, o que leva o acesso pelo FS a demorar cerca de 750ms. Em caso de alimentação parasita, somente um sensor pode estar conectado à linha por vez e, caso o sistema embarcado ofereça suporte a \textit{pull-up} interno, o driver é capaz de usá-lo \cite{onewire_kernel}.
 
 \section{BeagleBone Black}
 \input{./Content/materiais/bbb.tex}

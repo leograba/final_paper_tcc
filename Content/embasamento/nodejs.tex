@@ -1,4 +1,8 @@
 \label{node_js_sec}
+
+Para programar o código da aplicação que roda no servidor, existem diversas linguagens de programação disponíveis, geralmente de alto nível, a exemplo de PHP, Python e Node.js. Neste trabalho, a linguagem PHP foi utilizada em pequena escala, porém foi o ambiente interpretador de Javascript Node.js o escolhido para desenvolvimento da aplicação \textit{server-side}.
+
+\subsection{Node.js}
 Node.js é um ambiente em tempo de execução recente, criado em 2009 \cite{node_created}, que permite a execução no servidor --- neste caso, a BBB --- de programas escritos em Javascript. Para tal, este ambiente utiliza um motor implementado pelo Google para seu navegador Chrome --- o \textit{V8}, que compila o Javascript em código de máquina e não \textit{bytecode} ou interpretação \textit{on-the-fly}, o que torna a sua execução extremamente rápida \cite{node_fast}, embora seja importante lembrar que o \textit{overhead} inerente de lingaugens de tipagem dinâmica custa o tempo de processamento de resolução do tipo de variável utilizada \cite{node_dyntype}. 
 
 Node, devido à natureza assíncrona de I/O do Javascript, implementa um suporte nativo à programação orientada a eventos, ainda que seja executado em uma única \textit{thread}, ou seja, diversas porções de código são multiplexadas no tempo. Isto o torna um diferencial com relação às outras lingaugens de programação mais populares, que exigem do desenvolvedor a implementação de processos de \textit{multithreading} para atingir paralelismo de processamento \cite{node_intro}. Ainda, o estilo de programação em Node é orientado a \textit{callbacks}, que nada mais é do que passar como argumento uma função que será executada assim que um evento acabar.
