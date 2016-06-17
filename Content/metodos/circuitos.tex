@@ -2,7 +2,7 @@ A presente seção discorre acerca do projeto dos circuitos de interface entre a B
 
 \subsection{Acionamentos de potência}
 
-O circuito de acionamentos de potência foi projetado com o objetivo de controlar os atuadores do sistema: bombas de recirculação de líquido, solenóides das válvulas eletromecânicas, resistores de aquecimento e servo-motor. Com exceção do acionamento do servo-motor, os outros foram projetados de tal maneira que qualquer unidade de acionamento pode ser aplicada a qualquer atuador, já que os requisitos de potência atendem a todas as especificações.
+O circuito de acionamentos de potência foi projetado com o objetivo de controlar os atuadores do sistema: bombas de recirculação de líquido, solenóides das válvulas eletromecânicas, resistores de aquecimento e servo-motor. Com exceção do acionamento do servo-motor, os outros foram projetados de tal maneira que qualquer unidade de acionamento pode ser aplicada a qualquer atuador, já que os requisitos de potência atendem a todas as especificações. Cabe ressaltar aqui que os optoacopladores empregados nos cricuitos (4N25) são optoacopladores antigos e de uso geral, que possuem substitutos mais adequados no mercado, mas que foram empregados pela facilidade com que podem ser obtidos em baixa escala e foram suficientemente adequados para os circuitos desenvolvidos.
 
 As bombas de recirculação escolhidas para este projeto possuem tensão nominal de 12Vdc e corrente nominal de 1,6A, enquanto as válvulas solenóides da Danfoss consomem 12Vdc e 1,25A e a válvula solenóide genérica é especificada para 12Vdc e 300mA. O relé de estado sólido consome 7,5mA para uma alimentação de 12Vdc. Tendo em vista estes parâmetros, foi projetado o circuito da figura \ref{pot_one_module}, que representa um módulo de acionamento de potência. \textit{v2-ctr} representa o ponto de ligação com a BBB; \textit{GND\_S} é a referência da BBB; e os pinos Vcc e \textit{v2} são a saída do circuito, à qual deve ser ligado o elemento atuador. 
 
@@ -34,11 +34,13 @@ O diagrama esquemático completo do circuito de acionamentos de potência está dis
 
 \subsection{Detector de \textit{zero-crossing}}
 
-O circuito detector de \textit{zero-crossing}, ou seja, detector do momento em que o valor da tensão da senóide da rede passa por zero, foi projetado após a constatação de que a instabilidade da frequência da rede faz com que a fase entre ela e o sinal de PWM usado para o controle dos SSR variem, impossibilitando que seja controlada a quantidade de semi-ciclos que o SSR conduz.
+O circuito detector de \textit{zero-crossing}, ou seja, detector do momento em que o valor da tensão da senóide da rede passa por zero, foi projetado após a constatação de que a instabilidade da frequência da rede faz com que a fase entre ela e o sinal de PWM usado para o controle dos SSR variem, impossibilitando que seja controlada a quantidade de semi-ciclos que o SSR conduz. Cabe salientar aqui que existem diversas configurações de detectores de passagem por zero, porém o projeto de um detector simples foi realizado no intuito de comprovar conceitos adquiridos ao longo da graduação.
 
 Com este detector, que gera um pulso sempre que a senóide passa por zero, é possível sincronizar a ativação do SSR com o pulso e, portanto, realizar o controle da potência dos resistores de aquecimento do sistema com maior exatidão. Para a detecção, foi projetado um circuito que retifica e atenua a senóide da rede. Este sinal é usado para controlar um transistor que atua como chave: quando a senóide retificada em onda completa e atenuada tem valor menor do que aproximadamente 0,7V, o transistor para de conduzir, gerando então o pulso que indica a passagem por zero. Na figura \ref{zero_sch} é apresentado o diagrama esquemático do circuito.
 
 Os resultados das simulações e ensaios em bancada são apresentados e discutidos na seção \ref{zero_results} do capítulo \ref{Resultados}.
+
+\newpage
 
 \begin{figure}[H]
 	\centering

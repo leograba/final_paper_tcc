@@ -62,6 +62,8 @@ Neste capítulo deve-se assumir que todas as operações realizadas e arquivos refe
 
 O acesso às características de \textit{hardware} da BBB necessárias para o controle das válvulas, bombas, resistores de potência e servo-motor do sistema é feito por meio do módulo de código-aberto \textit{Octalbonescript}, que consiste de um \textit{fork} (ou derivação) do módulo oficial da BBB de acesso a hardware, chamado \textit{Bonescript}. Sua escolha se deve ao fato de que esta biblioteca era mais completa e estável durante o desenvolvimento deste projeto do que aquela que lhe deu origem. Sua instalação está descrita na caixa \ref{install_octalbonescript}. A documentação da API deste módulo foi obtida em \url{https://github.com/theoctal/octalbonescript/wiki}.
 
+\newpage
+
 \lstset{language=bash}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Instalação do Octalbonescript, label=install_octalbonescript]
 npm install octalbonescript
@@ -326,6 +328,12 @@ Para as funções de registro, ou \textit{log}, e de verificações, além de eventua
 		\item Caso contrário, lê o arquivo \textit{lockfile} para verificar se já existe uma brassagem em andamento. Se não consegue ler o \textit{lockfile} ou ele indica que há uma brassagem em andamento, também responde com erro.
 		\item Verifica a consistência da receita com o seguinte critério: há campos estritamente necessários para a produção e que impedem o início da receita se estiverem em branco, campos que geram avisos mas permitem o início de uma receita após o usuário se declarar ciente e campos indiferentes para o sistema. São os campos estritamente necessários: água de brassagem, tempo da fervura, temperatura inicial de brassagem, primeiro degrau de temperatura, tempo do primeiro degrau, malte 1, quantidade do malte 1, lúpulo 1, quantidade do lúpulo 1 e tempo de adição do lúpulo 1. Os campos que geram avisos são: nome da receita, estilo, levedura, água de sparging e temperatura de sparging. Todos os outros campos são indiferentes à verificação de consistência.
 		\item Se tudo deu certo, uma variável global é setada para registro e uso posterior.
+	\end{itemize}
+	\item \textbf{logToFile(message, code, notableTimestamp)} --- função que realiza registro do status da brassagem sempre que invocada. Basicamente, ela salva a variável global \textit{environmentVariables} em um arquivo de texto.
+	\begin{itemize}
+		\item O argumento \textit{message} pode conter uma string com uma mensagem explicativa contendo, por exemplo, a situação ou estágio da brassagem em que ocorreu o registro, mas pode também ser deixado em branco. O argumento \textit{code} tem basicamente o mesmo propósito, mas é um número predefinido para cada situação possível da brassagem, que permite que o arquivo de registro possa ser interpretado com maior facilidade; por este motivo, recomenda-se veementemente que não seja deixado em branco. A tabela \ref{significados_log} apresenta a correspondência entre os valores do argumento \textit{code} e seus significados.
+		\item O argumento \textit{notableTimestamp} é usado para indicar quando uma situação notável ocorreu, como por exemplo o início da brassagem, o final de uma rampa ou degrau de temperatura, o início da fervura, etc. Para todas as outras situações deve ser deixado em branco, sendo que as situações notáveis são predefinidas.
+		\item O objeto \textit{environmentVariables}, declarado no código-fonte raiz da aplicação em Node, que foi abordado na seção \ref{servidor_sec} e pode ser obtido no apêndice \ref{codigos_nodejs}, também é descrito na caixa \ref{environment_code}. Ele é salvo no arquivo de \textit{log} no formato JSON e para isto é empregada a função \textit{JSON.stringify} conforme descrito na linha de código-fonte exibida na caixa \ref{json_stringify}.
 	\end{itemize}
 \end{itemize}
 
