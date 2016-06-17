@@ -1,4 +1,4 @@
-Para o projeto da parte mecânica, em primeiro lugar foi concebida uma configuração de sistema baseada tanto na literatura disponível quanto em projetos de sistemas comerciais de produção de cerveja: um sistema de duas panelas análogas à MT e ao BK, sendo que durante o processo de cozimento do mosto, o BK pudesse ser utilizado como HLT. Para atender a esta especificação, fez-se necessário o projeto de um sistema de recirculação entre as duas panelas. Obserava-se que esta proposta representa um híbrido entre o sistema de 3 panelas tradicional - que consiste de uma panela para mosturação, uma para lavagem dos grãos, ou \textit{sparging}, e uma para fervura; e o sistema popularizado pela Braumeister, composto de 1 panela, com recirculação. Esta abordagem permitiu a economia financeira e simplificação mecânica do sistema de três panelas com o benefício do \textit{sparging} inexistente no sistema de uma panela.
+Para o projeto da parte mecânica, em primeiro lugar foi concebida uma configuração de sistema baseada tanto na literatura disponível quanto em projetos de sistemas comerciais de produção de cerveja: um sistema de duas panelas análogas à MT e ao BK, sendo que durante o processo de cozimento do mosto, o BK pudesse ser utilizado como HLT. Para atender a esta especificação, fez-se necessário o projeto de um sistema de recirculação entre as duas panelas. Observa-se que esta proposta representa um híbrido entre o sistema de 3 panelas tradicional - que consiste de uma panela para mosturação, uma para lavagem dos grãos, ou \textit{sparging}, e uma para fervura; e o sistema popularizado pela Braumeister, composto de 1 panela, com recirculação. Esta abordagem permitiu a economia financeira e simplificação mecânica do sistema de três panelas com o benefício do \textit{sparging} inexistente no sistema de uma panela.
 
 \subsection{Funcionamento da estrutura}
 
@@ -64,7 +64,7 @@ O parâmetro inicial escolhido para seleção das válvulas solenóide foi a temperat
 
 Informações técnicas sobre a válvula EV210BD 032U3620 estão no anexo \ref{Anexo3} e sobre a bobina 042N7550 no anexo \ref{Anexo4}.
 
-As bombas de recirculação foram escolhidas com base na temperatura de operação e grau alimentício. Posteriormente, tanto a vazão quanto a perda de carga do sistema foram estimadas para verificar se a bomba escolhida era adequada: o modelo Topsflo B08H-12-1006 tem capacidade máxima de vazão de 10l/min e carga expressa em coluna de água de 6m. Como a capacidade máxima do sistema é de 20l e idealmente a temperatura deve subir à taxa de 1\si{\degree}C/min, além de que a altura do sistema é menor do que 2m e as perdas de carga não decorrentes da gravidade foram consideradas desprezíveis para este caso, foi decidido que a bomba escolhida é adequada ao projeto. No \ref{Anexo5} encontra-se a folha de dados técnicos do dispositivo.
+As bombas de recirculação foram escolhidas com base na temperatura de operação e grau alimentício. Posteriormente, tanto a vazão quanto a perda de carga do sistema foram estimadas para verificar se a bomba escolhida era adequada: o modelo Topsflo B08H-12-1006 tem capacidade máxima de vazão de 10l/min e carga expressa em coluna de água de 6m. Como a capacidade máxima do sistema é de 20l e idealmente a temperatura deve subir à taxa de 1\si{\degree}C/min, além de que a altura do sistema é menor do que 2m e as perdas de carga não decorrentes da gravidade foram consideradas desprezíveis para este caso, foi decidido que a bomba escolhida é adequada ao projeto. No anexo \ref{Anexo5} encontra-se a folha de dados técnicos do dispositivo.
 
 Quanto às conexões, a figura \ref{conexoes_rascunho} apresenta um diagrama conceitual do sistema, contendo as peças necessárias para a montagem do mesmo:
 
@@ -76,19 +76,21 @@ Quanto às conexões, a figura \ref{conexoes_rascunho} apresenta um diagrama conce
 	\label{conexoes_rascunho}
 \end{figure}
 
+\newline
+
 Na figura \ref{mt_cad} é apresentado um diagrama da MT construído no software FreeCAD, à qual estão conectados o resistor de potência e um niple com vedação. Também estão presentes na figura a válvula esfera manual, um \textit{tee} fêmea, uma válvula Danfoss EV210B e três niples de conexão entre estes componentes. O modelo da válvula foi obtido a partir do website da Danfoss e importado, enquanto a modelagem dos outros componentes foi desenvolvida na plataforma FreeCAD. Na figura \ref{mt_cad_close} são apresentadas em detalhe as conexões do resistor e do niple à panela e, por isto, a estrutura da mesma foi omitida. Os itens em amarelo são contra-porcas, em azul arruelas e, em vermelho anéis de vedação (\textit{o-rings}).
 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{.46\textwidth}
 		\centering
-		\includegraphics[height=5cm]{./Resources/mecsys/mash-tun-top-color.pdf}
+		\includegraphics[height=5.5cm]{./Resources/mecsys/mash-tun-top-color.pdf}
 		\caption{Vista superior}
 		\label{mt_cad:1}
 	\end{subfigure}
 	\begin{subfigure}{.46\textwidth}
 		\centering
-		\includegraphics[height=5cm]{./Resources/mecsys/mash-tun-bottom-color.pdf}
+		\includegraphics[height=5.5cm]{./Resources/mecsys/mash-tun-bottom-color.pdf}
 		\caption{Vista inferior}
 		\label{mt_cad:2}
 	\end{subfigure}
@@ -99,7 +101,7 @@ Na figura \ref{mt_cad} é apresentado um diagrama da MT construído no software Fr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.35]{./Resources/mecsys/mash-tun-seal-color.pdf}
+	\includegraphics[scale=0.4]{./Resources/mecsys/mash-tun-seal-color.pdf}
 	\captionsetup{justification=centering}
 	\caption[Detalhes da vedação da panela de mostura]{Detalhes da vedação da panela de mostura}
 	\label{mt_cad_close}

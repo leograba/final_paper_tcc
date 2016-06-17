@@ -119,9 +119,9 @@ Outra medição realizada foi a resposta de tensão da válvula ao ser energizada, d
 	\label{step_soleiod_close}
 \end{figure}
 
-No que diz respeito ao funcionamento do SSR, foi adicionada uma carga puramente resistiva de 470k\si{\ohm} à sua saída e ligado um sinal gerado pelo PWM da BBB, com frequência de 60Hz e período em alta de 1ms. Observando as forma de onda do PWM e da senóide da rede aplicada sobre o SSR em série com o resistor em função do tempo, foi constatado que a frequência da rede não é estável em 60Hz, uma vez que seu valor varia com o tempo. Este comportamento está ilustrado na figura \ref{rede_pwm_deriva}, na qual a forma de onda amarela representa o PWM e a verde é a senóide da rede; observa-se que em instantes de tempo distintos, a fase entre o PWM e a senóide é diferente.
+No que diz respeito ao funcionamento do SSR, foi adicionada uma carga puramente resistiva de 470k\si{\ohm} à sua saída e ligado um sinal gerado pelo PWM da BBB, com frequência de 60Hz e período em alta de 1ms. Observando as forma de onda do PWM e da senóide da rede aplicada sobre o SSR em série com o resistor em função do tempo, foi constatado que a frequência da rede não é estável em 60Hz. Este comportamento está ilustrado na figura \ref{rede_pwm_deriva}, na qual a forma de onda amarela representa o PWM e a verde é a senóide da rede; observa-se que em instantes de tempo distintos, a fase entre o PWM e a senóide é diferente.
 
-Observa-se que no estudo da estabilidade da frequência da rede, em nenhum momento a saída do SSR esteve ligada, apesar dos pulsos gerados pelo PWM na entrada. Isto se deve ao fato de este modelo específico de SSR possuir um controle interno que permite somente o acionamento durante a passagem da senóide por zero, também conhecido como \textit{zero-crossing}. Isto fez com que a deriva da frequência da rede se tornasse um problema para o acionamento do SSR. A figura \ref{diversos_ssr} ilustra o acionamento do SSR em diversos instantes da senóide da rede.
+Observa-se que no estudo da estabilidade da frequência da rede, em nenhum momento a saída do SSR esteve ligada, apesar dos pulsos gerados pelo PWM na entrada. Isto se deve ao fato de este modelo específico de SSR possuir um controle interno que permite somente o acionamento durante a passagem da senóide por zero, também conhecido como \textit{zero-crossing}. Isto fez com que a variação da frequência da rede se tornasse um problema para o acionamento do SSR. A figura \ref{diversos_ssr} ilustra o acionamento do SSR em diversos instantes da senóide da rede.
 
 \begin{figure}[H]
 	\centering
@@ -202,15 +202,15 @@ Quanto aos ensaios de bancada, foi ligado um resistor de 1,17\si{\ohm} em série 
 
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}{.48\textwidth}
+	\begin{subfigure}{1.0\textwidth}
 		\centering
-		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/Servo/noload0.png}
+		\includegraphics[height=5cm]{./Resources/ensaiosBancada/Servo/noload0.png}
 		\caption{Visão em close}
 		\label{servo_angle_noload:1}
 	\end{subfigure}
-	\begin{subfigure}{.48\textwidth}
+	\begin{subfigure}{1.0\textwidth}
 		\centering
-		\includegraphics[height=4.5cm]{./Resources/ensaiosBancada/Servo/noload4.png}
+		\includegraphics[height=5cm]{./Resources/ensaiosBancada/Servo/noload4.png}
 		\caption{Visão ampla}
 		\label{servo_angle_noload:2}
 	\end{subfigure}

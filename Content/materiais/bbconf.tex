@@ -10,7 +10,7 @@ Tanto a última versão estável do Debian para BBB (v. 7.9), conhecida como \texti
 	\item Gravar a imagem em um cartão \si{\micro}SD formatado (não basta copiar, é preciso utilizar um software que grave a imagem corretamente. Neste caso foi utilizado o \textit{Win32 Disk Imager})
 	\item Inserir o cartão \si{\micro}SD na BBB desligada
 	\item Pressionar o botão de boot e energizar a placa com ele ainda pressionado
-	\item Esperar um dos leds de status acender antes de largar o botão
+	\item Esperar um dos leds de status acender antes de liberar o botão
 	\item Esperar os 4 leds de status ficarem continuamente acesos (durante o processo de gravação eles trabalharão de maneira intermitente)
 	\item Desenergizar a BBB e retirar o cartão \si{\micro}SD
 \end{enumerate}
@@ -67,7 +67,7 @@ sudo ifdown eth0 # desativa a interaface Ethernet
 
 \end{lstlisting}
 
-No arquivo \textit{/etc/network/interfaces}, as configurações utilizadas entre as linhas 19 e 35 do código são referentes à configuração do Wi-Fi para configuração da BBB com endereço de IP estático 192.168.1.155, permitindo o acesso à plataforma remotamente pela internet e não somente dentro da intranet. Observe-se que o acesso a este IP da intranet se dá pelo IP externo 143.107.xxx.xxx, que é o endereço do departamento da engenharia elétrica da USP de São Carlos. Por motivos de segurança este será omitido no presente trabalho.
+No arquivo \textit{/etc/network/interfaces}, as configurações utilizadas entre as linhas 19 e 35 do código são referentes à configuração do Wi-Fi para configuração da BBB com endereço de IP estático 192.168.1.155, permitindo o acesso à plataforma remotamente pela internet e não somente dentro da intranet. Observe-se que o acesso a este IP da intranet se dá pelo IP externo 143.107.235.59, que é o endereço do departamento da engenharia elétrica da USP de São Carlos.
 
 Depois de todo este procedimento, o dispositivo ainda não estava funcionando após a operação de \textit{reboot}, portanto foi utilizado um \textit{script} de reset do Wi-Fi executado durante o \textit{boot}, cujas instruções de uso, obtidas em  \url{https://learn.adafruit.com/setting-up-wifi-with-beaglebone-black/configuration}, estão descritas no código-fonte \ref{rst_wifi}. A figura \ref{success_ssh} indica sucesso de conexão via SSH usando uma máquina com sistema operacional Linux Ubuntu 14.04 LTS.
 

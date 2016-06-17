@@ -106,10 +106,11 @@ Com esta configuração da \textit{device tree}, foi preciso parar de carregar o f
 
 A partir deste ponto, foi desenvolvido um módulo em Node nomeado \textit{gpio\_config} responsável pelo gerenciamento de GPIO e PWM, baseado no \texit{Octalbonescript}. Foram criados objetos para cada elemento do sistema, usados para guardar a identificação do pino de GPIO de cada objeto, o estado e a configuração de cada pino. Para isto, uma função auxiliar foi criada.
 
-Também foi criado um objeto que reúne todos os objetos dos pinos, para facilitar a configuração inicial e também manter controle sobre o status do sistema durante seu funcionamento. Uma vez que em Node os objetos são todos ponteiros, ao atribuir um objeto a outro, o que se está fazendo é apontar os dois objetos para o mesmo endereço de memória.
+Também foi criado um objeto que reúne todos os objetos dos pinos, para facilitar a configuração inicial e também manter controle sobre o status do sistema durante seu funcionamento. Uma vez que em Node os objetos são todos ponteiros, ao atribuir um objeto a outro, o que se está fazendo é apontar os dois objetos para o mesmo endereço de memória. A descrição completa das declarações de objetos pode ser encontrada no código-fonte \ref{gpio_cfg} no apêndice \ref{codigos_nodejs}.
 
-Na caixa de código-fonte \ref{gpio_variables} é apresentada a função de criação dos objetos, a declaração dos elementos aquecedores e a união destes elementos, a título de exemplo. A descrição completa das declarações de objetos pode ser encontrada no código-fonte \ref{gpio_cfg} no apêndice \ref{codigos_nodejs}.
+%Na caixa de código-fonte \ref{gpio_variables} é apresentada a função de criação dos objetos, a declaração dos elementos aquecedores e a união destes elementos, a título de exemplo. 
 
+\begin{comment}
 \lstset{language=javascript}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Criação de objetos para os elementos do sistema em Node, label=gpio_variables]
 var mash_heat = module.exports.mash_heat = new PinObjectIO("P8_13");
@@ -139,6 +140,7 @@ function collect() {//function concat objects
 	return ret;
 }
 \end{lstlisting}
+\end{comment}
 
 Além disto, foi criado um objeto que guarda o status do sistema: o número total de pinos a serem configurados, o número de pinos configurados corretamente, o número de pinos como GPIO, PWM, analógicos e interrupções. Quanto às funcões do módulo, estas são:
 
@@ -151,7 +153,7 @@ Além disto, foi criado um objeto que guarda o status do sistema: o número total 
 
 Na função \textit{pinsConfiguration}, é preciso notar que dentro do laço de repetição \textit{for} é chamada uma função anônima para a configuração de cada pino. Isto é necessário pois, se todas as operações fossem realizadas diretamente dentro do laço, o comportamento assíncrono do Node geraria inconsistências na execução do código. Assim sendo, o objetivo da função anônima é criar um escopo que permite a execução assíncrona do código sem que a referência passada para esta função anônima se degenere.
 
-Uma vez que esta função precisa receber o valor e não o ponteiro da variável de iteração do laço, tanto o pino a ser configurado quanto o seu índice (variável de iteração) no laço de repetição são passados com o auxílio do método \textit{call()}, que neste caso copia o pino como o elemento \texit{this} e o índice como o primeiro argumento da função, criando um novo escopo por meio de uma clausura. Sem isso, antes que a primeira invocação da função anônima acabasse, o valor de i, por exemplo, já seria \textit{all\_io\_objects.length} e não zero, que seria o valor esperado.
+Uma vez que esta função precisa receber o valor e não o ponteiro da variável de iteração do laço, tanto o pino a ser configurado quanto o seu índice (variável de iteração) no laço de repetição são passados com o auxílio do método \textit{call()}, que neste caso copia o pino como o elemento \textit{this} do Javascript e o índice como o primeiro argumento da função, criando um novo escopo por meio de uma clausura. Sem isso, antes que a primeira invocação da função anônima acabasse, o valor de i, por exemplo, já seria \textit{all\_io\_objects.length} e não zero, que seria o valor esperado.
 
 Para tornar a compreensão desta necessidade mais clara, a caixa de código-fonte \ref{call_this} apresenta um exemplo no qual duas funções com um laço \textit{for} são chamadas: a primeira delas imprime o valor da variável de iteração para todas as chamadas do laço imediatamente e com um atraso de 100ms, mas sem precauções com relação ao comportamento assíncrono do Node; já a segunda função utiliza o método descrito no parágrafo anterior. Observa-se na figura \ref{res_call_this} que sem tomar precauções, na chamada com atraso, é impresso o último valor da variável de iteração do laço em todas as iterações. Isto deixa claro a necessidade de criar um novo escopo, assim como demonstra que esta é uma fonte de erros para programadores inexperientes e/ou descuidados.
 
@@ -451,6 +453,8 @@ Cabe ressaltar que a vantagem desta função auxiliar não é o sistema de controle 
 
 De volta ao fluxo de controle da produção, após o usuário adicionar os maltes, a função \textit{rampControl(recipeContents)} é chamada. Ela recebe somente o conteúdo da receita, a partir do qual são obtidas as temperaturas e tempos dos degraus de repouso da mostura, assim como a temperatura da água de \textit{sparging}. Se a temperatura de \textit{sparging} não estiver definida, é assumido que esta parte do processo deve ser omitida. Depois desta verificação é feito um log indicando início de rampa de temperatura e é iniciado um \textit{loop} no qual é registrada a situação da brassagem a cada 5 segundos. 
 
+\newpage
+
 Em paralelo, outro laço de repetição implementa a parte relativa ao controle: se ainda há a possibilidade de mais degraus de temperatura, esta é verificada:
 
 \begin{itemize}
@@ -467,6 +471,8 @@ Se a etapa de rampas e degraus ainda não acabou, a temperatura da MT é lida e o 
 A função de controle da lavagem dos grãos é fortemente baseada em temporização: o fluxo de vazão da MT para o BK e o fluxo de bombeamento de líquido do BK para a MT devem ser iguais para que não ocorra transbordamento de nenhum dos recipientes, mas como na prática estes fluxos são muito diferentes e variam conforme a receita, o ideal seria o projeto de dispositivos de verificação de transbordamento da panela.
 
 É iniciado um laço de registro da situação da brassagem a cada 5 segundos e, em paralelo, outro laço executado a cada 0,5 segundos verifica se há transbordamento da MT. Em caso afirmativo, a bomba do BK é desligada e um tempo predefinido é esperado até que o bombeamento seja retomado. Em paralelo aos dois laços de repetição, a válvula de drenagem da MT é inicialmente aberta por um tempo determinado em função do volume inicial da água de brassagem, definido como $0,5 segundos \cdot volume(l)$. Somente quando este tempo acaba é que é a valvula de drenagem e a bomba de recirculação do BK são ativadas, para iniciar a lavagem dos grãos; também é neste momento que é iniciado um terceiro \textit{loop}.
+
+\newpage
 
 Neste, executado a cada 0,5 segundos, nada acontece em caso de transbordamento. Se tudo estiver ocorrendo conforme planejado, este laço espera um tempo baseado no volume da água de lavagem, definido como $3 segundos \cdot volume(l)$. Depois que este tempo acaba, é feita a drenagem completa da MT, todos os laços de repetição são interrompidos e é dado início ao processo de fervura.
 

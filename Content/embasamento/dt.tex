@@ -1,12 +1,10 @@
-A \textit{Device Tree} ou DT é basicamente uma estrutura de dados utilizada para descrever \textit{hardware}, cujo objetivo é possibilitar que as características de \textit{hardware} de um sistema específico sejam passadas para o SO durante o \textit{boot}, ao invés de estas informações ficarem gravadas no SO \cite{devicetree}, o que possibilita que um \textit{driver} do Kernel seja usado em configurações diferentes de \textit{hardware} sem a necessidade de modificações em seu código-fonte. Com relação aos sistemas equipados com processadores ARM, a necessidade de uso da DT surgiu devido ao grande número de novas placas, que tornou muito difícil manter uma versão do Kernel para cada sistema. Seu objetivo não é modificar o sistema em tempo de execução, porém no caso da BBB, foi criada uma solução chamada \textit{Device Tree Overlay} (ou sobreposição) para executar esta função, facilitando a configuração de GPIO, dentre outras funções, e uso da DT pelo usuário final \cite{bbb_devicetree}, fatores que são do interesse de aprendizes da área.
+A \textit{Device Tree} ou DT é basicamente uma estrutura de dados utilizada para descrever \textit{hardware}, cujo objetivo é possibilitar que as características de \textit{hardware} de um sistema específico sejam passadas para o SO durante o \textit{boot}, ao invés de estas informações ficarem gravadas no SO \cite{devicetree}, o que possibilita que um \textit{driver} do Kernel seja usado em configurações diferentes de \textit{hardware} sem a necessidade de modificações em seu código-fonte. Com relação aos sistemas equipados com processadores \textit{advanced risc machine} (ARM), a necessidade de uso da DT surgiu devido ao grande número de novas placas, que tornou muito difícil manter uma versão do Kernel para cada sistema. Seu objetivo não é modificar o sistema em tempo de execução, porém no caso da BBB, foi criada uma solução chamada \textit{Device Tree Overlay} (ou sobreposição) para executar esta função, facilitando a configuração de GPIO, dentre outras funções, e uso da DT pelo usuário final \cite{bbb_devicetree}, fatores que são do interesse de aprendizes da área.
 
 Uma DT é uma estrutura em árvore, composta de nós e propriedades. Uma abordagem para entender o seu funcionamento é por meio de um exemplo de sobreposição específico para a BBB. Na caixa de código-fonte \ref{dt_example} é apresentado um exemplo de sobreposição de DT específico da BBB que apresenta os principais conceitos para o uso desta ferramenta.
 
 Neste código, na linha 14 é definida a plataforma à qual esta DT se refere. Com isso, ficam declaradas as funcionalidades de \textit{hardware} do sistema. Na sequência, a identificação mostra quais sobreposições de DT estão carregadas e o nome do arquivo compilado deve ser igual ao nome nela atribuído; a versão deve ser 00A0 para a BBB. Entre as linhas 20 e 26 são listados os recursos de \textit{hardware} utilizados por esta sobreposição, que impedem que outras sobreposições que usem os mesmos recursos sejam carregadas; no caso deste exemplo, os pinos referentes à UART1, assim como o próprio dispositivo UART1 são utilizados. A seguir, os fragmentos descrevem qual dispositivo terá suas configurações sobrepostas. No fragmento 0, é o multiplexador dos pinos da BBB, compatível com o \textit{driver} \textit{pinctrl-single} - os dois valores hexadecimais utilizados para cada pino são o \textit{offset} do pino com relação ao seu registrador e a configuração do pino. Já no fragmento 1 é configurada a interface UART1. Por enquanto, serão introduzidas somente as questões referentes à configuração do multiplexador, uma vez que seu conhecimento foi necessário para o uso dos pinos no modo GPIO.
 
 Para determinar o valor hexadecimal de \textit{offset} do pino ao qual se deseja aplicar uma configuração, primeiro é preciso obter seu nome a partir do seu número na barra de pinos, conforme ilustrado na figura \ref{bbb_pins_def}, consultando as tabelas \ref{p8-header} e \ref{p9-header}, nas quais o nome do pino é referente ao \textbf{modo 0}, que também é o nome do pino no manual do SoC \cite{bbb_srm, soc_manual}. A seguir, obtém-se o valor hexadecimal do registrador referente ao pino, na tabela \ref{dt_offset} presente no anexo \ref{Anexo2}, adaptada do manual do SoC, e subtrai-se 0x800 de seu valor original.
-
-\newpage
 
 \lstset{language=dtc}
 \begin{lstlisting}[frame=single, basicstyle=\linespread{0.85}\ttfamily, caption=Sobreposição de \textit{device tree}, label=dt_example]
@@ -78,6 +76,7 @@ Com relação à configuração do pino, este aceita os parâmetros de ajuste de \text
 
 %\newpage
 
+\begin{comment}
 %tabela do header 8
 \begin{minipage}[t][.49\textheight]{1\textwidth}
 	\begin{center}
@@ -92,9 +91,10 @@ Com relação à configuração do pino, este aceita os parâmetros de ajuste de \text
 		%\includegraphics[page=3, scale=0.5]{./Resources/BBB_SCH.pdf}
 	\end{center}
 \end{minipage}
+\end{comment}
+%\newpage
 
-\newpage
-
+\begin{comment}
 %tabela do header 9
 \begin{minipage}[b][.49\textheight]{1\textwidth}
 	\begin{center}
@@ -109,6 +109,7 @@ Com relação à configuração do pino, este aceita os parâmetros de ajuste de \text
 		%\includegraphics[page=3, scale=0.5]{./Resources/BBB_SCH.pdf}
 	\end{center}
 \end{minipage}
+\end{comment}
 
 %Páginas relevantes do manual do SoC
 %1356 - pullup, RXactive, etc e 1365 - registers offset, 1422 - registrador

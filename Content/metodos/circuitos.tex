@@ -20,7 +20,7 @@ O valor do resistor R3 foi escolhido de modo que a corrente máxima no terminal d
 
 \subsection{Acionamentos de potência}
 
-Com relação ao circuito de acionamento do servo-motor, há duas diferenças que devem ser levadas em consideração. Primeiramente, este dispositivo atuador tem faixa de alimentação de 4,8Vdc a 6Vdc, portanto se faz necessário o uso de um regulador de tensão. A segunda diferença é o fato de que há um terminal para controle de posição do dispositivo e, portanto, este não pode ser ligado em série com o MOSFET, portanto foi utilizado um resistor de \textit{pull-down} em série com o MOSFET para compor a saída do circuito. O diagrama esquemático do módulo de acionamento do servo-motor é apresentado na figura \ref{servo_controle}.
+Com relação ao circuito de acionamento do servo-motor, há duas diferenças que devem ser levadas em consideração. Primeiramente, este dispositivo atuador tem faixa de alimentação de 4,8Vdc a 6Vdc, portanto se faz necessário o uso de um regulador de tensão. A segunda diferença é o fato de que há um terminal para controle de posição do dispositivo, fazendo com que este não possa ser ligado em série com o MOSFET. Para adequar a esta situação, foi utilizado um resistor de \textit{pull-down} em série com o MOSFET para compor a saída do circuito. O diagrama esquemático do módulo de acionamento do servo-motor é apresentado na figura \ref{servo_controle}.
 
 \begin{figure}[H]
 	\centering

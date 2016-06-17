@@ -68,21 +68,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FICHA CATALOGRAFICA % % % % % % % % % % % % % % % % % % %
 \newpage
 
-Página com a ficha catalográfica (em página par).
+%Página com a ficha catalográfica (em página par).
 
 %ficha catalografica no verso
-%\includepdf{./Resources/ficha_catalografica.pdf}
+\includepdf{./Resources/ficha_catalografica.pdf}
 
 % % % % % % % % % % % % % % % % % % % % % % % % Folha de aprovação % % % % % % % % % % % % % % % % % % %
 \newpage
 
-página com a folha de aprovação (página ímpar). \cleardoublepage
+%página com a folha de aprovação (página ímpar). \cleardoublepage
+
+\includepdf{./Resources/folha_aprovacao.pdf}
+\cleardoublepage
 
 \begin{comment}
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.3]{./Resources/aprovacao.jpg}
-	\caption{Fluxo de comunicação entre os principais componentes.}
+	\includegraphics[scale=0.2]{./Resources/folha_aprovacao.png}
+	%\caption{Fluxo de comunicação entre os principais componentes.}
 	\label{Aprovacao}
 \end{figure}
 \cleardoublepage
@@ -121,7 +124,7 @@ Agradeço à minha família pelo suporte incondicional: aos meus genitores Dirce Gr
 
 Agradeço aos meus amigos de Curitiba pelas inúmeras situações que compartilhamos: Albert Faria, Pedro Henrique Bertolin, Douglas Auchewski, Eduardo Henrique Fasolin, Isabela Deolindo, Lucas Lupatini, Pamella Prohmann, Massimo Karly, Moacir Costa Filho, Lucas Vieira e Paulo Jacques Filho, dentre vários outros não menos importantes. Desde os tempos do Santa Maria e, posteriormente da UTFPR, até os dias de hoje, nunca aceitaram ver senão alegria em meus olhos, motivando o meu desenvolvimento técnico e pessoal.
 
-Agradeços aos meus amigos de São Carlos pela caminhada que fizemos juntos ao longo destes anos de faculdade: Rafael Hellman, com quem dividi não somente moradia, mas também as dificuldades da engenharia e muitos momentos de festa entre uma prova e outra; Rafael Oishi, Vitor Martins e Gabriel Moreira, da Rep Hot Chili Peppers, minha segunda casa sancarlense; Renato Nunes Moraes e Renata de Camilo, pelo duradouro companheirismo e; a todos os outros amigos e colegas de classe que compartilharam experiência e conhecimento em prol de atingir um objetivo coletivo almejado por todos, chamado graduação.
+Agradeço aos meus amigos de São Carlos pela caminhada que fizemos juntos ao longo destes anos de faculdade: Rafael Hellman, com quem dividi não somente moradia, mas também as dificuldades da engenharia e muitos momentos de festa entre uma prova e outra; Rafael Oishi, Vitor Martins e Gabriel Moreira, da Rep Hot Chili Peppers, minha segunda casa sancarlense; Renato Nunes Moraes e Renata de Camilo, pelo duradouro companheirismo e; a todos os outros amigos e colegas de classe que compartilharam experiência e conhecimento em prol de atingir um objetivo coletivo almejado por todos, chamado graduação.
 
 Agradeço aos meus professores: em especial ao meu professor orientador Prof. Dr. Evandro Luis Linhari Rodrigues, que me incentivou a sempre buscar o melhor e me apresentou ao incrível mundo do Linux embarcado.
 
@@ -179,7 +182,7 @@ Este trabalho consistiu na implementação de um sistema elétrico automatizado de 
 
 \vspace{0.05\textheight}
 	
-Palavras-Chave: BeagleBone, Black, Node.js, controlador, brassagem, cerveja, automatizado, SBC, web, internet, remoto.
+Palavras-Chave: BeagleBone Black, Node.js, brassagem, cerveja, automatizado, computador de placa única, web, internet, remoto.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage
@@ -199,7 +202,7 @@ This work had consisted in the implementation of an automated electric brewing s
 
 \vspace{0.05\textheight}
 
-Keywords: BeagleBone, Black, Node.js, controller, brewing, beer, automated, SBC, web, internet, remote.
+Keywords: BeagleBone Black, Node.js, brewing, beer, automated, single board computer, web, internet, remote.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INSER??O P?GINA EM BRANCO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cleardoublepage

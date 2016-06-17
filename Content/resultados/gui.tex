@@ -30,7 +30,7 @@ Também é importante notar, na parte superior da imagem, a implementação da barra
 
 \subsection{Interface de configurações}
 
-Para mudar para a interface de configurações, o botão correspondente da barra de navegação foi clicado e a página resultante é apresentada na figura \ref{ui-config}. Para verificar a consistência da configuração de data e hora do sistema embarcado, foi aberta uma aba do navegador na página web \url{http://ntp.br}, comentada na seção \ref{ntp_sec}. Simultâneamente, foi realizada uma tentativa de reconfiguração da data/hora por meio da GUI, sendo os resultados apresentados na figura \ref{ntp_cfg_not_perm}. Posteriormente, o serviço do \textit{ntp} foi desligado na BBB e nova tentativa de reconfiguração da data/hora foi realizada, cujo resultado está expresso na figura \ref{ntp_cfg_perm}.
+Para mudar para a interface de configurações, o botão correspondente da barra de navegação foi clicado e a página resultante é apresentada na figura \ref{ui-config}. Para verificar a consistência da configuração de data e hora do sistema embarcado, foi aberta uma aba do navegador na página web \url{http://ntp.br}, comentada na seção \ref{ntp_sec}. Simultâneamente, foi realizada uma tentativa de reconfiguração da data/hora por meio da GUI, sendo os resultados apresentados na figura \ref{ntp_cfg_not_perm}. Posteriormente, o serviço do \textit{NTP} foi desligado na BBB e nova tentativa de reconfiguração da data/hora foi realizada, cujo resultado está expresso na figura \ref{ntp_cfg_perm}.
 
 \begin{figure}[H]
 	\centering
@@ -149,6 +149,8 @@ A figura \ref{ui-manager} apresenta como resultado a interface gráfica do gerenc
 	\label{ui-manager}
 \end{figure}
 
+\newpage
+
 Foi observado que, ao correr o cursor pela lista de receitas, diversas prévias destas receitas eram carregadas sequencialmente e posteriormente, quando o cursor se fixava sobre uma receita específica, havia um atraso até que a sua prévia fosse carregada. Tal comportamento levou à observação de recursos de CPU e memória RAM da BBB na seguinte condição de estresse: foi movido aleatóriamente o cursor sobre a lista de receitas por 60 segundos e, após isto, ele foi fixado sobre uma receita específica e esperou-se que a prévia se estabilizasse nesta receita. Os resultados estão contidos na figura \ref{resources_manager}, cujos instantes notáveis estão descritos na tabela \ref{resources_manager_moments}. Para relacionar corretamente os momentos das ações executadas, foi gravado um vídeo de captura de tela enquanto o procedimento era realizado, com um relógio aberto para garantir os instantes de transição.
 
 \begin{figure}[H]
@@ -177,7 +179,7 @@ Foi observado que, ao correr o cursor pela lista de receitas, diversas prévias d
 
 A partir dos resultados apresentados, observa-se que mesmo com o gerenciador de receitas cumprindo sua função, a função de prévia da GUI consumiu 100\% dos recursos de CPU da BBB desde o instante em que foi iniciado o estresse do gerenciador até 1 minuto e 26 segundos após este. Também é possível observar a partir do gráfico da figura \ref{resources_manager} que houve um aumento da demanda do sistema por memória RAM durante o período de estresse --- esta demanda se estabilizou, porém durante os 22 segundos nos quais a demanda por processamento esteve na faixa de grandeza das condições iniciais, a demanda por memória RAM não foi reduzida.
 
-Para testar a criação de uma nova receita, foi escolhido o nome "\textit{Nov@? Re\$\$eita\#}", que é um nome inválido dado o uso de caracteres especiais. O resultado é apresentado na figura \ref{nome_invalido}. A partir destes resultados, percebe-se que o esforço de proteção aplicado ao servidor descrito na seção \ref{recipe_editor_howto} e impediu esta receita de ser salva, não foi correspondido do lado do cliente, permitindo a este realizar uma operação ilegal. Nota-se também na figura \ref{nome_invalido} (d) que caracteres especiais foram passados para a URL do editor de receitas.
+Para testar a criação de uma nova receita, foi escolhido o nome "\textit{Nov@? Re\$\$eita\#}", que é um nome inválido dado o uso de caracteres especiais. O resultado é apresentado na figura \ref{nome_invalido}. A partir destes resultados, percebe-se que o esforço de proteção aplicado ao servidor e descrito na seção \ref{recipe_editor_howto}, que impediu esta receita de ser salva, não foi correspondido do lado do cliente, permitindo a este realizar uma operação ilegal. Nota-se também na figura \ref{nome_invalido} (d) que caracteres especiais foram passados para a URL do editor de receitas.
 
 \begin{figure}[H]
 	\centering

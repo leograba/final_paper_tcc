@@ -62,7 +62,7 @@ Foi notado também que a carga de processamento exigida da CPU é de 20\%, valor n
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.40]{./Resources/BonescriptIO/high-10ms-9bits/Carga_processo.png}
+	\includegraphics[scale=0.55]{./Resources/BonescriptIO/high-10ms-9bits/Carga_processo.png}
 	\captionsetup{justification=centering}
 	\caption[Carga da CPU dedicada ao chaveamento de GPIO em Node.js com tempo de chaveamento de 10ms]{Carga da CPU dedicada ao chaveamento de GPIO em Node.js com tempo de chaveamento de 10ms}
 	\label{cpu_intensive}
@@ -152,7 +152,7 @@ Para observar a carga do sistema e comprovar o embasamento teórico exposto no ca
 
 Quanto aos resultados expressos na tabela \ref{bench_server}, é importante salientar que, mesmo que o consumo mínimo da CPU não tenha crescido proporcionalmente com o aumento do número de abas, ainda assim à medida que este (número de abas) crescia, era notável que a CPU passava cada vez mais tempo em níveis mais elevados de processamento.
 
-É importante salientar que testes no âmbito de segurança não foram conduzidos, embora este seja um tópico de grande interesse na área de IoT (internet das coisas). Nota-se também que nenhuma restrição de acesso à interface gráfica de usuário foi implementada neste projeto.
+É importante salientar que testes no âmbito de segurança não foram conduzidos, embora este seja um tópico de grande interesse na área de internet das coisas (IoT). Nota-se também que nenhuma restrição de acesso à interface gráfica de usuário foi implementada neste projeto.
 
 \subsection{Registros e verificações em geral}
 
@@ -160,26 +160,7 @@ O módulo de registros e verificações em geral, conforme descrito na seção \ref{r
 
 Com relação ao controle do registro de temperaturas, a única observação aqui apresentada é que o arquivo de registros foi corretamente criado tanto durante as simulações do controle da brassagem quanto durante os testes de automação da parte mecânica. Isto implica que as funções que iniciam e param o script Python a partir do Node cumprem o seu objetivo.
 
-Quanto ao registro do processo de brassagem, guardado no arquivo \textit{backup.log}, após a simulação da receita descrita na seção \ref{simulacao_controle}, verificou-se que foi gerado um arquivo com 249 registros e que neste todos os códigos de brassagem da tabela \ref{significados_log} foram encontrados ao menos em uma linha de registro. A figura \ref{registro_c9} apresenta o início do arquivo, acessado por meio da IDE online \textit{Cloud9}, tanto para motivo de ilustração quanto comprovação da criação bem sucedida do registro. A tabela \ref{linhas_importantes} apresenta os campos \textit{código, msg} e  \textit{timestamps:curr)} dos registros de situações notáveis, conforme descrito na seção \ref{registros_sec}, e importantes da brassagem.
-
-\begin{figure}[H]
-	%\centering
-	%\begin{subfigure}{.46\textwidth}
-		\centering
-		\includegraphics[height=6.5cm]{./Resources/inicio_log.png}
-	%	\caption{Registros iniciais}
-	%	\label{registro_c9:1}
-	%\end{subfigure}
-%	\begin{subfigure}{.46\textwidth}
-%		\centering
-%		\includegraphics[height=4cm]{./Resources/final_log.png}
-%		\caption{Registros finais}
-%		\label{registro_c9:2}
-%	\end{subfigure}
-	\captionsetup{justification=centering}
-	\caption[Arquivo de registro do processo de brassagem]{Arquivo de registro do processo de brassagem}
-	\label{registro_c9}
-\end{figure}
+Quanto ao registro do processo de brassagem, guardado no arquivo \textit{backup.log}, após a simulação da receita descrita na seção \ref{simulacao_controle}, verificou-se que foi gerado um arquivo com 249 registros e que neste todos os códigos de brassagem da tabela \ref{significados_log} foram encontrados ao menos em uma linha de registro. A tabela \ref{linhas_importantes} apresenta os campos \textit{código, msg} e  \textit{timestamps:curr)} dos registros de situações notáveis, conforme descrito na seção \ref{registros_sec}, e importantes da brassagem.
 
 \begin{table}[H]
 	\centering
@@ -334,6 +315,8 @@ Quanto aos recursos de hardware consumidos durante o processo de brassagem, foi 
 
 Também foi usado o comando \textit{sar} do pacote \textit{sysstat} para gerar um arquivo de \textit{log} de performance da CPU, memória RAM e volume de tráfego de rede IPv4, a partir do qual foram gerados os gráficos apresentados nas figuras \ref{sar_performance} e \ref{sar_network}, que apresentam o uso de CPU e memória RAM; e recursos de rede utilizados em função do tempo, respectivamente.
 
+A partir dos dados obtidos, constatou-se que os recursos de processamento (CPU) ficaram abaixo de 40\%, salvo em um único ponto do gráfico da figura \ref{sar_performance}, indicando que a BBB trabalhou muito abaixo do seu limite de processamento. Com relação à memória RAM, foi observado que seu uso está entre 55\% e 60\%. É notável a partir da observação do gráfico que, após o fim do processo de fervura, a quantidade de processamento demandada da BBB foi reduzida pela metade.
+
 \begin{table}[H]
 	\centering
 	\captionsetup{justification=centering}
@@ -374,8 +357,6 @@ Também foi usado o comando \textit{sar} do pacote \textit{sysstat} para gerar um
 	\caption[Gráfico de consumo de recursos de rede da BBB em função do tempo, durante uma simulação de brassagem]{Gráfico de consumo de recursos de rede da BBB em função do tempo, durante uma simulação de brassagem}
 	\label{sar_network}
 \end{figure}
-
-A partir dos dados obtidos, constatou-se que os recursos de processamento (CPU) ficaram abaixo de 40\%, salvo em um único ponto do gráfico da figura \ref{sar_performance}, indicando que a BBB trabalhou muito abaixo do seu limite de processamento. Com relação à memória RAM, foi observado que seu uso está entre 55\% e 60\%. É notável a partir da observação do gráfico que, após o fim do processo de fervura, a quantidade de processamento demandada da BBB foi reduzida pela metade.
 
 
 
